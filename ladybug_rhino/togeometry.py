@@ -99,13 +99,6 @@ def to_plane(pl):
         to_vector3d(pl.ZAxis), to_point3d(pl.Origin), to_vector3d(pl.XAxis))
 
 
-def to_mesh3d(mesh, color_by_face=True):
-    """Ladybug Mesh3D from Rhino Mesh."""
-    lb_verts = tuple(to_point3d(pt) for pt in mesh.Vertices)
-    lb_faces, colors = _extract_mesh_faces_colors(mesh, color_by_face)
-    return Mesh3D(lb_verts, lb_faces, colors)
-
-
 def to_face3d(brep, meshing_parameters=None):
     """List of Ladybug Face3D objects from a Rhino Brep.
 
@@ -151,6 +144,44 @@ def to_polyface3d(brep, meshing_parameters=None):
     """
     lb_faces = to_face3d(brep)
     return Polyface3D.from_faces_tolerance(lb_faces, tolerance)
+
+
+def to_mesh3d(mesh, color_by_face=True):
+    """Ladybug Mesh3D from Rhino Mesh."""
+    lb_verts = tuple(to_point3d(pt) for pt in mesh.Vertices)
+    lb_faces, colors = _extract_mesh_faces_colors(mesh, color_by_face)
+    return Mesh3D(lb_verts, lb_faces, colors)
+
+
+def to_gridded_mesh3d(brep, grid_size, offset_distance=0):
+    """Create a gridded Ladybug Mesh3D from a Rhino Brep.
+
+    This is useful since Rhino's grid meshing is often more complete than the
+    result of Face3D.get_mesh_grid method.
+
+    Args:
+        brep: A Rhino Brep that will be converted into a gridded Ladybug Mesh3D.
+        grid_size: A number for the grid size dimension with which to make the mesh.
+        offset_distance: A number for the distance at which to offset the mesh from
+            the underlying brep. The default is 0.
+    """
+    meshing_param = rg.MeshingParameters.Default
+    meshing_param.MaximumEdgeLength = grid_size
+    meshing_param.MinimumEdgeLength = grid_size
+    meshing_param.GridAspectRatio = 1
+    mesh_grid = rg.Mesh.CreateFromBrep(brep, meshing_param)[0]
+    if offset_distance != 0:
+        temp_mesh = rg.Mesh()
+        mesh_grid.Normals.UnitizeNormals()
+        for pt, vec in zip(mesh_grid.Vertices, mesh_grid.Normals):
+            temp_mesh.Vertices.Add(pt + (rg.Vector3f.Multiply(vec, offset_distance)))
+        for face in mesh_grid.Faces:
+            temp_mesh.Faces.AddFace(face)
+        mesh_grid = temp_mesh
+    return to_mesh3d(mesh_grid)
+
+
+"""____________EXTRA HIDDEN HELPER FUNCTIONS____________"""
 
 
 def _planar_face_curved_edge_vertices(b_face, count, meshing_parameters):
