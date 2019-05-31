@@ -123,30 +123,9 @@ def to_face3d(brep, meshing_parameters=None):
             for count in range(b_face.Loops.Count):  # Each loop is a face boundary/hole
                 success, loop_pline = \
                     b_face.Loops.Item[count].To3dCurve().TryGetPolyline()
-                if not success:  # If we failed to get a polyline, there are curved edges
-                    loop_pcrv = b_face.Loops.Item[count].To3dCurve()
-                    f_norm = b_face.NormalAt(0, 0)
-                    if f_norm.Z < 0:
-                        loop_pcrv.Reverse()
-                    loop_verts = []
-                    try:
-                        loop_pcrvs = [loop_pcrv.SegmentCurve(i)
-                                      for i in range(loop_pcrv.SegmentCount)]
-                    except Exception:
-                        try:
-                            loop_pcrvs = [loop_pcrv[0]]
-                        except Exception:
-                            loop_pcrvs = [loop_pcrv]
-                    for seg in loop_pcrvs:
-                        if seg.Degree == 1:
-                            loop_verts.append(to_point3d(seg.PointAtStart))
-                        else:
-                            # Ensure curve subdivisions align with adjacent curved faces
-                            seg_mesh = rg.Mesh.CreateFromSurface(
-                                rg.Surface.CreateExtrusion(seg, f_norm),
-                                meshing_parameters)
-                            for i in range(seg_mesh.Vertices.Count / 2 - 1):
-                                loop_verts.append(to_point3d(seg_mesh.Vertices[i]))
+                if not success:  # If we failed to get a polyline, there's a curved edge
+                    loop_verts = _planar_face_curved_edge_vertices(
+                        b_face, count, meshing_parameters)
                     all_verts.append(loop_verts)
                 else:
                     all_verts.append([to_point3d(loop_pline.Item[i])
@@ -156,31 +135,8 @@ def to_face3d(brep, meshing_parameters=None):
             else:  # There's at least one hole in the shape
                 faces.append(
                     Face3D.from_shape_with_holes(all_verts[0], all_verts[1:]))
-        else:
-            if b_face.OrientationIsReversed:
-                b_face.Reverse(0, True)
-            face_brep = b_face.DuplicateFace(True)
-            meshed_brep = rg.Mesh.CreateFromBrep(face_brep, meshing_parameters)[0]
-            for m_face in meshed_brep.Faces:
-                if m_face.IsQuad:
-                    lb_face = Face3D.from_vertices(
-                        tuple(to_point3d(meshed_brep.Vertices[i]) for i in
-                              (m_face.A, m_face.B, m_face.C, m_face.D)))
-                    if lb_face.validate_planarity(tolerance, False):
-                        faces.append(lb_face)
-                    else:
-                        lb_face_1 = Face3D.from_vertices(
-                            tuple(to_point3d(meshed_brep.Vertices[i]) for i in
-                                  (m_face.A, m_face.B, m_face.C)))
-                        lb_face_2 = Face3D.from_vertices(
-                            tuple(to_point3d(meshed_brep.Vertices[i]) for i in
-                                  (m_face.C, m_face.D, m_face.A)))
-                        faces.extend([lb_face_1, lb_face_2])
-                else:
-                    lb_face = Face3D.from_vertices(
-                        tuple(to_point3d(meshed_brep.Vertices[i]) for i in
-                              (m_face.A, m_face.B, m_face.C)))
-                    faces.append(lb_face)
+        else:  # curved face must be meshed into planar Face3D objects
+            faces.extend(_curved_geometry_faces(b_face, meshing_parameters))
     return faces
 
 
@@ -197,7 +153,79 @@ def to_polyface3d(brep, meshing_parameters=None):
     return Polyface3D.from_faces_tolerance(lb_faces, tolerance)
 
 
+def _planar_face_curved_edge_vertices(b_face, count, meshing_parameters):
+    """Extract vertices from a planar brep face loop that has one or more curved edges.
+
+    Args:
+        b_face: A brep face with the curved edge.
+        count: An integer for the index of the loop to extract.
+        meshing_parameters: Rhino Meshing Parameters to describe how
+            curved edge should be convereted into planar elements.
+    """
+    loop_pcrv = b_face.Loops.Item[count].To3dCurve()
+    f_norm = b_face.NormalAt(0, 0)
+    if f_norm.Z < 0:
+        loop_pcrv.Reverse()
+    loop_verts = []
+    try:
+        loop_pcrvs = [loop_pcrv.SegmentCurve(i)
+                      for i in range(loop_pcrv.SegmentCount)]
+    except Exception:
+        try:
+            loop_pcrvs = [loop_pcrv[0]]
+        except Exception:
+            loop_pcrvs = [loop_pcrv]
+    for seg in loop_pcrvs:
+        if seg.Degree == 1:
+            loop_verts.append(to_point3d(seg.PointAtStart))
+        else:
+            # Ensure curve subdivisions align with adjacent curved faces
+            seg_mesh = rg.Mesh.CreateFromSurface(
+                rg.Surface.CreateExtrusion(seg, f_norm),
+                meshing_parameters)
+            for i in range(seg_mesh.Vertices.Count / 2 - 1):
+                loop_verts.append(to_point3d(seg_mesh.Vertices[i]))
+    return loop_verts
+
+
+def _curved_geometry_faces(b_face, meshing_parameters):
+    """Extract Face3D objects from a curved brep face.
+
+    Args:
+        b_face: A curved brep face.
+        meshing_parameters: Rhino Meshing Parameters to describe how
+            curved edge should be convereted into planar elements.
+    """
+    faces = []
+    if b_face.OrientationIsReversed:
+        b_face.Reverse(0, True)
+    face_brep = b_face.DuplicateFace(True)
+    meshed_brep = rg.Mesh.CreateFromBrep(face_brep, meshing_parameters)[0]
+    for m_face in meshed_brep.Faces:
+        if m_face.IsQuad:
+            lb_face = Face3D.from_vertices(
+                tuple(to_point3d(meshed_brep.Vertices[i]) for i in
+                      (m_face.A, m_face.B, m_face.C, m_face.D)))
+            if lb_face.validate_planarity(tolerance, False):
+                faces.append(lb_face)
+            else:
+                lb_face_1 = Face3D.from_vertices(
+                    tuple(to_point3d(meshed_brep.Vertices[i]) for i in
+                          (m_face.A, m_face.B, m_face.C)))
+                lb_face_2 = Face3D.from_vertices(
+                    tuple(to_point3d(meshed_brep.Vertices[i]) for i in
+                          (m_face.C, m_face.D, m_face.A)))
+                faces.extend([lb_face_1, lb_face_2])
+        else:
+            lb_face = Face3D.from_vertices(
+                tuple(to_point3d(meshed_brep.Vertices[i]) for i in
+                      (m_face.A, m_face.B, m_face.C)))
+            faces.append(lb_face)
+    return faces
+
+
 def _extract_mesh_faces_colors(mesh, color_by_face):
+    """Extract face indices and colors from a Rhino mesh."""
     colors = None
     lb_faces = []
     for face in mesh.Faces:

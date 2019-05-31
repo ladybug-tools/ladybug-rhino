@@ -2,11 +2,18 @@
 
 try:
     import Rhino.Geometry as rg
-    import scriptcontext
-    tolerance = scriptcontext.doc.ModelAbsoluteTolerance
 except ImportError as e:
     raise ImportError(
-        "Failed to import Rhino.\n{}".format(e))
+        "Failed to import Rhino Geometry.\n{}".format(e))
+try:
+    import Rhino.RhinoDoc as rhdoc
+    import Rhino.DocObjects as docobj
+    import scriptcontext as sc
+    doc = rhdoc.ActiveDoc
+    tol = sc.doc.ModelAbsoluteTolerance
+except ImportError as e:
+    raise ImportError(
+        "Failed to import Rhino document attributes.\n{}".format(e))
 try:
     from ladybug_dotnet.color import color_to_color, gray
 except ImportError as e:
@@ -91,7 +98,7 @@ def from_mesh3d(mesh):
 def from_face3d(face):
     """Rhino Brep from ladybug Face3D."""
     segs = [from_linesegment3d(seg) for seg in face.boundary_segments]
-    brep = rg.Brep.	CreatePlanarBreps(segs, tolerance)[0]
+    brep = rg.Brep.	CreatePlanarBreps(segs, tol)[0]
     if face.has_holes:
         for hole in face.hole_segments:
             trim_crvs = [from_linesegment3d(seg) for seg in hole]
@@ -102,9 +109,70 @@ def from_face3d(face):
 def from_polyface3d(polyface):
     """Rhino Brep from ladybug Polyface3D."""
     rh_faces = [from_face3d(face) for face in polyface.faces]
-    brep = rg.Brep.JoinBreps(rh_faces, tolerance)
+    brep = rg.Brep.JoinBreps(rh_faces, tol)
     if len(brep) == 1:
         return brep[0]
+
+
+"""____________ADD GEOMETRY TO THE RHINO SCENE____________"""
+
+
+def add_point2d_to_scene(point, z=0, layer_name=None, attributes=None):
+    """Add ladybug Point2D to the Rhino scene."""
+    pt = from_point2d(point, z)
+    return doc.Objects.AddPoint(pt, _get_attributes(layer_name, attributes))
+
+
+def add_linesegment2d_to_scene(line, z=0, layer_name=None, attributes=None):
+    """Add ladybug LineSegment2D to the Rhino scene."""
+    seg = (from_point2d(line.p1, z), from_point2d(line.p2, z))
+    return doc.Objects.AddLine(seg[0], seg[1], _get_attributes(layer_name, attributes))
+
+
+def add_polygon2d_to_scene(polygon, z=0, layer_name=None, attributes=None):
+    """Add ladybug Polygon2D to the Rhino scene."""
+    pgon = [from_point2d(pt, z) for pt in polygon.vertices] + \
+        [from_point2d(polygon[0], z)]
+    return doc.Objects.AddPolyline(pgon, _get_attributes(layer_name, attributes))
+
+
+def add_mesh2d_to_scene(mesh, z=0, layer_name=None, attributes=None):
+    """Add ladybug Mesh2D to the Rhino scene."""
+    _mesh = from_mesh2d(mesh, z)
+    return doc.Objects.AddMesh(_mesh, _get_attributes(layer_name, attributes))
+
+
+def add_point3d_to_scene(point, layer_name=None, attributes=None):
+    """Add ladybug Point3D to the Rhino scene."""
+    pt = from_point3d(point)
+    return doc.Objects.AddPoint(pt, _get_attributes(layer_name, attributes))
+
+
+def add_linesegment3d_to_scene(line, layer_name=None, attributes=None):
+    """Add ladybug LineSegment3D to the Rhino scene."""
+    seg = (from_point3d(line.p1), from_point3d(line.p2))
+    return doc.Objects.AddLine(seg[0], seg[1], _get_attributes(layer_name, attributes))
+
+
+def add_mesh3d_to_scene(mesh, layer_name=None, attributes=None):
+    """Add ladybug Mesh3D to the Rhino scene."""
+    _mesh = from_mesh3d(mesh)
+    return doc.Objects.AddMesh(_mesh, _get_attributes(layer_name, attributes))
+
+
+def add_face3d_to_scene(face, layer_name=None, attributes=None):
+    """Add ladybug Face3D to the Rhino scene."""
+    _face = from_face3d(face)
+    return doc.Objects.AddBrep(_face, _get_attributes(layer_name, attributes))
+
+
+def add_polyface3d_to_scene(polyface, layer_name=None, attributes=None):
+    """Add ladybug Polyface3D to the Rhino scene."""
+    _pface = from_polyface3d(polyface)
+    return doc.Objects.AddBrep(_pface, _get_attributes(layer_name, attributes))
+
+
+"""____________EXTRA HIDDEN HELPER FUNCTIONS____________"""
 
 
 def _translate_mesh(mesh, pt_function):
@@ -144,3 +212,22 @@ def _translate_mesh(mesh, pt_function):
             for i, col in enumerate(mesh.colors):
                 rhino_mesh.VertexColors[i] = color_to_color(col)
     return rhino_mesh
+
+
+def _get_attributes(layer_name=None, attributes=None):
+    """Get Rhino object attributes."""
+    attributes = doc.CreateDefaultAttributes() if attributes is None else attributes
+    if layer_name is not None:
+        attributes.LayerIndex = _get_layer(layer_name)
+    return attributes
+
+
+def _get_layer(layer_name):
+    """Get a layer index from the Rhino document from the ladyer name."""
+    layer_table = doc.Layers  # layer table
+    layer_index = layer_table.Find(layer_name, True)
+    if layer_index < 0:
+        parent_layer = docobj.Layer()
+        parent_layer.Name = layer_name
+        layer_index = layer_table.Add(parent_layer)
+    return layer_index

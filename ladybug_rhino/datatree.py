@@ -3,7 +3,6 @@ from collections import namedtuple
 try:
     from Grasshopper import DataTree
     from Grasshopper.Kernel.Data import GH_Path as Path
-    from Grasshopper.Kernel.Types import GH_ObjectWrapper as Goo
 except ImportError:
     raise ImportError(
         "Failed to import Grasshopper. Make sure the path is added to sys.path.")
@@ -64,7 +63,7 @@ def unflatten_to_data_tree(all_data, pattern):
 
 
 def data_tree_to_list(input):
-    """Convert a grasshopper DataTree to list.
+    """Convert a grasshopper DataTree to nested lists of lists.
 
     Args:
         input: A Grasshopper DataTree.
@@ -89,7 +88,7 @@ def data_tree_to_list(input):
 
 
 def list_to_data_tree(input, root_count=0):
-    """Transforms nestings of lists or tuples to a Grasshopper DataTree"""
+    """Transforms nested of lists or tuples to a Grasshopper DataTree"""
 
     def proc(input, tree, track):
         for i, item in enumerate(input):
@@ -104,20 +103,3 @@ def list_to_data_tree(input, root_count=0):
         t = DataTree[object]()
         proc(input, t, [root_count])
         return t
-
-
-def wrap(input):
-    """Wrap Python objects as Grasshopper generic objects.
-
-    Pass output lists of Python objects through this funtion if they are lengthly
-    and will cause Grasshopper to spend a long time figuring out the object type.
-
-    Args:
-        input: A list of values to be wrapped as GOO.
-    """
-    if not input:
-        return input
-    try:
-        return (Goo(i) for i in input)
-    except Exception as e:
-        raise ValueError('Failed to wrap {}:\n{}.'.format(input, e))
