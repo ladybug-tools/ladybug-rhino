@@ -13,6 +13,11 @@ try:
 except ImportError:
     print('Failed to import Grasshopper.\n'
           'Only functions for adding text to Rhino will be availabe.')
+try:
+    from ladybug_dotnet.color import black
+except ImportError as e:
+    black = None
+    print("Failed to import ladybug_dotnet.\n{}".format(e))
 
 from math import sqrt
 
@@ -147,7 +152,8 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
     def DrawViewportWires(self, args):
         if self.m_value is None:
             return
-        args.Pipeline.Draw3dText(self.m_value, args.Color)
+        color = black() if black is not None else args.Color
+        args.Pipeline.Draw3dText(self.m_value, color)
 
     def DrawViewportMeshes(self, args):
         # Do not draw in meshing layer.
