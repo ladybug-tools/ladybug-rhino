@@ -124,10 +124,10 @@ def to_face3d(brep, meshing_parameters=None):
                     all_verts.append([to_point3d(loop_pline.Item[i])
                                       for i in range(loop_pline.Count - 1)])
             if len(all_verts) == 1:  # No holes in the shape
-                faces.append(Face3D.from_vertices(all_verts[0]))
+                faces.append(Face3D(all_verts[0]))
             else:  # There's at least one hole in the shape
                 faces.append(
-                    Face3D.from_shape_with_holes(all_verts[0], all_verts[1:]))
+                    Face3D(boundary=all_verts[0], holes=all_verts[1:]))
         else:  # curved face must be meshed into planar Face3D objects
             faces.extend(_curved_geometry_faces(b_face, meshing_parameters))
     return faces
@@ -142,8 +142,7 @@ def to_polyface3d(brep, meshing_parameters=None):
             curved faces should be convereted into planar elements. If None,
             Rhino's Default Meshing Parameters will be used.
     """
-    lb_faces = to_face3d(brep)
-    return Polyface3D.from_faces_tolerance(lb_faces, tolerance)
+    return Polyface3D.from_faces_tolerance(to_face3d(brep), tolerance)
 
 
 def to_mesh3d(mesh, color_by_face=True):
@@ -234,21 +233,21 @@ def _curved_geometry_faces(b_face, meshing_parameters):
     meshed_brep = rg.Mesh.CreateFromBrep(face_brep, meshing_parameters)[0]
     for m_face in meshed_brep.Faces:
         if m_face.IsQuad:
-            lb_face = Face3D.from_vertices(
+            lb_face = Face3D(
                 tuple(to_point3d(meshed_brep.Vertices[i]) for i in
                       (m_face.A, m_face.B, m_face.C, m_face.D)))
             if lb_face.validate_planarity(tolerance, False):
                 faces.append(lb_face)
             else:
-                lb_face_1 = Face3D.from_vertices(
+                lb_face_1 = Face3D(
                     tuple(to_point3d(meshed_brep.Vertices[i]) for i in
                           (m_face.A, m_face.B, m_face.C)))
-                lb_face_2 = Face3D.from_vertices(
+                lb_face_2 = Face3D(
                     tuple(to_point3d(meshed_brep.Vertices[i]) for i in
                           (m_face.C, m_face.D, m_face.A)))
                 faces.extend([lb_face_1, lb_face_2])
         else:
-            lb_face = Face3D.from_vertices(
+            lb_face = Face3D(
                 tuple(to_point3d(meshed_brep.Vertices[i]) for i in
                       (m_face.A, m_face.B, m_face.C)))
             faces.append(lb_face)
