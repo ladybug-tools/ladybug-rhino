@@ -27,7 +27,7 @@ def legend_objects(legend):
     if legend.legend_parameters.continuous_legend is False:
         legend_text = [text_objects(txt, loc, _height, _font, 0, 5) for txt, loc in
                        zip(legend.segment_text, legend.segment_text_location)]
-    elif legend.legend_parameters.vertical_or_horizontal is True:
+    elif legend.legend_parameters.vertical is True:
         legend_text = [text_objects(txt, loc, _height, _font, 0, 3) for txt, loc in
                        zip(legend.segment_text, legend.segment_text_location)]
     else:
@@ -59,7 +59,7 @@ def add_legend_to_scene(legend, layer_name=None):
         legend_text = [add_text_to_scene(txt, loc, _height, _font, 0, 5, layer_name)
                        for txt, loc in
                        zip(legend.segment_text, legend.segment_text_location)]
-    elif legend.legend_parameters.vertical_or_horizontal is True:
+    elif legend.legend_parameters.vertical is True:
         legend_text = [add_text_to_scene(txt, loc, _height, _font, 0, 3, layer_name)
                        for txt, loc in
                        zip(legend.segment_text, legend.segment_text_location)]
