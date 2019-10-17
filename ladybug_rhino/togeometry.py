@@ -23,11 +23,16 @@ except ImportError as e:
         "Failed to import ladybug.\n{}".format(e))
 try:
     import Rhino.Geometry as rg
-    import scriptcontext
-    tolerance = scriptcontext.doc.ModelAbsoluteTolerance
 except ImportError as e:
     raise ImportError(
         "Failed to import Rhino.\n{}".format(e))
+try:
+    import scriptcontext
+    tolerance = scriptcontext.doc.ModelAbsoluteTolerance
+except ImportError:
+    tolerance = 0.01
+    print('Failed to import Rhino scriptcontext. Default tolerance of {} '
+          'will be used.'.format(tolerance))
 
 
 """____________2D GEOMETRY TRANSLATORS____________"""
