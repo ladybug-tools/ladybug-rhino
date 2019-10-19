@@ -11,7 +11,7 @@ except ImportError:
 try:
     from System import Object
 except ImportError:
-    print "Failed to import System."
+    print("Failed to import System.")
 
 
 def give_warning(component, message):
