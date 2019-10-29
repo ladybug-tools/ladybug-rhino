@@ -74,8 +74,8 @@ def from_point3d(point):
 
 
 def from_ray3d(ray, z=0):
-    """Rhino Ray3d from ladybug Ray2D."""
-    return rg.Ray3d(from_point3d(ray.p, z), from_vector3d(ray.v))
+    """Rhino Ray3d from ladybug Ray3D."""
+    return rg.Ray3d(from_point3d(ray.p), from_vector3d(ray.v))
 
 
 def from_linesegment3d(line):

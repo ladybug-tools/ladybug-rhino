@@ -147,7 +147,7 @@ def to_polyface3d(brep, meshing_parameters=None):
             curved faces should be convereted into planar elements. If None,
             Rhino's Default Meshing Parameters will be used.
     """
-    return Polyface3D.from_faces_tolerance(to_face3d(brep), tolerance)
+    return Polyface3D.from_faces(to_face3d(brep), tolerance)
 
 
 def to_mesh3d(mesh, color_by_face=True):
@@ -241,7 +241,7 @@ def _curved_geometry_faces(b_face, meshing_parameters):
             lb_face = Face3D(
                 tuple(to_point3d(meshed_brep.Vertices[i]) for i in
                       (m_face.A, m_face.B, m_face.C, m_face.D)))
-            if lb_face.validate_planarity(tolerance, False):
+            if lb_face.check_planar(tolerance, False):
                 faces.append(lb_face)
             else:
                 lb_face_1 = Face3D(
