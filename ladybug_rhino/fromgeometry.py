@@ -13,10 +13,12 @@ except ImportError as e:
 try:
     import scriptcontext
     tolerance = scriptcontext.doc.ModelAbsoluteTolerance
+    angle_tolerance = scriptcontext.doc.ModelAngleToleranceRadians
 except ImportError:
     tolerance = 0.01
+    angle_tolerance = 0.01745  # default is 1 degree
     print('Failed to import Rhino scriptcontext. Default tolerance of {} '
-          'will be used.'.format(tolerance))
+          'and angle tolerance of {} will be used.'.format(tolerance, angle_tolerance))
 
 
 """____________2D GEOMETRY TRANSLATORS____________"""

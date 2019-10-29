@@ -162,7 +162,7 @@ def unflatten_to_data_tree(all_data, pattern):
         data_tree: A Grasshopper DataTree.
     """
     data_tree = DataTree[Object]()
-    for branch in xrange(len(pattern)):
+    for branch in range(len(pattern)):
         path, index, count = pattern[branch]
         data_tree.AddRange(all_data[index - count:index], path)
 
