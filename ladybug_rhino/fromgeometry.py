@@ -10,15 +10,7 @@ try:
 except ImportError as e:
     raise ImportError(
         "Failed to import ladybug_dotnet.\n{}".format(e))
-try:
-    import scriptcontext
-    tolerance = scriptcontext.doc.ModelAbsoluteTolerance
-    angle_tolerance = scriptcontext.doc.ModelAngleToleranceRadians
-except ImportError:
-    tolerance = 0.01
-    angle_tolerance = 0.01745  # default is 1 degree
-    print('Failed to import Rhino scriptcontext. Default tolerance of {} '
-          'and angle tolerance of {} will be used.'.format(tolerance, angle_tolerance))
+from .config import tolerance
 
 
 """____________2D GEOMETRY TRANSLATORS____________"""
@@ -114,7 +106,18 @@ def from_polyface3d(polyface):
         return brep[0]
 
 
-"""____________EXTRA HIDDEN HELPER FUNCTIONS____________"""
+def from_face3d_to_wireframe(face):
+    """Rhino PolyLineCurve from ladybug Face3D."""
+    return rg.PolylineCurve([from_point3d(pt) for pt in face.boundary] +
+                            [from_point2d(face.boundary[0])])
+
+
+def from_polyface3d_to_wireframe(polyface):
+    """Rhino PolyLineCurve from ladybug Polyface3D."""
+    return [from_face3d_to_wireframe(face) for face in polyface.faces]
+
+
+"""________________EXTRA HELPER FUNCTIONS________________"""
 
 
 def _translate_mesh(mesh, pt_function):

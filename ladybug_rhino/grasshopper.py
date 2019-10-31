@@ -85,7 +85,7 @@ def data_tree_to_list(input):
     Returns:
         listData: A list of namedtuples (path, dataList)
     """
-    all_data = range(len(input.Paths))
+    all_data = list(range(len(input.Paths)))
     Pattern = namedtuple('Pattern', 'path list')
 
     for i, path in enumerate(input.Paths):

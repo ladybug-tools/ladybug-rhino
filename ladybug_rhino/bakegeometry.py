@@ -8,7 +8,6 @@ try:
     import Rhino.DocObjects as docobj
     import scriptcontext as sc
     doc = rhdoc.ActiveDoc
-    tol = sc.doc.ModelAbsoluteTolerance
 except ImportError as e:
     raise ImportError(
         "Failed to import Rhino document attributes.\n{}".format(e))
@@ -72,7 +71,7 @@ def add_polyface3d_to_scene(polyface, layer_name=None, attributes=None):
     return doc.Objects.AddBrep(_pface, _get_attributes(layer_name, attributes))
 
 
-"""____________EXTRA HIDDEN HELPER FUNCTIONS____________"""
+"""________________EXTRA HELPER FUNCTIONS________________"""
 
 
 def _get_attributes(layer_name=None, attributes=None):
