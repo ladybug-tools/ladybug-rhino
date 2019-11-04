@@ -152,6 +152,9 @@ def to_mesh3d(mesh, color_by_face=True):
     return Mesh3D(lb_verts, lb_faces, colors)
 
 
+"""________ADDITIONAL 3D GEOMETRY TRANSLATORS________"""
+
+
 def to_gridded_mesh3d(brep, grid_size, offset_distance=0):
     """Create a gridded Ladybug Mesh3D from a Rhino Brep.
 

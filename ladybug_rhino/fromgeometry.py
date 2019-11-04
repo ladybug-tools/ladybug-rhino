@@ -106,10 +106,13 @@ def from_polyface3d(polyface):
         return brep[0]
 
 
+"""________ADDITIONAL 3D GEOMETRY TRANSLATORS________"""
+
+
 def from_face3d_to_wireframe(face):
     """Rhino PolyLineCurve from ladybug Face3D."""
     return rg.PolylineCurve([from_point3d(pt) for pt in face.boundary] +
-                            [from_point2d(face.boundary[0])])
+                            [from_point3d(face.boundary[0])])
 
 
 def from_polyface3d_to_wireframe(polyface):
