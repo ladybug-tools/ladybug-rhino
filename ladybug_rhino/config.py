@@ -13,7 +13,7 @@ except ImportError:  # No Rhino doc is available. Use Rhino's default.
           'and angle tolerance of {} will be used.'.format(tolerance, angle_tolerance))
 
 
-def conversion_factor():
+def conversion_to_meters():
     """Get the conversion factor to meters based on the current Rhino doc units system.
 
     Returns:
