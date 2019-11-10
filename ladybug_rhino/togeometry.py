@@ -99,50 +99,61 @@ def to_plane(pl):
         to_vector3d(pl.ZAxis), to_point3d(pl.Origin), to_vector3d(pl.XAxis))
 
 
-def to_face3d(brep, meshing_parameters=None):
-    """List of Ladybug Face3D objects from a Rhino Brep.
+def to_face3d(geo, meshing_parameters=None):
+    """List of Ladybug Face3D objects from a Rhino Brep, Surface or Mesh.
 
     Args:
-        brep: A Rhino Brep that will be converted into a list of Ladybug Face3D.
+        brep: A Rhino Brep, Surface ro Mesh that will be converted into a list
+            of Ladybug Face3D.
         meshing_parameters: Optional Rhino Meshing Parameters to describe how
             curved faces should be convereted into planar elements. If None,
             Rhino's Default Meshing Parameters will be used.
     """
-    meshing_parameters = meshing_parameters or rg.MeshingParameters.Default
-    faces = []
-    for b_face in brep.Faces:
-        if b_face.IsPlanar(tolerance):
-            all_verts = []
-            for count in range(b_face.Loops.Count):  # Each loop is a face boundary/hole
-                success, loop_pline = \
-                    b_face.Loops.Item[count].To3dCurve().TryGetPolyline()
-                if not success:  # If we failed to get a polyline, there's a curved edge
-                    loop_verts = _planar.planar_face_curved_edge_vertices(
-                        b_face, count, meshing_parameters)
-                    all_verts.append(loop_verts)
-                else:
-                    all_verts.append([to_point3d(loop_pline.Item[i])
-                                      for i in range(loop_pline.Count - 1)])
-            if len(all_verts) == 1:  # No holes in the shape
-                faces.append(Face3D(all_verts[0]))
-            else:  # There's at least one hole in the shape
-                faces.append(
-                    Face3D(boundary=all_verts[0], holes=all_verts[1:]))
-        else:  # curved face must be meshed into planar Face3D objects
-            faces.extend(_planar.curved_geometry_faces(b_face, meshing_parameters))
+    faces = []  # list of Face3Ds to be polulated and returned
+    if isinstance(geo, rg.Mesh):  # convert each Mesh face to a Face3D
+        pts = tuple(to_point3d(pt) for pt in geo.Vertices)
+        for face in geo.Faces:
+            if face.IsQuad:
+                all_verts = (pts[face[0]], pts[face[1]], pts[face[2]], pts[face[3]])
+            else:
+                all_verts = (pts[face[0]], pts[face[1]], pts[face[2]])
+            faces.append(Face3D(all_verts))
+    else:  # convert each Brep Face to a Face3D
+        meshing_parameters = meshing_parameters or rg.MeshingParameters.Default # default
+        for b_face in geo.Faces:
+            if b_face.IsPlanar(tolerance):
+                all_verts = []
+                for count in range(b_face.Loops.Count):  # Each loop is a boundary/hole
+                    success, loop_pline = \
+                        b_face.Loops.Item[count].To3dCurve().TryGetPolyline()
+                    if not success:  # Failed to get a polyline; there's a curved edge
+                        loop_verts = _planar.planar_face_curved_edge_vertices(
+                            b_face, count, meshing_parameters)
+                        all_verts.append(loop_verts)
+                    else:  # we have a polyline representing the loop
+                        all_verts.append([to_point3d(loop_pline.Item[i])
+                                        for i in range(loop_pline.Count - 1)])
+                if len(all_verts) == 1:  # No holes in the shape
+                    faces.append(Face3D(all_verts[0]))
+                else:  # There's at least one hole in the shape
+                    faces.append(
+                        Face3D(boundary=all_verts[0], holes=all_verts[1:]))
+            else:  # curved face must be meshed into planar Face3D objects
+                faces.extend(_planar.curved_geometry_faces(b_face, meshing_parameters))
     return faces
 
 
-def to_polyface3d(brep, meshing_parameters=None):
+def to_polyface3d(geo, meshing_parameters=None):
     """A Ladybug Polyface3D object from a Rhino Brep.
 
     Args:
-        brep: A Rhino Brep that will be converted into a list of Ladybug Face3D.
+        geo: A Rhino Brep, Surface ro Mesh that will be converted into a single
+            Ladybug Polyface3D.
         meshing_parameters: Optional Rhino Meshing Parameters to describe how
             curved faces should be convereted into planar elements. If None,
             Rhino's Default Meshing Parameters will be used.
     """
-    return Polyface3D.from_faces(to_face3d(brep), tolerance)
+    return Polyface3D.from_faces(to_face3d(geo, meshing_parameters), tolerance)
 
 
 def to_mesh3d(mesh, color_by_face=True):
