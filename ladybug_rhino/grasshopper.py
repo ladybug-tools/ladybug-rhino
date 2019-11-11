@@ -25,6 +25,17 @@ def give_warning(component, message):
     component.AddRuntimeMessage(Message.Warning, message)
 
 
+def give_remark(component, message):
+    """Give an remark message (giving a little grey baloon in the upper left).
+
+    Args:
+        component: The grasshopper component object, which can be accessed through
+            the ghenv.Component call within Grasshopper API.
+        message: Text string for the warning message.
+    """
+    component.AddRuntimeMessage(Message.Remark, message)
+
+
 def all_required_inputs(component):
     """Check that all required inputs on a component are present.
 
