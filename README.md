@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ladybug-tools/honeybee-energy.svg?branch=master)](https://travis-ci.org/ladybug-tools/honeybee-energy)
+
 [![IronPython](https://img.shields.io/badge/ironpython-2.7-red.svg)](https://github.com/IronLanguages/ironpython2/releases/tag/ipy-2.7.8/)
 
 
