@@ -2,7 +2,7 @@ language: python
 
 python:
   - "3.6"
-
+  
 jobs:
   include:
   - stage: test
@@ -27,6 +27,9 @@ jobs:
     - npx semantic-release
   - stage: docs
     if: branch = master AND (NOT type IN (pull_request))
+    install:
+    - pip install -r dev-requirements.txt
+    - pip install -r requirements.txt
     script:
     - sphinx-apidoc -f -e -d 4 -o ./docs ./ladybug_rhino
     - sphinx-build -b html ./docs ./docs/_build/docs
