@@ -20,7 +20,7 @@ import ladybug_rhino
 
 ```
 
-## [API Documentation](http://ladybug-tools.github.io/ladybug-rhino/docs)
+## [API Documentation](http://ladybug-tools.github.io/ladybug-rhino/docs/)
 
 ## Local Development
 1. Clone this repo locally
