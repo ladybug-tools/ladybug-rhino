@@ -15,10 +15,13 @@ def legend_objects(legend):
         legend: A Ladybug Legend object to be converted to Rhino geometry.
 
     Returns:
-        A list of Rhino geometries in the following order:
-            legend_mesh: A colored mesh for the legend.
-            legend_title: A bake-able text object for the legend title.
-            legend_text: Bake-able text objects for the rest of the legend text.
+        A list of Rhino geometries in the following order.
+
+        -   legend_mesh -- A colored mesh for the legend.
+
+        -   legend_title -- A bake-able text object for the legend title.
+
+        -   legend_text -- Bake-able text objects for the rest of the legend text.
     """
     _height = legend.legend_parameters.text_height
     _font = legend.legend_parameters.font

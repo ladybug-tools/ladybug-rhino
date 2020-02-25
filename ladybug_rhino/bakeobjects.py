@@ -17,11 +17,14 @@ def add_legend_to_scene(legend, layer_name=None):
             text. If None, text will be added to the current layer.
 
     Returns:
-        A list of IDs that point to the objects in the Rhino scene.
-        They are in the following order:
-            legend_mesh: A colored mesh for the legend.
-            legend_title: A text object for the legend title.
-            legend_text: Text objects for the rest of the legend text.
+        A list of IDs that point to the objects in the Rhino scene in the following
+        order:
+
+        -   legend_mesh -- A colored mesh for the legend.
+
+        -   legend_title -- A text object for the legend title.
+
+        -   legend_text -- Text objects for the rest of the legend text.
     """
     _height = legend.legend_parameters.text_height
     _font = legend.legend_parameters.font
