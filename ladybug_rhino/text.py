@@ -54,14 +54,13 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
     The code for this entire class was taken from David Rutten and Giulio Piacentino's
     script described here:
     https://discourse.mcneel.com/t/creating-text-objects-and-outputting-them-as-normal-rhino-geometry/47834/7
+
+    Args:
+        text: A Rhino Text3d object.
     """
 
     def __init__(self, text):
-        """Initialize Bake-able text.
-
-        Args:
-            text: A Rhino Text3d object.
-        """
+        """Initialize Bake-able text."""
         self.m_value = text
 
     @staticmethod

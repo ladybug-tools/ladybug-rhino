@@ -18,17 +18,17 @@ from .config import tolerance
 
 def intersect_solids_parallel(solids, bound_boxes):
     """Intersect the co-planar faces of an array of solids using parallel processing.
-    
+
     Args:
         original_solids: An array of closed Rhino breps (polysurfaces) that do
             not have perfectly matching surfaces between adjacent Faces.
         bound_boxes: An array of Rhino bounding boxes that parellels the input
             solids and will be used to check whether two Breps have any potential
             for intersection before the actual intersection is performed.
-     
-     Returns:
-         int_solids: The input array of solids, which have all been intersected
-            with one another.
+
+    Returns:
+        int_solids -- The input array of solids, which have all been intersected
+        with one another.
     """
     int_solids = solids[:]  # copy the input list to avoid editing it
 
@@ -56,17 +56,17 @@ def intersect_solids_parallel(solids, bound_boxes):
 
 def intersect_solids(solids, bound_boxes):
     """Intersect the co-planar faces of an array of solids.
-    
+
     Args:
         original_solids: An array of closed Rhino breps (polysurfaces) that do
             not have perfectly matching surfaces between adjacent Faces.
         bound_boxes: An array of Rhino bounding boxes that parellels the input
             solids and will be used to check whether two Breps have any potential
             for intersection before the actual intersection is performed.
-     
-     Returns:
-         int_solids: The input array of solids, which have all been intersected
-            with one another.
+
+    Returns:
+        int_solids -- The input array of solids, which have all been intersected
+        with one another.
     """
     int_solids = solids[:]  # copy the input list to avoid editing it
 
@@ -91,15 +91,18 @@ def intersect_solids(solids, bound_boxes):
 
 def intersect_solid(solid, other_solid):
     """Intersect the co-planar faces of one solid Brep using another.
-    
+
     Args:
         solid: The solid Brep which will be split with intersections.
         other_solid: The other Brep, which will be used to split.
         tolerance: Distance within which two points are considered to be co-located.
-    
+
     Returns:
-        solid: The input solid, which has been split.
-        intersection_exists: Boolean to note whether an intersection was found
+        A tuple with two elements
+
+        -   solid -- The input solid, which has been split.
+
+        -   intersection_exists -- Boolean to note whether an intersection was found
             between the solid and the other_solid. If False, there's no need to
             split the other_solid with the input solid.
     """
@@ -115,7 +118,7 @@ def intersect_solid(solid, other_solid):
             if face.IsSurface:  # untrimmed surface
                 intersect_lines = rg.Intersect.Intersection.BrepSurface(
                     other_solid, face.DuplicateSurface(), tolerance)[1]
-            else:  # trimmed surfaces 
+            else:  # trimmed surfaces
                 edges_idx = face.AdjacentEdges()
                 edges = []
                 for ix in edges_idx:
@@ -189,8 +192,8 @@ def split_solid_to_floors(building_solid, floor_heights):
             will be used to generate planes that subdivide the building solid.
 
     Returns:
-        floor_breps: A list of planar, horizontal breps representing the floors
-            of the building.
+        floor_breps -- A list of planar, horizontal breps representing the floors
+        of the building.
     """
     # get the floor brep at each of the floor heights.
     floor_breps = []

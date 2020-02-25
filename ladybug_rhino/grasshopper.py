@@ -94,7 +94,7 @@ def data_tree_to_list(input):
         input: A Grasshopper DataTree.
 
     Returns:
-        listData: A list of namedtuples (path, dataList)
+        listData -- A list of namedtuples (path, dataList)
     """
     all_data = list(range(len(input.Paths)))
     Pattern = namedtuple('Pattern', 'path list')
@@ -137,8 +137,11 @@ def flatten_data_tree(input):
         input: A Grasshopper DataTree.
 
     Returns:
-        all_data: All data in DataTree as a flattened list.
-        pattern: A dictonary of patterns as namedtuple(path, index of last item
+        A tuple with two elements
+
+        -   all_data -- All data in DataTree as a flattened list.
+
+        -   pattern -- A dictonary of patterns as namedtuple(path, index of last item
             on this path, path Count). Pattern is useful to unflatten the list
             back to a DataTree.
     """
@@ -170,7 +173,7 @@ def unflatten_to_data_tree(all_data, pattern):
             Pattern = namedtuple('Pattern', 'path index count')
 
     Returns:
-        data_tree: A Grasshopper DataTree.
+        data_tree -- A Grasshopper DataTree.
     """
     data_tree = DataTree[Object]()
     for branch in range(len(pattern)):
