@@ -36,10 +36,26 @@ def from_linesegment2d(line, z=0):
     return rg.LineCurve(from_point2d(line.p1, z), from_point2d(line.p2, z))
 
 
+def from_arc2d(arc, z=0):
+    """Rhino Arc from ladybug Arc2D."""
+    circle = rg.Circle(from_point2d(arc.c, z), arc.r)
+    return rg.Arc(circle, rg.Interval(arc.a1, arc.a2))
+
+
 def from_polygon2d(polygon, z=0):
     """Rhino closed PolyLineCurve from ladybug Polygon2D."""
     return rg.PolylineCurve([from_point2d(pt, z) for pt in polygon.vertices] +
                             [from_point2d(polygon[0], z)])
+
+
+def from_polyline2d(polyline, z=0):
+    """Rhino closed PolyLineCurve from ladybug Polyline2D."""
+    rhino_pts = [from_point2d(pt, z) for pt in polyline.vertices]
+    if polyline.interpolated:
+        return rg.Curve.CreateInterpolatedCurve(
+            rhino_pts, 3, rg.CurveKnotStyle.UniformPeriodic)
+    else:
+        return rg.PolylineCurve(rhino_pts)
 
 
 def from_mesh2d(mesh, z=0):
@@ -80,6 +96,22 @@ def from_linesegment3d(line):
 def from_plane(pl):
     """Rhino Plane from ladybug Plane."""
     return rg.Plane(from_point3d(pl.o), from_vector3d(pl.x), from_vector3d(pl.y))
+
+
+def from_arc3d(arc):
+    """Rhino Arc from ladybug Arc3D."""
+    circle = rg.Circle(from_plane(arc.plane), from_point3d(arc.c), arc.radius)
+    return rg.Arc(circle, rg.Interval(arc.a1, arc.a2))
+
+
+def from_polyline3d(polyline):
+    """Rhino closed PolyLineCurve from ladybug Polyline3D."""
+    rhino_pts = [from_point3d(pt) for pt in polyline.vertices]
+    if polyline.interpolated:
+        return rg.Curve.CreateInterpolatedCurve(
+            rhino_pts, 3, rg.CurveKnotStyle.UniformPeriodic)
+    else:
+        return rg.PolylineCurve(rhino_pts)
 
 
 def from_mesh3d(mesh):
