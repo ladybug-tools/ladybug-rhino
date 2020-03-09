@@ -152,6 +152,19 @@ def from_polyface3d_to_wireframe(polyface):
     return [from_face3d_to_wireframe(face) for face in polyface.faces]
 
 
+def from_face3ds_to_colored_mesh(faces, color):
+    """Colored Rhino mesh from an array of ladybug Face3D and ladybug Color.
+
+    This is used in workflows such as coloring Model geomtry with results.
+    """
+    joined_mesh = rg.Mesh()
+    for face in faces:
+        joined_mesh.Append(rg.Mesh.CreateFromBrep(
+            from_face3d(face), rg.MeshingParameters.Default)[0])
+    joined_mesh.VertexColors.CreateMonotoneMesh(color_to_color(color))
+    return joined_mesh
+
+
 """________________EXTRA HELPER FUNCTIONS________________"""
 
 
