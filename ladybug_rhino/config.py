@@ -20,7 +20,7 @@ def conversion_to_meters():
         A number for the conversion factor, which should be multiplied by all distance
         units taken from Rhino geoemtry in order to convert them to meters.
     """
-    try:  # Try to import tolerance from the active Rhino document
+    try:  # Try to import units from the active Rhino document
         import scriptcontext
         units = str(scriptcontext.doc.ModelUnitSystem).split('.')[-1]
     except ImportError:  # No Rhino doc available. Default to the greatest of all units
@@ -44,8 +44,32 @@ def conversion_to_meters():
 
 def units_system():
     """Get text for the current Rhino doc units system. (eg. 'Meters', 'Feet')"""
-    try:  # Try to import tolerance from the active Rhino document
+    try:  # Try to import units from the active Rhino document
         import scriptcontext
         return str(scriptcontext.doc.ModelUnitSystem).split('.')[-1]
     except ImportError:  # No Rhino doc available. Default to the greatest of all units
         return 'Meters'
+
+
+def units_abbreviation():
+    """Get text for the current Rhino doc units abbreviation (eg. 'm', 'ft')"""
+    try:  # Try to import units from the active Rhino document
+        import scriptcontext
+        units = str(scriptcontext.doc.ModelUnitSystem).split('.')[-1]
+    except ImportError:  # No Rhino doc available. Default to the greatest of all units
+        units = 'Meters'
+
+    if units == 'Meters':
+        return 'm'
+    elif units == 'Millimeters':
+        return 'mm'
+    elif units == 'Feet':
+        return 'ft'
+    elif units == 'Inches':
+        return 'in'
+    elif units == 'Centimeters':
+        return 'cm'
+    else:
+        raise ValueError(
+            "You're kidding me! What units are you using?" + units + "?\n"
+            "Please use Meters, Millimeters, Centimeters, Feet or Inches.")
