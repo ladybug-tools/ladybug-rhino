@@ -100,8 +100,11 @@ def from_plane(pl):
 
 def from_arc3d(arc):
     """Rhino Arc from ladybug Arc3D."""
-    circle = rg.Circle(from_plane(arc.plane), from_point3d(arc.c), arc.radius)
-    return rg.Arc(circle, rg.Interval(arc.a1, arc.a2))
+    if arc.is_circle:
+        return rg.Circle(from_plane(arc.plane), from_point3d(arc.c), arc.radius)
+    else:
+        pts = (arc.p1, arc.midpoint, arc.p2)
+        return rg.Arc(*(from_point3d(pt) for pt in pts))
 
 
 def from_polyline3d(polyline):
