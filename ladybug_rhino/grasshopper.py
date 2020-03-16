@@ -117,7 +117,7 @@ def list_to_data_tree(input, root_count=0):
 
     def proc(input, tree, track):
         for i, item in enumerate(input):
-            if hasattr(item, '__iter__'):  # if list or tuple
+            if isinstance(item, (list, tuple)):  # don't count iterables like colors
                 track.append(i)
                 proc(item, tree, track)
                 track.pop()
