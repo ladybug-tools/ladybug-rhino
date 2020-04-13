@@ -5,12 +5,13 @@ Global variables such as tolerances and units are stored here.
 try:  # Try to import tolerance from the active Rhino document
     import scriptcontext
     tolerance = scriptcontext.doc.ModelAbsoluteTolerance
-    angle_tolerance = scriptcontext.doc.ModelAngleToleranceRadians
+    angle_tolerance = scriptcontext.doc.ModelAngleToleranceDegrees
 except ImportError:  # No Rhino doc is available. Use Rhino's default.
     tolerance = 0.01
-    angle_tolerance = 0.01745  # default is 1 degree
+    angle_tolerance = 1.0  # default is 1 degree
     print('Failed to import Rhino scriptcontext. Default tolerance of {} '
-          'and angle tolerance of {} will be used.'.format(tolerance, angle_tolerance))
+          'and angle tolerance of {} degrees will be used.'.format(
+              tolerance, angle_tolerance))
 
 
 def conversion_to_meters():
