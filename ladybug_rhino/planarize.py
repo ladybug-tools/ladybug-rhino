@@ -1,4 +1,5 @@
 """Functions to convert curved Rhino geometries into planar ladybug ones."""
+from .config import tolerance
 
 try:
     from ladybug_geometry.geometry3d.pointvector import Point3D
@@ -11,7 +12,10 @@ try:
 except ImportError as e:
     raise ImportError(
         "Failed to import Rhino.\n{}".format(e))
-from .config import tolerance
+
+import sys
+if (sys.version_info > (3, 0)):  # python 3
+    xrange = range
 
 
 """____________INDIVIDUAL SURFACES TO PLANAR____________"""
@@ -28,7 +32,7 @@ def planar_face_curved_edge_vertices(b_face, count, meshing_parameters):
         b_face: A brep face with the curved edge.
         count: An integer for the index of the loop to extract.
         meshing_parameters: Rhino Meshing Parameters to describe how
-            curved edge should be convereted into planar elements.
+            curved edge should be converted into planar elements.
     
     Returns:
         A list of ladybug Point3D objects representing the input planar face.
@@ -65,7 +69,7 @@ def curved_surface_faces(b_face, meshing_parameters):
     Args:
         b_face: A curved brep face.
         meshing_parameters: Rhino Meshing Parameters to describe how
-            curved edge should be convereted into planar elements.
+            curved edge should be converted into planar elements.
     
     Returns:
         A list of ladybug Face3D objects that together approximate the input
@@ -90,7 +94,7 @@ def curved_solid_faces(brep, meshing_parameters):
     Args:
         brep: A curved solid brep.
         meshing_parameters: Rhino Meshing Parameters to describe how
-            curved edge should be convereted into planar elements.
+            curved edge should be converted into planar elements.
 
     Returns:
         A list of ladybug Face3D objects that together approximate the input brep.
@@ -114,7 +118,8 @@ def curved_solid_faces(brep, meshing_parameters):
                     Face3D(boundary=all_verts[0], holes=all_verts[1:]))
         else:
             faces.extend(mesh_faces_to_face3d(mesh))
-    return faces
+    # remove colinear vertices as the meshing process makes a lot of them
+    return [face.remove_colinear_vertices(tolerance) for face in faces]
 
 
 """________________EXTRA HELPER FUNCTIONS________________"""

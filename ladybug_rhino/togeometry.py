@@ -106,10 +106,10 @@ def to_face3d(geo, meshing_parameters=None):
         brep: A Rhino Brep, Surface or Mesh that will be converted into a list
             of Ladybug Face3D.
         meshing_parameters: Optional Rhino Meshing Parameters to describe how
-            curved faces should be convereted into planar elements. If None,
+            curved faces should be converted into planar elements. If None,
             Rhino's Default Meshing Parameters will be used.
     """
-    faces = []  # list of Face3Ds to be polulated and returned
+    faces = []  # list of Face3Ds to be populated and returned
     if isinstance(geo, rg.Mesh):  # convert each Mesh face to a Face3D
         pts = tuple(to_point3d(pt) for pt in geo.Vertices)
         for face in geo.Faces:
@@ -150,14 +150,11 @@ def to_polyface3d(geo, meshing_parameters=None):
         geo: A Rhino Brep, Surface ro Mesh that will be converted into a single
             Ladybug Polyface3D.
         meshing_parameters: Optional Rhino Meshing Parameters to describe how
-            curved faces should be convereted into planar elements. If None,
+            curved faces should be converted into planar elements. If None,
             Rhino's Default Meshing Parameters will be used.
     """
     mesh_par = meshing_parameters or rg.MeshingParameters.Default # default
-    if isinstance(geo, rg.Brep) and geo.IsSolid:  # ensure solids are always correct
-        return Polyface3D.from_faces(_planar.curved_solid_faces(geo, mesh_par), tolerance)
     return Polyface3D.from_faces(to_face3d(geo, mesh_par), tolerance)
-
 
 def to_mesh3d(mesh, color_by_face=True):
     """Ladybug Mesh3D from Rhino Mesh."""

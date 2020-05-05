@@ -26,7 +26,7 @@ def give_warning(component, message):
 
 
 def give_remark(component, message):
-    """Give an remark message (giving a little grey baloon in the upper left).
+    """Give an remark message (giving a little grey ballon in the upper left).
 
     Args:
         component: The grasshopper component object, which can be accessed through
@@ -141,8 +141,8 @@ def flatten_data_tree(input):
 
         -   all_data -- All data in DataTree as a flattened list.
 
-        -   pattern -- A dictonary of patterns as namedtuple(path, index of last item
-            on this path, path Count). Pattern is useful to unflatten the list
+        -   pattern -- A dictionary of patterns as namedtuple(path, index of last item
+            on this path, path Count). Pattern is useful to un-flatten the list
             back to a DataTree.
     """
     Pattern = namedtuple('Pattern', 'path index count')
@@ -169,7 +169,7 @@ def unflatten_to_data_tree(all_data, pattern):
 
     Args:
         all_data: A flattened list of all data
-        pattern: A dictonary of patterns
+        pattern: A dictionary of patterns
             Pattern = namedtuple('Pattern', 'path index count')
 
     Returns:

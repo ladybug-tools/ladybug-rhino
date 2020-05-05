@@ -19,7 +19,7 @@ def conversion_to_meters():
 
     Returns:
         A number for the conversion factor, which should be multiplied by all distance
-        units taken from Rhino geoemtry in order to convert them to meters.
+        units taken from Rhino geometry in order to convert them to meters.
     """
     try:  # Try to import units from the active Rhino document
         import scriptcontext

@@ -49,11 +49,11 @@ def compass_objects(compass, z=0, custom_angles=None, projection=None, font='Ari
         compass: A Ladybug Compass object to be converted to Rhino geometry.
         z: A number for the Z-coordinate to be used in translation. (Default: 0)
         custom_angles: An array of numbers between 0 and 360 to be used to
-            generate custom anle labels around the compass.
+            generate custom angle labels around the compass.
         projection: Text for the name of the projection to use from the sky
             dome hemisphere to the 2D plane. If None, no altitude circles o
             labels will be drawn (Default: None). Choose from the following:
-                * Orthograhphic
+                * Orthographic
                 * Stereographic
         font: Optional text for the font to be used in creating the text.
             (Default: 'Arial')
