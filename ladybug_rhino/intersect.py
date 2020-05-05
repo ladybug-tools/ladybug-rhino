@@ -1,6 +1,6 @@
 """Functions to handle intersection of Rhino geometries.
 
-These represent goemetry computation methods  that are either not supported by
+These represent geometry computation methods  that are either not supported by
 ladybug_geometry or there are much more efficient versions of them in Rhino.
 """
 
@@ -142,7 +142,7 @@ def intersect_solid(solid, other_solid):
                     solid = new_brep
                     break
 
-        # detect whether any intercextions were found in this while loop iteration
+        # detect whether any intersections were found in this while loop iteration
         if solid.Faces.Count == num_faces_start:
             done = True  # no intersections were found in this iteration of the loop
 
@@ -153,7 +153,7 @@ def overlapping_bounding_boxes(bound_box1, bound_box2):
     """Check if two Rhino bounding boxes overlap within the tolerance.
 
     This is particularly useful as a check before performing computationally
-    intense processes between two bound_boxs like intersectiony. Checking the
+    intense processes between two bounding boxes like intersection. Checking the
     overlap of the bounding boxes is extremely quick given this method's use
     of the Separating Axis Theorem.
 
