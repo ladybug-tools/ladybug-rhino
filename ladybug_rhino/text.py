@@ -113,7 +113,12 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
 
         text.TextPlane = plane
         text.Height *= dd / sqrt(2)
-        return TextGoo(text)
+        new_text = TextGoo(text)
+
+        new_text.m_value.Bold = self.m_value.Bold
+        new_text.m_value.Italic = self.m_value.Italic
+        new_text.m_value.FontFace = self.m_value.FontFace
+        return new_text
 
     def Morph(self, xmorph):
         return self.DuplicateGeometry()
