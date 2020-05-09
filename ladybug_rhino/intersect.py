@@ -198,6 +198,7 @@ def split_solid_to_floors(building_solid, floor_heights):
     # get the floor brep at each of the floor heights.
     floor_breps = []
     for hgt in floor_heights:
+        story_breps = []
         floor_base_pt = rg.Point3d(0, 0, hgt)
         section_plane = rg.Plane(floor_base_pt, rg.Vector3d.ZAxis)
         floor_crvs = rg.Brep.CreateContourCurves(building_solid, section_plane)
@@ -206,7 +207,8 @@ def split_solid_to_floors(building_solid, floor_heights):
         except TypeError:  # An array of contour curves has been found
             floor_brep = rg.Brep.CreatePlanarBreps(floor_crvs)
         if floor_brep is not None:
-            floor_breps.extend(floor_brep)
+            story_breps.extend(floor_brep)
+        floor_breps.append(story_breps)
 
     return floor_breps
 
