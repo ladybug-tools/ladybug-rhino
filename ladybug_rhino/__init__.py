@@ -1,1 +1,1 @@
-"""Ladybug library for Rhino / Grasshopper."""
+"""Ladybug library for communication with Rhino / Grasshopper."""

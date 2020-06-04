@@ -1,5 +1,6 @@
 """Functions for dealing with inputs and outputs from Grasshopper components."""
-from collections import namedtuple
+import collections
+
 try:
     from Grasshopper.Kernel import GH_RuntimeMessageLevel as Message
     from Grasshopper.Kernel.Types import GH_ObjectWrapper as Goo
@@ -97,7 +98,7 @@ def data_tree_to_list(input):
         listData -- A list of namedtuples (path, dataList)
     """
     all_data = list(range(len(input.Paths)))
-    Pattern = namedtuple('Pattern', 'path list')
+    Pattern = collections.namedtuple('Pattern', 'path list')
 
     for i, path in enumerate(input.Paths):
         data = input.Branch(path)
@@ -145,7 +146,7 @@ def flatten_data_tree(input):
             on this path, path Count). Pattern is useful to un-flatten the list
             back to a DataTree.
     """
-    Pattern = namedtuple('Pattern', 'path index count')
+    Pattern = collections.namedtuple('Pattern', 'path index count')
     pattern = dict()
     all_data = []
     index = 0  # Global counter for all the data

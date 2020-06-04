@@ -1,4 +1,5 @@
 """Functions for getting viewport properties, creating new viewports, and editing them."""
+import math
 
 try:
     import Rhino.Geometry as rg
@@ -7,10 +8,8 @@ except ImportError as e:
 
 try:  # Try to import tolerance from the active Rhino document
     import scriptcontext as sc
-except ImportError:  # No Rhino doc is available. Use Rhino's default.
+except ImportError as e:  # No Rhino doc is available. This module is useless.
     raise ImportError("Failed to import Rhino scriptcontext.\n{}".format(e))
-
-import math
 
 
 def camera_oriented_plane(origin):
@@ -33,26 +32,27 @@ def viewport_by_name(view_name=None):
             current Rhino viewport will be used.
     """
     try:
-        return sc.doc.Views.Find(view_name, False).ActiveViewport if view_name is not None \
-            else sc.doc.Views.ActiveView.ActiveViewport
-    except:
+        return sc.doc.Views.Find(view_name, False).ActiveViewport \
+            if view_name is not None else sc.doc.Views.ActiveView.ActiveViewport
+    except Exception:
         raise ValueError('Viewport "{}" was not found in the Rhino '
                          'document.'.format(view_name))
 
 
 def viewport_vh_vv(viewport, view_type):
     """Get the horizontal angle (vh) and the vertical angle (vv) from a viewport.
-    
+
     Args:
         viewport: A Rhino ViewPort object for which properties will be extracted.
         view_type: An integer to set the view type (-vt). Choose from the
             choices below.
-                * 0 Perspective (v)
-                * 1 Hemispherical fisheye (h)
-                * 2 Parallel (l)
-                * 3 Cylindrical panorama (c)
-                * 4 Angular fisheye (a)
-                * 5 Planisphere [stereographic] projection (s)
+
+            * 0 Perspective (v)
+            * 1 Hemispherical fisheye (h)
+            * 2 Parallel (l)
+            * 3 Cylindrical panorama (c)
+            * 4 Angular fisheye (a)
+            * 5 Planisphere [stereographic] projection (s)
     """
     if view_type == 0:  # perspective
         right_vec = viewport.GetFrustumRightPlane()[1][1]
@@ -80,17 +80,17 @@ def viewport_properties(viewport, view_type=None):
         viewport: A Rhino ViewPort object for which properties will be extracted.
         view_type: An integer to set the view type (-vt). Choose from the
             choices below or set to None to have it derived from the viewport.
-                * 0 Perspective (v)
-                * 1 Hemispherical fisheye (h)
-                * 2 Parallel (l)
-                * 3 Cylindrical panorama (c)
-                * 4 Angular fisheye (a)
-                * 5 Planisphere [stereographic] projection (s)
+
+            * 0 Perspective (v)
+            * 1 Hemispherical fisheye (h)
+            * 2 Parallel (l)
+            * 3 Cylindrical panorama (c)
+            * 4 Angular fisheye (a)
+            * 5 Planisphere [stereographic] projection (s)
 
     Returns:
         A dictionary with the following keys: 'view_type', 'position', 'direction',
         'up_vector', 'h_angle', 'v_angle'
-        
     """
     # ensure that we have an integer for the view_type
     if view_type is None:
@@ -113,4 +113,4 @@ def viewport_properties(viewport, view_type=None):
         'up_vector': (up_vec.X, up_vec.Y, up_vec.Z),
         'h_angle': h_angle,
         'v_angle': v_angle
-        }
+    }

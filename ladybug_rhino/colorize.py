@@ -1,4 +1,6 @@
 """Classes for colorized versions of various Rhino objects like points."""
+from .color import black
+
 try:
     import Rhino as rh
     import System.Guid as guid
@@ -10,11 +12,6 @@ try:
 except ImportError:
     print('Failed to import Grasshopper.\n'
           'Only functions for adding text to Rhino will be availabe.')
-try:
-    from ladybug_dotnet.color import black
-except ImportError as e:
-    black = None
-    print("Failed to import ladybug_dotnet.\n{}".format(e))
 
 
 class ColoredPoint(gh.Kernel.Types.GH_Point, gh.Kernel.IGH_BakeAwareData,

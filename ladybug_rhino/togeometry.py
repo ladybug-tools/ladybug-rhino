@@ -118,7 +118,7 @@ def to_face3d(geo, meshing_parameters=None):
                 all_verts = (pts[face[0]], pts[face[1]], pts[face[2]])
             faces.append(Face3D(all_verts))
     else:  # convert each Brep Face to a Face3D
-        meshing_parameters = meshing_parameters or rg.MeshingParameters.Default # default
+        meshing_parameters = meshing_parameters or rg.MeshingParameters.Default  # default
         for b_face in geo.Faces:
             if b_face.IsPlanar(tolerance):
                 all_verts = []
@@ -131,7 +131,7 @@ def to_face3d(geo, meshing_parameters=None):
                         all_verts.append(loop_verts)
                     else:  # we have a polyline representing the loop
                         all_verts.append([to_point3d(loop_pline.Item[i])
-                                        for i in range(loop_pline.Count - 1)])
+                                          for i in range(loop_pline.Count - 1)])
                 if len(all_verts) == 1:  # No holes in the shape
                     faces.append(Face3D(all_verts[0]))
                 else:  # There's at least one hole in the shape
@@ -152,8 +152,9 @@ def to_polyface3d(geo, meshing_parameters=None):
             curved faces should be converted into planar elements. If None,
             Rhino's Default Meshing Parameters will be used.
     """
-    mesh_par = meshing_parameters or rg.MeshingParameters.Default # default
+    mesh_par = meshing_parameters or rg.MeshingParameters.Default  # default
     return Polyface3D.from_faces(to_face3d(geo, mesh_par), tolerance)
+
 
 def to_mesh3d(mesh, color_by_face=True):
     """Ladybug Mesh3D from Rhino Mesh."""

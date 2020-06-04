@@ -33,7 +33,7 @@ def planar_face_curved_edge_vertices(b_face, count, meshing_parameters):
         count: An integer for the index of the loop to extract.
         meshing_parameters: Rhino Meshing Parameters to describe how
             curved edge should be converted into planar elements.
-    
+
     Returns:
         A list of ladybug Point3D objects representing the input planar face.
     """
@@ -70,7 +70,7 @@ def curved_surface_faces(b_face, meshing_parameters):
         b_face: A curved brep face.
         meshing_parameters: Rhino Meshing Parameters to describe how
             curved edge should be converted into planar elements.
-    
+
     Returns:
         A list of ladybug Face3D objects that together approximate the input
         curved surface.
@@ -151,21 +151,21 @@ def mesh_faces_to_face3d(mesh):
         if m_face.IsQuad:
             lb_face = Face3D(
                 tuple(_point3d(mesh.Vertices[i]) for i in
-                        (m_face.A, m_face.B, m_face.C, m_face.D)))
+                      (m_face.A, m_face.B, m_face.C, m_face.D)))
             if lb_face.check_planar(tolerance, False):
                 faces.append(lb_face)
             else:
                 lb_face_1 = Face3D(
                     tuple(_point3d(mesh.Vertices[i]) for i in
-                            (m_face.A, m_face.B, m_face.C)))
+                          (m_face.A, m_face.B, m_face.C)))
                 lb_face_2 = Face3D(
                     tuple(_point3d(mesh.Vertices[i]) for i in
-                            (m_face.C, m_face.D, m_face.A)))
+                          (m_face.C, m_face.D, m_face.A)))
                 faces.extend([lb_face_1, lb_face_2])
         else:
             lb_face = Face3D(
                 tuple(_point3d(mesh.Vertices[i]) for i in
-                        (m_face.A, m_face.B, m_face.C)))
+                      (m_face.A, m_face.B, m_face.C)))
             faces.append(lb_face)
     return faces
 
