@@ -226,8 +226,7 @@ autodoc_default_options = {
 
 autodoc_member_order = 'groupwise'
 
-autodoc_mock_imports = ["Rhino", "Grasshopper", "ladybug_dotnet",
-                        "scriptcontext", "System"]
+autodoc_mock_imports = ["Rhino", "Grasshopper", "scriptcontext", "System"]
 
 def setup(app):
     """Run custom code with access to the Sphinx application object

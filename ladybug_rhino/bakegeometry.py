@@ -6,7 +6,6 @@ from .fromgeometry import from_point2d, from_mesh2d, from_point3d, from_mesh3d, 
 try:
     import Rhino.RhinoDoc as rhdoc
     import Rhino.DocObjects as docobj
-    import scriptcontext as sc
     doc = rhdoc.ActiveDoc
 except ImportError as e:
     raise ImportError(

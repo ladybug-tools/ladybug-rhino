@@ -1,6 +1,8 @@
 """Functions to add text to the Rhino scene and create Grasshopper text objects."""
+import math
 
 from .fromgeometry import from_plane
+from .color import black
 
 try:
     import Rhino as rh
@@ -13,13 +15,6 @@ try:
 except ImportError:
     print('Failed to import Grasshopper.\n'
           'Only functions for adding text to Rhino will be availabe.')
-try:
-    from ladybug_dotnet.color import black
-except ImportError as e:
-    black = None
-    print("Failed to import ladybug_dotnet.\n{}".format(e))
-
-from math import sqrt
 
 
 def text_objects(text, plane, height, font='Arial',
@@ -112,7 +107,7 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
         dd = point.DistanceTo(plane.Origin)
 
         text.TextPlane = plane
-        text.Height *= dd / sqrt(2)
+        text.Height *= dd / math.sqrt(2)
         new_text = TextGoo(text)
 
         new_text.m_value.Bold = self.m_value.Bold
@@ -149,22 +144,38 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
 class AlignmentTypes(object):
     """Enumeration of text alignment types."""
 
-    HORIZONTAL = {0: rh.DocObjects.TextHorizontalAlignment.Left,
-                  1: rh.DocObjects.TextHorizontalAlignment.Center,
-                  2: rh.DocObjects.TextHorizontalAlignment.Right}
+    _HORIZONTAL = (rh.DocObjects.TextHorizontalAlignment.Left,
+                   rh.DocObjects.TextHorizontalAlignment.Center,
+                   rh.DocObjects.TextHorizontalAlignment.Right)
 
-    VERTICAL = {0: rh.DocObjects.TextVerticalAlignment.Top,
-                1: rh.DocObjects.TextVerticalAlignment.MiddleOfTop,
-                2: rh.DocObjects.TextVerticalAlignment.BottomOfTop,
-                3: rh.DocObjects.TextVerticalAlignment.Middle,
-                4: rh.DocObjects.TextVerticalAlignment.MiddleOfBottom,
-                5: rh.DocObjects.TextVerticalAlignment.Bottom,
-                6: rh.DocObjects.TextVerticalAlignment.BottomOfBoundingBox}
+    _VERTICAL = (rh.DocObjects.TextVerticalAlignment.Top,
+                 rh.DocObjects.TextVerticalAlignment.MiddleOfTop,
+                 rh.DocObjects.TextVerticalAlignment.BottomOfTop,
+                 rh.DocObjects.TextVerticalAlignment.Middle,
+                 rh.DocObjects.TextVerticalAlignment.MiddleOfBottom,
+                 rh.DocObjects.TextVerticalAlignment.Bottom,
+                 rh.DocObjects.TextVerticalAlignment.BottomOfBoundingBox)
 
     @classmethod
     def horizontal(cls, field_number):
-        return cls.HORIZONTAL[field_number]
+        """Get a Rhino horizontal alignment object by its integer field number.
+
+        * 0 - Left
+        * 1 - Center
+        * 2 - Right
+        """
+        return cls._HORIZONTAL[field_number]
 
     @classmethod
     def vertical(cls, field_number):
-        return cls.VERTICAL[field_number]
+        """Get a Rhino vertical alignment object by its integer field number.
+
+        0 - Top
+        1 - MiddleOfTop
+        2 - BottomOfTop
+        3 - Middle
+        4 - MiddleOfBottom
+        5 - Bottom
+        6 - BottomOfBoundingBox
+        """
+        return cls._VERTICAL[field_number]

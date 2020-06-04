@@ -1,16 +1,12 @@
 """Functions to translate from Ladybug geomtries to Rhino geometries."""
+from .config import tolerance
+from .color import color_to_color, gray
 
 try:
     import Rhino.Geometry as rg
 except ImportError as e:
     raise ImportError(
         "Failed to import Rhino Geometry.\n{}".format(e))
-try:
-    from ladybug_dotnet.color import color_to_color, gray
-except ImportError as e:
-    raise ImportError(
-        "Failed to import ladybug_dotnet.\n{}".format(e))
-from .config import tolerance
 
 
 """____________2D GEOMETRY TRANSLATORS____________"""
@@ -44,8 +40,8 @@ def from_arc2d(arc, z=0):
 
 def from_polygon2d(polygon, z=0):
     """Rhino closed PolyLineCurve from ladybug Polygon2D."""
-    return rg.PolylineCurve([from_point2d(pt, z) for pt in polygon.vertices] +
-                            [from_point2d(polygon[0], z)])
+    return rg.PolylineCurve(
+        [from_point2d(pt, z) for pt in polygon.vertices] + [from_point2d(polygon[0], z)])
 
 
 def from_polyline2d(polyline, z=0):
@@ -146,8 +142,8 @@ def from_polyface3d(polyface):
 
 def from_face3d_to_wireframe(face):
     """Rhino PolyLineCurve from ladybug Face3D."""
-    return rg.PolylineCurve([from_point3d(pt) for pt in face.boundary] +
-                            [from_point3d(face.boundary[0])])
+    return rg.PolylineCurve(
+        [from_point3d(pt) for pt in face.boundary] + [from_point3d(face.boundary[0])])
 
 
 def from_polyface3d_to_wireframe(polyface):
