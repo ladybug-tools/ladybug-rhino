@@ -170,12 +170,12 @@ class AlignmentTypes(object):
     def vertical(cls, field_number):
         """Get a Rhino vertical alignment object by its integer field number.
 
-        0 - Top
-        1 - MiddleOfTop
-        2 - BottomOfTop
-        3 - Middle
-        4 - MiddleOfBottom
-        5 - Bottom
-        6 - BottomOfBoundingBox
+        * 0 - Top
+        * 1 - MiddleOfTop
+        * 2 - BottomOfTop
+        * 3 - Middle
+        * 4 - MiddleOfBottom
+        * 5 - Bottom
+        * 6 - BottomOfBoundingBox
         """
         return cls._VERTICAL[field_number]

@@ -57,8 +57,8 @@ def compass_objects(compass, z=0, custom_angles=None, projection=None, font='Ari
             dome hemisphere to the 2D plane. If None, no altitude circles o
             labels will be drawn (Default: None). Choose from the following:
 
-                * Orthographic
-                * Stereographic
+            * Orthographic
+            * Stereographic
 
         font: Optional text for the font to be used in creating the text.
             (Default: 'Arial')
