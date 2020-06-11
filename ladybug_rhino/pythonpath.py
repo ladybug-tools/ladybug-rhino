@@ -119,9 +119,6 @@ def iron_python_search_path_mac(python_package_dir, settings_file=None,
         destination_file: Optional destination file to write out the edited settings
             file. If it is None, the settings_file will be overwritten.
     """
-    # TODO: Remove this once I figure out where the SearchPaths are on Mac
-    raise NotImplementedError('set-python-search has not yet been implemented on Mac.')
-
     # find the path to the IronPython plugin
     if settings_file is None:
         home_folder = os.getenv('HOME') or os.path.expanduser('~')
@@ -129,8 +126,25 @@ def iron_python_search_path_mac(python_package_dir, settings_file=None,
         settings_file = os.path.join(plugin_folder, 'com.mcneel.rhinoceros.plist')
 
     # load the plist file and check the search paths
+    sp_key = 'User.Plug-Ins.814d908a-e25c-493d-97e9-ee3861957f49.Settings.SearchPaths'
     with open(settings_file, 'rb') as fp:
         pl = plistlib.load(fp)
-    for key in pl.keys():
-        if 'Settings' in key:
-            print(key)
+    search_path_needed = False
+    existing_paths = None
+    try:
+        if python_package_dir not in pl[sp_key]:
+            search_path_needed = True  # the key is there but not our package path
+            existing_paths = pl[sp_key]
+    except KeyError:  # the key isn't there and we must add it
+        search_path_needed = True
+
+    # add the search paths if it was not found
+    if destination_file is None:
+        destination_file = settings_file
+    if search_path_needed:
+        new_paths = '{};{}'.format(existing_paths, python_package_dir) \
+            if existing_paths is not None else python_package_dir
+        pl[sp_key] = new_paths
+        with open(destination_file, 'wb') as fp:
+            plistlib.dump(pl, fp, fmt=plistlib.FMT_BINARY)
+    return destination_file
