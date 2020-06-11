@@ -8,7 +8,8 @@ A library for communicating between Ladybug Tools core libraries and Rhinoceros 
 
 This library is used by both the Grasshopper and Rhino plugins to communicate with
 the ladybug core Python library. Note that this library has dependencies
-on Rhino SDK and Grasshopper SDK. It is NOT intended to be run with cPython.
+on Rhino SDK and Grasshopper SDK. It is NOT intended to be run with cPython with
+the exception of running the CLI.
 
 ## Installation
 
@@ -16,7 +17,7 @@ on Rhino SDK and Grasshopper SDK. It is NOT intended to be run with cPython.
 
 If you want to also include the command line interface try:
 
-`pip install -U honeybee-core[cli]`
+`pip install -U ladybug-rhino[cli]`
 
 To check if Ladybug Rhino command line is installed correctly try `ladybug-rhino viz`
 and you should get a `viiiiiiiiiiiiizzzzzzzzz!` back in response!
