@@ -10,7 +10,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="ladybug-rhino",
-    use_scm_version = True,
+    use_scm_version=True,
     setup_requires=['setuptools_scm'],
     author="Ladybug Tools",
     author_email="info@ladybug.tools",
@@ -20,6 +20,12 @@ setuptools.setup(
     url="https://github.com/ladybug-tools/ladybug-rhino",
     packages=setuptools.find_packages(exclude=["tests"]),
     install_requires=requirements,
+    extras_require={
+        'cli': ['click==7.1.2']
+    },
+    entry_points={
+        "console_scripts": ["ladybug-rhino = ladybug_rhino.cli:main"]
+    },
     classifiers=[
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.6",

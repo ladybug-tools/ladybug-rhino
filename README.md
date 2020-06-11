@@ -12,9 +12,14 @@ on Rhino SDK and Grasshopper SDK. It is NOT intended to be run with cPython.
 
 ## Installation
 
-```python
-pip install ladybug-rhino
-```
+`pip install -U ladybug-rhino`
+
+If you want to also include the command line interface try:
+
+`pip install -U honeybee-core[cli]`
+
+To check if Ladybug Rhino command line is installed correctly try `ladybug-rhino viz`
+and you should get a `viiiiiiiiiiiiizzzzzzzzz!` back in response!
 
 ## [API Documentation](http://ladybug-tools.github.io/ladybug-rhino/docs/)
 
