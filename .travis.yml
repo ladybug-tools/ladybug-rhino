@@ -10,7 +10,7 @@ jobs:
       - pip install -r dev-requirements.txt
       - pip install -r requirements.txt
     script:
-      - python ./pass_tests.py
+      - python -m pytest tests/
   - stage: deploy
     if: branch = master AND (NOT type IN (pull_request))
     before_install:
