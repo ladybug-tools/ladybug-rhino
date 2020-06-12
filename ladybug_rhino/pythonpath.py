@@ -122,7 +122,7 @@ def iron_python_search_path_windows(python_package_dir, settings_file=None,
             if 'ScriptForm_Location' in line:
                 break
         contents.insert(i + 1, line_to_add)
-        with open(destination_file, 'w') as fp:
+        with io.open(destination_file, 'w', encoding='utf-8') as fp:
             fp.write(''.join(contents))
     return destination_file
 
