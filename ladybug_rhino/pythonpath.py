@@ -104,7 +104,6 @@ def iron_python_search_path_windows(python_package_dir, settings_file=None,
             '<?xml version="1.0" encoding="utf-8"?>',
             '<settings id="2.0">',
             '<settings>',
-            '    <entry key="ScriptForm_Location">612,294,869,646</entry>',
             '</settings>',
             '</settings>'
         ]
@@ -119,7 +118,7 @@ def iron_python_search_path_windows(python_package_dir, settings_file=None,
         with io.open(settings_file, 'r', encoding='utf-8') as fp:
             contents = fp.readlines()
         for i, line in enumerate(contents):
-            if 'ScriptForm_Location' in line:
+            if '<settings>' in line:
                 break
         contents.insert(i + 1, line_to_add)
         with io.open(destination_file, 'w', encoding='utf-8') as fp:
