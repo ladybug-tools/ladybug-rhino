@@ -12,7 +12,7 @@ PACKAGES = \
     ('ladybug_rhino', 'ladybug_geometry', 'ladybug_geometry_polyskel',
      'ladybug', 'ladybug_comfort', 'honeybee', 'honeybee_energy',
      'honeybee_radiance', 'honeybee_radiance_folder', 'honeybee_radiance_command',
-     'dragonfly_core', 'dragonfly_energy', 'dragonfly_radiance')
+     'dragonfly', 'dragonfly_energy', 'dragonfly_radiance')
 
 
 def create_python_package_dir():
