@@ -45,7 +45,7 @@ def viz():
               'python-package-dir will be added. If None, this command will search '
               'the current user folder for the default location of this file. ',
               type=str, default=None, show_default=True)
-def validate_model(python_package_dir, settings_file):
+def set_python_search(python_package_dir, settings_file):
     """Set Rhino to search for libraries in a given directory."""
     try:
         # search for the python package directory if it is not there
