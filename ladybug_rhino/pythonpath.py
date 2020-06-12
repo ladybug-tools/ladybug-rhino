@@ -90,6 +90,7 @@ def iron_python_search_path_windows(python_package_dir, settings_file=None,
 
     # open the settings file and find the search paths
     search_path_needed = True
+    existing_paths = None
     if os.path.isfile(settings_file):
         with io.open(settings_file, 'r', encoding='utf-8') as fp:
             set_data = fp.read()
@@ -97,7 +98,8 @@ def iron_python_search_path_windows(python_package_dir, settings_file=None,
         settings = element.find('settings')
         for entry in settings.iter('entry'):
             if 'SearchPaths' in list(entry.attrib.values()):
-                if entry.text == python_package_dir:
+                existing_paths = entry.text
+                if python_package_dir in entry.text:
                     search_path_needed = False
     else:
         contents = [
@@ -114,13 +116,20 @@ def iron_python_search_path_windows(python_package_dir, settings_file=None,
     if destination_file is None:
         destination_file = settings_file
     if search_path_needed:
-        line_to_add = '    <entry key="SearchPaths">{}</entry>\n'.format(python_package_dir)
+        new_paths = '{};{}'.format(existing_paths, python_package_dir) \
+            if existing_paths is not None else python_package_dir
+        line_to_add = '    <entry key="SearchPaths">{}</entry>\n'.format(new_paths)
         with io.open(settings_file, 'r', encoding='utf-8') as fp:
             contents = fp.readlines()
+        line_to_del = None
         for i, line in enumerate(contents):
-            if '<settings>' in line:
+            if '<entry key="SearchPaths">' in line:
+                line_to_del = i
+            elif '</settings>' in line:
                 break
-        contents.insert(i + 1, line_to_add)
+        contents.insert(i, line_to_add)
+        if line_to_del is not None:
+            del contents[line_to_del]
         with io.open(destination_file, 'w', encoding='utf-8') as fp:
             fp.write(''.join(contents))
     return destination_file
