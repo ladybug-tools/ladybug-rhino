@@ -10,7 +10,7 @@ from ladybug.futil import nukedir, copy_file_tree
 # core library packages, which get copied or cleaned out of the Rhino scripts folder
 PACKAGES = \
     ('ladybug_rhino', 'ladybug_geometry', 'ladybug_geometry_polyskel',
-     'ladybug', 'ladybug_comfort', 'honeybee', 'honeybee_energy',
+     'ladybug', 'ladybug_comfort', 'honeybee', 'honeybee_standards', 'honeybee_energy',
      'honeybee_radiance', 'honeybee_radiance_folder', 'honeybee_radiance_command',
      'dragonfly', 'dragonfly_energy', 'dragonfly_radiance')
 
