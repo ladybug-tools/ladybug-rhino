@@ -88,6 +88,22 @@ def wrap_output(output):
         raise ValueError('Failed to wrap {}:\n{}.'.format(output, e))
 
 
+def longest_list(values, index):
+    """Get a value from a list while applying Grasshopper's longest-list logic.
+
+    Args:
+        values: An array of values from which a value will be pulled following
+            longest list logic.
+        index: Integer for the index of the item in the list to return. If this
+            index is greater than the length of the values, the last item of the
+            list will be returned.
+    """
+    try:
+        return values[index]
+    except IndexError:
+        return values[-1]
+
+
 def data_tree_to_list(input):
     """Convert a grasshopper DataTree to nested lists of lists.
 
