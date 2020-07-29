@@ -90,17 +90,22 @@ def iron_python_search_path_windows(python_package_dir, settings_file=None,
 
     # open the settings file and find the search paths
     search_path_needed = True
+    settings_key_needed = False
     existing_paths = None
     if os.path.isfile(settings_file):
         with io.open(settings_file, 'r', encoding='utf-8') as fp:
             set_data = fp.read()
         element = xml.etree.ElementTree.fromstring(set_data)
         settings = element.find('settings')
-        for entry in settings.iter('entry'):
-            if 'SearchPaths' in list(entry.attrib.values()):
-                existing_paths = entry.text
-                if python_package_dir in entry.text:
-                    search_path_needed = False
+        if settings is not None:
+            for entry in settings.iter('entry'):
+                if 'SearchPaths' in list(entry.attrib.values()):
+                    existing_paths = entry.text
+                    if python_package_dir in entry.text:
+                        search_path_needed = False
+        else:  # there's no settings key within the XML file; we must add it
+            search_path_needed = False
+            settings_key_needed = True
     else:
         contents = [
             '<?xml version="1.0" encoding="utf-8"?>',
@@ -130,6 +135,17 @@ def iron_python_search_path_windows(python_package_dir, settings_file=None,
         contents.insert(i, line_to_add)
         if line_to_del is not None:
             del contents[line_to_del]
+        with io.open(destination_file, 'w', encoding='utf-8') as fp:
+            fp.write(''.join(contents))
+    elif settings_key_needed:
+        lines_to_add = '  <settings>\n    <entry key="SearchPaths">{}</entry>\n' \
+            '  </settings>\n'.format(python_package_dir)
+        with io.open(settings_file, 'r', encoding='utf-8') as fp:
+            contents = fp.readlines()
+        for i, line in enumerate(contents):
+            if '</settings>' in line:
+                break
+        contents.insert(i, lines_to_add)
         with io.open(destination_file, 'w', encoding='utf-8') as fp:
             fp.write(''.join(contents))
     return destination_file
