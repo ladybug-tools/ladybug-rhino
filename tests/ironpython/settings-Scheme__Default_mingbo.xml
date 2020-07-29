@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings id="2.0">
+  <command name="ghPython_scripteditorfont">
+    <entry key="family">Consolas</entry>
+    <entry key="size">12</entry>
+    <entry key="FontStyle">0</entry>
+  </command>
+</settings>
