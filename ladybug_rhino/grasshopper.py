@@ -220,3 +220,16 @@ def show_output(component, output_index):
         output_index: Integer for the index of the output to hide.
     """
     component.Params.Output[output_index].Hidden = False
+
+
+def schedule_solution(component, milliseconds):
+    """Schedule a new Grasshopper solution after a specified time interval.
+
+    Args:
+        component: The grasshopper component object, which can be accessed through
+            the ghenv.Component call within Grasshopper API.
+        milliseconds: Integer for the number of milliseconds after which the
+            solution should happen.
+    """
+    doc = component.OnPingDocument()
+    doc.ScheduleSolution(milliseconds)
