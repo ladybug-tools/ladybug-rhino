@@ -198,3 +198,25 @@ def unflatten_to_data_tree(all_data, pattern):
         data_tree.AddRange(all_data[index - count:index], path)
 
     return data_tree
+
+
+def hide_output(component, output_index):
+    """Hide one of the outputs of a component.
+
+    Args:
+        component: The grasshopper component object, which can be accessed through
+            the ghenv.Component call within Grasshopper API.
+        output_index: Integer for the index of the output to hide.
+    """
+    component.Params.Output[output_index].Hidden = True
+
+
+def show_output(component, output_index):
+    """Show one of the outputs of a component.
+
+    Args:
+        component: The grasshopper component object, which can be accessed through
+            the ghenv.Component call within Grasshopper API.
+        output_index: Integer for the index of the output to hide.
+    """
+    component.Params.Output[output_index].Hidden = False
