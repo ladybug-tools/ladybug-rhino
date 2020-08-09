@@ -14,8 +14,8 @@ except ImportError:
           'Only functions for adding text to Rhino will be availabe.')
 
 
-class ColoredPoint(gh.Kernel.Types.GH_Point, gh.Kernel.IGH_BakeAwareData,
-                   gh.Kernel.IGH_PreviewData):
+class ColoredPoint(gh.Kernel.Types.GH_GeometricGoo[rh.Geometry.Point3d],
+                   gh.Kernel.IGH_BakeAwareData, gh.Kernel.IGH_PreviewData):
     """A Point object with a set-able color property to change its color in Grasshopper.
 
     Args:
@@ -40,7 +40,7 @@ class ColoredPoint(gh.Kernel.Types.GH_Point, gh.Kernel.IGH_BakeAwareData,
         return "Colored Point"
 
     def ToString(self):
-        return '{' + '{}, {}, {}'.format(self.point.X, self.point.Y, self.point.Z) + '}'
+        return '{}, {}, {}'.format(self.color.R, self.color.G, self.color.B)
 
     def Transform(self, xform):
         point = rh.Geometry.Point3d(self.point.X, self.point.Y, self.point.Z)
