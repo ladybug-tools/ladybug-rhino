@@ -165,8 +165,11 @@ def from_face3ds_to_colored_mesh(faces, color):
     """
     joined_mesh = rg.Mesh()
     for face in faces:
-        joined_mesh.Append(rg.Mesh.CreateFromBrep(
-            from_face3d(face), rg.MeshingParameters.Default)[0])
+        try:
+            joined_mesh.Append(rg.Mesh.CreateFromBrep(
+                from_face3d(face), rg.MeshingParameters.Default)[0])
+        except TypeError:
+            pass  # failed to create a Rhino Mesh from the Face3D
     joined_mesh.VertexColors.CreateMonotoneMesh(color_to_color(color))
     return joined_mesh
 
