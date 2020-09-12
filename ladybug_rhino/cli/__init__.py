@@ -43,8 +43,8 @@ def viz():
               type=str, default=None, show_default=True)
 @click.option('--settings-file', help='Path to the Rhino settings file to which the '
               'python-package-dir will be added. If None, this command will search '
-              'the current user folder for the default location of this file. ',
-              type=str, default=None, show_default=True)
+              'the current user folder for all copies of this file for the installed '
+              'Rhino versions. ', type=str, default=None, show_default=True)
 def set_python_search(python_package_dir, settings_file):
     """Set Rhino to search for libraries in a given directory."""
     try:
@@ -56,7 +56,7 @@ def set_python_search(python_package_dir, settings_file):
         click.echo('Setting Rhino IronPython search path ...')
         new_settings = iron_python_search_path(python_package_dir, settings_file)
         click.echo('Congratulations! Setting the search path in the following '
-                   'file was successful:\n{}'.format(new_settings))
+                   'file was successful:\n{}'.format('\n'.join(new_settings)))
     except Exception as e:
         _logger.exception('Setting IronPython search path failed.\n{}'.format(e))
         sys.exit(1)

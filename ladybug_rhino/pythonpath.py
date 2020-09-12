@@ -13,6 +13,8 @@ PACKAGES = \
      'ladybug', 'ladybug_comfort', 'honeybee', 'honeybee_standards', 'honeybee_energy',
      'honeybee_radiance', 'honeybee_radiance_folder', 'honeybee_radiance_command',
      'dragonfly', 'dragonfly_energy', 'dragonfly_radiance')
+# Rhino versions that the plugins are compatible with
+RHINO_VERSIONS = ('6.0', '7.0')
 
 
 def create_python_package_dir():
@@ -43,24 +45,47 @@ def iron_python_search_path(python_package_dir, settings_file=None,
             Tools core libraries.
         settings_file: An optional XML settings file to which the python_package_dir
             will be added. If None, this method will search the current user's
-            folder for the default location of this file.
+            folder for all copies of this file for the installed Rhino versions.
         destination_file: Optional destination file to write out the edited settings
             file. If it is None, the settings_file will be overwritten.
     """
     # make sure that the rhino scripts folder is clean to avoid namespace issues
     clean_rhino_scripts()
     # set the plugin to look for packages in ladybug_tools folder
+    new_settings = []
     if os.name == 'nt':  # we are on Windows
-        new_settings = iron_python_search_path_windows(
-            python_package_dir, settings_file, destination_file)
+        all_settings = [settings_file] if settings_file is not None else \
+            find_installed_settings_windows()
+        for sf in all_settings:
+            dest_settings = iron_python_search_path_windows(
+                python_package_dir, sf, destination_file)
+            new_settings.append(dest_settings)
     else:  # we are on Mac, Linux, or some other unix-based system
         # TODO: replace this with iron_python_search_path_mac when McNeel makes it work
-        new_settings = None
         copy_packages_to_rhino_scripts(python_package_dir)
     return new_settings
 
 
-def iron_python_search_path_windows(python_package_dir, settings_file=None,
+def find_installed_settings_windows():
+    """Get a list of all settings XML files for the supported RHINO_VERSIONS."""
+    installed_set_files = []
+    home_folder = os.getenv('HOME') or os.path.expanduser('~')
+    for ver in RHINO_VERSIONS:
+        plugin_folder = os.path.join(home_folder, 'AppData', 'Roaming', 'McNeel',
+                                     'Rhinoceros', ver, 'Plug-ins')
+        if os.path.isdir(plugin_folder):
+            ip_path = None
+            for plugin in os.listdir(plugin_folder):
+                if plugin.startswith('IronPython'):
+                    ip_path = os.path.join(plugin_folder, plugin)
+                    break
+            if ip_path is not None:
+                sf = os.path.join(ip_path, 'settings', 'settings-Scheme__Default.xml')
+                installed_set_files.append(sf)
+    return installed_set_files
+
+
+def iron_python_search_path_windows(python_package_dir, settings_file,
                                     destination_file=None):
     """Set Rhino to search for libraries in a given directory (on Windows).
 
@@ -71,23 +96,11 @@ def iron_python_search_path_windows(python_package_dir, settings_file=None,
     Args:
         python_package_dir: The path to a directory that contains the Ladybug
             Tools core libraries.
-        settings_file: An optional XML settings file to which the python_package_dir
-            will be added. If None, this method will search the current user's
-            AppData folder for the default location of this file.
+        settings_file: An XML settings file to which the python_package_dir
+            will be added.
         destination_file: Optional destination file to write out the edited settings
             file. If it is None, the settings_file will be overwritten.
     """
-    # find the path to the IronPython plugin
-    if settings_file is None:
-        home_folder = os.getenv('HOME') or os.path.expanduser('~')
-        plugin_folder = os.path.join(home_folder, 'AppData', 'Roaming', 'McNeel',
-                                     'Rhinoceros', '6.0', 'Plug-ins')
-        for plugin in os.listdir(plugin_folder):
-            if plugin.startswith('IronPython'):
-                ip_path = os.path.join(plugin_folder, plugin)
-                break
-        settings_file = os.path.join(ip_path, 'settings', 'settings-Scheme__Default.xml')
-
     # open the settings file and find the search paths
     search_path_needed = True
     settings_key_needed = False
@@ -199,18 +212,23 @@ def iron_python_search_path_mac(python_package_dir, settings_file=None,
     return destination_file
 
 
-def get_rhino_scripts():
+def find_installed_rhino_scripts():
     """Get the path to the current user's Rhino scripts folder if it exists."""
+    installed_scripts = []
     home_folder = os.getenv('HOME') or os.path.expanduser('~')
     if os.name == 'nt':  # we are on Windows
-        scripts_folder = os.path.join(home_folder, 'AppData', 'Roaming', 'McNeel',
-                                      'Rhinoceros', '6.0', 'scripts')
-    else:
-        scripts_folder = os.path.join(home_folder, 'Library', 'Application Support',
-                                      'McNeel', 'Rhinoceros', '6.0', 'scripts')
-    if not os.path.isdir:
-        raise IOError('No Rhino scripts folder found at: {}'.format(scripts_folder))
-    return scripts_folder
+        for ver in RHINO_VERSIONS:
+            scripts_folder = os.path.join(home_folder, 'AppData', 'Roaming', 'McNeel',
+                                          'Rhinoceros', ver, 'scripts')
+            if os.path.isdir(scripts_folder):
+                installed_scripts.append(scripts_folder)
+    else:  # we are on Mac
+        for ver in RHINO_VERSIONS:
+            scripts_folder = os.path.join(home_folder, 'Library', 'Application Support',
+                                          'McNeel', 'Rhinoceros', ver, 'scripts')
+            if os.path.isdir(scripts_folder):
+                installed_scripts.append(scripts_folder)
+    return installed_scripts
 
 
 def copy_packages_to_rhino_scripts(python_package_dir, directory=None):
@@ -219,16 +237,17 @@ def copy_packages_to_rhino_scripts(python_package_dir, directory=None):
     Args:
         python_package_dir: The path to a directory that contains the Ladybug
             Tools core libraries.
-        directory: The directory into which the packages will be copies. If None,
-            the function will search for the current user's Rhino scripts folder.
+        directory: The directory into which the packages will be copied. If None,
+            the function will search for all installed copies of the current user's
+            Rhino scripts folder.
     """
-    directory = get_rhino_scripts() if directory is None else directory
-    # delete currently-installed packages if they exist
-    for pkg in PACKAGES:
-        lib_folder = os.path.join(python_package_dir, pkg)
-        dest_folder = os.path.join(directory, pkg)
-        if os.path.isdir(lib_folder):
-            copy_file_tree(lib_folder, dest_folder, True)
+    folders = find_installed_rhino_scripts() if directory is None else [directory]
+    for fold in folders:
+        for pkg in PACKAGES:
+            lib_folder = os.path.join(python_package_dir, pkg)
+            dest_folder = os.path.join(fold, pkg)
+            if os.path.isdir(lib_folder):
+                copy_file_tree(lib_folder, dest_folder, True)
 
 
 def clean_rhino_scripts(directory=None):
@@ -238,11 +257,12 @@ def clean_rhino_scripts(directory=None):
 
     Args:
         directory: The directory to be cleaned. If None, the function will
-            search for the current user's Rhino scripts folder.
+            search for all installed copies of the current user's
+            Rhino scripts folder.
      """
-    directory = get_rhino_scripts() if directory is None else directory
-    # delete currently-installed packages if they exist
-    for pkg in PACKAGES:
-        lib_folder = os.path.join(directory, pkg)
-        if os.path.isdir(lib_folder):
-            nukedir(lib_folder)
+    folders = find_installed_rhino_scripts() if directory is None else [directory]
+    for fold in folders:
+        for pkg in PACKAGES:
+            lib_folder = os.path.join(fold, pkg)
+            if os.path.isdir(lib_folder):
+                nukedir(lib_folder)
