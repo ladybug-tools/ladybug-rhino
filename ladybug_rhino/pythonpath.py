@@ -69,9 +69,9 @@ def iron_python_search_path(python_package_dir, settings_file=None,
 def find_installed_settings_windows():
     """Get a list of all settings XML files for the supported RHINO_VERSIONS."""
     installed_set_files = []
-    home_folder = os.getenv('HOME') or os.path.expanduser('~')
+    appdata_roaming = os.getenv('APPDATA')
     for ver in RHINO_VERSIONS:
-        plugin_folder = os.path.join(home_folder, 'AppData', 'Roaming', 'McNeel',
+        plugin_folder = os.path.join(appdata_roaming, 'McNeel',
                                      'Rhinoceros', ver, 'Plug-ins')
         if os.path.isdir(plugin_folder):
             ip_path = None
@@ -215,14 +215,15 @@ def iron_python_search_path_mac(python_package_dir, settings_file=None,
 def find_installed_rhino_scripts():
     """Get the path to the current user's Rhino scripts folder if it exists."""
     installed_scripts = []
-    home_folder = os.getenv('HOME') or os.path.expanduser('~')
     if os.name == 'nt':  # we are on Windows
+        appdata_roaming = os.getenv('APPDATA')
         for ver in RHINO_VERSIONS:
-            scripts_folder = os.path.join(home_folder, 'AppData', 'Roaming', 'McNeel',
+            scripts_folder = os.path.join(appdata_roaming, 'McNeel',
                                           'Rhinoceros', ver, 'scripts')
             if os.path.isdir(scripts_folder):
                 installed_scripts.append(scripts_folder)
     else:  # we are on Mac
+        home_folder = os.getenv('HOME') or os.path.expanduser('~')
         for ver in RHINO_VERSIONS:
             scripts_folder = os.path.join(home_folder, 'Library', 'Application Support',
                                           'McNeel', 'Rhinoceros', ver, 'scripts')
