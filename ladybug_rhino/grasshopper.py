@@ -68,6 +68,21 @@ def all_required_inputs(component):
     return not is_input_missing
 
 
+def component_guid(component):
+    """Get the unique ID associated with a specific component.
+
+    This ID remains the same every time that the component is run.
+
+    Args:
+        component: The grasshopper component object, which can be accessed through
+            the ghenv.Component call within Grasshopper API.
+
+    Returns:
+        Text string for the component's unique ID.
+    """
+    return component.GetHashCode().ToString()
+
+
 def wrap_output(output):
     """Wrap Python objects as Grasshopper generic objects.
 
