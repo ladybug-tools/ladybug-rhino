@@ -169,8 +169,9 @@ def to_mesh3d(mesh, color_by_face=True):
 def to_gridded_mesh3d(brep, grid_size, offset_distance=0):
     """Create a gridded Ladybug Mesh3D from a Rhino Brep.
 
-    This is useful since Rhino's grid meshing is often more complete than the
-    result of Face3D.get_mesh_grid method.
+    This is useful since Rhino's grid meshing is often more beautiful than what
+    ladybug_geometry can produce. However, the ladybug_geometry Face3D.get_mesh_grid
+    method provides an alternative to this if it is needed.
 
     Args:
         brep: A Rhino Brep that will be converted into a gridded Ladybug Mesh3D.
@@ -182,7 +183,13 @@ def to_gridded_mesh3d(brep, grid_size, offset_distance=0):
     meshing_param.MaximumEdgeLength = grid_size
     meshing_param.MinimumEdgeLength = grid_size
     meshing_param.GridAspectRatio = 1
-    mesh_grid = rg.Mesh.CreateFromBrep(brep, meshing_param)[0]
+    mesh_grids = rg.Mesh.CreateFromBrep(brep, meshing_param)
+    if len(mesh_grids) == 1:  # only one mesh was generated
+        mesh_grid = mesh_grids[0]
+    else:  # join the meshes into one
+        mesh_grid = rg.Mesh()
+        for m_grid in mesh_grid:
+            mesh_grid.Append(m_grid)
     if offset_distance != 0:
         temp_mesh = rg.Mesh()
         mesh_grid.Normals.UnitizeNormals()
@@ -192,6 +199,25 @@ def to_gridded_mesh3d(brep, grid_size, offset_distance=0):
             temp_mesh.Faces.AddFace(face)
         mesh_grid = temp_mesh
     return to_mesh3d(mesh_grid)
+
+
+def to_joined_gridded_mesh3d(breps, grid_size, offset_distance=0):
+    """Create a single gridded Ladybug Mesh3D from an array of Rhino Breps.
+
+    Args:
+        breps: An array of Rhino Breps that will be converted into a single,
+            joined gridded Ladybug Mesh3D.
+        grid_size: A number for the grid size dimension with which to make the mesh.
+        offset_distance: A number for the distance at which to offset the mesh from
+            the underlying brep. The default is 0.
+    """
+    lb_meshes = []
+    for brep in breps:
+        lb_meshes.append(to_gridded_mesh3d(brep, grid_size, offset_distance))
+    if len(lb_meshes) == 1:
+        return lb_meshes[0]
+    else:
+        return Mesh3D.join_meshes(lb_meshes)
 
 
 """________________EXTRA HELPER FUNCTIONS________________"""
