@@ -16,6 +16,66 @@ except ImportError as e:
 from .config import tolerance
 
 
+def mesh_geometry(geometry):
+    """Convert an array of Rhino Breps and/or Meshes into a single Rhino Mesh.
+
+    Args:
+        geometry: An array of Rhino Breps or Rhino Meshes.
+    """
+    joined_mesh = rg.Mesh()
+    for geo in geometry:
+        if isinstance(geo, rg.Brep):
+            meshes = rg.Mesh.CreateFromBrep(geo, rg.MeshingParameters.Default)
+            for mesh in meshes:
+                joined_mesh.Append(mesh)
+        elif isinstance(geo, rg.Mesh):
+            joined_mesh.Append(geo)
+        else:
+            raise TypeError('Geometry must be either a Brep or a Mesh. '
+                            'Not {}.'.format(type(geo)))
+    return joined_mesh
+
+
+def intersect_mesh_rays(mesh, points, vectors, parallel=False):
+    """Intersect a group of rays (represented by points and vectors) with a mesh.
+
+    All combinations of rays that are possible between the input points and
+    vectors will be intersected.
+
+    Args:
+        mesh: A Rhino mesh that can block the rays.
+        points: An array of Rhino points that will be used to generate rays
+        vectors: An array of vectors that will be used to generate rays.
+        parallel: Boolean to indicate if the intersection should be run in
+            parallel with one point per CPU. (Default: False).
+
+    Returns:
+        A 2D matrix of 0's and 1's indicating the results of the intersection.
+        Each sub-list of the matrix represents one of the points and has a
+        length equal to the vectors. 0 indicated a blocked ray and 1 indicates
+        a ray that was not blocked.
+    """
+    int_matrix = [0] * len(points)
+
+    def intersect_each_point(i):
+        """Intersect all of the vectors of a given point."""
+        pt = points[i]
+        int_list = []
+        for vec in vectors:
+            ray = rg.Ray3d(pt, vec)
+            is_clear = 0 if rg.Intersect.Intersection.MeshRay(mesh, ray) >= 0 else 1
+            int_list.append(is_clear)
+        int_matrix[i] = int_list
+
+    if parallel:
+        tasks.Parallel.ForEach(range(len(points)), intersect_each_point)
+    else:
+        for i in range(len(points)):
+            intersect_each_point(i)
+
+    return int_matrix
+
+
 def intersect_solids_parallel(solids, bound_boxes):
     """Intersect the co-planar faces of an array of solids using parallel processing.
 
@@ -33,6 +93,7 @@ def intersect_solids_parallel(solids, bound_boxes):
     int_solids = solids[:]  # copy the input list to avoid editing it
 
     def intersect_each_solid(i):
+        """Intersect a solid with all of the other solids of the list."""
         bb_1 = bound_boxes[i]
         # intersect the solids that come after this one
         for j, bb_2 in enumerate(bound_boxes[i + 1:]):

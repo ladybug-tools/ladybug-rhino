@@ -171,7 +171,7 @@ def to_gridded_mesh3d(brep, grid_size, offset_distance=0):
 
     This is useful since Rhino's grid meshing is often more beautiful than what
     ladybug_geometry can produce. However, the ladybug_geometry Face3D.get_mesh_grid
-    method provides an alternative to this if it is needed.
+    method provides a workable alternative to this if it is needed.
 
     Args:
         brep: A Rhino Brep that will be converted into a gridded Ladybug Mesh3D.
@@ -188,7 +188,7 @@ def to_gridded_mesh3d(brep, grid_size, offset_distance=0):
         mesh_grid = mesh_grids[0]
     else:  # join the meshes into one
         mesh_grid = rg.Mesh()
-        for m_grid in mesh_grid:
+        for m_grid in mesh_grids:
             mesh_grid.Append(m_grid)
     if offset_distance != 0:
         temp_mesh = rg.Mesh()
@@ -201,19 +201,22 @@ def to_gridded_mesh3d(brep, grid_size, offset_distance=0):
     return to_mesh3d(mesh_grid)
 
 
-def to_joined_gridded_mesh3d(breps, grid_size, offset_distance=0):
-    """Create a single gridded Ladybug Mesh3D from an array of Rhino Breps.
+def to_joined_gridded_mesh3d(geometry, grid_size, offset_distance=0):
+    """Create a single gridded Ladybug Mesh3D from an array of Rhino geometry.
 
     Args:
-        breps: An array of Rhino Breps that will be converted into a single,
-            joined gridded Ladybug Mesh3D.
+        breps: An array of Rhino Breps and/or Rhino meshes that will be converted
+            into a single, joined gridded Ladybug Mesh3D.
         grid_size: A number for the grid size dimension with which to make the mesh.
         offset_distance: A number for the distance at which to offset the mesh from
             the underlying brep. The default is 0.
     """
     lb_meshes = []
-    for brep in breps:
-        lb_meshes.append(to_gridded_mesh3d(brep, grid_size, offset_distance))
+    for geo in geometry:
+        if isinstance(geo, rg.Brep):
+            lb_meshes.append(to_gridded_mesh3d(geo, grid_size, offset_distance))
+        else:  # assume that it's a Mesh
+            lb_meshes.append(to_mesh3d(geo))
     if len(lb_meshes) == 1:
         return lb_meshes[0]
     else:
