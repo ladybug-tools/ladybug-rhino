@@ -3,21 +3,26 @@
 These represent geometry computation methods  that are either not supported by
 ladybug_geometry or there are much more efficient versions of them in Rhino.
 """
+import math
 
 try:
     import System.Threading.Tasks as tasks
 except ImportError as e:
     print('Failed to import Windows/.NET libraries\nParallel processing functionality '
           'will not be available\n{}'.format(e))
+
 try:
     import Rhino.Geometry as rg
 except ImportError as e:
     raise ImportError("Failed to import Rhino.\n{}".format(e))
+
 from .config import tolerance
 
 
-def mesh_geometry(geometry):
+def join_geometry_to_mesh(geometry):
     """Convert an array of Rhino Breps and/or Meshes into a single Rhino Mesh.
+
+    This is a typical pre-step before using the intersect_mesh_rays function.
 
     Args:
         geometry: An array of Rhino Breps or Rhino Meshes.
@@ -36,16 +41,23 @@ def mesh_geometry(geometry):
     return joined_mesh
 
 
-def intersect_mesh_rays(mesh, points, vectors, parallel=False):
+def intersect_mesh_rays(mesh, points, vectors, normals=None, parallel=False):
     """Intersect a group of rays (represented by points and vectors) with a mesh.
 
     All combinations of rays that are possible between the input points and
-    vectors will be intersected.
+    vectors will be intersected. This method exists since most CAD plugins have
+    much more efficient mesh/ray intersection functions than ladybug_geometry.
+    However, the ladybug_geometry Face3D.intersect_line_ray() method provides
+    a workable (albeit very inefficient) alternative to this if it is needed.
 
     Args:
         mesh: A Rhino mesh that can block the rays.
-        points: An array of Rhino points that will be used to generate rays
-        vectors: An array of vectors that will be used to generate rays.
+        points: An array of Rhino points that will be used to generate rays.
+        vectors: An array of Rhino vectors that will be used to generate rays.
+        normals: An optional array of Rhino vectors that align with the input
+            points and denote the direction each point is facing. These will
+            be used to eliminate any cases where the vector and the normal differ
+            by more than 90 degrees. If None, points are assumed to have no direction.
         parallel: Boolean to indicate if the intersection should be run in
             parallel with one point per CPU. (Default: False).
 
@@ -55,10 +67,11 @@ def intersect_mesh_rays(mesh, points, vectors, parallel=False):
         length equal to the vectors. 0 indicated a blocked ray and 1 indicates
         a ray that was not blocked.
     """
-    int_matrix = [0] * len(points)
+    int_matrix = [0] * len(points)  # matrix to be filled with results
+    cutoff_angle = math.pi / 2  # constant used in all normal checks
 
-    def intersect_each_point(i):
-        """Intersect all of the vectors of a given point."""
+    def intersect_point(i):
+        """Intersect all of the vectors of a given point without any normal check."""
         pt = points[i]
         int_list = []
         for vec in vectors:
@@ -67,13 +80,64 @@ def intersect_mesh_rays(mesh, points, vectors, parallel=False):
             int_list.append(is_clear)
         int_matrix[i] = int_list
 
-    if parallel:
-        tasks.Parallel.ForEach(range(len(points)), intersect_each_point)
-    else:
-        for i in range(len(points)):
-            intersect_each_point(i)
+    def intersect_point_normal_check(i):
+        """Intersect all of the vectors of a given point with a normal check."""
+        pt, normal_vec = points[i], normals[i]
+        int_list = []
+        for vec in vectors:
+            if rg.Vector3d.VectorAngle(normal_vec, vec) <= cutoff_angle:
+                ray = rg.Ray3d(pt, vec)
+                is_clear = 0 if rg.Intersect.Intersection.MeshRay(mesh, ray) >= 0 else 1
+                int_list.append(is_clear)
+            else:  # the vector is pointing behind the surface
+                int_list.append(0)
+        int_matrix[i] = int_list
 
+    if normals is not None:
+        if parallel:
+            tasks.Parallel.ForEach(range(len(points)), intersect_point_normal_check)
+        else:
+            for i in range(len(points)):
+                intersect_point_normal_check(i)
+    else:
+        if parallel:
+            tasks.Parallel.ForEach(range(len(points)), intersect_point)
+        else:
+            for i in range(len(points)):
+                intersect_point(i)
     return int_matrix
+
+
+def vector_angles(normals, vectors, parallel=False):
+    """Compute the angles between a list of normals and vectors.
+
+    Useful as a post-processing step from the intersect_mesh_rays method.
+
+    Args:
+        normals: An array of Rhino vectors representing the direction something
+            is facing.
+        vectors: An array of Rhino vectors for which angles with the normals will
+            be computed.
+        parallel: Boolean to indicate if the intersection should be run in
+            parallel with one normal per CPU. (Default: False).
+
+    Returns:
+        A 2D matrix of angles in radians. Each sub-list of the matrix represents
+        one of the normals and has a length equal to the vectors.
+    """
+    angle_matrix = [0] * len(normals)  # matrix to be filled with results
+
+    def normal_angle(i):
+        """Intersect all of the vectors of a given point with a normal check."""
+        normal_vec = normals[i]
+        angle_matrix[i] = [rg.Vector3d.VectorAngle(normal_vec, vec) for vec in vectors]
+
+    if parallel:
+        tasks.Parallel.ForEach(range(len(normals)), normal_angle)
+    else:
+        for i in range(len(normals)):
+            normal_angle(i)
+    return angle_matrix
 
 
 def intersect_solids_parallel(solids, bound_boxes):
@@ -214,9 +278,10 @@ def overlapping_bounding_boxes(bound_box1, bound_box2):
     """Check if two Rhino bounding boxes overlap within the tolerance.
 
     This is particularly useful as a check before performing computationally
-    intense processes between two bounding boxes like intersection. Checking the
+    intense intersection processes between two bounding boxes. Checking the
     overlap of the bounding boxes is extremely quick given this method's use
-    of the Separating Axis Theorem.
+    of the Separating Axis Theorem. This method is built into the intersect_solids
+    functions in order to improve its calculation time.
 
     Args:
         bound_box1: The first bound_box to check.
@@ -275,6 +340,9 @@ def split_solid_to_floors(building_solid, floor_heights):
 
 
 def geo_min_max_height(geometry):
-    """Get the min and max Z values of any input object."""
+    """Get the min and max Z values of any input object.
+
+    This is useful as a pre-step before the split_solid_to_floors method.
+    """
     bound_box = geometry.GetBoundingBox(rg.Plane.WorldXY)
     return bound_box.Min.Z, bound_box.Max.Z
