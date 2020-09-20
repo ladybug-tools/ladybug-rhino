@@ -89,11 +89,11 @@ def wrap_output(output):
     Passing output lists of Python objects through this function can greatly reduce
     the time needed to run the component since Grasshopper can spend a long time
     figuring out the object type is if it is not recognized.  However, if the number
-    of output objects is usually < 100, running this method won't really make a
+    of output objects is usually < 100, running this method won't make a significant
     difference and so there's no need to use it.
 
     Args:
-        output: A list of values to be wrapped as GOO.
+        output: A list of values to be wrapped as a generic Grasshopper Object (GOO).
     """
     if not output:
         return output
@@ -101,6 +101,45 @@ def wrap_output(output):
         return (Goo(i) for i in output)
     except Exception as e:
         raise ValueError('Failed to wrap {}:\n{}.'.format(output, e))
+
+
+def objectify_output(object_name, output_data):
+    """Wrap data into a single custom Python object that can later be de-serialized.
+
+    This is meant to address the same issue as the wrap_output method but it does
+    so by simply hiding the individual items from the Grasshopper UI within a custom
+    parent object that other components can accept as input and de-objectify to
+    get access to the data. This strategy is also useful for the case of standard
+    object types like integers where the large number of data points slows down
+    the Grasshopper UI when they are output.
+
+    Args:
+        object_name: Text for the name of the custom object that will wrap the data.
+            This is how the object will display in the Grasshopper UI.
+        output_data: A list of data to be stored under the data property of
+            the output object.
+    """
+    class Objectifier(object):
+        """Generic class for objectifying data."""
+
+        def __init__(self, name, data):
+            self.name = name
+            self.data = data
+
+        def ToString(self):
+            return '{} ({} items)'.format(self.name, len(self.data))
+
+    return Objectifier(object_name, output_data)
+
+
+def de_objectify_output(objectified_data):
+    """Extract the data from an object that was output from the objectify_output method.
+
+    Args:
+        objectified_data: An object that has been output from the objectify_output
+            method for which data will be returned.
+    """
+    return objectified_data.data
 
 
 def longest_list(values, index):
