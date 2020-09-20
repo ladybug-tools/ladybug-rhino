@@ -41,6 +41,48 @@ def join_geometry_to_mesh(geometry):
     return joined_mesh
 
 
+def intersect_mesh_lines(mesh, start_points, end_points, parallel=False):
+    """Intersect a group of lines (represented by end points) with a mesh.
+
+    All combinations of lines that are possible between the input start_points and
+    end_points will be intersected. This method exists since most CAD plugins have
+    much more efficient mesh/line intersection functions than ladybug_geometry.
+    However, the ladybug_geometry Face3D.intersect_line_ray() method provides
+    a workable (albeit very inefficient) alternative to this if it is needed.
+
+    Args:
+        mesh: A Rhino mesh that can block the lines.
+        start_points: An array of Rhino points that will be used to generate lines.
+        end_points: An array of Rhino points that will be used to generate lines.
+        parallel: Boolean to indicate if the intersection should be run in
+            parallel with one point per CPU. (Default: False).
+
+    Returns:
+        A 2D matrix of 0's and 1's indicating the results of the intersection.
+        Each sub-list of the matrix represents one of the points and has a
+        length equal to the end_points. 0 indicates a blocked ray and 1 indicates
+        a ray that was not blocked.
+    """
+    int_matrix = [0] * len(start_points)  # matrix to be filled with results
+
+    def intersect_start_point(i):
+        """Intersect all of the vectors of a given point without any normal check."""
+        pt = start_points[i]
+        int_list = []
+        for ept in end_points:
+            lin = rg.Line(pt, ept)
+            is_clear = 1 if rg.Intersect.Intersection.MeshLine(mesh, lin)[1] is None else 0
+            int_list.append(is_clear)
+        int_matrix[i] = int_list
+
+    if parallel:
+        tasks.Parallel.ForEach(range(len(start_points)), intersect_start_point)
+    else:
+        for i in range(len(start_points)):
+            intersect_start_point(i)
+    return int_matrix
+
+
 def intersect_mesh_rays(mesh, points, vectors, normals=None, parallel=False):
     """Intersect a group of rays (represented by points and vectors) with a mesh.
 
@@ -64,7 +106,7 @@ def intersect_mesh_rays(mesh, points, vectors, normals=None, parallel=False):
     Returns:
         A 2D matrix of 0's and 1's indicating the results of the intersection.
         Each sub-list of the matrix represents one of the points and has a
-        length equal to the vectors. 0 indicated a blocked ray and 1 indicates
+        length equal to the vectors. 0 indicates a blocked ray and 1 indicates
         a ray that was not blocked.
     """
     int_matrix = [0] * len(points)  # matrix to be filled with results
