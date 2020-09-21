@@ -41,6 +41,84 @@ def join_geometry_to_mesh(geometry):
     return joined_mesh
 
 
+def intersect_mesh_rays(mesh, points, vectors, normals=None, parallel=False):
+    """Intersect a group of rays (represented by points and vectors) with a mesh.
+
+    All combinations of rays that are possible between the input points and
+    vectors will be intersected. This method exists since most CAD plugins have
+    much more efficient mesh/ray intersection functions than ladybug_geometry.
+    However, the ladybug_geometry Face3D.intersect_line_ray() method provides
+    a workable (albeit very inefficient) alternative to this if it is needed.
+
+    Args:
+        mesh: A Rhino mesh that can block the rays.
+        points: An array of Rhino points that will be used to generate rays.
+        vectors: An array of Rhino vectors that will be used to generate rays.
+        normals: An optional array of Rhino vectors that align with the input
+            points and denote the direction each point is facing. These will
+            be used to eliminate any cases where the vector and the normal differ
+            by more than 90 degrees. If None, points are assumed to have no direction.
+        parallel: Boolean to indicate if the intersection should be run in
+            parallel with one point per CPU. (Default: False).
+
+    Returns:
+        A tuple with two elements
+
+        -   intersection_matrix -- A 2D matrix of 0's and 1's indicating the results
+            of the intersection. Each sub-list of the matrix represents one of the
+            points and has a length equal to the vectors. 0 indicates a blocked
+            ray and 1 indicates a ray that was not blocked.
+
+        -   angle_matrix -- A 2D matrix of angles in radians. Each sub-list of the
+            matrix represents one of the normals and has a length equal to the
+            supplied vectors. Will be None if no normals are provided.
+    """
+    intersection_matrix = [0] * len(points)  # matrix to be filled with results
+    angle_matrix = [0] * len(normals) if normals is not None else None
+    cutoff_angle = math.pi / 2  # constant used in all normal checks
+
+    def intersect_point(i):
+        """Intersect all of the vectors of a given point without any normal check."""
+        pt = points[i]
+        int_list = []
+        for vec in vectors:
+            ray = rg.Ray3d(pt, vec)
+            is_clear = 0 if rg.Intersect.Intersection.MeshRay(mesh, ray) >= 0 else 1
+            int_list.append(is_clear)
+        intersection_matrix[i] = int_list
+
+    def intersect_point_normal_check(i):
+        """Intersect all of the vectors of a given point with a normal check."""
+        pt, normal_vec = points[i], normals[i]
+        int_list = []
+        angle_list = []
+        for vec in vectors:
+            vec_angle = rg.Vector3d.VectorAngle(normal_vec, vec)
+            angle_list.append(vec_angle)
+            if vec_angle <= cutoff_angle:
+                ray = rg.Ray3d(pt, vec)
+                is_clear = 0 if rg.Intersect.Intersection.MeshRay(mesh, ray) >= 0 else 1
+                int_list.append(is_clear)
+            else:  # the vector is pointing behind the surface
+                int_list.append(0)
+        intersection_matrix[i] = int_list
+        angle_matrix[i] = angle_list
+
+    if normals is not None:
+        if parallel:
+            tasks.Parallel.ForEach(range(len(points)), intersect_point_normal_check)
+        else:
+            for i in range(len(points)):
+                intersect_point_normal_check(i)
+    else:
+        if parallel:
+            tasks.Parallel.ForEach(range(len(points)), intersect_point)
+        else:
+            for i in range(len(points)):
+                intersect_point(i)
+    return intersection_matrix, angle_matrix
+
+
 def intersect_mesh_lines(mesh, start_points, end_points, parallel=False):
     """Intersect a group of lines (represented by end points) with a mesh.
 
@@ -81,105 +159,6 @@ def intersect_mesh_lines(mesh, start_points, end_points, parallel=False):
         for i in range(len(start_points)):
             intersect_start_point(i)
     return int_matrix
-
-
-def intersect_mesh_rays(mesh, points, vectors, normals=None, parallel=False):
-    """Intersect a group of rays (represented by points and vectors) with a mesh.
-
-    All combinations of rays that are possible between the input points and
-    vectors will be intersected. This method exists since most CAD plugins have
-    much more efficient mesh/ray intersection functions than ladybug_geometry.
-    However, the ladybug_geometry Face3D.intersect_line_ray() method provides
-    a workable (albeit very inefficient) alternative to this if it is needed.
-
-    Args:
-        mesh: A Rhino mesh that can block the rays.
-        points: An array of Rhino points that will be used to generate rays.
-        vectors: An array of Rhino vectors that will be used to generate rays.
-        normals: An optional array of Rhino vectors that align with the input
-            points and denote the direction each point is facing. These will
-            be used to eliminate any cases where the vector and the normal differ
-            by more than 90 degrees. If None, points are assumed to have no direction.
-        parallel: Boolean to indicate if the intersection should be run in
-            parallel with one point per CPU. (Default: False).
-
-    Returns:
-        A 2D matrix of 0's and 1's indicating the results of the intersection.
-        Each sub-list of the matrix represents one of the points and has a
-        length equal to the vectors. 0 indicates a blocked ray and 1 indicates
-        a ray that was not blocked.
-    """
-    int_matrix = [0] * len(points)  # matrix to be filled with results
-    cutoff_angle = math.pi / 2  # constant used in all normal checks
-
-    def intersect_point(i):
-        """Intersect all of the vectors of a given point without any normal check."""
-        pt = points[i]
-        int_list = []
-        for vec in vectors:
-            ray = rg.Ray3d(pt, vec)
-            is_clear = 0 if rg.Intersect.Intersection.MeshRay(mesh, ray) >= 0 else 1
-            int_list.append(is_clear)
-        int_matrix[i] = int_list
-
-    def intersect_point_normal_check(i):
-        """Intersect all of the vectors of a given point with a normal check."""
-        pt, normal_vec = points[i], normals[i]
-        int_list = []
-        for vec in vectors:
-            if rg.Vector3d.VectorAngle(normal_vec, vec) <= cutoff_angle:
-                ray = rg.Ray3d(pt, vec)
-                is_clear = 0 if rg.Intersect.Intersection.MeshRay(mesh, ray) >= 0 else 1
-                int_list.append(is_clear)
-            else:  # the vector is pointing behind the surface
-                int_list.append(0)
-        int_matrix[i] = int_list
-
-    if normals is not None:
-        if parallel:
-            tasks.Parallel.ForEach(range(len(points)), intersect_point_normal_check)
-        else:
-            for i in range(len(points)):
-                intersect_point_normal_check(i)
-    else:
-        if parallel:
-            tasks.Parallel.ForEach(range(len(points)), intersect_point)
-        else:
-            for i in range(len(points)):
-                intersect_point(i)
-    return int_matrix
-
-
-def vector_angles(normals, vectors, parallel=False):
-    """Compute the angles between a list of normals and vectors.
-
-    Useful as a post-processing step from the intersect_mesh_rays method.
-
-    Args:
-        normals: An array of Rhino vectors representing the direction something
-            is facing.
-        vectors: An array of Rhino vectors for which angles with the normals will
-            be computed.
-        parallel: Boolean to indicate if the intersection should be run in
-            parallel with one normal per CPU. (Default: False).
-
-    Returns:
-        A 2D matrix of angles in radians. Each sub-list of the matrix represents
-        one of the normals and has a length equal to the vectors.
-    """
-    angle_matrix = [0] * len(normals)  # matrix to be filled with results
-
-    def normal_angle(i):
-        """Intersect all of the vectors of a given point with a normal check."""
-        normal_vec = normals[i]
-        angle_matrix[i] = [rg.Vector3d.VectorAngle(normal_vec, vec) for vec in vectors]
-
-    if parallel:
-        tasks.Parallel.ForEach(range(len(normals)), normal_angle)
-    else:
-        for i in range(len(normals)):
-            normal_angle(i)
-    return angle_matrix
 
 
 def intersect_solids_parallel(solids, bound_boxes):
