@@ -77,11 +77,6 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
     def get_TypeDescription(self):
         return "3D Text"
 
-    def ToString(self):
-        if self.m_value is None:
-            return "<null>"
-        return self.m_value.Text
-
     def get_Boundingbox(self):
         if self.m_value is None:
             return rh.Geometry.BoundingBox.Empty
@@ -139,6 +134,19 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
             att = doc.CreateDefaultAttributes()
         id = doc.Objects.AddText(self.m_value, att)
         return True, id
+
+    def ScriptVariable(self):
+        """Overwrite Grasshopper ScriptVariable method."""
+        return self
+
+    def ToString(self):
+        """Overwrite .NET ToString method."""
+        return self.__repr__()
+
+    def __repr__(self):
+        if self.m_value is None:
+            return "<null>"
+        return self.m_value.Text
 
 
 class AlignmentTypes(object):
