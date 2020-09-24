@@ -2,17 +2,17 @@
 import collections
 
 try:
+    from System import Object
+except ImportError:
+    print("Failed to import System.")
+
+try:
     from Grasshopper.Kernel import GH_RuntimeMessageLevel as Message
     from Grasshopper.Kernel.Types import GH_ObjectWrapper as Goo
     from Grasshopper import DataTree
     from Grasshopper.Kernel.Data import GH_Path as Path
 except ImportError:
-    raise ImportError(
-        "Failed to import Grasshopper. Make sure the path is added to sys.path.")
-try:
-    from System import Object
-except ImportError:
-    print("Failed to import System.")
+    raise ImportError("Failed to import Grasshopper.")
 
 
 def give_warning(component, message):
