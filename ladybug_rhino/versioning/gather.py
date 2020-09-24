@@ -23,17 +23,18 @@ def is_ladybug_tools(component):
 
 
 def gather_canvas_components(component):
-    """Get all of the Ladybug Tools components on the same canvas as the exporter.
+    """Get all of the Ladybug Tools components on the same canvas as the input component.
 
     This will also gather any Ladybug Tools components inside of clusters.
 
     Args:
-        component: The exporter component object, which can be accessed through
-            the ghenv.Component call within Grasshopper API.
+        component: A Grasshopper component object. Typically, this should be the
+            exporter component object, which can be accessed through the
+            ghenv.Component call.
 
     Returns:
         A list of Ladybug Tools component objects on the same canvas as the
-        input component.
+        input component. The input component is excluded from this list.
     """
     components = []
     document = component.OnPingDocument()
@@ -59,14 +60,16 @@ def gather_canvas_components(component):
 
 
 def gather_connected_components(component):
-    """Get all of the GHPython components that are connected to the first input.
+    """Get all of the GHPython components connected to the component's first input.
 
     Args:
-        component: The exporter component object, which can be accessed through
-            the ghenv.Component call within Grasshopper API.
+        component: A Grasshopper component object. Typically, this should be the
+            exporter component object, which can be accessed through the
+            ghenv.Component call.
 
     Returns:
-        A list of Ladybug Tools component objects that are connected to the exporter.
+        A list of Ladybug Tools component objects that are connected to the component's
+        first input.
     """
     param = component.Params.Input[0]  # components input
     sources = param.Sources
@@ -135,26 +138,35 @@ def place_plugin_components(plugin_name, sub_category=None, x_position=200,
             components will be dropped. (Default: 200).
         y_position: An integer for where in the Y dimension of the canvas the
             components will be dropped. (Default: 200).
+
+    Returns:
+        A list of Component Objects for the components that have been dropped
+        onto the canvas. These component objects can be used to update the
+        version of the dropped component, change their category, etc.
     """
     document = ghi.ActiveCanvas.Document  # get the Grasshopper document
-    # find all Components/UserObjects under pluging name
-    components = plugin_components(plugin_name, sub_category)
+    # find all Components/UserObjects in the Grasshopper Component Server
+    component_references = plugin_components(plugin_name, sub_category)
 
     # loop through the components and add them to the canvass
-    for comp_name, comp_obj in components.items():
+    components = []  # array to hold all of the dropped components
+    for comp_name, comp_obj in component_references.items():
         # add object to document
         if comp_obj.Attributes:
             comp_obj.Attributes.Pivot = System.Drawing.PointF(x_position, y_position)
             document.AddObject(comp_obj, False, 0)
 
-            # find the component by name
+            # find the component object on the Grasshopper canvas using its name
+            component = None
             for comp in document.Objects:
                 if comp.Name == comp_name:
                     component = comp
                     break
 
-            # expire solution so that all of the components don't run at once
+            # expire component solution so that all of the components don't run at once
             try:
                 component.ExpireSolution(False)
+                components.append(component)
             except Exception:
                 print('Failed to stop "{}" from running'.format(comp_name))
+    return components

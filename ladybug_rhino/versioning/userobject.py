@@ -1,4 +1,4 @@
-"""Functions for creating user objects and checking version with current installation."""
+"""Functions for creating user objects."""
 import os
 
 try:
@@ -29,11 +29,11 @@ FOLDER_MAP = {
     'Honeybee': 'honeybee_grasshopper_core',
     'HB-Radiance': 'honeybee_grasshopper_radiance',
     'HB-Energy': 'honeybee_grasshopper_energy',
-    'Dragonfly': 'dragonfly_grasshopper'
+    'Dragonfly': 'dragonfly_grasshopper',
+    'LB-Legacy': 'LB-Legacy',
+    'HB-Legacy': 'HB-Legacy',
+    'HoneybeePlus': 'HoneybeePlus'
 }
-
-# list of valid change tags for export
-CHANGE_TAGS = ('fix', 'release', 'feat', 'perf', 'docs', 'ignore')
 
 
 def create_userobject(component, move=True):
@@ -77,91 +77,3 @@ def create_userobject(component, move=True):
 
     uo.SaveToFile()
     return uo
-
-
-def current_userobject_version(component):
-    """Get the current installed version of a userobject that has the same name.
-
-    Args:
-        component: A Grasshopper Python component.
-    """
-    # load component from the folder where it should be
-    assert component.Category in FOLDER_MAP, \
-        'Unknown category: %s. Add category to folder_dict.' % component.Category
-    fp = os.path.join(UO_FOLDER, FOLDER_MAP[component.Category], 'user_objects',
-                      '%s.ghuser' % component.Name)
-
-    if os.path.isfile(fp):  # if the component was found, parse out the version
-        uo = gh.GH_UserObject(fp).InstantiateObject()
-        # uo.Message returns None so we have to find it the old school way!
-        for lc, line in enumerate(uo.Code.split('\n')):
-            if lc > 200:  # this should never happen for valid userobjects
-                raise ValueError(
-                    'Failed to find version from UserObject for %s' % uo.Name
-                )
-            if line.strip().startswith("ghenv.Component.Message"):
-                return line.split("=")[1].strip()[1:-1]
-    else:  # there is no currently installed version of this userobject
-        return None
-
-
-def parse_version(semver_str):
-    """Parse semantic version into major, minor, patch.
-
-    Args:
-        semver_str: Text for a component version (eg. 1.0.1).
-    """
-    try:
-        major, minor, patch = [int(d) for d in semver_str.strip().split('.')]
-    except ValueError:
-        raise ValueError(
-            '\nInvalid version format: %s\nYou must follow major.minor.patch format '
-            'with 3 integer values' % semver_str
-        )
-    return major, minor, patch
-
-
-def validate_change_type(change_type):
-    """Check that a change type is a valid tag."""
-    assert change_type in CHANGE_TAGS, 'Invalid change_type "{}". Choose from ' \
-        'the following:\n{}'.format(change_type, ' '.join(CHANGE_TAGS))
-    return change_type
-
-
-def validate_version(current_version, new_version, change_type):
-    """Validate that a version tag conforms to currently-installed version difference.
-
-    Args:
-        current_version: Semantic version string for the currently installed version.
-        new_version: Semantic version string for the new component version.
-        change_type: Text tag for the change type (eg. "fix").
-    """
-    if current_version is None:
-        # this is the first time that this component is created; give it a pass
-        print('    New component. No change in version: %s' % current_version)
-        return True
-
-    x, y, z = parse_version(current_version)
-    parse_version(new_version)  # just make sure the semantic version format is valid
-
-    msg = '\nFor a \'%s\' the component version should change to %s not %s.' \
-        '\nFix the version or select the correct change type and try again.'
-    if change_type == 'ignore':
-        valid_version = new_version
-    elif change_type == 'fix':
-        valid_version = '.'.join(str(i) for i in (x, y, z + 1))
-    elif change_type == 'feat' or change_type == 'perf':
-        valid_version = '.'.join(str(i) for i in (x, y + 1, 0))
-    elif change_type == 'release':
-        valid_version = '.'.join(str(i) for i in (x + 1, 0, 0))
-    elif change_type == 'docs':
-        valid_version = '.'.join(str(i) for i in (x, y, z))
-    else:
-        raise ValueError('Invalid change_type: %s' % change_type)
-
-    assert valid_version == new_version, msg % (change_type, valid_version, new_version)
-
-    if current_version == new_version:
-        print('    No change in version: %s' % current_version)
-    else:
-        print('    Version is changed from %s to %s.' % (current_version, new_version))

@@ -6,7 +6,8 @@ try:
 except ImportError:
     raise ImportError("Failed to import Grasshopper.")
 
-from .userobject import create_userobject, current_userobject_version, validate_version
+from .diff import current_userobject_version, validate_version
+from .userobject import create_userobject
 from .component import Component
 
 
