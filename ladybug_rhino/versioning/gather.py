@@ -25,6 +25,8 @@ def is_ladybug_tools(component):
 def gather_canvas_components(component):
     """Get all of the Ladybug Tools components on the same canvas as the exporter.
 
+    This will also gather any Ladybug Tools components inside of clusters.
+
     Args:
         component: The exporter component object, which can be accessed through
             the ghenv.Component call within Grasshopper API.
@@ -35,10 +37,19 @@ def gather_canvas_components(component):
     """
     components = []
     document = component.OnPingDocument()
-    for component in document.Objects:
-        if type(component) == type(component):  # GHPython component
-            if is_ladybug_tools(component):  # Ladybug Tools component
-                components.append(component)
+    for comp_obj in document.Objects:
+        if type(comp_obj) == type(component):  # GHPython component
+            if is_ladybug_tools(comp_obj):  # Ladybug Tools component
+                components.append(comp_obj)
+        elif type(comp_obj) == gh.Special.GH_Cluster:
+            cluster_doc = comp_obj.Document("")
+            if not cluster_doc:
+                continue
+            for cluster_obj in cluster_doc.Objects:
+                if type(cluster_obj) == type(component) and is_ladybug_tools(cluster_obj):
+                    if cluster_obj.Locked:
+                        continue
+                    components.append(cluster_obj)
 
     # remove the exporter component from the array
     components = tuple(comp for comp in components if
@@ -48,7 +59,7 @@ def gather_canvas_components(component):
 
 
 def gather_connected_components(component):
-    """Get all of the GHPython components that are connected to the exporter.
+    """Get all of the GHPython components that are connected to the first input.
 
     Args:
         component: The exporter component object, which can be accessed through
@@ -66,18 +77,16 @@ def gather_connected_components(component):
 
     for src in sources:
         attr = src.Attributes
-        if attr is None or attr.GetTopLevel is None:
+        if attr is None or attr.GetTopLevel is None:  # not exportable
+            continue
+        # collect components
+        comp_obj = attr.GetTopLevel.DocObject
+        if comp_obj is None:
+            continue
+        if type(comp_obj) != type(component):  # not a GHPython component
             continue
 
-        #  collect components
-        component = attr.GetTopLevel.DocObject
-        if component is None:
-            continue
-        if type(component) != type(component):
-            # not a GHPython component
-            continue
-
-        yield component
+        yield comp_obj
 
 
 def plugin_components(plugin_name, sub_category=None):

@@ -9,6 +9,7 @@ except ImportError:
 
 # location where the Grasshopper user objects are stored
 UO_FOLDER = Folders.UserObjectFolders[0]
+GHA_FOLDER = Folders.DefaultAssemblyFolder
 
 # map from the AdditionalHelpFromDocStrings to values for user object exposure
 EXPOSURE_MAP = (
