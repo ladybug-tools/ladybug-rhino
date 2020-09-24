@@ -55,8 +55,8 @@ def orient_to_camera(geometry, position=None):
     xform = rg.Transform.PlaneToPlane(base_plane, oriented_plane)
     geo = []
     for rh_geo in geometry:
-        if isinstance(rh_geo, rd.Text3d):
-            geo.append(TextGoo(rh_geo).Transform(xform))
+        if isinstance(rh_geo, TextGoo):
+            geo.append(rh_geo.Transform(xform))
         else:
             new_geo = rh_geo.Duplicate()
             new_geo.Transform(xform)
@@ -223,10 +223,12 @@ def _bounding_box_origin(geometry):
         geometry: A list of geometry for which the bounding box origin will
             be computed.
     """
-    b_box = geometry[0].GetBoundingBox(False)
+    first_geo = geometry[0]
+    b_box = first_geo.GetBoundingBox(False) if not isinstance(first_geo, TextGoo) \
+        else first_geo.get_Boundingbox()
     for geo in geometry[1:]:
-        if isinstance(geo, rd.Text3d):
-            b_box = rg.BoundingBox.Union(b_box, geo.BoundingBox)
+        if isinstance(geo, TextGoo):
+            b_box = rg.BoundingBox.Union(b_box, geo.get_Boundingbox())
         else:
             b_box = rg.BoundingBox.Union(b_box, geo.GetBoundingBox(False))
     return b_box.Corner(True, True, True)
