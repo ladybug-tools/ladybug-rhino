@@ -2,21 +2,21 @@
 import math
 
 try:
+    import System
+except ImportError as e:  # No .NET; We are really screwed
+    raise ImportError("Failed to import System.\n{}".format(e))
+
+try:
     import Rhino.Geometry as rg
     import Rhino.Display as rd
     import Rhino.RhinoDoc as rhdoc
-except ImportError as e:
+except ImportError as e:  # No RhinoCommon doc is available. This module is useless.
     raise ImportError("Failed to import Rhino.\n{}".format(e))
 
 try:  # Try to import tolerance from the active Rhino document
     import scriptcontext as sc
 except ImportError as e:  # No Rhino doc is available. This module is useless.
     raise ImportError("Failed to import Rhino scriptcontext.\n{}".format(e))
-
-try:
-    import System
-except ImportError:
-    raise ImportError("Failed to import System.\n{}".format(e))
 
 from .text import TextGoo
 
