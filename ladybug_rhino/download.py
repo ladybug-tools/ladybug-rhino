@@ -4,7 +4,7 @@ import os
 try:
     from ladybug.futil import preparedir
 except ImportError as e:
-    print("Failed to import ladybug.\n{}".format(e))
+    raise ImportError("Failed to import ladybug.\n{}".format(e))
 
 try:
     import System.Net

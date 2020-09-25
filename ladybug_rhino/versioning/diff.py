@@ -4,7 +4,7 @@ import os
 try:
     import System.Drawing
 except ImportError:
-    print("Failed to import System.")
+    raise ImportError("Failed to import System.")
 
 try:
     import Grasshopper.Kernel as gh

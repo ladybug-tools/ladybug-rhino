@@ -7,8 +7,7 @@ from .text import AlignmentTypes
 try:
     import Rhino as rh
 except ImportError as e:
-    raise ImportError(
-        "Failed to import Rhino.\n{}".format(e))
+    raise ImportError("Failed to import Rhino.\n{}".format(e))
 
 
 def add_text_to_scene(text, plane, height, font='Arial',

@@ -8,8 +8,7 @@ try:
     import Rhino.DocObjects as docobj
     doc = rhdoc.ActiveDoc
 except ImportError as e:
-    raise ImportError(
-        "Failed to import Rhino document attributes.\n{}".format(e))
+    raise ImportError("Failed to import Rhino document attributes.\n{}".format(e))
 
 
 """____________ADD GEOMETRY TO THE RHINO SCENE____________"""

@@ -2,11 +2,15 @@
 from .color import black
 
 try:
-    import Rhino as rh
     import System.Guid as guid
 except ImportError as e:
-    raise ImportError(
-        "Failed to import Rhino.\n{}".format(e))
+    raise ImportError("Failed to import System.\n{}".format(e))
+
+try:
+    import Rhino as rh
+except ImportError as e:
+    raise ImportError( "Failed to import Rhino.\n{}".format(e))
+
 try:
     import Grasshopper as gh
 except ImportError:
