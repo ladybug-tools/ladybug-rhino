@@ -5,8 +5,7 @@ from .color import color_to_color, gray
 try:
     import Rhino.Geometry as rg
 except ImportError as e:
-    raise ImportError(
-        "Failed to import Rhino Geometry.\n{}".format(e))
+    raise ImportError("Failed to import Rhino Geometry.\n{}".format(e))
 
 
 """____________2D GEOMETRY TRANSLATORS____________"""

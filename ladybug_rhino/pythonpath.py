@@ -4,7 +4,10 @@ import io
 import xml.etree.ElementTree
 import plistlib
 
-from ladybug.futil import nukedir, copy_file_tree
+try:
+    from ladybug.futil import nukedir, copy_file_tree
+except ImportError as e:
+    raise ImportError("Failed to import ladybug.\n{}".format(e))
 
 
 # core library packages, which get copied or cleaned out of the Rhino scripts folder

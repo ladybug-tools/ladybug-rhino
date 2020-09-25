@@ -5,8 +5,8 @@ try:
     from ladybug_geometry.geometry3d.pointvector import Point3D
     from ladybug_geometry.geometry3d.face import Face3D
 except ImportError as e:
-    raise ImportError(
-        "Failed to import ladybug_geometry.\n{}".format(e))
+    raise ImportError("Failed to import ladybug_geometry.\n{}".format(e))
+
 try:
     import Rhino.Geometry as rg
 except ImportError as e:

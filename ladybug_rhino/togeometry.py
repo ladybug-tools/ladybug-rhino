@@ -16,12 +16,14 @@ try:
 except ImportError as e:
     raise ImportError(
         "Failed to import ladybug_geometry.\n{}".format(e))
+
 try:
     import ladybug.color as lbc
 except ImportError as e:
     raise ImportError("Failed to import ladybug.\n{}".format(e))
 try:
     import Rhino.Geometry as rg
+
 except ImportError as e:
     raise ImportError("Failed to import Rhino.\n{}".format(e))
 

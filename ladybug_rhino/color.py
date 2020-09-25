@@ -3,7 +3,7 @@
 try:
     from System.Drawing import Color
 except ImportError as e:
-    print("Failed to import Windows/.NET libraries\n{}".format(e))
+    raise ImportError("Failed to import Windows/.NET libraries\n{}".format(e))
 
 
 def color_to_color(color, alpha=255):
