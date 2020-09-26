@@ -29,7 +29,7 @@ def create_python_package_dir():
     home_folder = os.getenv('HOME') or os.path.expanduser('~')
     py_install = os.path.join(home_folder, 'ladybug_tools', 'python')
     py_path = os.path.join(py_install, 'Lib', 'site-packages') if os.name == 'nt' \
-        else os.path.join(py_install, 'lib', 'python3.8', 'site-packages')
+        else os.path.join(py_install, 'lib', 'python3.7', 'site-packages')
     if not os.path.isdir(py_path):
         return os.makedirs(py_path)
     return py_path
