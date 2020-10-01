@@ -19,6 +19,7 @@ def export_component(folder, component, change_type='fix'):
     * A .ghuser into the user_objects subfolder
     * A .py file into the src subfolder
     * A .json into the json subfolder
+    # A .png into the icon subfolder
 
     Args:
         folder: Path to a folder into which the component files will be exported.
@@ -37,14 +38,16 @@ def export_component(folder, component, change_type='fix'):
     uo_folder = os.path.join(folder, 'user_objects')
     src_folder = os.path.join(folder, 'src')
     json_folder = os.path.join(folder, 'json')
-    for f in (folder, uo_folder, src_folder, json_folder):
+    icon_folder = os.path.join(folder, 'icon')
+    for f in (folder, uo_folder, src_folder, json_folder, icon_folder):
         if not os.path.isdir(f):
             os.mkdir(f)
 
     # get the paths to the where the files will be written
     uo_fp = os.path.join(uo_folder, '%s.ghuser' % uo.Description.Name)
     src_fp = os.path.join(src_folder, '%s.py' % uo.Description.Name)
-    json_fp = os.path.join(src_folder, '%s.json' % uo.Description.Name)
+    json_fp = os.path.join(json_folder, '%s.json' % uo.Description.Name)
+    icon_fp = os.path.join(icon_folder, '%s.png' % uo.Description.Name)
 
     # export the userobject to the user_objects subfolder
     if os.path.isfile(uo_fp):
@@ -65,7 +68,11 @@ def export_component(folder, component, change_type='fix'):
     component_obj = Component.from_gh_component(component)
     component_obj.to_json(json_folder)
 
-    print('    UserObject, source code, and JSON are copied to folder.')
+    # export the icon file
+    icon = component.Icon_24x24
+    icon.Save(icon_fp)
+
+    print('    UserObject, source code, icon and JSON are copied to folder.')
 
 
 def refresh_toolbar():
