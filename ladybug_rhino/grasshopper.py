@@ -7,6 +7,11 @@ except ImportError:
     print("Failed to import System.")
 
 try:
+    import scriptcontext
+except ImportError as e:  # No Rhino doc is available.
+    print('Failed to import Rhino scriptcontext. Document counters will be unavailable.')
+
+try:
     from Grasshopper.Kernel import GH_RuntimeMessageLevel as Message
     from Grasshopper.Kernel.Types import GH_ObjectWrapper as Goo
     from Grasshopper import DataTree
@@ -140,6 +145,19 @@ def de_objectify_output(objectified_data):
             method for which data will be returned.
     """
     return objectified_data.data
+
+
+def document_counter(counter_name):
+    """Get an integer for a counter name that advances each time this function is called.
+
+    Args:
+        counter_name: The name of the counter that will be advanced.
+    """
+    try:  # get the counter and advance it one value
+        scriptcontext.sticky[counter_name] += 1
+    except KeyError:  # first time that the counter is called
+        scriptcontext.sticky[counter_name] = 1
+    return scriptcontext.sticky[counter_name]
 
 
 def longest_list(values, index):

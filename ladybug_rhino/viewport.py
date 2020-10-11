@@ -13,7 +13,7 @@ try:
 except ImportError as e:  # No RhinoCommon doc is available. This module is useless.
     raise ImportError("Failed to import Rhino.\n{}".format(e))
 
-try:  # Try to import tolerance from the active Rhino document
+try:
     import scriptcontext as sc
 except ImportError as e:  # No Rhino doc is available. This module is useless.
     raise ImportError("Failed to import Rhino scriptcontext.\n{}".format(e))
