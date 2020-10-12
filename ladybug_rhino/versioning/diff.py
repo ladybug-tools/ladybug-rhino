@@ -125,43 +125,42 @@ def has_version_changed(user_object, component):
     return not user_object.Message == component.Message
 
 
-def compare_port(p1, p2):
-    """Compare two component port objects and return True if they are equal.
+def update_port(p1, p2):
+    """Update one port based on another.
 
     Args:
-        p1: The first port object.
-        p2: The second port object.
+        p1: The first port object, which is the one used for updating.
+        p2: The second port object, which will be updated base on p1.
     """
-    if hasattr(p1, 'TypeHint'):
+    if hasattr(p1, 'TypeHint'):  # input
         if p1.Name != p2.Name:
-            return False
-        elif p1.TypeHint.TypeName != p2.TypeHint.TypeName:
-            return False
-        elif str(p1.Access) != str(p2.Access):
-            return False
-        else:
-            return True
-    else:
-        # output
+            p2.NickName = p1.NickName
+            p2.Name = p1.Name
+        if p1.TypeHint.TypeName != p2.TypeHint.TypeName:
+            p2.TypeHint = p1.TypeHint
+        if str(p1.Access) != str(p2.Access):
+            p2.Access = p1.Access
+        return True
+    else:  # output
         if p1.Name != p2.Name:
-            return False
-        else:
-            return True
+            p2.NickName = p1.NickName
+            p2.Name = p1.Name
+        return True
 
 
-def compare_ports(c1, c2):
-    """Compare all of the ports of two components and return True if they are equal.
+def update_ports(c1, c2):
+    """Update all of the ports of one component based on another.
 
     Args:
-        c1: The first component object.
-        c2: The second component object.
+        c1: The first component object, which is the one used for updating.
+        c2: The second component object, which will be updated base on c1.
     """
     for i in range(c1.Params.Input.Count):
-        if not compare_port(c1.Params.Input[i], c2.Params.Input[i]):
+        if not update_port(c1.Params.Input[i], c2.Params.Input[i]):
             return True
 
     for i in range(c1.Params.Output.Count):
-        if not compare_port(c1.Params.Output[i], c2.Params.Output[i]):
+        if not update_port(c1.Params.Output[i], c2.Params.Output[i]):
             return True
 
     return False
@@ -180,7 +179,7 @@ def input_output_changed(user_object, component):
     elif user_object.Params.Output.Count != component.Params.Output.Count:
         return True
 
-    return compare_ports(user_object, component)
+    return update_ports(user_object, component)
 
 
 def insert_new_user_object(user_object, component, doc):
@@ -238,10 +237,10 @@ def sync_component(component, syncing_component):
     """
     # identify the correct user object sub-folder to which the component belongs
     ghuser_file = '%s.ghuser' % component.Name
-    if str(component.Name).startswith(('LB', 'HB', 'DF')):  # [+]
+    if str(component.Name).startswith(('LB', 'HB', 'DF')):
         fp = os.path.join(UO_FOLDER, FOLDER_MAP[component.Category],
                           'user_objects', ghuser_file)
-    elif str(component.Name).startswith(('Ladybug', 'Honeybee', 'HoneybeePlus')):  # legacy
+    elif str(component.Name).startswith(('Ladybug', 'Honeybee', 'HoneybeePlus')):
         category = str(component.Name).split('_')[0]
         fp = os.path.join(UO_FOLDER, category, ghuser_file)
     else:  # unidentified plugin; see if we can find it in the root
