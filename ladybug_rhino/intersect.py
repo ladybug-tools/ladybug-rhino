@@ -119,8 +119,8 @@ def intersect_mesh_rays(mesh, points, vectors, normals=None, parallel=False):
     return intersection_matrix, angle_matrix
 
 
-def intersect_mesh_lines(mesh, start_points, end_points, parallel=False):
-    """Intersect a group of lines (represented by end points) with a mesh.
+def intersect_mesh_lines(mesh, start_points, end_points, max_dist=None, parallel=False):
+    """Intersect a group of lines (represented by start + end points) with a mesh.
 
     All combinations of lines that are possible between the input start_points and
     end_points will be intersected. This method exists since most CAD plugins have
@@ -132,6 +132,10 @@ def intersect_mesh_lines(mesh, start_points, end_points, parallel=False):
         mesh: A Rhino mesh that can block the lines.
         start_points: An array of Rhino points that will be used to generate lines.
         end_points: An array of Rhino points that will be used to generate lines.
+        max_dist: An optional number to set the maximum distance beyond which the
+            end_points are no longer considered visible by the start_points.
+            If None, points with an unobstructed view to one another will be
+            considered visible no matter how far they are from one another.
         parallel: Boolean to indicate if the intersection should be run in
             parallel with one point per CPU. (Default: False).
 
@@ -143,8 +147,8 @@ def intersect_mesh_lines(mesh, start_points, end_points, parallel=False):
     """
     int_matrix = [0] * len(start_points)  # matrix to be filled with results
 
-    def intersect_start_point(i):
-        """Intersect all of the vectors of a given point without any normal check."""
+    def intersect_line(i):
+        """Intersect a line defined by a start and an end with the mesh."""
         pt = start_points[i]
         int_list = []
         for ept in end_points:
@@ -153,11 +157,32 @@ def intersect_mesh_lines(mesh, start_points, end_points, parallel=False):
             int_list.append(is_clear)
         int_matrix[i] = int_list
 
-    if parallel:
-        tasks.Parallel.ForEach(range(len(start_points)), intersect_start_point)
+    def intersect_line_dist_check(i):
+        """Intersect a line with the mesh with a distance check."""
+        pt = start_points[i]
+        int_list = []
+        for ept in end_points:
+            lin = rg.Line(pt, ept)
+            if lin.Length > max_dist:
+                int_list.append(0)
+            else:
+                is_clear = 1 if rg.Intersect.Intersection.MeshLine(mesh, lin)[1] \
+                    is None else 0
+                int_list.append(is_clear)
+        int_matrix[i] = int_list
+
+    if max_dist is not None:
+        if parallel:
+            tasks.Parallel.ForEach(range(len(start_points)), intersect_line_dist_check)
+        else:
+            for i in range(len(start_points)):
+                intersect_line_dist_check(i)
     else:
-        for i in range(len(start_points)):
-            intersect_start_point(i)
+        if parallel:
+            tasks.Parallel.ForEach(range(len(start_points)), intersect_line)
+        else:
+            for i in range(len(start_points)):
+                intersect_line(i)
     return int_matrix
 
 
