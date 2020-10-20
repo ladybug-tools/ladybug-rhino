@@ -10,6 +10,7 @@ try:
     import Rhino.Geometry as rg
     import Rhino.Display as rd
     import Rhino.RhinoDoc as rhdoc
+    import Rhino.ApplicationSettings.AppearanceSettings as aps
 except ImportError as e:  # No RhinoCommon doc is available. This module is useless.
     raise ImportError("Failed to import Rhino.\n{}".format(e))
 
@@ -137,6 +138,54 @@ def set_iso_view_direction(viewport, direction, center_point=None):
     viewport.SetCameraLocation(rg.Point3d.Add(center_point, direction), False)
     viewport.SetCameraTarget(center_point, False)
     viewport.SetCameraDirection(direction, False)
+
+
+def capture_view(viewport, file_path, width=None, height=None, display_mode=None,
+                 transparent=False):
+    """Capture a Viewport to a PNG file path.
+
+    Args:
+        viewport: A Rhino ViewPort object, which will have its display mode set.
+        file_path: Full path to the file where the image will be saved.
+        width: Integer for the image width in pixels. If None, the width of the
+            active viewport will be used. (Default: None).
+        height: Integer for the image height in pixels. If None, the height of the
+            active viewport will be used. (Default: None).
+        display_mode: Text for the display mode to which the Rhino viewport will be
+            set. For example: Wireframe, Shaded, Rendered, etc. If None, it will
+            be the current viewport's display mode. (Default: None).
+        transparent: Boolean to note whether the background of the image should be
+            transparent or have the same color as the Rhino scene. (Default: False).
+    
+    Returns:
+        Full path to the image file that was written.
+    """
+    # create the view capture object
+    active_viewp = viewport_by_name()
+    img_w = active_viewp.Size.Width if width is None else width
+    img_h = active_viewp.Size.Height if height is None else height
+    img_size = System.Drawing.Size(img_w, img_h)
+
+    # capture the view
+    if display_mode is not None:
+        mode_obj = rd.DisplayModeDescription.FindByName(display_mode)
+        pic = viewport.ParentView.CaptureToBitmap(img_size, mode_obj)
+    else:
+        pic = viewport.ParentView.CaptureToBitmap(img_size)
+
+    # remove the background color if requested
+    if transparent:
+        back_col = aps.ViewportBackgroundColor
+        if (display_mode is None and viewport.DisplayMode.EnglishName == 'Rendered') \
+                or display_mode == 'Rendered':
+            back_col = sc.doc.Views.Document.RenderSettings.BackgroundColorTop
+        pic.MakeTransparent(back_col)
+
+    # save the bitmap to a png file
+    if not file_path.endswith('.png'):
+        file_path = '{}.png'.format(file_path)
+    System.Drawing.Bitmap.Save(pic, file_path)
+    return file_path
 
 
 def viewport_vh_vv(viewport, view_type):

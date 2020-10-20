@@ -16,6 +16,7 @@ try:
     from Grasshopper.Kernel.Types import GH_ObjectWrapper as Goo
     from Grasshopper import DataTree
     from Grasshopper.Kernel.Data import GH_Path as Path
+    from Grasshopper import Instances
 except ImportError:
     raise ImportError("Failed to import Grasshopper.")
 
@@ -86,6 +87,38 @@ def component_guid(component):
         Text string for the component's unique ID.
     """
     return component.GetHashCode().ToString()
+
+
+def bring_to_front(component):
+    """Bring a component to the front of the canvas so that it is always executed last.
+
+    Args:
+        component: The grasshopper component object, which can be accessed through
+            the ghenv.Component call within Grasshopper API.
+    """
+    doc = Instances.ActiveCanvas.Document.Objects
+    in_front = doc[doc.Count - 1].InstanceGuid.Equals(component.InstanceGuid)
+    if not in_front:  # bring the component to the top
+        component.OnPingDocument().DeselectAll()  # de-select all components
+        component.Attributes.Selected = True  # select the component to move
+        component.OnPingDocument().BringSelectionToTop()
+        component.Attributes.Selected = False  # de-select the component after moving
+
+
+def send_to_back(component):
+    """Send a component to the back of the canvas so that it is always executed first.
+
+    Args:
+        component: The grasshopper component object, which can be accessed through
+            the ghenv.Component call within Grasshopper API.
+    """
+    doc = Instances.ActiveCanvas.Document.Objects
+    in_back = doc[0].InstanceGuid.Equals(component.InstanceGuid)
+    if not in_back:  # send the component to the back
+        component.OnPingDocument().SelectAll()  # select all components
+        component.Attributes.Selected = False  # de-select the component to move
+        component.OnPingDocument().BringSelectionToTop()
+        component.OnPingDocument().DeselectAll()  # de-select all after moving
 
 
 def wrap_output(output):
