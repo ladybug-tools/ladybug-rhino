@@ -130,10 +130,10 @@ def to_face3d(geo, meshing_parameters=None):
                     if not success:  # Failed to get a polyline; there's a curved edge
                         loop_verts = _planar.planar_face_curved_edge_vertices(
                             b_face, count, meshing_parameters)
-                        all_verts.append(loop_verts)
                     else:  # we have a polyline representing the loop
-                        all_verts.append([to_point3d(loop_pline.Item[i])
-                                          for i in range(loop_pline.Count - 1)])
+                        loop_verts = tuple(to_point3d(loop_pline.Item[i])
+                                           for i in range(loop_pline.Count - 1))
+                    all_verts.append(_remove_dup_verts(loop_verts))
                 if len(all_verts) == 1:  # No holes in the shape
                     faces.append(Face3D(all_verts[0]))
                 else:  # There's at least one hole in the shape
@@ -148,13 +148,15 @@ def to_polyface3d(geo, meshing_parameters=None):
     """A Ladybug Polyface3D object from a Rhino Brep.
 
     Args:
-        geo: A Rhino Brep, Surface ro Mesh that will be converted into a single
+        geo: A Rhino Brep, Surface or Mesh that will be converted into a single
             Ladybug Polyface3D.
         meshing_parameters: Optional Rhino Meshing Parameters to describe how
             curved faces should be converted into planar elements. If None,
             Rhino's Default Meshing Parameters will be used.
     """
     mesh_par = meshing_parameters or rg.MeshingParameters.Default  # default
+    if not isinstance(geo, rg.Mesh) and _planar.has_curved_face(geo):  # keep solidity
+        return Polyface3D.from_faces(_planar.curved_solid_faces(geo, mesh_par), tolerance)
     return Polyface3D.from_faces(to_face3d(geo, mesh_par), tolerance)
 
 
@@ -248,3 +250,9 @@ def _extract_mesh_faces_colors(mesh, color_by_face):
             for col in mesh.VertexColors:
                 colors.append(lbc.Color(col.R, col.G, col.B))
     return lb_faces, colors
+
+
+def _remove_dup_verts(vertices):
+    """Remove vertices from an array of Point3Ds that are equal within the tolerance."""
+    return [pt for i, pt in enumerate(vertices)
+            if not pt.is_equivalent(vertices[i - 1], tolerance)]

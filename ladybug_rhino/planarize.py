@@ -93,14 +93,16 @@ def curved_solid_faces(brep, meshing_parameters):
 
     Args:
         brep: A curved solid brep.
-        meshing_parameters: Rhino Meshing Parameters to describe how
-            curved edge should be converted into planar elements.
+        meshing_parameters: Rhino Meshing Parameters to describe how curved surfaces
+            should be converted into planar elements. If None, Rhino's Default
+            Meshing Parameters will be used.
 
     Returns:
         A list of ladybug Face3D objects that together approximate the input brep.
     """
     # mesh the geometry as a solid
-    meshed_geo = rg.Mesh.CreateFromBrep(brep, meshing_parameters)
+    mesh_par = meshing_parameters or rg.MeshingParameters.Default  # default
+    meshed_geo = rg.Mesh.CreateFromBrep(brep, mesh_par)
 
     # evaluate each mesh face to see what larger brep face it is a part of
     faces = []
