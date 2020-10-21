@@ -151,16 +151,26 @@ def from_polyface3d_to_wireframe(polyface):
 
 
 def from_face3d_to_solid(face, offset):
-    """Rhino Solid Brep from a ladybug Face3D and an offset."""
+    """Rhino Solid Brep from a ladybug Face3D and an offset from the base face.
+    
+    Args:
+        face: Ladybug geometry Face3D object.
+        offset: Number for the offset distance from the base face.
+    """
     srf_brep = from_face3d(face)
     return rg.Brep.CreateFromOffsetFace(
         srf_brep.Faces[0], offset, tolerance, False, True)
 
 
+def from_face3ds_to_joined_brep(faces):
+    """A list of joined Breps from an array of ladybug Face3D."""
+    return rg.Brep.JoinBreps([from_face3d(face) for face in faces], tolerance)
+
+
 def from_face3ds_to_colored_mesh(faces, color):
     """Colored Rhino mesh from an array of ladybug Face3D and ladybug Color.
 
-    This is used in workflows such as coloring Model geomtry with results.
+    This is used in workflows such as coloring Model geometry with results.
     """
     joined_mesh = rg.Mesh()
     for face in faces:
