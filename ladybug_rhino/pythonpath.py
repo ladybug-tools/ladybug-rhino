@@ -83,8 +83,12 @@ def find_installed_settings_windows():
                     ip_path = os.path.join(plugin_folder, plugin)
                     break
             if ip_path is not None:
-                sf = os.path.join(ip_path, 'settings', 'settings-Scheme__Default.xml')
-                installed_set_files.append(sf)
+                settings_path = os.path.join(ip_path, 'settings')
+                if os.path.isdir(settings_path):
+                    for set_file in os.listdir(settings_path):
+                        if set_file.startswith('settings-Scheme'):
+                            sf = os.path.join(settings_path, set_file)
+                            installed_set_files.append(sf)
     return installed_set_files
 
 
