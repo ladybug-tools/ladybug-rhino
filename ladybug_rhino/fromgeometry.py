@@ -78,7 +78,7 @@ def from_point3d(point):
     return rg.Point3d(point.x, point.y, point.z)
 
 
-def from_ray3d(ray, z=0):
+def from_ray3d(ray):
     """Rhino Ray3d from ladybug Ray3D."""
     return rg.Ray3d(from_point3d(ray.p), from_vector3d(ray.v))
 
@@ -120,7 +120,7 @@ def from_mesh3d(mesh):
 def from_face3d(face):
     """Rhino Brep from ladybug Face3D."""
     segs = [from_linesegment3d(seg) for seg in face.boundary_segments]
-    brep = rg.Brep.	CreatePlanarBreps(segs, tolerance)[0]
+    brep = rg.Brep.CreatePlanarBreps(segs, tolerance)[0]
     if face.has_holes:
         for hole in face.hole_segments:
             trim_crvs = [from_linesegment3d(seg) for seg in hole]
