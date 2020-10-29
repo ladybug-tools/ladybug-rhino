@@ -137,8 +137,7 @@ def to_face3d(geo, meshing_parameters=None):
                 if len(all_verts) == 1:  # No holes in the shape
                     faces.append(Face3D(all_verts[0]))
                 else:  # There's at least one hole in the shape
-                    faces.append(
-                        Face3D(boundary=all_verts[0], holes=all_verts[1:]))
+                    faces.append(Face3D(boundary=all_verts[0], holes=all_verts[1:]))
             else:  # curved face must be meshed into planar Face3D objects
                 faces.extend(_planar.curved_surface_faces(b_face, meshing_parameters))
     return faces
