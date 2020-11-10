@@ -141,17 +141,15 @@ def from_polyface3d(polyface):
 
 def from_face3d_to_wireframe(face):
     """Rhino PolyLineCurve from ladybug Face3D."""
-    if face.has_holes == True:
+    if face.has_holes:
         hole_curves = [rg.PolylineCurve(
             [from_point3d(pt) for pt in tup] + [from_point3d(tup[0])]) for tup in face.holes]
         boundary_curve = [rg.PolylineCurve(
             [from_point3d(pt) for pt in face.boundary] + [from_point3d(face.boundary[0])])]
-        curves = boundary_curve + hole_curves
-        return curves
+        return boundary_curve + hole_curves
     else:
-        boundary_curve = [rg.PolylineCurve(
+        return [rg.PolylineCurve(
             [from_point3d(pt) for pt in face.boundary] + [from_point3d(face.boundary[0])])]
-        return boundary_curve
 
 
 def from_polyface3d_to_wireframe(polyface):
