@@ -140,7 +140,18 @@ def from_polyface3d(polyface):
 
 
 def from_face3d_to_wireframe(face):
-    """Rhino PolyLineCurve from ladybug Face3D."""
+    """Rhino PolyLineCurves from ladybug Face3D.
+
+    This method provides curves for the boundary and the holes in a face.
+
+    Args:
+        face (Ladybug Face3D): A Ladybug Face3D object
+
+    Returns:
+        (A list): A list of Rhino polyline curves for the boundary and holes 
+            in the face.
+    """
+
     if face.has_holes:
         hole_curves = [rg.PolylineCurve(
             [from_point3d(pt) for pt in tup] + [from_point3d(tup[0])]) for tup in face.holes]
