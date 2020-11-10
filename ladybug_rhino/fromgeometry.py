@@ -141,8 +141,18 @@ def from_polyface3d(polyface):
 
 def from_face3d_to_wireframe(face):
     """Rhino PolyLineCurve from ladybug Face3D."""
-    return rg.PolylineCurve(
-        [from_point3d(pt) for pt in face.boundary] + [from_point3d(face.boundary[0])])
+    if face.has_holes == True:
+        hole_curves = [rg.PolylineCurve(
+            [from_point3d(pt) for pt in tup] + [from_point3d(tup[0])]) for tup in face.holes]
+        boundary_curve = [rg.PolylineCurve(
+            [from_point3d(pt) for pt in face.boundary] + [from_point3d(face.boundary[0])])]
+        curves = boundary_curve + hole_curves
+        print(curves)
+        return curves
+    else:
+        boundary_curve = [rg.PolylineCurve(
+            [from_point3d(pt) for pt in face.boundary] + [from_point3d(face.boundary[0])])]
+        return boundary_curve
 
 
 def from_polyface3d_to_wireframe(polyface):
@@ -152,7 +162,7 @@ def from_polyface3d_to_wireframe(polyface):
 
 def from_face3d_to_solid(face, offset):
     """Rhino Solid Brep from a ladybug Face3D and an offset from the base face.
-    
+
     Args:
         face: Ladybug geometry Face3D object.
         offset: Number for the offset distance from the base face.
@@ -195,7 +205,8 @@ def _translate_mesh(mesh, pt_function):
             for pt in tuple(mesh[i] for i in face):
                 rhino_mesh.Vertices.Add(pt_function(pt))
             if len(face) == 4:
-                rhino_mesh.Faces.AddFace(_f_num, _f_num + 1, _f_num + 2, _f_num + 3)
+                rhino_mesh.Faces.AddFace(
+                    _f_num, _f_num + 1, _f_num + 2, _f_num + 3)
                 _f_num += 4
             else:
                 rhino_mesh.Faces.AddFace(_f_num, _f_num + 1, _f_num + 2)
