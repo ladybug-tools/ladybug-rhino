@@ -147,7 +147,6 @@ def from_face3d_to_wireframe(face):
         boundary_curve = [rg.PolylineCurve(
             [from_point3d(pt) for pt in face.boundary] + [from_point3d(face.boundary[0])])]
         curves = boundary_curve + hole_curves
-        print(curves)
         return curves
     else:
         boundary_curve = [rg.PolylineCurve(
