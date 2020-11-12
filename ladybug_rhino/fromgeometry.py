@@ -142,25 +142,16 @@ def from_polyface3d(polyface):
 def from_face3d_to_wireframe(face):
     """Rhino PolyLineCurves from ladybug Face3D.
 
-    This method provides curves for the boundary and the holes in a face.
-
     Args:
-        face (Ladybug Face3D): A Ladybug Face3D object
+        face: A Ladybug Face3D object to be translated to a wireframe.
 
     Returns:
-        (A list): A list of Rhino polyline curves for the boundary and holes 
-            in the face.
+        A list of Rhino polyline curves for the boundary and holes in the face.
     """
-
+    boundary = [_polyline_points(face.boundary)]
     if face.has_holes:
-        hole_curves = [rg.PolylineCurve(
-            [from_point3d(pt) for pt in tup] + [from_point3d(tup[0])]) for tup in face.holes]
-        boundary_curve = [rg.PolylineCurve(
-            [from_point3d(pt) for pt in face.boundary] + [from_point3d(face.boundary[0])])]
-        return boundary_curve + hole_curves
-    else:
-        return [rg.PolylineCurve(
-            [from_point3d(pt) for pt in face.boundary] + [from_point3d(face.boundary[0])])]
+        return boundary + [_polyline_points(tup) for tup in face.holes]
+    return boundary
 
 
 def from_polyface3d_to_wireframe(polyface):
@@ -242,3 +233,8 @@ def _translate_mesh(mesh, pt_function):
             for i, col in enumerate(mesh.colors):
                 rhino_mesh.VertexColors[i] = color_to_color(col)
     return rhino_mesh
+
+
+def _polyline_points(tup):
+    """Convert a tuple of Ladybug Geometry points to a Rhino Polyline."""
+    return rg.PolylineCurve([from_point3d(pt) for pt in tup] + [from_point3d(tup[0])])
