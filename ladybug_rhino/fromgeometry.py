@@ -156,7 +156,8 @@ def from_face3d_to_wireframe(face):
 
 def from_polyface3d_to_wireframe(polyface):
     """Rhino PolyLineCurve from ladybug Polyface3D."""
-    return [from_face3d_to_wireframe(face) for face in polyface.faces]
+    return [from_face3d_to_wireframe(face) for face_list in polyface.faces
+            for face in face_list]
 
 
 def from_face3d_to_solid(face, offset):
