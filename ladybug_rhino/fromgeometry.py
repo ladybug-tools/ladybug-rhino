@@ -5,7 +5,12 @@ from .color import color_to_color, gray
 try:
     import Rhino.Geometry as rg
 except ImportError as e:
-    raise ImportError("Failed to import Rhino Geometry.\n{}".format(e))
+    raise ImportError('Failed to import Rhino Geometry.\n{}'.format(e))
+
+try:
+    from ladybug_geometry.geometry2d.line import LineSegment2D
+except ImportError as e:
+    raise ImportError('Failed to import ladybug_geometry.\n{}'.format(e))
 
 
 """____________2D GEOMETRY TRANSLATORS____________"""
@@ -137,6 +142,51 @@ def from_polyface3d(polyface):
 
 
 """________ADDITIONAL 3D GEOMETRY TRANSLATORS________"""
+
+
+def from_polyline2d_to_joined_polyline(polylines, z=0):
+    """Rhino PolylineCurve made by joining list of Polyline2D.
+
+    Args:
+        polylines: An array of Ladybug Polyline2D or LineSegment2D to be joined
+            into a polyline.
+        z: A number for the Z-coordinate. (Default: 0).
+
+    Returns:
+        A Rhino brep constructed from the polygon and the offset distance. If offset
+        is unsuccessful, just the polyline will be returned.
+    """
+    line_crv = []
+    for pl in polylines:
+        if isinstance(pl, LineSegment2D):
+            line_crv.append(from_linesegment2d(pl))
+        else:
+            line_crv.append(from_polyline2d(pl))
+    return rg.Curve.JoinCurves(line_crv)[0]
+
+
+def from_polyline2d_to_offset_brep(polylines, offset, z=0):
+    """Rhino Brep made by offsetting a joined list of Polyline2D inward.
+
+    Args:
+        polylines: An array of Ladybug Polyline2D or LineSegment2D to be joined
+            and translated to an offset Brep.
+        offset: A number for the distance to offset the Polygon inward.
+        z: A number for the Z-coordinate. (Default: 0).
+
+    Returns:
+        A Rhino brep constructed from the polygon and the offset distance. If offset
+        is unsuccessful, just the polyline will be returned.
+    """
+    curve = from_polyline2d_to_joined_polyline(polylines, z)
+    crv_style = rg.CurveOffsetCornerStyle.Sharp
+    all_curves = [curve]
+    all_curves.extend(curve.Offset(rg.Plane.WorldXY, -offset, tolerance, crv_style))
+    offset_brep = rg.Brep.CreatePlanarBreps(all_curves)
+    if len(offset_brep) == 1:
+        if offset_brep[0].Loops.Count == 2:
+            return offset_brep[0]
+    return curve
 
 
 def from_face3d_to_wireframe(face):
