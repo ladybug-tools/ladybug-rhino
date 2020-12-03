@@ -181,11 +181,13 @@ def from_polyline2d_to_offset_brep(polylines, offset, z=0):
     curve = from_polyline2d_to_joined_polyline(polylines, z)
     crv_style = rg.CurveOffsetCornerStyle.Sharp
     all_curves = [curve]
-    all_curves.extend(curve.Offset(rg.Plane.WorldXY, -offset, tolerance, crv_style))
-    offset_brep = rg.Brep.CreatePlanarBreps(all_curves)
-    if len(offset_brep) == 1:
-        if offset_brep[0].Loops.Count == 2:
-            return offset_brep[0]
+    off_curves = curve.Offset(rg.Plane.WorldXY, -offset, tolerance, crv_style)
+    if off_curves is not None:
+        all_curves.extend(off_curves)
+        offset_brep = rg.Brep.CreatePlanarBreps(all_curves)
+        if len(offset_brep) == 1:
+            if offset_brep[0].Loops.Count == 2:
+                return offset_brep[0]
     return curve
 
 
