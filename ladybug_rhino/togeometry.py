@@ -118,7 +118,9 @@ def to_face3d(geo, meshing_parameters=None):
                 all_verts = (pts[face[0]], pts[face[1]], pts[face[2]], pts[face[3]])
             else:
                 all_verts = (pts[face[0]], pts[face[1]], pts[face[2]])
-            faces.append(Face3D(all_verts))
+            lb_face = Face3D(all_verts)
+            if lb_face.area != 0:
+                faces.append(Face3D(all_verts))
     else:  # convert each Brep Face to a Face3D
         meshing_parameters = meshing_parameters or rg.MeshingParameters.Default  # default
         for b_face in geo.Faces:
