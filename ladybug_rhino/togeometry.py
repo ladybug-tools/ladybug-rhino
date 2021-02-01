@@ -4,11 +4,13 @@ try:
     from ladybug_geometry.geometry2d.pointvector import Vector2D, Point2D
     from ladybug_geometry.geometry2d.ray import Ray2D
     from ladybug_geometry.geometry2d.line import LineSegment2D
+    from ladybug_geometry.geometry2d.polyline import Polyline2D
     from ladybug_geometry.geometry2d.polygon import Polygon2D
     from ladybug_geometry.geometry2d.mesh import Mesh2D
     from ladybug_geometry.geometry3d.pointvector import Vector3D, Point3D
     from ladybug_geometry.geometry3d.ray import Ray3D
     from ladybug_geometry.geometry3d.line import LineSegment3D
+    from ladybug_geometry.geometry3d.polyline import Polyline3D
     from ladybug_geometry.geometry3d.plane import Plane
     from ladybug_geometry.geometry3d.mesh import Mesh3D
     from ladybug_geometry.geometry3d.face import Face3D
@@ -55,6 +57,15 @@ def to_linesegment2d(line):
         to_point2d(line.PointAtStart), to_point2d(line.PointAtEnd))
 
 
+def to_polyline2d(polyline):
+    """Ladybug Polyline2D from a Rhino PolyLineCurve.
+
+    A LineSegment2D will be returned if the input polyline has only two points.
+    """
+    pts = [to_point2d(polyline.Point(i)) for i in range(polyline.PointCount)]
+    return Polyline2D(pts) if len(pts) != 2 else LineSegment2D.from_end_points(*pts)
+
+
 def to_polygon2d(polygon):
     """Ladybug Polygon2D from Rhino closed PolyLineCurve."""
     assert polygon.IsClosed, \
@@ -92,6 +103,15 @@ def to_linesegment3d(line):
     """Ladybug LineSegment3D from Rhino LineCurve."""
     return LineSegment3D(
         to_point3d(line.PointAtStart), to_point3d(line.PointAtEnd))
+
+
+def to_polyline3d(polyline):
+    """Ladybug Polyline3D from a Rhino PolyLineCurve.
+
+    A LineSegment3D will be returned if the input polyline has only two points.
+    """
+    pts = [to_point3d(polyline.Point(i)) for i in range(polyline.PointCount)]
+    return Polyline3D(pts) if len(pts) != 2 else LineSegment3D.from_end_points(*pts)
 
 
 def to_plane(pl):
