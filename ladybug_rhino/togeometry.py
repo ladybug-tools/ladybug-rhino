@@ -101,7 +101,7 @@ def to_ray3d(ray):
 
 def to_linesegment3d(line):
     """Ladybug LineSegment3D from Rhino LineCurve."""
-    return LineSegment3D(
+    return LineSegment3D.from_end_points(
         to_point3d(line.PointAtStart), to_point3d(line.PointAtEnd))
 
 
