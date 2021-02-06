@@ -18,6 +18,7 @@ except ImportError:
     )
 
 from ladybug_rhino.pythonpath import create_python_package_dir, iron_python_search_path
+from ladybug_rhino.ghpath import copy_components_packages
 
 import sys
 import logging
@@ -52,13 +53,37 @@ def set_python_search(python_package_dir, settings_file):
         if python_package_dir is None:
             python_package_dir = create_python_package_dir()
 
-        # validate the Model JSON
+        # set the search path
         click.echo('Setting Rhino IronPython search path ...')
         new_settings = iron_python_search_path(python_package_dir, settings_file)
         click.echo('Congratulations! Setting the search path in the following '
                    'file was successful:\n{}'.format('\n'.join(new_settings)))
     except Exception as e:
         _logger.exception('Setting IronPython search path failed.\n{}'.format(e))
+        sys.exit(1)
+    else:
+        sys.exit(0)
+
+
+@main.command('copy-gh-components')
+@click.argument('component-directory', type=click.Path(
+    exists=True, file_okay=False, dir_okay=True, resolve_path=True))
+def copy_gh_components(component_directory):
+    """Copy all component packages to the UserObjects and Libraries folder.
+
+    \b
+    Args:
+        component_directory: The path to a directory that contains all of the Ladybug
+            Tools Grasshopper python packages to be copied (both user object
+            packages and dotnet gha packages).
+    """
+    try:
+        # copy the grasshopper components
+        click.echo('Copying Grasshopper Components ...')
+        new_settings = copy_components_packages(component_directory)
+        click.echo('Congratulations! All component packages are copied!')
+    except Exception as e:
+        _logger.exception('Copying Grasshopper components failed.\n{}'.format(e))
         sys.exit(1)
     else:
         sys.exit(0)
