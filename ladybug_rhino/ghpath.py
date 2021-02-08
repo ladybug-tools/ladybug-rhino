@@ -64,7 +64,7 @@ def clean_userobjects():
     for pkg in PACKAGES:
         lib_folder = os.path.join(directory, pkg)
         if os.path.isdir(lib_folder):
-            nukedir(lib_folder)
+            nukedir(lib_folder, True)
 
 
 def find_grasshopper_libraries():
@@ -102,4 +102,4 @@ def clean_libraries():
     for pkg in DOTNET_PACKAGES:
         lib_folder = os.path.join(directory, pkg)
         if os.path.isdir(lib_folder):
-            nukedir(lib_folder)
+            nukedir(lib_folder, True)

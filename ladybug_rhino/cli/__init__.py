@@ -18,7 +18,8 @@ except ImportError:
     )
 
 from ladybug_rhino.pythonpath import create_python_package_dir, iron_python_search_path
-from ladybug_rhino.ghpath import copy_components_packages
+from ladybug_rhino.ghpath import copy_components_packages, \
+    clean_userobjects, clean_libraries
 
 import sys
 import logging
@@ -80,10 +81,26 @@ def copy_gh_components(component_directory):
     try:
         # copy the grasshopper components
         click.echo('Copying Grasshopper Components ...')
-        new_settings = copy_components_packages(component_directory)
+        copy_components_packages(component_directory)
         click.echo('Congratulations! All component packages are copied!')
     except Exception as e:
         _logger.exception('Copying Grasshopper components failed.\n{}'.format(e))
+        sys.exit(1)
+    else:
+        sys.exit(0)
+
+
+@main.command('remove-gh-components')
+def remove_gh_components():
+    """Remove all component packages to the UserObjects and Libraries folder."""
+    try:
+        # copy the grasshopper components
+        click.echo('Removing Grasshopper Components ...')
+        clean_userobjects()
+        clean_libraries()
+        click.echo('Congratulations! All component packages are removed!')
+    except Exception as e:
+        _logger.exception('Removing Grasshopper components failed.\n{}'.format(e))
         sys.exit(1)
     else:
         sys.exit(0)

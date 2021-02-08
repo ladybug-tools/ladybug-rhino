@@ -239,4 +239,4 @@ def clean_rhino_scripts(directory=None):
         for pkg in PACKAGES:
             lib_folder = os.path.join(fold, pkg)
             if os.path.isdir(lib_folder):
-                nukedir(lib_folder)
+                nukedir(lib_folder, True)
