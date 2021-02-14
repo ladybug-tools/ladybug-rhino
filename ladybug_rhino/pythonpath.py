@@ -14,7 +14,8 @@ PACKAGES = \
     ('ladybug_rhino', 'ladybug_geometry', 'ladybug_geometry_polyskel',
      'ladybug', 'ladybug_comfort', 'honeybee', 'honeybee_standards', 'honeybee_energy',
      'honeybee_radiance', 'honeybee_radiance_folder', 'honeybee_radiance_command',
-     'dragonfly', 'dragonfly_energy', 'dragonfly_radiance', 'dragonfly_uwg')
+     'dragonfly', 'dragonfly_energy', 'dragonfly_radiance', 'dragonfly_uwg',
+     'lbt_recipes', 'pollination_handlers')
 # Rhino versions that the plugins are compatible with
 RHINO_VERSIONS = ('6.0', '7.0')
 # UUID that McNeel uses to identify the IronPython plugin
