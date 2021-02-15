@@ -223,6 +223,7 @@ def copy_packages_to_rhino_scripts(python_package_dir, directory=None):
             dest_folder = os.path.join(fold, pkg)
             if os.path.isdir(lib_folder):
                 copy_file_tree(lib_folder, dest_folder, True)
+                print('Python packages copied to: {}'.format(dest_folder))
 
 
 def clean_rhino_scripts(directory=None):
@@ -241,3 +242,4 @@ def clean_rhino_scripts(directory=None):
             lib_folder = os.path.join(fold, pkg)
             if os.path.isdir(lib_folder):
                 nukedir(lib_folder, True)
+                print('Python packages removed from: {}'.format(lib_folder))
