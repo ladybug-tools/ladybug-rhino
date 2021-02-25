@@ -7,7 +7,7 @@ Sphinx==3.5.1
 sphinx-bootstrap-theme==0.7.1
 sphinxcontrib-fulltoc==1.2.0
 sphinxcontrib-websupport==1.2.4
-sphinx-click==2.5.0
+sphinx-click==2.6.0
 twine==3.3.0
 wheel==0.36.2
 setuptools==53.0.0
