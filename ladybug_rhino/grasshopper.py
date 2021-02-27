@@ -305,6 +305,17 @@ def unflatten_to_data_tree(all_data, pattern):
     return data_tree
 
 
+def recipe_result(result):
+    """Process a recipe result and handle the case that it's a list of list.
+
+    Args:
+        result: A recipe result to be processed.
+    """
+    if isinstance(result, (list, tuple)):
+        return list_to_data_tree(result)
+    return result
+
+
 def hide_output(component, output_index):
     """Hide one of the outputs of a component.
 
