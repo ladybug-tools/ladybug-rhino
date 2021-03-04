@@ -14,3 +14,4 @@ tox.ini
 .eggs
 honeybee.log*
 *.code-workspace
+.vs
