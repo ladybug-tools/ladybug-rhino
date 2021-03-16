@@ -154,7 +154,7 @@ def intersect_mesh_lines(mesh, start_points, end_points, max_dist=None, parallel
         for ept in end_points:
             lin = rg.Line(pt, ept)
             int_obj = rg.Intersect.Intersection.MeshLine(mesh, lin)
-            is_clear = 1 if len(int_obj) == 0 or int_obj[1] is None else 0
+            is_clear = 1 if None in int_obj or len(int_obj) == 0 else 0
             int_list.append(is_clear)
         int_matrix[i] = int_list
 
@@ -168,7 +168,7 @@ def intersect_mesh_lines(mesh, start_points, end_points, max_dist=None, parallel
                 int_list.append(0)
             else:
                 int_obj = rg.Intersect.Intersection.MeshLine(mesh, lin)
-                is_clear = 1 if len(int_obj) == 0 or int_obj[1] is None else 0
+                is_clear = 1 if None in int_obj or len(int_obj) == 0 else 0
                 int_list.append(is_clear)
         int_matrix[i] = int_list
 
