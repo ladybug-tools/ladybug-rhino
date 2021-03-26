@@ -125,7 +125,11 @@ def from_mesh3d(mesh):
 def from_face3d(face):
     """Rhino Brep from ladybug Face3D."""
     segs = [from_linesegment3d(seg) for seg in face.boundary_segments]
-    brep = rg.Brep.CreatePlanarBreps(segs, tolerance)[0]
+    try:
+        brep = rg.Brep.CreatePlanarBreps(segs, tolerance)[0]
+    except TypeError:  # not planar in Rhino model tolerance; maybe from another model
+        print('Brep not planar in Rhino model tolerance. Ignoring tolerance.')
+        brep = rg.Brep.CreatePlanarBreps(segs, 1e6)[0]
     if face.has_holes:
         for hole in face.hole_segments:
             trim_crvs = [from_linesegment3d(seg) for seg in hole]
