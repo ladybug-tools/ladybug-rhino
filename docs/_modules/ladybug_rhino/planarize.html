@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ladybug_rhino.planarize &#8212; ladybug-rhino  documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          ladybug-rhino</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/main.html">main</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/main.html#ladybug-rhino">ladybug-rhino</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-viz">viz</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-set-python-search">set-python-search</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-copy-gh-components">copy-gh-components</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-remove-gh-components">remove-gh-components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.cli.html">ladybug_rhino.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.cli.html#module-ladybug_rhino.cli">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.versioning.html">ladybug_rhino.versioning package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.versioning.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html">ladybug_rhino.versioning.component module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html">ladybug_rhino.versioning.diff module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html">ladybug_rhino.versioning.export module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html">ladybug_rhino.versioning.gather module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.release.html">ladybug_rhino.versioning.release module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.userobject.html">ladybug_rhino.versioning.userobject module</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.versioning.html#module-ladybug_rhino.versioning">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.intersect.html">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.planarize.html">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for ladybug_rhino.planarize</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions to convert curved Rhino geometries into planar ladybug ones.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">tolerance</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry3d.pointvector</span> <span class="kn">import</span> <span class="n">Point3D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry3d.face</span> <span class="kn">import</span> <span class="n">Face3D</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Failed to import ladybug_geometry.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">Rhino.Geometry</span> <span class="k">as</span> <span class="nn">rg</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+        <span class="s2">&quot;Failed to import Rhino.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>  <span class="c1"># python 3</span>
+    <span class="n">xrange</span> <span class="o">=</span> <span class="nb">range</span>
+
+
+<span class="sd">&quot;&quot;&quot;____________INDIVIDUAL SURFACES TO PLANAR____________&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="planar_face_curved_edge_vertices"><a class="viewcode-back" href="../../ladybug_rhino.planarize.html#ladybug_rhino.planarize.planar_face_curved_edge_vertices">[docs]</a><span class="k">def</span> <span class="nf">planar_face_curved_edge_vertices</span><span class="p">(</span><span class="n">b_face</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">meshing_parameters</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract vertices from a planar brep face loop that has one or more curved edges.</span>
+
+<span class="sd">    This method ensures vertices along the curved edge are generated in a way that</span>
+<span class="sd">    they align with an extrusion of that edge. Alignment may not be possible when</span>
+<span class="sd">    the adjoining curved surface is not an extrusion.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        b_face: A brep face with the curved edge.</span>
+<span class="sd">        count: An integer for the index of the loop to extract.</span>
+<span class="sd">        meshing_parameters: Rhino Meshing Parameters to describe how</span>
+<span class="sd">            curved edge should be converted into planar elements.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of ladybug Point3D objects representing the input planar face.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">loop_pcrv</span> <span class="o">=</span> <span class="n">b_face</span><span class="o">.</span><span class="n">Loops</span><span class="o">.</span><span class="n">Item</span><span class="p">[</span><span class="n">count</span><span class="p">]</span><span class="o">.</span><span class="n">To3dCurve</span><span class="p">()</span>
+    <span class="n">f_norm</span> <span class="o">=</span> <span class="n">b_face</span><span class="o">.</span><span class="n">NormalAt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">f_norm</span><span class="o">.</span><span class="n">Z</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">loop_pcrv</span><span class="o">.</span><span class="n">Reverse</span><span class="p">()</span>
+    <span class="n">loop_verts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">loop_pcrvs</span> <span class="o">=</span> <span class="p">[</span><span class="n">loop_pcrv</span><span class="o">.</span><span class="n">SegmentCurve</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">loop_pcrv</span><span class="o">.</span><span class="n">SegmentCount</span><span class="p">)]</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">loop_pcrvs</span> <span class="o">=</span> <span class="p">[</span><span class="n">loop_pcrv</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">loop_pcrvs</span> <span class="o">=</span> <span class="p">[</span><span class="n">loop_pcrv</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">loop_pcrvs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">seg</span><span class="o">.</span><span class="n">Degree</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">loop_verts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_point3d</span><span class="p">(</span><span class="n">seg</span><span class="o">.</span><span class="n">PointAtStart</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Ensure curve subdivisions align with adjacent curved faces</span>
+            <span class="n">seg_mesh</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Mesh</span><span class="o">.</span><span class="n">CreateFromSurface</span><span class="p">(</span>
+                <span class="n">rg</span><span class="o">.</span><span class="n">Surface</span><span class="o">.</span><span class="n">CreateExtrusion</span><span class="p">(</span><span class="n">seg</span><span class="p">,</span> <span class="n">f_norm</span><span class="p">),</span>
+                <span class="n">meshing_parameters</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">seg_mesh</span><span class="o">.</span><span class="n">Vertices</span><span class="o">.</span><span class="n">Count</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">loop_verts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_point3d</span><span class="p">(</span><span class="n">seg_mesh</span><span class="o">.</span><span class="n">Vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">loop_verts</span></div>
+
+
+<div class="viewcode-block" id="curved_surface_faces"><a class="viewcode-back" href="../../ladybug_rhino.planarize.html#ladybug_rhino.planarize.curved_surface_faces">[docs]</a><span class="k">def</span> <span class="nf">curved_surface_faces</span><span class="p">(</span><span class="n">b_face</span><span class="p">,</span> <span class="n">meshing_parameters</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract Face3D objects from a curved brep face.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        b_face: A curved brep face.</span>
+<span class="sd">        meshing_parameters: Rhino Meshing Parameters to describe how</span>
+<span class="sd">            curved edge should be converted into planar elements.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of ladybug Face3D objects that together approximate the input</span>
+<span class="sd">        curved surface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">b_face</span><span class="o">.</span><span class="n">OrientationIsReversed</span><span class="p">:</span>
+        <span class="n">b_face</span><span class="o">.</span><span class="n">Reverse</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">face_brep</span> <span class="o">=</span> <span class="n">b_face</span><span class="o">.</span><span class="n">DuplicateFace</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">meshed_brep</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Mesh</span><span class="o">.</span><span class="n">CreateFromBrep</span><span class="p">(</span><span class="n">face_brep</span><span class="p">,</span> <span class="n">meshing_parameters</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">mesh_faces_to_face3d</span><span class="p">(</span><span class="n">meshed_brep</span><span class="p">)</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;____________SOLID BREPS TO PLANAR____________&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="curved_solid_faces"><a class="viewcode-back" href="../../ladybug_rhino.planarize.html#ladybug_rhino.planarize.curved_solid_faces">[docs]</a><span class="k">def</span> <span class="nf">curved_solid_faces</span><span class="p">(</span><span class="n">brep</span><span class="p">,</span> <span class="n">meshing_parameters</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract Face3D objects from a curved solid brep.</span>
+
+<span class="sd">    This methods ensures that the resulting Face3Ds form a closed solid by</span>
+<span class="sd">    meshing the solid Brep alltogether.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        brep: A curved solid brep.</span>
+<span class="sd">        meshing_parameters: Rhino Meshing Parameters to describe how curved surfaces</span>
+<span class="sd">            should be converted into planar elements. If None, Rhino&#39;s Default</span>
+<span class="sd">            Meshing Parameters will be used.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of ladybug Face3D objects that together approximate the input brep.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># mesh the geometry as a solid</span>
+    <span class="n">mesh_par</span> <span class="o">=</span> <span class="n">meshing_parameters</span> <span class="ow">or</span> <span class="n">rg</span><span class="o">.</span><span class="n">MeshingParameters</span><span class="o">.</span><span class="n">Default</span>  <span class="c1"># default</span>
+    <span class="n">meshed_geo</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Mesh</span><span class="o">.</span><span class="n">CreateFromBrep</span><span class="p">(</span><span class="n">brep</span><span class="p">,</span> <span class="n">mesh_par</span><span class="p">)</span>
+
+    <span class="c1"># evaluate each mesh face to see what larger brep face it is a part of</span>
+    <span class="n">faces</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">b_face</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">meshed_geo</span><span class="p">,</span> <span class="n">brep</span><span class="o">.</span><span class="n">Faces</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">b_face</span><span class="o">.</span><span class="n">IsPlanar</span><span class="p">(</span><span class="n">tolerance</span><span class="p">):</span>  <span class="c1"># only take the naked vertices of planar faces</span>
+            <span class="n">naked_edges</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">GetNakedEdges</span><span class="p">()</span>
+            <span class="n">all_verts</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">loop_pline</span> <span class="ow">in</span> <span class="n">naked_edges</span><span class="p">:</span>  <span class="c1"># each loop_pline is a boundary/hole</span>
+                <span class="n">all_verts</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">_point3d</span><span class="p">(</span><span class="n">loop_pline</span><span class="o">.</span><span class="n">Item</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                                  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">loop_pline</span><span class="o">.</span><span class="n">Count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_verts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># No holes in the shape</span>
+                <span class="n">faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Face3D</span><span class="p">(</span><span class="n">all_verts</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># There&#39;s at least one hole in the shape</span>
+                <span class="n">faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">Face3D</span><span class="p">(</span><span class="n">boundary</span><span class="o">=</span><span class="n">all_verts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">holes</span><span class="o">=</span><span class="n">all_verts</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">faces</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">mesh_faces_to_face3d</span><span class="p">(</span><span class="n">mesh</span><span class="p">))</span>
+    <span class="c1"># remove colinear vertices as the meshing process makes a lot of them</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">face</span><span class="o">.</span><span class="n">remove_colinear_vertices</span><span class="p">(</span><span class="n">tolerance</span><span class="p">)</span> <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="n">faces</span><span class="p">]</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;________________EXTRA HELPER FUNCTIONS________________&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="has_curved_face"><a class="viewcode-back" href="../../ladybug_rhino.planarize.html#ladybug_rhino.planarize.has_curved_face">[docs]</a><span class="k">def</span> <span class="nf">has_curved_face</span><span class="p">(</span><span class="n">brep</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Test if a Rhino Brep has a curved face.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        brep: A Rhino Brep to test whether it has a curved face.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">b_face</span> <span class="ow">in</span> <span class="n">brep</span><span class="o">.</span><span class="n">Faces</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">b_face</span><span class="o">.</span><span class="n">IsPlanar</span><span class="p">(</span><span class="n">tolerance</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="mesh_faces_to_face3d"><a class="viewcode-back" href="../../ladybug_rhino.planarize.html#ladybug_rhino.planarize.mesh_faces_to_face3d">[docs]</a><span class="k">def</span> <span class="nf">mesh_faces_to_face3d</span><span class="p">(</span><span class="n">mesh</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a curved Rhino mesh faces into planar ladybug_geometry Face3D.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mesh: A curved Rhino mesh.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of ladybug Face3D objects derived from the input mesh faces.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">faces</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">m_face</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">Faces</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">m_face</span><span class="o">.</span><span class="n">IsQuad</span><span class="p">:</span>
+            <span class="n">lb_face</span> <span class="o">=</span> <span class="n">Face3D</span><span class="p">(</span>
+                <span class="nb">tuple</span><span class="p">(</span><span class="n">_point3d</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">Vertices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+                      <span class="p">(</span><span class="n">m_face</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">m_face</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">m_face</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">m_face</span><span class="o">.</span><span class="n">D</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="n">lb_face</span><span class="o">.</span><span class="n">check_planar</span><span class="p">(</span><span class="n">tolerance</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="n">faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lb_face</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lb_face_1</span> <span class="o">=</span> <span class="n">Face3D</span><span class="p">(</span>
+                    <span class="nb">tuple</span><span class="p">(</span><span class="n">_point3d</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">Vertices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+                          <span class="p">(</span><span class="n">m_face</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">m_face</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">m_face</span><span class="o">.</span><span class="n">C</span><span class="p">)))</span>
+                <span class="n">lb_face_2</span> <span class="o">=</span> <span class="n">Face3D</span><span class="p">(</span>
+                    <span class="nb">tuple</span><span class="p">(</span><span class="n">_point3d</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">Vertices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+                          <span class="p">(</span><span class="n">m_face</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">m_face</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">m_face</span><span class="o">.</span><span class="n">A</span><span class="p">)))</span>
+                <span class="n">faces</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">lb_face_1</span><span class="p">,</span> <span class="n">lb_face_2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lb_face</span> <span class="o">=</span> <span class="n">Face3D</span><span class="p">(</span>
+                <span class="nb">tuple</span><span class="p">(</span><span class="n">_point3d</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">Vertices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+                      <span class="p">(</span><span class="n">m_face</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">m_face</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">m_face</span><span class="o">.</span><span class="n">C</span><span class="p">)))</span>
+            <span class="n">faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lb_face</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">faces</span></div>
+
+
+<span class="k">def</span> <span class="nf">_point3d</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Point3D from Rhino Point3d.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Point3D</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

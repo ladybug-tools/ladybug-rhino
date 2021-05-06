@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ladybug_rhino.versioning.userobject &#8212; ladybug-rhino  documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          ladybug-rhino</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli/index.html">CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli/main.html">main</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../cli/main.html#ladybug-rhino">ladybug-rhino</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../cli/main.html#ladybug-rhino-viz">viz</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../cli/main.html#ladybug-rhino-set-python-search">set-python-search</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../cli/main.html#ladybug-rhino-copy-gh-components">copy-gh-components</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../cli/main.html#ladybug-rhino-remove-gh-components">remove-gh-components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ladybug_rhino.html">ladybug_rhino package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ladybug_rhino.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.cli.html">ladybug_rhino.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../ladybug_rhino.cli.html#module-ladybug_rhino.cli">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.versioning.html">ladybug_rhino.versioning package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../ladybug_rhino.versioning.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../ladybug_rhino.versioning.component.html">ladybug_rhino.versioning.component module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../ladybug_rhino.versioning.diff.html">ladybug_rhino.versioning.diff module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../ladybug_rhino.versioning.export.html">ladybug_rhino.versioning.export module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../ladybug_rhino.versioning.gather.html">ladybug_rhino.versioning.gather module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../ladybug_rhino.versioning.release.html">ladybug_rhino.versioning.release module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../ladybug_rhino.versioning.userobject.html">ladybug_rhino.versioning.userobject module</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../ladybug_rhino.versioning.html#module-ladybug_rhino.versioning">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ladybug_rhino.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.intersect.html">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.planarize.html">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for ladybug_rhino.versioning.userobject</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions for creating user objects.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">Grasshopper.Folders</span> <span class="k">as</span> <span class="nn">Folders</span>
+    <span class="kn">import</span> <span class="nn">Grasshopper.Kernel</span> <span class="k">as</span> <span class="nn">gh</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Failed to import Grasshopper.&quot;</span><span class="p">)</span>
+
+<span class="c1"># location where the Grasshopper user objects are stored</span>
+<span class="n">UO_FOLDER</span> <span class="o">=</span> <span class="n">Folders</span><span class="o">.</span><span class="n">UserObjectFolders</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">GHA_FOLDER</span> <span class="o">=</span> <span class="n">Folders</span><span class="o">.</span><span class="n">DefaultAssemblyFolder</span>
+
+<span class="c1"># map from the AdditionalHelpFromDocStrings to values for user object exposure</span>
+<span class="n">EXPOSURE_MAP</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">gh</span><span class="o">.</span><span class="n">GH_Exposure</span><span class="o">.</span><span class="n">dropdown</span><span class="p">,</span>
+    <span class="n">gh</span><span class="o">.</span><span class="n">GH_Exposure</span><span class="o">.</span><span class="n">primary</span><span class="p">,</span>
+    <span class="n">gh</span><span class="o">.</span><span class="n">GH_Exposure</span><span class="o">.</span><span class="n">secondary</span><span class="p">,</span>
+    <span class="n">gh</span><span class="o">.</span><span class="n">GH_Exposure</span><span class="o">.</span><span class="n">tertiary</span><span class="p">,</span>
+    <span class="n">gh</span><span class="o">.</span><span class="n">GH_Exposure</span><span class="o">.</span><span class="n">quarternary</span><span class="p">,</span>
+    <span class="n">gh</span><span class="o">.</span><span class="n">GH_Exposure</span><span class="o">.</span><span class="n">quinary</span><span class="p">,</span>
+    <span class="n">gh</span><span class="o">.</span><span class="n">GH_Exposure</span><span class="o">.</span><span class="n">senary</span><span class="p">,</span>
+    <span class="n">gh</span><span class="o">.</span><span class="n">GH_Exposure</span><span class="o">.</span><span class="n">septenary</span>
+<span class="p">)</span>
+
+<span class="c1"># map from the component category to the plugin package folder</span>
+<span class="n">FOLDER_MAP</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Ladybug&#39;</span><span class="p">:</span> <span class="s1">&#39;ladybug_grasshopper&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Honeybee&#39;</span><span class="p">:</span> <span class="s1">&#39;honeybee_grasshopper_core&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;HB-Radiance&#39;</span><span class="p">:</span> <span class="s1">&#39;honeybee_grasshopper_radiance&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;HB-Energy&#39;</span><span class="p">:</span> <span class="s1">&#39;honeybee_grasshopper_energy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Dragonfly&#39;</span><span class="p">:</span> <span class="s1">&#39;dragonfly_grasshopper&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;LB-Legacy&#39;</span><span class="p">:</span> <span class="s1">&#39;LB-Legacy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;HB-Legacy&#39;</span><span class="p">:</span> <span class="s1">&#39;HB-Legacy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;HoneybeePlus&#39;</span><span class="p">:</span> <span class="s1">&#39;HoneybeePlus&#39;</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="create_userobject"><a class="viewcode-back" href="../../../ladybug_rhino.versioning.userobject.html#ladybug_rhino.versioning.userobject.create_userobject">[docs]</a><span class="k">def</span> <span class="nf">create_userobject</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">move</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create UserObject from a component.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        component: A Grasshopper Python component.</span>
+<span class="sd">        move: A Boolean to note whether the component should be moved to a subdirectory</span>
+<span class="sd">            based on FOLDER_MAP. (Default: True).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># initiate userobject</span>
+    <span class="n">uo</span> <span class="o">=</span> <span class="n">gh</span><span class="o">.</span><span class="n">GH_UserObject</span><span class="p">()</span>
+    <span class="c1"># set attributes</span>
+    <span class="n">uo</span><span class="o">.</span><span class="n">Icon</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">Icon_24x24</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">exposure</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">AdditionalHelpFromDocStrings</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># no exposure category specified</span>
+        <span class="n">exposure</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">uo</span><span class="o">.</span><span class="n">Exposure</span> <span class="o">=</span> <span class="n">EXPOSURE_MAP</span><span class="p">[</span><span class="n">exposure</span><span class="p">]</span>
+    <span class="n">uo</span><span class="o">.</span><span class="n">BaseGuid</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">ComponentGuid</span>
+    <span class="n">uo</span><span class="o">.</span><span class="n">Description</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">Name</span>
+    <span class="n">uo</span><span class="o">.</span><span class="n">Description</span><span class="o">.</span><span class="n">Description</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">Description</span>
+    <span class="n">uo</span><span class="o">.</span><span class="n">Description</span><span class="o">.</span><span class="n">Category</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">Category</span>
+    <span class="n">uo</span><span class="o">.</span><span class="n">Description</span><span class="o">.</span><span class="n">SubCategory</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">SubCategory</span>
+
+    <span class="c1"># save the userobject to a file</span>
+    <span class="n">uo</span><span class="o">.</span><span class="n">SetDataFromObject</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+    <span class="n">uo</span><span class="o">.</span><span class="n">SaveToFile</span><span class="p">()</span>
+
+    <span class="c1"># move the user object file to the assigned folder</span>
+    <span class="k">if</span> <span class="n">move</span><span class="p">:</span>
+        <span class="n">ufd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">UO_FOLDER</span><span class="p">,</span> <span class="n">FOLDER_MAP</span><span class="p">[</span><span class="n">component</span><span class="o">.</span><span class="n">Category</span><span class="p">],</span> <span class="s1">&#39;user_objects&#39;</span><span class="p">)</span>
+        <span class="n">ufp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ufd</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.ghuser&#39;</span> <span class="o">%</span> <span class="n">component</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">ufd</span><span class="p">):</span>
+            <span class="c1"># create folder if it is not already created</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">ufd</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">ufp</span><span class="p">):</span>
+            <span class="c1"># remove current userobject</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ufp</span><span class="p">)</span>
+        <span class="n">uo</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">ufp</span>
+
+    <span class="n">uo</span><span class="o">.</span><span class="n">SaveToFile</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">uo</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

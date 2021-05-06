@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ladybug_rhino.planarize module &#8212; ladybug-rhino  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ladybug_rhino.pythonpath module" href="ladybug_rhino.pythonpath.html" />
+    <link rel="prev" title="ladybug_rhino.intersect module" href="ladybug_rhino.intersect.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          ladybug-rhino</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="cli/index.html">CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli/main.html">main</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cli/main.html#ladybug-rhino">ladybug-rhino</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="cli/main.html#ladybug-rhino-viz">viz</a></li>
+<li class="toctree-l5"><a class="reference internal" href="cli/main.html#ladybug-rhino-set-python-search">set-python-search</a></li>
+<li class="toctree-l5"><a class="reference internal" href="cli/main.html#ladybug-rhino-copy-gh-components">copy-gh-components</a></li>
+<li class="toctree-l5"><a class="reference internal" href="cli/main.html#ladybug-rhino-remove-gh-components">remove-gh-components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ladybug_rhino.html">ladybug_rhino package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.cli.html">ladybug_rhino.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ladybug_rhino.cli.html#module-ladybug_rhino.cli">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.versioning.html">ladybug_rhino.versioning package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ladybug_rhino.versioning.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.component.html">ladybug_rhino.versioning.component module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.diff.html">ladybug_rhino.versioning.diff module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.export.html">ladybug_rhino.versioning.export module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.gather.html">ladybug_rhino.versioning.gather module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.release.html">ladybug_rhino.versioning.release module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.userobject.html">ladybug_rhino.versioning.userobject module</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="ladybug_rhino.versioning.html#module-ladybug_rhino.versioning">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="ladybug_rhino.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.intersect.html">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="cli/index.html">CLI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ladybug_rhino.html">ladybug_rhino package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ladybug_rhino.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.intersect.html">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="ladybug_rhino.intersect.html" title="Previous Chapter: ladybug_rhino.intersect module"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; ladybug_rhino...</span>
+    </a>
+  </li>
+  <li>
+    <a href="ladybug_rhino.pythonpath.html" title="Next Chapter: ladybug_rhino.pythonpath module"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">ladybug_rhino... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/ladybug_rhino.planarize.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="cli/index.html">CLI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ladybug_rhino.html">ladybug_rhino package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ladybug_rhino.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.intersect.html">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <div class="section" id="module-ladybug_rhino.planarize">
+<span id="ladybug-rhino-planarize-module"></span><h1>ladybug_rhino.planarize module<a class="headerlink" href="#module-ladybug_rhino.planarize" title="Permalink to this headline">¶</a></h1>
+<p>Functions to convert curved Rhino geometries into planar ladybug ones.</p>
+<dl class="py function">
+<dt id="ladybug_rhino.planarize.curved_solid_faces">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.planarize.</span></code><code class="sig-name descname"><span class="pre">curved_solid_faces</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshing_parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/planarize.html#curved_solid_faces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.planarize.curved_solid_faces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract Face3D objects from a curved solid brep.</p>
+<p>This methods ensures that the resulting Face3Ds form a closed solid by
+meshing the solid Brep alltogether.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>brep</strong> – A curved solid brep.</p></li>
+<li><p><strong>meshing_parameters</strong> – Rhino Meshing Parameters to describe how curved surfaces
+should be converted into planar elements. If None, Rhino’s Default
+Meshing Parameters will be used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of ladybug Face3D objects that together approximate the input brep.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.planarize.curved_surface_faces">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.planarize.</span></code><code class="sig-name descname"><span class="pre">curved_surface_faces</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_face</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshing_parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/planarize.html#curved_surface_faces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.planarize.curved_surface_faces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract Face3D objects from a curved brep face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>b_face</strong> – A curved brep face.</p></li>
+<li><p><strong>meshing_parameters</strong> – Rhino Meshing Parameters to describe how
+curved edge should be converted into planar elements.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of ladybug Face3D objects that together approximate the input
+curved surface.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.planarize.has_curved_face">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.planarize.</span></code><code class="sig-name descname"><span class="pre">has_curved_face</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brep</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/planarize.html#has_curved_face"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.planarize.has_curved_face" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if a Rhino Brep has a curved face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>brep</strong> – A Rhino Brep to test whether it has a curved face.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.planarize.mesh_faces_to_face3d">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.planarize.</span></code><code class="sig-name descname"><span class="pre">mesh_faces_to_face3d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/planarize.html#mesh_faces_to_face3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.planarize.mesh_faces_to_face3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a curved Rhino mesh faces into planar ladybug_geometry Face3D.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mesh</strong> – A curved Rhino mesh.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of ladybug Face3D objects derived from the input mesh faces.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.planarize.planar_face_curved_edge_vertices">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.planarize.</span></code><code class="sig-name descname"><span class="pre">planar_face_curved_edge_vertices</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b_face</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshing_parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/planarize.html#planar_face_curved_edge_vertices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.planarize.planar_face_curved_edge_vertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract vertices from a planar brep face loop that has one or more curved edges.</p>
+<p>This method ensures vertices along the curved edge are generated in a way that
+they align with an extrusion of that edge. Alignment may not be possible when
+the adjoining curved surface is not an extrusion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>b_face</strong> – A brep face with the curved edge.</p></li>
+<li><p><strong>count</strong> – An integer for the index of the loop to extract.</p></li>
+<li><p><strong>meshing_parameters</strong> – Rhino Meshing Parameters to describe how
+curved edge should be converted into planar elements.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of ladybug Point3D objects representing the input planar face.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+ladybug\_rhino.baketext module
+==============================
+
+.. automodule:: ladybug_rhino.baketext
+   :members:
+   :undoc-members:
+   :show-inheritance:

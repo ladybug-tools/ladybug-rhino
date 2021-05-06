@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ladybug_rhino.colorize &#8212; ladybug-rhino  documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          ladybug-rhino</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/main.html">main</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/main.html#ladybug-rhino">ladybug-rhino</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-viz">viz</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-set-python-search">set-python-search</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-copy-gh-components">copy-gh-components</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-remove-gh-components">remove-gh-components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.cli.html">ladybug_rhino.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.cli.html#module-ladybug_rhino.cli">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.versioning.html">ladybug_rhino.versioning package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.versioning.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html">ladybug_rhino.versioning.component module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html">ladybug_rhino.versioning.diff module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html">ladybug_rhino.versioning.export module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html">ladybug_rhino.versioning.gather module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.release.html">ladybug_rhino.versioning.release module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.userobject.html">ladybug_rhino.versioning.userobject module</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.versioning.html#module-ladybug_rhino.versioning">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.intersect.html">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.planarize.html">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for ladybug_rhino.colorize</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Classes for colorized versions of various Rhino objects like points.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.color</span> <span class="kn">import</span> <span class="n">black</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">System.Guid</span> <span class="k">as</span> <span class="nn">guid</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;Failed to import System.</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">Rhino</span> <span class="k">as</span> <span class="nn">rh</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;Failed to import Rhino.</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">Grasshopper</span> <span class="k">as</span> <span class="nn">gh</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Failed to import Grasshopper.</span><span class="se">\n</span><span class="s1">Colorized objects are not available.&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ColoredPoint"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint">[docs]</a><span class="k">class</span> <span class="nc">ColoredPoint</span><span class="p">(</span><span class="n">gh</span><span class="o">.</span><span class="n">Kernel</span><span class="o">.</span><span class="n">Types</span><span class="o">.</span><span class="n">GH_GeometricGoo</span><span class="p">[</span><span class="n">rh</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">Point3d</span><span class="p">],</span>
+                   <span class="n">gh</span><span class="o">.</span><span class="n">Kernel</span><span class="o">.</span><span class="n">IGH_BakeAwareData</span><span class="p">,</span> <span class="n">gh</span><span class="o">.</span><span class="n">Kernel</span><span class="o">.</span><span class="n">IGH_PreviewData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A Point object with a set-able color property to change its color in Grasshopper.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        point: A Rhino Point3d object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize ColoredPoint.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">point</span> <span class="o">=</span> <span class="n">point</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">black</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ColoredPoint.DuplicateGeometry"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.DuplicateGeometry">[docs]</a>    <span class="k">def</span> <span class="nf">DuplicateGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">rh</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">Point3d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+        <span class="n">new_pt</span> <span class="o">=</span> <span class="n">ColoredPoint</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+        <span class="n">new_pt</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span>
+        <span class="k">return</span> <span class="n">new_pt</span></div>
+
+<div class="viewcode-block" id="ColoredPoint.get_TypeName"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.get_TypeName">[docs]</a>    <span class="k">def</span> <span class="nf">get_TypeName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Colored Point&quot;</span></div>
+
+<div class="viewcode-block" id="ColoredPoint.get_TypeDescription"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.get_TypeDescription">[docs]</a>    <span class="k">def</span> <span class="nf">get_TypeDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Colored Point&quot;</span></div>
+
+<div class="viewcode-block" id="ColoredPoint.ToString"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.ToString">[docs]</a>    <span class="k">def</span> <span class="nf">ToString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">G</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">B</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ColoredPoint.Transform"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.Transform">[docs]</a>    <span class="k">def</span> <span class="nf">Transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xform</span><span class="p">):</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">rh</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">Point3d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+        <span class="n">point</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">xform</span><span class="p">)</span>
+        <span class="n">new_pt</span> <span class="o">=</span> <span class="n">ColoredPoint</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+        <span class="n">new_pt</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span>
+        <span class="k">return</span> <span class="n">new_pt</span></div>
+
+<div class="viewcode-block" id="ColoredPoint.Morph"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.Morph">[docs]</a>    <span class="k">def</span> <span class="nf">Morph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmorph</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">DuplicateGeometry</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ColoredPoint.DrawViewportWires"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.DrawViewportWires">[docs]</a>    <span class="k">def</span> <span class="nf">DrawViewportWires</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">Pipeline</span><span class="o">.</span><span class="n">DrawPoint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">point</span><span class="p">,</span> <span class="n">rh</span><span class="o">.</span><span class="n">Display</span><span class="o">.</span><span class="n">PointStyle</span><span class="o">.</span><span class="n">RoundSimple</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ColoredPoint.DrawViewportMeshes"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.DrawViewportMeshes">[docs]</a>    <span class="k">def</span> <span class="nf">DrawViewportMeshes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="c1"># Do not draw in meshing layer.</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ColoredPoint.BakeGeometry"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.BakeGeometry">[docs]</a>    <span class="k">def</span> <span class="nf">BakeGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">guid</span><span class="o">.</span><span class="n">Empty</span>
+        <span class="k">if</span> <span class="n">att</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">att</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">CreateDefaultAttributes</span><span class="p">()</span>
+        <span class="n">att</span><span class="o">.</span><span class="n">ColorSource</span> <span class="o">=</span> <span class="n">rh</span><span class="o">.</span><span class="n">DocObjects</span><span class="o">.</span><span class="n">ObjectColorSource</span><span class="o">.</span><span class="n">ColorFromObject</span>
+        <span class="n">att</span><span class="o">.</span><span class="n">ObjectColor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">Objects</span><span class="o">.</span><span class="n">AddPoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">point</span><span class="p">,</span> <span class="n">att</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">id</span></div></div>
+
+
+<div class="viewcode-block" id="ColoredPolyline"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline">[docs]</a><span class="k">class</span> <span class="nc">ColoredPolyline</span><span class="p">(</span><span class="n">gh</span><span class="o">.</span><span class="n">Kernel</span><span class="o">.</span><span class="n">Types</span><span class="o">.</span><span class="n">GH_GeometricGoo</span><span class="p">[</span><span class="n">rh</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">PolylineCurve</span><span class="p">],</span>
+                      <span class="n">gh</span><span class="o">.</span><span class="n">Kernel</span><span class="o">.</span><span class="n">IGH_BakeAwareData</span><span class="p">,</span> <span class="n">gh</span><span class="o">.</span><span class="n">Kernel</span><span class="o">.</span><span class="n">IGH_PreviewData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A PolylineCurve object with set-able color and thickness properties.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        polyline: A Rhino PolylineCurve object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polyline</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize ColoredPolyline.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polyline</span> <span class="o">=</span> <span class="n">polyline</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">black</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">thickness</span> <span class="o">=</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="ColoredPolyline.DuplicateGeometry"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.DuplicateGeometry">[docs]</a>    <span class="k">def</span> <span class="nf">DuplicateGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">polyline</span> <span class="o">=</span> <span class="n">rh</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">PolylineCurve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polyline</span><span class="p">)</span>
+        <span class="n">new_pl</span> <span class="o">=</span> <span class="n">ColoredPolyline</span><span class="p">(</span><span class="n">polyline</span><span class="p">)</span>
+        <span class="n">new_pl</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span>
+        <span class="n">new_pl</span><span class="o">.</span><span class="n">thickness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">thickness</span>
+        <span class="k">return</span> <span class="n">new_pl</span></div>
+
+<div class="viewcode-block" id="ColoredPolyline.get_TypeName"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.get_TypeName">[docs]</a>    <span class="k">def</span> <span class="nf">get_TypeName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Colored Polyline&quot;</span></div>
+
+<div class="viewcode-block" id="ColoredPolyline.get_TypeDescription"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.get_TypeDescription">[docs]</a>    <span class="k">def</span> <span class="nf">get_TypeDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Colored Polyline&quot;</span></div>
+
+<div class="viewcode-block" id="ColoredPolyline.ToString"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.ToString">[docs]</a>    <span class="k">def</span> <span class="nf">ToString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;Polyline Curve&#39;</span></div>
+
+<div class="viewcode-block" id="ColoredPolyline.Transform"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.Transform">[docs]</a>    <span class="k">def</span> <span class="nf">Transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xform</span><span class="p">):</span>
+        <span class="n">polyline</span> <span class="o">=</span> <span class="n">rh</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">PolylineCurve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polyline</span><span class="p">)</span>
+        <span class="n">polyline</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">xform</span><span class="p">)</span>
+        <span class="n">new_pl</span> <span class="o">=</span> <span class="n">ColoredPolyline</span><span class="p">(</span><span class="n">polyline</span><span class="p">)</span>
+        <span class="n">new_pl</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span>
+        <span class="n">new_pl</span><span class="o">.</span><span class="n">thickness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">thickness</span>
+        <span class="k">return</span> <span class="n">new_pl</span></div>
+
+<div class="viewcode-block" id="ColoredPolyline.Morph"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.Morph">[docs]</a>    <span class="k">def</span> <span class="nf">Morph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmorph</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">DuplicateGeometry</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ColoredPolyline.DrawViewportWires"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.DrawViewportWires">[docs]</a>    <span class="k">def</span> <span class="nf">DrawViewportWires</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">Pipeline</span><span class="o">.</span><span class="n">DrawCurve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polyline</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">thickness</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ColoredPolyline.DrawViewportMeshes"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.DrawViewportMeshes">[docs]</a>    <span class="k">def</span> <span class="nf">DrawViewportMeshes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="c1"># Do not draw in meshing layer.</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ColoredPolyline.BakeGeometry"><a class="viewcode-back" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.BakeGeometry">[docs]</a>    <span class="k">def</span> <span class="nf">BakeGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">guid</span><span class="o">.</span><span class="n">Empty</span>
+        <span class="k">if</span> <span class="n">att</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">att</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">CreateDefaultAttributes</span><span class="p">()</span>
+        <span class="n">att</span><span class="o">.</span><span class="n">ColorSource</span> <span class="o">=</span> <span class="n">rh</span><span class="o">.</span><span class="n">DocObjects</span><span class="o">.</span><span class="n">ObjectColorSource</span><span class="o">.</span><span class="n">ColorFromObject</span>
+        <span class="n">att</span><span class="o">.</span><span class="n">ObjectColor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">Objects</span><span class="o">.</span><span class="n">AddCurve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polyline</span><span class="p">,</span> <span class="n">att</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">id</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

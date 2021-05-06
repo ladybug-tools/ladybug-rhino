@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ladybug_rhino.pythonpath &#8212; ladybug-rhino  documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          ladybug-rhino</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/main.html">main</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/main.html#ladybug-rhino">ladybug-rhino</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-viz">viz</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-set-python-search">set-python-search</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-copy-gh-components">copy-gh-components</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-remove-gh-components">remove-gh-components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.cli.html">ladybug_rhino.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.cli.html#module-ladybug_rhino.cli">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.versioning.html">ladybug_rhino.versioning package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.versioning.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html">ladybug_rhino.versioning.component module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html">ladybug_rhino.versioning.diff module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html">ladybug_rhino.versioning.export module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html">ladybug_rhino.versioning.gather module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.release.html">ladybug_rhino.versioning.release module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.userobject.html">ladybug_rhino.versioning.userobject module</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.versioning.html#module-ladybug_rhino.versioning">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.intersect.html">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.planarize.html">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for ladybug_rhino.pythonpath</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions for managing the setting of Rhino&#39;s IronPython path.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">ladybug.futil</span> <span class="kn">import</span> <span class="n">nukedir</span><span class="p">,</span> <span class="n">copy_file_tree</span>
+    <span class="kn">from</span> <span class="nn">ladybug.config</span> <span class="kn">import</span> <span class="n">folders</span> <span class="k">as</span> <span class="n">lb_folders</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Failed to import ladybug.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<span class="c1"># core library packages, which get copied or cleaned out of the Rhino scripts folder</span>
+<span class="n">PACKAGES</span> <span class="o">=</span> \
+    <span class="p">(</span><span class="s1">&#39;ladybug_rhino&#39;</span><span class="p">,</span> <span class="s1">&#39;ladybug_geometry&#39;</span><span class="p">,</span> <span class="s1">&#39;ladybug_geometry_polyskel&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;ladybug&#39;</span><span class="p">,</span> <span class="s1">&#39;ladybug_comfort&#39;</span><span class="p">,</span> <span class="s1">&#39;honeybee&#39;</span><span class="p">,</span> <span class="s1">&#39;honeybee_standards&#39;</span><span class="p">,</span> <span class="s1">&#39;honeybee_energy&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;honeybee_radiance&#39;</span><span class="p">,</span> <span class="s1">&#39;honeybee_radiance_folder&#39;</span><span class="p">,</span> <span class="s1">&#39;honeybee_radiance_command&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;dragonfly&#39;</span><span class="p">,</span> <span class="s1">&#39;dragonfly_energy&#39;</span><span class="p">,</span> <span class="s1">&#39;dragonfly_radiance&#39;</span><span class="p">,</span> <span class="s1">&#39;dragonfly_uwg&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;lbt_recipes&#39;</span><span class="p">,</span> <span class="s1">&#39;pollination_handlers&#39;</span><span class="p">)</span>
+<span class="c1"># Rhino versions that the plugins are compatible with</span>
+<span class="n">RHINO_VERSIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;6.0&#39;</span><span class="p">,</span> <span class="s1">&#39;7.0&#39;</span><span class="p">)</span>
+<span class="c1"># UUID that McNeel uses to identify the IronPython plugin</span>
+<span class="n">IRONPYTHON_ID</span> <span class="o">=</span> <span class="s1">&#39;814d908a-e25c-493d-97e9-ee3861957f49&#39;</span>
+
+
+<div class="viewcode-block" id="create_python_package_dir"><a class="viewcode-back" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.create_python_package_dir">[docs]</a><span class="k">def</span> <span class="nf">create_python_package_dir</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Get the default path where the ladybug_tools Python packages are installed.</span>
+
+<span class="sd">    This method works both on Windows and Mac. If the folder is not found, this</span>
+<span class="sd">    method will create the folder.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">py_install</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lb_folders</span><span class="o">.</span><span class="n">ladybug_tools_folder</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span>
+    <span class="n">py_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">py_install</span><span class="p">,</span> <span class="s1">&#39;Lib&#39;</span><span class="p">,</span> <span class="s1">&#39;site-packages&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span> \
+        <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">py_install</span><span class="p">,</span> <span class="s1">&#39;lib&#39;</span><span class="p">,</span> <span class="s1">&#39;python3.7&#39;</span><span class="p">,</span> <span class="s1">&#39;site-packages&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">py_path</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">py_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">py_path</span></div>
+
+
+<div class="viewcode-block" id="iron_python_search_path"><a class="viewcode-back" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.iron_python_search_path">[docs]</a><span class="k">def</span> <span class="nf">iron_python_search_path</span><span class="p">(</span><span class="n">python_package_dir</span><span class="p">,</span> <span class="n">settings_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">destination_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set Rhino to search for libraries in a given directory (on either OS).</span>
+
+<span class="sd">    This is used as part of the installation process to ensure that Grasshopper</span>
+<span class="sd">    looks for the core Python libraries in the ladybug_tools folder. The file</span>
+<span class="sd">    will not be edited if the python_package_dir is already in the settings file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        python_package_dir: The path to a directory that contains the Ladybug</span>
+<span class="sd">            Tools core libraries.</span>
+<span class="sd">        settings_file: An optional XML settings file to which the python_package_dir</span>
+<span class="sd">            will be added. If None, this method will search the current user&#39;s</span>
+<span class="sd">            folder for all copies of this file for the installed Rhino versions.</span>
+<span class="sd">        destination_file: Optional destination file to write out the edited settings</span>
+<span class="sd">            file. If it is None, the settings_file will be overwritten.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># make sure that the rhino scripts folder is clean to avoid namespace issues</span>
+    <span class="n">clean_rhino_scripts</span><span class="p">()</span>
+    <span class="c1"># set the plugin to look for packages in ladybug_tools folder</span>
+    <span class="n">new_settings</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span><span class="p">:</span>  <span class="c1"># we are on Windows</span>
+        <span class="n">all_settings</span> <span class="o">=</span> <span class="p">[</span><span class="n">settings_file</span><span class="p">]</span> <span class="k">if</span> <span class="n">settings_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> \
+            <span class="n">find_ironpython_settings_windows</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">all_settings</span><span class="p">:</span>
+            <span class="n">dest_settings</span> <span class="o">=</span> <span class="n">iron_python_search_path_windows</span><span class="p">(</span>
+                <span class="n">python_package_dir</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">destination_file</span><span class="p">)</span>
+            <span class="n">new_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dest_settings</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># we are on Mac, Linux, or some other unix-based system</span>
+        <span class="n">copy_packages_to_rhino_scripts</span><span class="p">(</span><span class="n">python_package_dir</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_settings</span></div>
+
+
+<div class="viewcode-block" id="find_installed_rhino_versions_windows"><a class="viewcode-back" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.find_installed_rhino_versions_windows">[docs]</a><span class="k">def</span> <span class="nf">find_installed_rhino_versions_windows</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of the compatible Rhino versions installed on this Windows machine.&quot;&quot;&quot;</span>
+    <span class="n">program_files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;PROGRAMFILES&#39;</span><span class="p">)</span>
+    <span class="n">installed_vers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ver</span> <span class="ow">in</span> <span class="n">RHINO_VERSIONS</span><span class="p">:</span>
+        <span class="n">rhino_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">program_files</span><span class="p">,</span> <span class="s1">&#39;Rhino </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ver</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;System&#39;</span><span class="p">,</span> <span class="s1">&#39;Rhino.exe&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">rhino_path</span><span class="p">):</span>
+            <span class="n">installed_vers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ver</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">installed_vers</span></div>
+
+
+<div class="viewcode-block" id="find_ironpython_settings_windows"><a class="viewcode-back" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.find_ironpython_settings_windows">[docs]</a><span class="k">def</span> <span class="nf">find_ironpython_settings_windows</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of all settings XML files for the supported RHINO_VERSIONS.&quot;&quot;&quot;</span>
+    <span class="n">installed_set_files</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">appdata_roaming</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;APPDATA&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ver</span> <span class="ow">in</span> <span class="n">find_installed_rhino_versions_windows</span><span class="p">():</span>
+        <span class="c1"># get the settings folder or create it if it doesn&#39;t exist</span>
+        <span class="n">plugin_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">appdata_roaming</span><span class="p">,</span> <span class="s1">&#39;McNeel&#39;</span><span class="p">,</span> <span class="s1">&#39;Rhinoceros&#39;</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="s1">&#39;Plug-ins&#39;</span><span class="p">)</span>
+        <span class="n">settings_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">plugin_folder</span><span class="p">,</span> <span class="s1">&#39;IronPython (</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">IRONPYTHON_ID</span><span class="p">),</span> <span class="s1">&#39;settings&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">settings_path</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">settings_path</span><span class="p">)</span>
+        <span class="c1"># append the default settings to the list of files to edit</span>
+        <span class="n">sf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">settings_path</span><span class="p">,</span> <span class="s1">&#39;settings-Scheme__Default.xml&#39;</span><span class="p">)</span>
+        <span class="n">installed_set_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
+        <span class="c1"># get the search paths for any Rhino-inside instances if they exist</span>
+        <span class="k">for</span> <span class="n">set_file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">settings_path</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">set_file</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;settings-Scheme&#39;</span><span class="p">)</span> <span class="ow">and</span> \
+                    <span class="n">set_file</span> <span class="o">!=</span> <span class="s1">&#39;settings-Scheme__Default.xml&#39;</span><span class="p">:</span>
+                <span class="n">sf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">settings_path</span><span class="p">,</span> <span class="n">set_file</span><span class="p">)</span>
+                <span class="n">installed_set_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">installed_set_files</span></div>
+
+
+<div class="viewcode-block" id="iron_python_search_path_windows"><a class="viewcode-back" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.iron_python_search_path_windows">[docs]</a><span class="k">def</span> <span class="nf">iron_python_search_path_windows</span><span class="p">(</span><span class="n">python_package_dir</span><span class="p">,</span> <span class="n">settings_file</span><span class="p">,</span>
+                                    <span class="n">destination_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set Rhino to search for libraries in a given directory (on Windows).</span>
+
+<span class="sd">    This is used as part of the installation process to ensure that Grasshopper</span>
+<span class="sd">    looks for the core Python libraries in the ladybug_tools folder. The file</span>
+<span class="sd">    will not be edited if the python_package_dir is already in the settings file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        python_package_dir: The path to a directory that contains the Ladybug</span>
+<span class="sd">            Tools core libraries.</span>
+<span class="sd">        settings_file: An XML settings file to which the python_package_dir</span>
+<span class="sd">            will be added.</span>
+<span class="sd">        destination_file: Optional destination file to write out the edited settings</span>
+<span class="sd">            file. If it is None, the settings_file will be overwritten.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># open the settings file and find the search paths</span>
+    <span class="n">search_path_needed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">settings_key_needed</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">existing_paths</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">settings_file</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">set_data</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">element</span> <span class="o">=</span> <span class="n">xml</span><span class="o">.</span><span class="n">etree</span><span class="o">.</span><span class="n">ElementTree</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">set_data</span><span class="p">)</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;settings&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">settings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s1">&#39;entry&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="s1">&#39;SearchPaths&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                    <span class="n">existing_paths</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">text</span>
+                    <span class="k">if</span> <span class="n">python_package_dir</span> <span class="ow">in</span> <span class="n">entry</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+                        <span class="n">search_path_needed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># there&#39;s no settings key within the XML file; we must add it</span>
+            <span class="n">search_path_needed</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">settings_key_needed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;&lt;settings id=&quot;2.0&quot;&gt;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;&lt;settings&gt;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;&lt;/settings&gt;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;&lt;/settings&gt;&#39;</span>
+        <span class="p">]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">contents</span><span class="p">))</span>
+
+    <span class="c1"># add the search paths if it was not found</span>
+    <span class="k">if</span> <span class="n">destination_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">destination_file</span> <span class="o">=</span> <span class="n">settings_file</span>
+    <span class="k">if</span> <span class="n">search_path_needed</span><span class="p">:</span>
+        <span class="n">new_paths</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">existing_paths</span><span class="p">,</span> <span class="n">python_package_dir</span><span class="p">)</span> \
+            <span class="k">if</span> <span class="n">existing_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">python_package_dir</span>
+        <span class="n">line_to_add</span> <span class="o">=</span> <span class="s1">&#39;    &lt;entry key=&quot;SearchPaths&quot;&gt;</span><span class="si">{}</span><span class="s1">&lt;/entry&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_paths</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">contents</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">line_to_del</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">contents</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;&lt;entry key=&quot;SearchPaths&quot;&gt;&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">line_to_del</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">elif</span> <span class="s1">&#39;&lt;/settings&gt;&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="n">contents</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">line_to_add</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">line_to_del</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">contents</span><span class="p">[</span><span class="n">line_to_del</span><span class="p">]</span>
+        <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">destination_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">contents</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">settings_key_needed</span><span class="p">:</span>
+        <span class="n">lines_to_add</span> <span class="o">=</span> <span class="s1">&#39;  &lt;settings&gt;</span><span class="se">\n</span><span class="s1">    &lt;entry key=&quot;SearchPaths&quot;&gt;</span><span class="si">{}</span><span class="s1">&lt;/entry&gt;</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="s1">&#39;  &lt;/settings&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">python_package_dir</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">contents</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">contents</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;&lt;/settings&gt;&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="n">contents</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">lines_to_add</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">destination_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">contents</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">destination_file</span></div>
+
+
+<div class="viewcode-block" id="find_installed_rhino_scripts"><a class="viewcode-back" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.find_installed_rhino_scripts">[docs]</a><span class="k">def</span> <span class="nf">find_installed_rhino_scripts</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Get the path to the current user&#39;s Rhino scripts folder if it exists.&quot;&quot;&quot;</span>
+    <span class="n">installed_scripts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span><span class="p">:</span>  <span class="c1"># we are on Windows</span>
+        <span class="n">appdata_roaming</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;APPDATA&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ver</span> <span class="ow">in</span> <span class="n">find_installed_rhino_versions_windows</span><span class="p">():</span>
+            <span class="n">scripts_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">appdata_roaming</span><span class="p">,</span> <span class="s1">&#39;McNeel&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;Rhinoceros&#39;</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="s1">&#39;scripts&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">scripts_folder</span><span class="p">):</span>
+                <span class="n">installed_scripts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scripts_folder</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># we are on Mac</span>
+        <span class="n">home_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;HOME&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ver</span> <span class="ow">in</span> <span class="n">RHINO_VERSIONS</span><span class="p">:</span>
+            <span class="n">scripts_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">home_folder</span><span class="p">,</span> <span class="s1">&#39;Library&#39;</span><span class="p">,</span> <span class="s1">&#39;Application Support&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;McNeel&#39;</span><span class="p">,</span> <span class="s1">&#39;Rhinoceros&#39;</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="s1">&#39;scripts&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">scripts_folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">scripts_folder</span><span class="p">)</span>
+            <span class="n">installed_scripts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scripts_folder</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">installed_scripts</span></div>
+
+
+<div class="viewcode-block" id="copy_packages_to_rhino_scripts"><a class="viewcode-back" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.copy_packages_to_rhino_scripts">[docs]</a><span class="k">def</span> <span class="nf">copy_packages_to_rhino_scripts</span><span class="p">(</span><span class="n">python_package_dir</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Copy Ladybug tools packages into a directory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        python_package_dir: The path to a directory that contains the Ladybug</span>
+<span class="sd">            Tools core libraries.</span>
+<span class="sd">        directory: The directory into which the packages will be copied. If None,</span>
+<span class="sd">            the function will search for all installed copies of the current user&#39;s</span>
+<span class="sd">            Rhino scripts folder.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">folders</span> <span class="o">=</span> <span class="n">find_installed_rhino_scripts</span><span class="p">()</span> <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[</span><span class="n">directory</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">fold</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="n">PACKAGES</span><span class="p">:</span>
+            <span class="n">lib_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">python_package_dir</span><span class="p">,</span> <span class="n">pkg</span><span class="p">)</span>
+            <span class="n">dest_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fold</span><span class="p">,</span> <span class="n">pkg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">lib_folder</span><span class="p">):</span>
+                <span class="n">copy_file_tree</span><span class="p">(</span><span class="n">lib_folder</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Python packages copied to: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="clean_rhino_scripts"><a class="viewcode-back" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.clean_rhino_scripts">[docs]</a><span class="k">def</span> <span class="nf">clean_rhino_scripts</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remove installed Ladybug Tools packages from the old library directory.</span>
+
+<span class="sd">    This function is usually run in order to avoid potential namespace conflicts.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        directory: The directory to be cleaned. If None, the function will</span>
+<span class="sd">            search for all installed copies of the current user&#39;s</span>
+<span class="sd">            Rhino scripts folder.</span>
+<span class="sd">     &quot;&quot;&quot;</span>
+    <span class="n">folders</span> <span class="o">=</span> <span class="n">find_installed_rhino_scripts</span><span class="p">()</span> <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[</span><span class="n">directory</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">fold</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="n">PACKAGES</span><span class="p">:</span>
+            <span class="n">lib_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fold</span><span class="p">,</span> <span class="n">pkg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">lib_folder</span><span class="p">):</span>
+                <span class="n">nukedir</span><span class="p">(</span><span class="n">lib_folder</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Python packages removed from: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lib_folder</span><span class="p">))</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

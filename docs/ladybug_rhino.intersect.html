@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ladybug_rhino.intersect module &#8212; ladybug-rhino  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ladybug_rhino.planarize module" href="ladybug_rhino.planarize.html" />
+    <link rel="prev" title="ladybug_rhino.grasshopper module" href="ladybug_rhino.grasshopper.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          ladybug-rhino</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="cli/index.html">CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli/main.html">main</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cli/main.html#ladybug-rhino">ladybug-rhino</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="cli/main.html#ladybug-rhino-viz">viz</a></li>
+<li class="toctree-l5"><a class="reference internal" href="cli/main.html#ladybug-rhino-set-python-search">set-python-search</a></li>
+<li class="toctree-l5"><a class="reference internal" href="cli/main.html#ladybug-rhino-copy-gh-components">copy-gh-components</a></li>
+<li class="toctree-l5"><a class="reference internal" href="cli/main.html#ladybug-rhino-remove-gh-components">remove-gh-components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ladybug_rhino.html">ladybug_rhino package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.cli.html">ladybug_rhino.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ladybug_rhino.cli.html#module-ladybug_rhino.cli">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.versioning.html">ladybug_rhino.versioning package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ladybug_rhino.versioning.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.component.html">ladybug_rhino.versioning.component module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.diff.html">ladybug_rhino.versioning.diff module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.export.html">ladybug_rhino.versioning.export module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.gather.html">ladybug_rhino.versioning.gather module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.release.html">ladybug_rhino.versioning.release module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ladybug_rhino.versioning.userobject.html">ladybug_rhino.versioning.userobject module</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="ladybug_rhino.versioning.html#module-ladybug_rhino.versioning">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="ladybug_rhino.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.planarize.html">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="cli/index.html">CLI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ladybug_rhino.html">ladybug_rhino package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ladybug_rhino.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.planarize.html">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="ladybug_rhino.grasshopper.html" title="Previous Chapter: ladybug_rhino.grasshopper module"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; ladybug_rhino...</span>
+    </a>
+  </li>
+  <li>
+    <a href="ladybug_rhino.planarize.html" title="Next Chapter: ladybug_rhino.planarize module"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">ladybug_rhino... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/ladybug_rhino.intersect.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="cli/index.html">CLI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ladybug_rhino.html">ladybug_rhino package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ladybug_rhino.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.planarize.html">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <div class="section" id="module-ladybug_rhino.intersect">
+<span id="ladybug-rhino-intersect-module"></span><h1>ladybug_rhino.intersect module<a class="headerlink" href="#module-ladybug_rhino.intersect" title="Permalink to this headline">¶</a></h1>
+<p>Functions to handle intersection of Rhino geometries.</p>
+<p>These represent geometry computation methods  that are either not supported by
+ladybug_geometry or there are much more efficient versions of them in Rhino.</p>
+<dl class="py function">
+<dt id="ladybug_rhino.intersect.geo_min_max_height">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.intersect.</span></code><code class="sig-name descname"><span class="pre">geo_min_max_height</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/intersect.html#geo_min_max_height"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.intersect.geo_min_max_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the min and max Z values of any input object.</p>
+<p>This is useful as a pre-step before the split_solid_to_floors method.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.intersect.intersect_mesh_lines">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.intersect.</span></code><code class="sig-name descname"><span class="pre">intersect_mesh_lines</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/intersect.html#intersect_mesh_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.intersect.intersect_mesh_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intersect a group of lines (represented by start + end points) with a mesh.</p>
+<p>All combinations of lines that are possible between the input start_points and
+end_points will be intersected. This method exists since most CAD plugins have
+much more efficient mesh/line intersection functions than ladybug_geometry.
+However, the ladybug_geometry Face3D.intersect_line_ray() method provides
+a workable (albeit very inefficient) alternative to this if it is needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> – A Rhino mesh that can block the lines.</p></li>
+<li><p><strong>start_points</strong> – An array of Rhino points that will be used to generate lines.</p></li>
+<li><p><strong>end_points</strong> – An array of Rhino points that will be used to generate lines.</p></li>
+<li><p><strong>max_dist</strong> – An optional number to set the maximum distance beyond which the
+end_points are no longer considered visible by the start_points.
+If None, points with an unobstructed view to one another will be
+considered visible no matter how far they are from one another.</p></li>
+<li><p><strong>parallel</strong> – Boolean to indicate if the intersection should be run in
+parallel with one point per CPU. (Default: False).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A 2D matrix of 0’s and 1’s indicating the results of the intersection.
+Each sub-list of the matrix represents one of the points and has a
+length equal to the end_points. 0 indicates a blocked ray and 1 indicates
+a ray that was not blocked.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.intersect.intersect_mesh_rays">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.intersect.</span></code><code class="sig-name descname"><span class="pre">intersect_mesh_rays</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/intersect.html#intersect_mesh_rays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.intersect.intersect_mesh_rays" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intersect a group of rays (represented by points and vectors) with a mesh.</p>
+<p>All combinations of rays that are possible between the input points and
+vectors will be intersected. This method exists since most CAD plugins have
+much more efficient mesh/ray intersection functions than ladybug_geometry.
+However, the ladybug_geometry Face3D.intersect_line_ray() method provides
+a workable (albeit very inefficient) alternative to this if it is needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> – A Rhino mesh that can block the rays.</p></li>
+<li><p><strong>points</strong> – An array of Rhino points that will be used to generate rays.</p></li>
+<li><p><strong>vectors</strong> – An array of Rhino vectors that will be used to generate rays.</p></li>
+<li><p><strong>normals</strong> – An optional array of Rhino vectors that align with the input
+points and denote the direction each point is facing. These will
+be used to eliminate any cases where the vector and the normal differ
+by more than 90 degrees. If None, points are assumed to have no direction.</p></li>
+<li><p><strong>parallel</strong> – Boolean to indicate if the intersection should be run in
+parallel with one point per CPU. (Default: False).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>A tuple with two elements</p>
+<ul class="simple">
+<li><p>intersection_matrix – A 2D matrix of 0’s and 1’s indicating the results
+of the intersection. Each sub-list of the matrix represents one of the
+points and has a length equal to the vectors. 0 indicates a blocked
+ray and 1 indicates a ray that was not blocked.</p></li>
+<li><p>angle_matrix – A 2D matrix of angles in radians. Each sub-list of the
+matrix represents one of the normals and has a length equal to the
+supplied vectors. Will be None if no normals are provided.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.intersect.intersect_solid">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.intersect.</span></code><code class="sig-name descname"><span class="pre">intersect_solid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_solid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/intersect.html#intersect_solid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.intersect.intersect_solid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intersect the co-planar faces of one solid Brep using another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solid</strong> – The solid Brep which will be split with intersections.</p></li>
+<li><p><strong>other_solid</strong> – The other Brep, which will be used to split.</p></li>
+<li><p><strong>tolerance</strong> – Distance within which two points are considered to be co-located.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>A tuple with two elements</p>
+<ul class="simple">
+<li><p>solid – The input solid, which has been split.</p></li>
+<li><p>intersection_exists – Boolean to note whether an intersection was found
+between the solid and the other_solid. If False, there’s no need to
+split the other_solid with the input solid.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.intersect.intersect_solids">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.intersect.</span></code><code class="sig-name descname"><span class="pre">intersect_solids</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_boxes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/intersect.html#intersect_solids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.intersect.intersect_solids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intersect the co-planar faces of an array of solids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>original_solids</strong> – An array of closed Rhino breps (polysurfaces) that do
+not have perfectly matching surfaces between adjacent Faces.</p></li>
+<li><p><strong>bound_boxes</strong> – An array of Rhino bounding boxes that parellels the input
+solids and will be used to check whether two Breps have any potential
+for intersection before the actual intersection is performed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>int_solids – The input array of solids, which have all been intersected
+with one another.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.intersect.intersect_solids_parallel">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.intersect.</span></code><code class="sig-name descname"><span class="pre">intersect_solids_parallel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_boxes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/intersect.html#intersect_solids_parallel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.intersect.intersect_solids_parallel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intersect the co-planar faces of an array of solids using parallel processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>original_solids</strong> – An array of closed Rhino breps (polysurfaces) that do
+not have perfectly matching surfaces between adjacent Faces.</p></li>
+<li><p><strong>bound_boxes</strong> – An array of Rhino bounding boxes that parellels the input
+solids and will be used to check whether two Breps have any potential
+for intersection before the actual intersection is performed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>int_solids – The input array of solids, which have all been intersected
+with one another.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.intersect.join_geometry_to_mesh">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.intersect.</span></code><code class="sig-name descname"><span class="pre">join_geometry_to_mesh</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/intersect.html#join_geometry_to_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.intersect.join_geometry_to_mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an array of Rhino Breps and/or Meshes into a single Rhino Mesh.</p>
+<p>This is a typical pre-step before using the intersect_mesh_rays function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>geometry</strong> – An array of Rhino Breps or Rhino Meshes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.intersect.overlapping_bounding_boxes">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.intersect.</span></code><code class="sig-name descname"><span class="pre">overlapping_bounding_boxes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bound_box1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_box2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/intersect.html#overlapping_bounding_boxes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.intersect.overlapping_bounding_boxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if two Rhino bounding boxes overlap within the tolerance.</p>
+<p>This is particularly useful as a check before performing computationally
+intense intersection processes between two bounding boxes. Checking the
+overlap of the bounding boxes is extremely quick given this method’s use
+of the Separating Axis Theorem. This method is built into the intersect_solids
+functions in order to improve its calculation time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bound_box1</strong> – The first bound_box to check.</p></li>
+<li><p><strong>bound_box2</strong> – The second bound_box to check.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ladybug_rhino.intersect.split_solid_to_floors">
+<code class="sig-prename descclassname"><span class="pre">ladybug_rhino.intersect.</span></code><code class="sig-name descname"><span class="pre">split_solid_to_floors</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">building_solid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">floor_heights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ladybug_rhino/intersect.html#split_solid_to_floors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ladybug_rhino.intersect.split_solid_to_floors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract a series of planar floor surfaces from solid building massing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>building_solid</strong> – A closed brep representing a building massing.</p></li>
+<li><p><strong>floor_heights</strong> – An array of float values for the floor heights, which
+will be used to generate planes that subdivide the building solid.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>floor_breps – A list of planar, horizontal breps representing the floors
+of the building.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

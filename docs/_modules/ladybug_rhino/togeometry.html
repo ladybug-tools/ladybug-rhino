@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ladybug_rhino.togeometry &#8212; ladybug-rhino  documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          ladybug-rhino</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/main.html">main</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/main.html#ladybug-rhino">ladybug-rhino</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-viz">viz</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-set-python-search">set-python-search</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-copy-gh-components">copy-gh-components</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-remove-gh-components">remove-gh-components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.cli.html">ladybug_rhino.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.cli.html#module-ladybug_rhino.cli">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.versioning.html">ladybug_rhino.versioning package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.versioning.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html">ladybug_rhino.versioning.component module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html">ladybug_rhino.versioning.diff module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html">ladybug_rhino.versioning.export module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html">ladybug_rhino.versioning.gather module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.release.html">ladybug_rhino.versioning.release module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.userobject.html">ladybug_rhino.versioning.userobject module</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.versioning.html#module-ladybug_rhino.versioning">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.intersect.html">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.planarize.html">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for ladybug_rhino.togeometry</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions to create Ladybug geometries from Rhino geometries.&quot;&quot;&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry2d.pointvector</span> <span class="kn">import</span> <span class="n">Vector2D</span><span class="p">,</span> <span class="n">Point2D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry2d.ray</span> <span class="kn">import</span> <span class="n">Ray2D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry2d.line</span> <span class="kn">import</span> <span class="n">LineSegment2D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry2d.polyline</span> <span class="kn">import</span> <span class="n">Polyline2D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry2d.polygon</span> <span class="kn">import</span> <span class="n">Polygon2D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry2d.mesh</span> <span class="kn">import</span> <span class="n">Mesh2D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry3d.pointvector</span> <span class="kn">import</span> <span class="n">Vector3D</span><span class="p">,</span> <span class="n">Point3D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry3d.ray</span> <span class="kn">import</span> <span class="n">Ray3D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry3d.line</span> <span class="kn">import</span> <span class="n">LineSegment3D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry3d.polyline</span> <span class="kn">import</span> <span class="n">Polyline3D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry3d.plane</span> <span class="kn">import</span> <span class="n">Plane</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry3d.mesh</span> <span class="kn">import</span> <span class="n">Mesh3D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry3d.face</span> <span class="kn">import</span> <span class="n">Face3D</span>
+    <span class="kn">from</span> <span class="nn">ladybug_geometry.geometry3d.polyface</span> <span class="kn">import</span> <span class="n">Polyface3D</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+        <span class="s2">&quot;Failed to import ladybug_geometry.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">ladybug.color</span> <span class="k">as</span> <span class="nn">lbc</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Failed to import ladybug.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">Rhino.Geometry</span> <span class="k">as</span> <span class="nn">rg</span>
+
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Failed to import Rhino.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="kn">import</span> <span class="nn">ladybug_rhino.planarize</span> <span class="k">as</span> <span class="nn">_planar</span>
+<span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">tolerance</span>
+
+
+<span class="sd">&quot;&quot;&quot;____________2D GEOMETRY TRANSLATORS____________&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="to_vector2d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_vector2d">[docs]</a><span class="k">def</span> <span class="nf">to_vector2d</span><span class="p">(</span><span class="n">vector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Vector2D from Rhino Vector3d.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Vector2D</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">vector</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_point2d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_point2d">[docs]</a><span class="k">def</span> <span class="nf">to_point2d</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Point2D from Rhino Point3d.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Point2D</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_ray2d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_ray2d">[docs]</a><span class="k">def</span> <span class="nf">to_ray2d</span><span class="p">(</span><span class="n">ray</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Ray2D from Rhino Ray3d.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Ray2D</span><span class="p">(</span><span class="n">to_point2d</span><span class="p">(</span><span class="n">ray</span><span class="o">.</span><span class="n">Position</span><span class="p">),</span> <span class="n">to_vector2d</span><span class="p">(</span><span class="n">ray</span><span class="o">.</span><span class="n">Direction</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="to_linesegment2d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_linesegment2d">[docs]</a><span class="k">def</span> <span class="nf">to_linesegment2d</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug LineSegment2D from Rhino LineCurve.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">LineSegment2D</span><span class="o">.</span><span class="n">from_end_points</span><span class="p">(</span>
+        <span class="n">to_point2d</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">PointAtStart</span><span class="p">),</span> <span class="n">to_point2d</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">PointAtEnd</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="to_polyline2d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_polyline2d">[docs]</a><span class="k">def</span> <span class="nf">to_polyline2d</span><span class="p">(</span><span class="n">polyline</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Polyline2D from a Rhino PolyLineCurve.</span>
+
+<span class="sd">    A LineSegment2D will be returned if the input polyline has only two points.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_point2d</span><span class="p">(</span><span class="n">polyline</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">polyline</span><span class="o">.</span><span class="n">PointCount</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">Polyline2D</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">LineSegment2D</span><span class="o">.</span><span class="n">from_end_points</span><span class="p">(</span><span class="o">*</span><span class="n">pts</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_polygon2d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_polygon2d">[docs]</a><span class="k">def</span> <span class="nf">to_polygon2d</span><span class="p">(</span><span class="n">polygon</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Polygon2D from Rhino closed PolyLineCurve.&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">polygon</span><span class="o">.</span><span class="n">IsClosed</span><span class="p">,</span> \
+        <span class="s1">&#39;Rhino PolyLineCurve must be closed to make a Ladybug Polygon2D.&#39;</span>
+    <span class="k">return</span> <span class="n">Polygon2D</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">to_point2d</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">PointCount</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)])</span></div>
+
+
+<div class="viewcode-block" id="to_mesh2d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_mesh2d">[docs]</a><span class="k">def</span> <span class="nf">to_mesh2d</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">color_by_face</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Mesh2D from Rhino Mesh.&quot;&quot;&quot;</span>
+    <span class="n">lb_verts</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">to_point2d</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">Vertices</span><span class="p">)</span>
+    <span class="n">lb_faces</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="n">_extract_mesh_faces_colors</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">color_by_face</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Mesh2D</span><span class="p">(</span><span class="n">lb_verts</span><span class="p">,</span> <span class="n">lb_faces</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;____________3D GEOMETRY TRANSLATORS____________&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="to_vector3d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_vector3d">[docs]</a><span class="k">def</span> <span class="nf">to_vector3d</span><span class="p">(</span><span class="n">vector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Vector3D from Rhino Vector3d.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Vector3D</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">vector</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">vector</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_point3d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_point3d">[docs]</a><span class="k">def</span> <span class="nf">to_point3d</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Point3D from Rhino Point3d.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Point3D</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_ray3d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_ray3d">[docs]</a><span class="k">def</span> <span class="nf">to_ray3d</span><span class="p">(</span><span class="n">ray</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Ray3D from Rhino Ray3d.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Ray3D</span><span class="p">(</span><span class="n">to_point3d</span><span class="p">(</span><span class="n">ray</span><span class="o">.</span><span class="n">Position</span><span class="p">),</span> <span class="n">to_vector3d</span><span class="p">(</span><span class="n">ray</span><span class="o">.</span><span class="n">Direction</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="to_linesegment3d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_linesegment3d">[docs]</a><span class="k">def</span> <span class="nf">to_linesegment3d</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug LineSegment3D from Rhino LineCurve.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">LineSegment3D</span><span class="o">.</span><span class="n">from_end_points</span><span class="p">(</span>
+        <span class="n">to_point3d</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">PointAtStart</span><span class="p">),</span> <span class="n">to_point3d</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">PointAtEnd</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="to_polyline3d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_polyline3d">[docs]</a><span class="k">def</span> <span class="nf">to_polyline3d</span><span class="p">(</span><span class="n">polyline</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Polyline3D from a Rhino PolyLineCurve.</span>
+
+<span class="sd">    A LineSegment3D will be returned if the input polyline has only two points.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_point3d</span><span class="p">(</span><span class="n">polyline</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">polyline</span><span class="o">.</span><span class="n">PointCount</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">Polyline3D</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">LineSegment3D</span><span class="o">.</span><span class="n">from_end_points</span><span class="p">(</span><span class="o">*</span><span class="n">pts</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_plane"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_plane">[docs]</a><span class="k">def</span> <span class="nf">to_plane</span><span class="p">(</span><span class="n">pl</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Plane from Rhino Plane.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Plane</span><span class="p">(</span>
+        <span class="n">to_vector3d</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">ZAxis</span><span class="p">),</span> <span class="n">to_point3d</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Origin</span><span class="p">),</span> <span class="n">to_vector3d</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">XAxis</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="to_face3d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_face3d">[docs]</a><span class="k">def</span> <span class="nf">to_face3d</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">meshing_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;List of Ladybug Face3D objects from a Rhino Brep, Surface or Mesh.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        brep: A Rhino Brep, Surface or Mesh that will be converted into a list</span>
+<span class="sd">            of Ladybug Face3D.</span>
+<span class="sd">        meshing_parameters: Optional Rhino Meshing Parameters to describe how</span>
+<span class="sd">            curved faces should be converted into planar elements. If None,</span>
+<span class="sd">            Rhino&#39;s Default Meshing Parameters will be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">faces</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list of Face3Ds to be populated and returned</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">rg</span><span class="o">.</span><span class="n">Mesh</span><span class="p">):</span>  <span class="c1"># convert each Mesh face to a Face3D</span>
+        <span class="n">pts</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">to_point3d</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vertices</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="n">geo</span><span class="o">.</span><span class="n">Faces</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">face</span><span class="o">.</span><span class="n">IsQuad</span><span class="p">:</span>
+                <span class="n">all_verts</span> <span class="o">=</span> <span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">pts</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">pts</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">pts</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">3</span><span class="p">]])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">all_verts</span> <span class="o">=</span> <span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">pts</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">pts</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
+            <span class="n">lb_face</span> <span class="o">=</span> <span class="n">Face3D</span><span class="p">(</span><span class="n">all_verts</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">lb_face</span><span class="o">.</span><span class="n">area</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Face3D</span><span class="p">(</span><span class="n">all_verts</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># convert each Brep Face to a Face3D</span>
+        <span class="n">meshing_parameters</span> <span class="o">=</span> <span class="n">meshing_parameters</span> <span class="ow">or</span> <span class="n">rg</span><span class="o">.</span><span class="n">MeshingParameters</span><span class="o">.</span><span class="n">Default</span>  <span class="c1"># default</span>
+        <span class="k">for</span> <span class="n">b_face</span> <span class="ow">in</span> <span class="n">geo</span><span class="o">.</span><span class="n">Faces</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">b_face</span><span class="o">.</span><span class="n">IsPlanar</span><span class="p">(</span><span class="n">tolerance</span><span class="p">):</span>
+                <span class="n">all_verts</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">b_face</span><span class="o">.</span><span class="n">Loops</span><span class="o">.</span><span class="n">Count</span><span class="p">):</span>  <span class="c1"># Each loop is a boundary/hole</span>
+                    <span class="n">success</span><span class="p">,</span> <span class="n">loop_pline</span> <span class="o">=</span> \
+                        <span class="n">b_face</span><span class="o">.</span><span class="n">Loops</span><span class="o">.</span><span class="n">Item</span><span class="p">[</span><span class="n">count</span><span class="p">]</span><span class="o">.</span><span class="n">To3dCurve</span><span class="p">()</span><span class="o">.</span><span class="n">TryGetPolyline</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>  <span class="c1"># Failed to get a polyline; there&#39;s a curved edge</span>
+                        <span class="n">loop_verts</span> <span class="o">=</span> <span class="n">_planar</span><span class="o">.</span><span class="n">planar_face_curved_edge_vertices</span><span class="p">(</span>
+                            <span class="n">b_face</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">meshing_parameters</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>  <span class="c1"># we have a polyline representing the loop</span>
+                        <span class="n">loop_verts</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">to_point3d</span><span class="p">(</span><span class="n">loop_pline</span><span class="o">.</span><span class="n">Item</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                                           <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">loop_pline</span><span class="o">.</span><span class="n">Count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="n">all_verts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_remove_dup_verts</span><span class="p">(</span><span class="n">loop_verts</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_verts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># No holes in the shape</span>
+                    <span class="n">faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Face3D</span><span class="p">(</span><span class="n">all_verts</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># There&#39;s at least one hole in the shape</span>
+                    <span class="n">faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Face3D</span><span class="p">(</span><span class="n">boundary</span><span class="o">=</span><span class="n">all_verts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">holes</span><span class="o">=</span><span class="n">all_verts</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># curved face must be meshed into planar Face3D objects</span>
+                <span class="n">faces</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_planar</span><span class="o">.</span><span class="n">curved_surface_faces</span><span class="p">(</span><span class="n">b_face</span><span class="p">,</span> <span class="n">meshing_parameters</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">faces</span></div>
+
+
+<div class="viewcode-block" id="to_polyface3d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_polyface3d">[docs]</a><span class="k">def</span> <span class="nf">to_polyface3d</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">meshing_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A Ladybug Polyface3D object from a Rhino Brep.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geo: A Rhino Brep, Surface or Mesh that will be converted into a single</span>
+<span class="sd">            Ladybug Polyface3D.</span>
+<span class="sd">        meshing_parameters: Optional Rhino Meshing Parameters to describe how</span>
+<span class="sd">            curved faces should be converted into planar elements. If None,</span>
+<span class="sd">            Rhino&#39;s Default Meshing Parameters will be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mesh_par</span> <span class="o">=</span> <span class="n">meshing_parameters</span> <span class="ow">or</span> <span class="n">rg</span><span class="o">.</span><span class="n">MeshingParameters</span><span class="o">.</span><span class="n">Default</span>  <span class="c1"># default</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">rg</span><span class="o">.</span><span class="n">Mesh</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_planar</span><span class="o">.</span><span class="n">has_curved_face</span><span class="p">(</span><span class="n">geo</span><span class="p">):</span>  <span class="c1"># keep solidity</span>
+        <span class="k">return</span> <span class="n">Polyface3D</span><span class="o">.</span><span class="n">from_faces</span><span class="p">(</span><span class="n">_planar</span><span class="o">.</span><span class="n">curved_solid_faces</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">mesh_par</span><span class="p">),</span> <span class="n">tolerance</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Polyface3D</span><span class="o">.</span><span class="n">from_faces</span><span class="p">(</span><span class="n">to_face3d</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">mesh_par</span><span class="p">),</span> <span class="n">tolerance</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_mesh3d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_mesh3d">[docs]</a><span class="k">def</span> <span class="nf">to_mesh3d</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">color_by_face</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ladybug Mesh3D from Rhino Mesh.&quot;&quot;&quot;</span>
+    <span class="n">lb_verts</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">to_point3d</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">Vertices</span><span class="p">)</span>
+    <span class="n">lb_faces</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="n">_extract_mesh_faces_colors</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">color_by_face</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Mesh3D</span><span class="p">(</span><span class="n">lb_verts</span><span class="p">,</span> <span class="n">lb_faces</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;________ADDITIONAL 3D GEOMETRY TRANSLATORS________&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="to_gridded_mesh3d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_gridded_mesh3d">[docs]</a><span class="k">def</span> <span class="nf">to_gridded_mesh3d</span><span class="p">(</span><span class="n">brep</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">,</span> <span class="n">offset_distance</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a gridded Ladybug Mesh3D from a Rhino Brep.</span>
+
+<span class="sd">    This is useful since Rhino&#39;s grid meshing is often more beautiful than what</span>
+<span class="sd">    ladybug_geometry can produce. However, the ladybug_geometry Face3D.get_mesh_grid</span>
+<span class="sd">    method provides a workable alternative to this if it is needed.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        brep: A Rhino Brep that will be converted into a gridded Ladybug Mesh3D.</span>
+<span class="sd">        grid_size: A number for the grid size dimension with which to make the mesh.</span>
+<span class="sd">        offset_distance: A number for the distance at which to offset the mesh from</span>
+<span class="sd">            the underlying brep. The default is 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">meshing_param</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">MeshingParameters</span><span class="o">.</span><span class="n">Default</span>
+    <span class="n">meshing_param</span><span class="o">.</span><span class="n">MaximumEdgeLength</span> <span class="o">=</span> <span class="n">grid_size</span>
+    <span class="n">meshing_param</span><span class="o">.</span><span class="n">MinimumEdgeLength</span> <span class="o">=</span> <span class="n">grid_size</span>
+    <span class="n">meshing_param</span><span class="o">.</span><span class="n">GridAspectRatio</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">mesh_grids</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Mesh</span><span class="o">.</span><span class="n">CreateFromBrep</span><span class="p">(</span><span class="n">brep</span><span class="p">,</span> <span class="n">meshing_param</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mesh_grids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># only one mesh was generated</span>
+        <span class="n">mesh_grid</span> <span class="o">=</span> <span class="n">mesh_grids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># join the meshes into one</span>
+        <span class="n">mesh_grid</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Mesh</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">m_grid</span> <span class="ow">in</span> <span class="n">mesh_grids</span><span class="p">:</span>
+            <span class="n">mesh_grid</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="n">m_grid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">offset_distance</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">temp_mesh</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Mesh</span><span class="p">()</span>
+        <span class="n">mesh_grid</span><span class="o">.</span><span class="n">Normals</span><span class="o">.</span><span class="n">UnitizeNormals</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">pt</span><span class="p">,</span> <span class="n">vec</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mesh_grid</span><span class="o">.</span><span class="n">Vertices</span><span class="p">,</span> <span class="n">mesh_grid</span><span class="o">.</span><span class="n">Normals</span><span class="p">):</span>
+            <span class="n">temp_mesh</span><span class="o">.</span><span class="n">Vertices</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">pt</span> <span class="o">+</span> <span class="p">(</span><span class="n">rg</span><span class="o">.</span><span class="n">Vector3f</span><span class="o">.</span><span class="n">Multiply</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">offset_distance</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="n">mesh_grid</span><span class="o">.</span><span class="n">Faces</span><span class="p">:</span>
+            <span class="n">temp_mesh</span><span class="o">.</span><span class="n">Faces</span><span class="o">.</span><span class="n">AddFace</span><span class="p">(</span><span class="n">face</span><span class="p">)</span>
+        <span class="n">mesh_grid</span> <span class="o">=</span> <span class="n">temp_mesh</span>
+    <span class="k">return</span> <span class="n">to_mesh3d</span><span class="p">(</span><span class="n">mesh_grid</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_joined_gridded_mesh3d"><a class="viewcode-back" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_joined_gridded_mesh3d">[docs]</a><span class="k">def</span> <span class="nf">to_joined_gridded_mesh3d</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">,</span> <span class="n">offset_distance</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a single gridded Ladybug Mesh3D from an array of Rhino geometry.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        breps: An array of Rhino Breps and/or Rhino meshes that will be converted</span>
+<span class="sd">            into a single, joined gridded Ladybug Mesh3D.</span>
+<span class="sd">        grid_size: A number for the grid size dimension with which to make the mesh.</span>
+<span class="sd">        offset_distance: A number for the distance at which to offset the mesh from</span>
+<span class="sd">            the underlying brep. The default is 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lb_meshes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">geo</span> <span class="ow">in</span> <span class="n">geometry</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">rg</span><span class="o">.</span><span class="n">Brep</span><span class="p">):</span>
+            <span class="n">lb_meshes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_gridded_mesh3d</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">,</span> <span class="n">offset_distance</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># assume that it&#39;s a Mesh</span>
+            <span class="n">lb_meshes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_mesh3d</span><span class="p">(</span><span class="n">geo</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lb_meshes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">lb_meshes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Mesh3D</span><span class="o">.</span><span class="n">join_meshes</span><span class="p">(</span><span class="n">lb_meshes</span><span class="p">)</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;________________EXTRA HELPER FUNCTIONS________________&quot;&quot;&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">_extract_mesh_faces_colors</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">color_by_face</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract face indices and colors from a Rhino mesh.&quot;&quot;&quot;</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">lb_faces</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">Faces</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">face</span><span class="o">.</span><span class="n">IsQuad</span><span class="p">:</span>
+            <span class="n">lb_faces</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">face</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">face</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">face</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">face</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lb_faces</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">face</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">face</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">face</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">VertexColors</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">color_by_face</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">Faces</span><span class="p">:</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">VertexColors</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lbc</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">G</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">B</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">VertexColors</span><span class="p">:</span>
+                <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lbc</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">G</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">B</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">lb_faces</span><span class="p">,</span> <span class="n">colors</span>
+
+
+<span class="k">def</span> <span class="nf">_remove_dup_verts</span><span class="p">(</span><span class="n">vertices</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remove vertices from an array of Point3Ds that are equal within the tolerance.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">pt</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">pt</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">tolerance</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

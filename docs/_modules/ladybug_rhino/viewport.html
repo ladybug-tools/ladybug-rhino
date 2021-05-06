@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ladybug_rhino.viewport &#8212; ladybug-rhino  documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          ladybug-rhino</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/main.html">main</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/main.html#ladybug-rhino">ladybug-rhino</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-viz">viz</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-set-python-search">set-python-search</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-copy-gh-components">copy-gh-components</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-remove-gh-components">remove-gh-components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.cli.html">ladybug_rhino.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.cli.html#module-ladybug_rhino.cli">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.versioning.html">ladybug_rhino.versioning package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.versioning.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html">ladybug_rhino.versioning.component module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html">ladybug_rhino.versioning.diff module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html">ladybug_rhino.versioning.export module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html">ladybug_rhino.versioning.gather module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.release.html">ladybug_rhino.versioning.release module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.userobject.html">ladybug_rhino.versioning.userobject module</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.versioning.html#module-ladybug_rhino.versioning">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.baketext.html">ladybug_rhino.baketext module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.color.html">ladybug_rhino.color module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.config.html">ladybug_rhino.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.download.html">ladybug_rhino.download module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.intersect.html">ladybug_rhino.intersect module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.planarize.html">ladybug_rhino.planarize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.text.html">ladybug_rhino.text module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for ladybug_rhino.viewport</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions for getting viewport properties, creating new viewports, and editing them.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">System</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># No .NET; We are really screwed</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Failed to import System.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">Rhino.Geometry</span> <span class="k">as</span> <span class="nn">rg</span>
+    <span class="kn">import</span> <span class="nn">Rhino.Display</span> <span class="k">as</span> <span class="nn">rd</span>
+    <span class="kn">import</span> <span class="nn">Rhino.RhinoDoc</span> <span class="k">as</span> <span class="nn">rhdoc</span>
+    <span class="kn">import</span> <span class="nn">Rhino.ApplicationSettings.AppearanceSettings</span> <span class="k">as</span> <span class="nn">aps</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># No RhinoCommon doc is available. This module is useless.</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Failed to import Rhino.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">scriptcontext</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># No Rhino doc is available. This module is useless.</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Failed to import Rhino scriptcontext.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="kn">from</span> <span class="nn">.text</span> <span class="kn">import</span> <span class="n">TextGoo</span>
+
+
+<div class="viewcode-block" id="camera_oriented_plane"><a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.camera_oriented_plane">[docs]</a><span class="k">def</span> <span class="nf">camera_oriented_plane</span><span class="p">(</span><span class="n">origin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a Rhino Plane that is oriented facing the camera.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        origin: A Rhino Point for the origin of the plane.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">active_view</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">ActiveView</span><span class="o">.</span><span class="n">ActiveViewport</span>
+    <span class="n">camera_x</span> <span class="o">=</span> <span class="n">active_view</span><span class="o">.</span><span class="n">CameraX</span>
+    <span class="n">camera_y</span> <span class="o">=</span> <span class="n">active_view</span><span class="o">.</span><span class="n">CameraY</span>
+    <span class="k">return</span> <span class="n">rg</span><span class="o">.</span><span class="n">Plane</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">camera_x</span><span class="p">,</span> <span class="n">camera_y</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="orient_to_camera"><a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.orient_to_camera">[docs]</a><span class="k">def</span> <span class="nf">orient_to_camera</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Orient an array of Rhino geometry objects to the camera of the active viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geometry: An array of Rhino Geometry objects (or TextGoo objects) to</span>
+<span class="sd">            the camera of the active Rhino viewport.</span>
+<span class="sd">        position: A point to be used as the origin around which the the geometry</span>
+<span class="sd">            will be oriented. If None, the lower left corner of the bounding box</span>
+<span class="sd">            around the geometry will be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># set the default position if it is None</span>
+    <span class="n">origin</span> <span class="o">=</span> <span class="n">_bounding_box_origin</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span>
+    <span class="n">pt</span> <span class="o">=</span> <span class="n">origin</span> <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">position</span>
+
+    <span class="c1"># get a plane oriented to the camera</span>
+    <span class="n">oriented_plane</span> <span class="o">=</span> <span class="n">camera_oriented_plane</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+
+    <span class="c1"># orient the input geometry to the plane facing the camera</span>
+    <span class="n">base_plane</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Plane</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">rg</span><span class="o">.</span><span class="n">Vector3d</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">xform</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Transform</span><span class="o">.</span><span class="n">PlaneToPlane</span><span class="p">(</span><span class="n">base_plane</span><span class="p">,</span> <span class="n">oriented_plane</span><span class="p">)</span>
+    <span class="n">geo</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">rh_geo</span> <span class="ow">in</span> <span class="n">geometry</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rh_geo</span><span class="p">,</span> <span class="n">TextGoo</span><span class="p">):</span>
+            <span class="n">geo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rh_geo</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">xform</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_geo</span> <span class="o">=</span> <span class="n">rh_geo</span><span class="o">.</span><span class="n">Duplicate</span><span class="p">()</span>
+            <span class="n">new_geo</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">xform</span><span class="p">)</span>
+            <span class="n">geo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_geo</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">geo</span></div>
+
+
+<div class="viewcode-block" id="viewport_by_name"><a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.viewport_by_name">[docs]</a><span class="k">def</span> <span class="nf">viewport_by_name</span><span class="p">(</span><span class="n">view_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a Rhino Viewport object using the name of the viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        view_name: Text for the name of the Rhino Viewport. If None, the</span>
+<span class="sd">            current Rhino viewport will be used. If the view is a named view that</span>
+<span class="sd">            is not currently open, it will be restored to the active view of</span>
+<span class="sd">            the Rhino document.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">Find</span><span class="p">(</span><span class="n">view_name</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">ActiveViewport</span> \
+            <span class="k">if</span> <span class="n">view_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">sc</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">ActiveView</span><span class="o">.</span><span class="n">ActiveViewport</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="c1"># try to find a named view and restore it</span>
+        <span class="n">view_table</span> <span class="o">=</span> <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">NamedViews</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">viewp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">view_table</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">viewp</span><span class="o">.</span><span class="n">Name</span> <span class="o">==</span> <span class="n">view_name</span><span class="p">:</span>
+                <span class="n">active_viewp</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">ActiveView</span><span class="o">.</span><span class="n">ActiveViewport</span>
+                <span class="n">view_table</span><span class="o">.</span><span class="n">Restore</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">active_viewp</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">active_viewp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Viewport &quot;</span><span class="si">{}</span><span class="s1">&quot; was not found in the Rhino &#39;</span>
+                             <span class="s1">&#39;document.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">view_name</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="open_viewport"><a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.open_viewport">[docs]</a><span class="k">def</span> <span class="nf">open_viewport</span><span class="p">(</span><span class="n">view_name</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a new Viewport in the active Rhino document at specified dimensions.</span>
+
+<span class="sd">    This will also set the newly-created view to be tha active Viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        view_name: Text for the name of the new Rhino Viewport that will be created.</span>
+<span class="sd">        width: Optional positive integer for the width of the view in pixels. If None,</span>
+<span class="sd">            the width of the currently active viewport will be used.</span>
+<span class="sd">        height: Optional positive integer for the height of the view in pixels. If</span>
+<span class="sd">            None, the height of the currently active viewport will be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># close the view if it already exists</span>
+    <span class="k">if</span> <span class="n">sc</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">Find</span><span class="p">(</span><span class="n">view_name</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">sc</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">Find</span><span class="p">(</span><span class="n">view_name</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+
+    <span class="c1"># get the width and the height if it was not specified</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">ActiveView</span><span class="o">.</span><span class="n">ActiveViewport</span><span class="o">.</span><span class="n">Size</span><span class="o">.</span><span class="n">Width</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">width</span> <span class="k">else</span> <span class="n">width</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">ActiveView</span><span class="o">.</span><span class="n">ActiveViewport</span><span class="o">.</span><span class="n">Size</span><span class="o">.</span><span class="n">Height</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">height</span> <span class="k">else</span> <span class="n">height</span>
+
+    <span class="c1"># compute the X,Y screen coordinates where the new viewport will be placed</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">System</span><span class="o">.</span><span class="n">Windows</span><span class="o">.</span><span class="n">Forms</span><span class="o">.</span><span class="n">Screen</span><span class="o">.</span><span class="n">PrimaryScreen</span><span class="o">.</span><span class="n">Bounds</span><span class="o">.</span><span class="n">Width</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">System</span><span class="o">.</span><span class="n">Windows</span><span class="o">.</span><span class="n">Forms</span><span class="o">.</span><span class="n">Screen</span><span class="o">.</span><span class="n">PrimaryScreen</span><span class="o">.</span><span class="n">Bounds</span><span class="o">.</span><span class="n">Height</span> <span class="o">-</span> <span class="n">h</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">rec</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="n">Drawing</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">System</span><span class="o">.</span><span class="n">Drawing</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">System</span><span class="o">.</span><span class="n">Drawing</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+
+    <span class="c1"># add the new view to the rhino document</span>
+    <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span>
+        <span class="n">view_name</span><span class="p">,</span> <span class="n">rd</span><span class="o">.</span><span class="n">DefinedViewportProjection</span><span class="o">.</span><span class="n">Perspective</span><span class="p">,</span> <span class="n">rec</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">viewport_by_name</span><span class="p">(</span><span class="n">view_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_view_display_mode"><a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.set_view_display_mode">[docs]</a><span class="k">def</span> <span class="nf">set_view_display_mode</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">display_mode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set the display mode of a Rhino Viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        viewport: A Rhino ViewPort object, which will have its display mode set.</span>
+<span class="sd">        display_mode: Text for the display mode to which the Rhino viewport will be</span>
+<span class="sd">            set. For example: Wireframe, Shaded, Rendered, etc.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mode_obj</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="n">DisplayModeDescription</span><span class="o">.</span><span class="n">FindByName</span><span class="p">(</span><span class="n">display_mode</span><span class="p">)</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">DisplayMode</span> <span class="o">=</span> <span class="n">mode_obj</span></div>
+
+
+<div class="viewcode-block" id="set_iso_view_direction"><a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.set_iso_view_direction">[docs]</a><span class="k">def</span> <span class="nf">set_iso_view_direction</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">center_point</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set a Rhino Viewport to have an isometric view in a specific direction.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        viewport: A Rhino ViewPort object, which will have its direction set.</span>
+<span class="sd">        direction: A Rhino vector that will be used to set the direction of</span>
+<span class="sd">            the isomateric view.</span>
+<span class="sd">        center_point: Optional Rhino point for the target of the camera. If no point</span>
+<span class="sd">            is provided, the Rhino origin will be used (0, 0, 0).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">ChangeToParallelProjection</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">center_point</span> <span class="o">=</span> <span class="n">center_point</span> <span class="k">if</span> <span class="n">center_point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rg</span><span class="o">.</span><span class="n">Point3d</span><span class="o">.</span><span class="n">Origin</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">SetCameraLocation</span><span class="p">(</span><span class="n">rg</span><span class="o">.</span><span class="n">Point3d</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">center_point</span><span class="p">,</span> <span class="n">direction</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">SetCameraTarget</span><span class="p">(</span><span class="n">center_point</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">SetCameraDirection</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="capture_view"><a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.capture_view">[docs]</a><span class="k">def</span> <span class="nf">capture_view</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">transparent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Capture a Viewport to a PNG file path.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        viewport: A Rhino ViewPort object, which will have its display mode set.</span>
+<span class="sd">        file_path: Full path to the file where the image will be saved.</span>
+<span class="sd">        width: Integer for the image width in pixels. If None, the width of the</span>
+<span class="sd">            active viewport will be used. (Default: None).</span>
+<span class="sd">        height: Integer for the image height in pixels. If None, the height of the</span>
+<span class="sd">            active viewport will be used. (Default: None).</span>
+<span class="sd">        display_mode: Text for the display mode to which the Rhino viewport will be</span>
+<span class="sd">            set. For example: Wireframe, Shaded, Rendered, etc. If None, it will</span>
+<span class="sd">            be the current viewport&#39;s display mode. (Default: None).</span>
+<span class="sd">        transparent: Boolean to note whether the background of the image should be</span>
+<span class="sd">            transparent or have the same color as the Rhino scene. (Default: False).</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Full path to the image file that was written.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># create the view capture object</span>
+    <span class="n">active_viewp</span> <span class="o">=</span> <span class="n">viewport_by_name</span><span class="p">()</span>
+    <span class="n">img_w</span> <span class="o">=</span> <span class="n">active_viewp</span><span class="o">.</span><span class="n">Size</span><span class="o">.</span><span class="n">Width</span> <span class="k">if</span> <span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">width</span>
+    <span class="n">img_h</span> <span class="o">=</span> <span class="n">active_viewp</span><span class="o">.</span><span class="n">Size</span><span class="o">.</span><span class="n">Height</span> <span class="k">if</span> <span class="n">height</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">height</span>
+    <span class="n">img_size</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="n">Drawing</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="n">img_w</span><span class="p">,</span> <span class="n">img_h</span><span class="p">)</span>
+
+    <span class="c1"># capture the view</span>
+    <span class="k">if</span> <span class="n">display_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">mode_obj</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="n">DisplayModeDescription</span><span class="o">.</span><span class="n">FindByName</span><span class="p">(</span><span class="n">display_mode</span><span class="p">)</span>
+        <span class="n">pic</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">ParentView</span><span class="o">.</span><span class="n">CaptureToBitmap</span><span class="p">(</span><span class="n">img_size</span><span class="p">,</span> <span class="n">mode_obj</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pic</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">ParentView</span><span class="o">.</span><span class="n">CaptureToBitmap</span><span class="p">(</span><span class="n">img_size</span><span class="p">)</span>
+
+    <span class="c1"># remove the background color if requested</span>
+    <span class="k">if</span> <span class="n">transparent</span><span class="p">:</span>
+        <span class="n">back_col</span> <span class="o">=</span> <span class="n">aps</span><span class="o">.</span><span class="n">ViewportBackgroundColor</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">display_mode</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">viewport</span><span class="o">.</span><span class="n">DisplayMode</span><span class="o">.</span><span class="n">EnglishName</span> <span class="o">==</span> <span class="s1">&#39;Rendered&#39;</span><span class="p">)</span> \
+                <span class="ow">or</span> <span class="n">display_mode</span> <span class="o">==</span> <span class="s1">&#39;Rendered&#39;</span><span class="p">:</span>
+            <span class="n">back_col</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">Document</span><span class="o">.</span><span class="n">RenderSettings</span><span class="o">.</span><span class="n">BackgroundColorTop</span>
+        <span class="n">pic</span><span class="o">.</span><span class="n">MakeTransparent</span><span class="p">(</span><span class="n">back_col</span><span class="p">)</span>
+
+    <span class="c1"># save the bitmap to a png file</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">file_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.png&#39;</span><span class="p">):</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="n">System</span><span class="o">.</span><span class="n">Drawing</span><span class="o">.</span><span class="n">Bitmap</span><span class="o">.</span><span class="n">Save</span><span class="p">(</span><span class="n">pic</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_path</span></div>
+
+
+<div class="viewcode-block" id="viewport_vh_vv"><a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.viewport_vh_vv">[docs]</a><span class="k">def</span> <span class="nf">viewport_vh_vv</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">view_type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the horizontal angle (vh) and the vertical angle (vv) from a viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        viewport: A Rhino ViewPort object for which properties will be extracted.</span>
+<span class="sd">        view_type: An integer to set the view type (-vt). Choose from the</span>
+<span class="sd">            choices below.</span>
+
+<span class="sd">            * 0 Perspective (v)</span>
+<span class="sd">            * 1 Hemispherical fisheye (h)</span>
+<span class="sd">            * 2 Parallel (l)</span>
+<span class="sd">            * 3 Cylindrical panorama (c)</span>
+<span class="sd">            * 4 Angular fisheye (a)</span>
+<span class="sd">            * 5 Planisphere [stereographic] projection (s)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># perspective</span>
+        <span class="n">right_vec</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">GetFrustumRightPlane</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">left_vec</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">GetFrustumLeftPlane</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">h_angle</span> <span class="o">=</span> <span class="mi">180</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">rg</span><span class="o">.</span><span class="n">Vector3d</span><span class="o">.</span><span class="n">VectorAngle</span><span class="p">(</span><span class="n">right_vec</span><span class="p">,</span> <span class="n">left_vec</span><span class="p">))</span>
+        <span class="n">bottom_vec</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">GetFrustumBottomPlane</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">top_vec</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">GetFrustumTopPlane</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">v_angle</span> <span class="o">=</span> <span class="mi">180</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">rg</span><span class="o">.</span><span class="n">Vector3d</span><span class="o">.</span><span class="n">VectorAngle</span><span class="p">(</span><span class="n">bottom_vec</span><span class="p">,</span> <span class="n">top_vec</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">h_angle</span><span class="p">,</span> <span class="n">v_angle</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">180</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">v_rect</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">GetNearRect</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">v_rect</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">DistanceTo</span><span class="p">(</span><span class="n">v_rect</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="nb">int</span><span class="p">(</span><span class="n">v_rect</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">DistanceTo</span><span class="p">(</span><span class="n">v_rect</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">180</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">60</span></div>
+
+
+<div class="viewcode-block" id="viewport_properties"><a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.viewport_properties">[docs]</a><span class="k">def</span> <span class="nf">viewport_properties</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">view_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a dictionary of properties of a Rhino viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        viewport: A Rhino ViewPort object for which properties will be extracted.</span>
+<span class="sd">        view_type: An integer to set the view type (-vt). Choose from the</span>
+<span class="sd">            choices below or set to None to have it derived from the viewport.</span>
+
+<span class="sd">            * 0 Perspective (v)</span>
+<span class="sd">            * 1 Hemispherical fisheye (h)</span>
+<span class="sd">            * 2 Parallel (l)</span>
+<span class="sd">            * 3 Cylindrical panorama (c)</span>
+<span class="sd">            * 4 Angular fisheye (a)</span>
+<span class="sd">            * 5 Planisphere [stereographic] projection (s)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A dictionary with the following keys: &#39;view_type&#39;, &#39;position&#39;, &#39;direction&#39;,</span>
+<span class="sd">        &#39;up_vector&#39;, &#39;h_angle&#39;, &#39;v_angle&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># ensure that we have an integer for the view_type</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">view_type</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">viewport</span><span class="o">.</span><span class="n">IsParallelProjection</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="c1"># get the position, direction and up vectors</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">CameraLocation</span>
+    <span class="n">direct</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">CameraDirection</span>
+    <span class="n">up_vec</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">CameraUp</span>
+    <span class="n">direct</span><span class="o">.</span><span class="n">Unitize</span><span class="p">()</span>
+    <span class="n">up_vec</span><span class="o">.</span><span class="n">Unitize</span><span class="p">()</span>
+
+    <span class="c1"># get the h_angle and v_angle from the viewport</span>
+    <span class="n">h_angle</span><span class="p">,</span> <span class="n">v_angle</span> <span class="o">=</span> <span class="n">viewport_vh_vv</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">view_type</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;view_type&#39;</span><span class="p">:</span> <span class="n">view_type</span><span class="p">,</span>
+        <span class="s1">&#39;position&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">Z</span><span class="p">),</span>
+        <span class="s1">&#39;direction&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">direct</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">direct</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">direct</span><span class="o">.</span><span class="n">Z</span><span class="p">),</span>
+        <span class="s1">&#39;up_vector&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">up_vec</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">up_vec</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">up_vec</span><span class="o">.</span><span class="n">Z</span><span class="p">),</span>
+        <span class="s1">&#39;h_angle&#39;</span><span class="p">:</span> <span class="n">h_angle</span><span class="p">,</span>
+        <span class="s1">&#39;v_angle&#39;</span><span class="p">:</span> <span class="n">v_angle</span>
+    <span class="p">}</span></div>
+
+
+<span class="k">def</span> <span class="nf">_bounding_box_origin</span><span class="p">(</span><span class="n">geometry</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the origin of a bounding box around a list of geometry.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geometry: A list of geometry for which the bounding box origin will</span>
+<span class="sd">            be computed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">first_geo</span> <span class="o">=</span> <span class="n">geometry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">b_box</span> <span class="o">=</span> <span class="n">first_geo</span><span class="o">.</span><span class="n">GetBoundingBox</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_geo</span><span class="p">,</span> <span class="n">TextGoo</span><span class="p">)</span> \
+        <span class="k">else</span> <span class="n">first_geo</span><span class="o">.</span><span class="n">get_Boundingbox</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">geo</span> <span class="ow">in</span> <span class="n">geometry</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">TextGoo</span><span class="p">):</span>
+            <span class="n">b_box</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">BoundingBox</span><span class="o">.</span><span class="n">Union</span><span class="p">(</span><span class="n">b_box</span><span class="p">,</span> <span class="n">geo</span><span class="o">.</span><span class="n">get_Boundingbox</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">b_box</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">BoundingBox</span><span class="o">.</span><span class="n">Union</span><span class="p">(</span><span class="n">b_box</span><span class="p">,</span> <span class="n">geo</span><span class="o">.</span><span class="n">GetBoundingBox</span><span class="p">(</span><span class="kc">False</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">b_box</span><span class="o">.</span><span class="n">Corner</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
