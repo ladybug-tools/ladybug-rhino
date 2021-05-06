@@ -70,14 +70,24 @@ def viewport_by_name(view_name=None):
 
     Args:
         view_name: Text for the name of the Rhino Viewport. If None, the
-            current Rhino viewport will be used.
+            current Rhino viewport will be used. If the view is a named view that
+            is not currently open, it will be restored to the active view of
+            the Rhino document.
     """
     try:
         return sc.doc.Views.Find(view_name, False).ActiveViewport \
             if view_name is not None else sc.doc.Views.ActiveView.ActiveViewport
     except Exception:
-        raise ValueError('Viewport "{}" was not found in the Rhino '
-                         'document.'.format(view_name))
+        # try to find a named view and restore it
+        view_table = rhdoc.ActiveDoc.NamedViews
+        for i, viewp in enumerate(view_table):
+            if viewp.Name == view_name:
+                active_viewp = sc.doc.Views.ActiveView.ActiveViewport
+                view_table.Restore (i, active_viewp)
+                return active_viewp
+        else:
+            raise ValueError('Viewport "{}" was not found in the Rhino '
+                             'document.'.format(view_name))
 
 
 def open_viewport(view_name, width=None, height=None):
