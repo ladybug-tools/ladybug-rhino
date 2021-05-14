@@ -15,10 +15,6 @@ the exception of running the CLI.
 
 `pip install -U ladybug-rhino`
 
-If you want to also include the command line interface try:
-
-`pip install -U ladybug-rhino[cli]`
-
 To check if Ladybug Rhino command line is installed correctly try `ladybug-rhino viz`
 and you should get a `viiiiiiiiiiiiizzzzzzzzz!` back in response!
 

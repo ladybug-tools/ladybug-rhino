@@ -10,19 +10,14 @@ Ladybug rhino is using click (https://click.palletsprojects.com/en/7.x/) for
 creating the CLI.
 """
 
-try:
-    import click
-except ImportError:
-    raise ImportError(
-        'click module is not installed. Try `pip install ladybug-rhino[cli]` command.'
-    )
+import sys
+import logging
+import click
 
 from ladybug_rhino.pythonpath import create_python_package_dir, iron_python_search_path
 from ladybug_rhino.ghpath import copy_components_packages, \
     clean_userobjects, clean_libraries
 
-import sys
-import logging
 _logger = logging.getLogger(__name__)
 
 

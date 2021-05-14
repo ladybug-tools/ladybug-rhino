@@ -18,9 +18,6 @@ setuptools.setup(
     url="https://github.com/ladybug-tools/ladybug-rhino",
     packages=setuptools.find_packages(exclude=["tests"]),
     install_requires=requirements,
-    extras_require={
-        'cli': ['click==7.1.2']
-    },
     entry_points={
         "console_scripts": ["ladybug-rhino = ladybug_rhino.cli:main"]
     },
