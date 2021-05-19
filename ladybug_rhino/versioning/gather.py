@@ -124,6 +124,45 @@ def plugin_components(plugin_name, sub_category=None):
     return components
 
 
+def place_component(component_reference, component_name, x_position=200, y_position=200,
+                    hold_solution=False):
+    """Place a single component on the canvas.
+
+    Args:
+        component_reference: A Grasshopper component reference object to be placed
+            on the canvas.
+        component_name: Text for the name of the component being placed.
+        x_position: An integer for where in the X dimension of the canvas the
+            components will be dropped. (Default: 200).
+        y_position: An integer for where in the Y dimension of the canvas the
+            components will be dropped. (Default: 200).
+        hold_solution: Boolean to note whether to hold off on the solution after
+            the component is dropped on the canvas. (Default: False).
+
+    Returns:
+        The Component Object for the components that have been dropped
+        onto the canvas.
+    """
+    document = ghi.ActiveCanvas.Document  # get the Grasshopper document
+    component_reference.Attributes.Pivot = System.Drawing.PointF(x_position, y_position)
+    document.AddObject(component_reference, False, 0)
+
+    # find the component object on the Grasshopper canvas using its name
+    component = None
+    for comp in document.Objects:
+        if comp.Name == component_name:
+            component = comp
+            break
+
+    # expire component solution so that all of the components don't run at once
+    if hold_solution:
+        try:
+            component.ExpireSolution(False)
+        except Exception:
+            print('Failed to stop "{}" from running'.format(component_name))
+    return component
+
+
 def place_plugin_components(plugin_name, sub_category=None, x_position=200,
                             y_position=200):
     """Place all of the components of a specific Ladybug Tools Plugin on the canvas.
@@ -144,7 +183,6 @@ def place_plugin_components(plugin_name, sub_category=None, x_position=200,
         onto the canvas. These component objects can be used to update the
         version of the dropped component, change their category, etc.
     """
-    document = ghi.ActiveCanvas.Document  # get the Grasshopper document
     # find all Components/UserObjects in the Grasshopper Component Server
     component_references = plugin_components(plugin_name, sub_category)
 
@@ -153,20 +191,16 @@ def place_plugin_components(plugin_name, sub_category=None, x_position=200,
     for comp_name, comp_obj in component_references.items():
         # add object to document
         if comp_obj.Attributes:
-            comp_obj.Attributes.Pivot = System.Drawing.PointF(x_position, y_position)
-            document.AddObject(comp_obj, False, 0)
-
-            # find the component object on the Grasshopper canvas using its name
-            component = None
-            for comp in document.Objects:
-                if comp.Name == comp_name:
-                    component = comp
-                    break
-
-            # expire component solution so that all of the components don't run at once
-            try:
-                component.ExpireSolution(False)
-                components.append(component)
-            except Exception:
-                print('Failed to stop "{}" from running'.format(comp_name))
+            comp = place_component(comp_obj, comp_name, x_position, y_position, True)
+            components.append(comp)
     return components
+
+
+def remove_component(component):
+    """Remove a Grasshopper component from the canvas.
+
+    Args:
+        component: The Grasshopper component object to be removed.
+    """
+    document = ghi.ActiveCanvas.Document  # get the Grasshopper document
+    document.RemoveObject(component, False)
