@@ -114,13 +114,13 @@ def export_component_screen_capture(folder, component, x_dim=1000, y_dim=1000):
             pixels. (Default: 1000).
     """
     # Get the coordinates of the upper-left corner of the image from the component
-    ul_x = component.Attributes.Pivot.X - int(((x_dim / 2) - 130) / 1.85)
-    ul_y = component.Attributes.Pivot.Y - int(((y_dim / 2) - 130) / 1.85)
+    ul_x = component.Attributes.Pivot.X - int(((x_dim / 2) - 120) / 2)
+    ul_y = component.Attributes.Pivot.Y - int(((y_dim / 2) - 120) / 2)
     rect = System.Drawing.Rectangle(ul_x, ul_y, x_dim, y_dim)
 
     # set the image resolution is always 1000 px * 1000 px
     image_settings = Grasshopper.GUI.Canvas.GH_Canvas.GH_ImageSettings()
-    image_settings.Zoom = 1.85
+    image_settings.Zoom = 1.95
     canvas = Grasshopper.GH_InstanceServer.ActiveCanvas
 
     # capture the image of the component
@@ -167,24 +167,22 @@ def export_component_to_markdown(folder, component, github_repo=None):
     name = clean_component_filename(component)
     lines = []
 
-    # write the lines for the header with icon
-    header = '## ![](../../images/icons/%s.png) %s' % (name, b_name)
-    if github_repo:
-        source = ' - [[source code]](%s/%s.py)\n' % (
-            github_repo, component.Name.replace(' ', '%20'))
-        lines.append(header + source)
-    else:
-        lines.append(header + '\n')
-
-    # write the lines for the component image and description
-    img_text = '![](../../images/components/%s.png)' % name
+    # write the lines for the header with the image, icon and source code
+    lines.append('## %s\n' % b_name)
+    img_text = '![](../../images/components/%s.png)\n' % name
     lines.append(img_text)
+    if github_repo:
+        source = '![](../../images/icons/%s.png) - [[source code]](%s/%s.py)\n' % (
+            name, github_repo, component.Name.replace(' ', '%20'))
+        lines.append(source)
+
+    # write the lines for the description
     full_desc = []
-    for d_line in component.Description.split('\n'):
-        if ('-' in d_line or '_' in d_line) and len(d_line) <= 2:
+    for d_l in component.Description.split('\n'):
+        if ('-' in d_l or '_' in d_l or '.' in d_l) and len(d_l) <= 2:
             full_desc.append('\n\n')
         else:
-            full_desc.append('{} '.format(d_line))
+            full_desc.append('{} '.format(d_l.replace('\r', '')))
     lines.append('\n{}'.format(''.join(full_desc)))
 
     # check to see if there are any inputs and outputs to export
@@ -192,7 +190,7 @@ def export_component_to_markdown(folder, component, github_repo=None):
     try:
         component.Params
     except Exception:  # no inputs and outputs available
-         inputs_outputs_available = False
+        inputs_outputs_available = False
 
     if inputs_outputs_available:
         # export the inputs
@@ -213,13 +211,13 @@ def export_component_to_markdown(folder, component, github_repo=None):
                 i_name = i_name[:-1]
 
             full_desc = []
-            for d_line in component.Params.Input[i].Description.split('\n'):
-                if ('-' in d_line or '_' in d_line or '.' in d_line) and len(d_line) <= 2:
+            for d_l in component.Params.Input[i].Description.split('\n'):
+                if ('-' in d_l or '_' in d_l or '.' in d_l) and len(d_l) <= 2:
                     full_desc.append('\n')
-                elif d_line.startswith('*') or d_line.startswith('-'):
-                    full_desc.append('\n\n    {}'.format(d_line.replace('\r', '')))
+                elif d_l.startswith('*') or d_l.startswith('-'):
+                    full_desc.append('\n\n    {}'.format(d_l.replace('\r', '')))
                 else:
-                    full_desc.append('{} '.format(d_line.replace('\r', '')))
+                    full_desc.append('{} '.format(d_l.replace('\r', '')))
             line = '* ##### {} {}\n{}'.format(i_name, t, ''.join(full_desc))
             lines.append(line)
 
@@ -230,8 +228,15 @@ def export_component_to_markdown(folder, component, github_repo=None):
             alph = ''.join(re.findall('[a-zA-Z]+', o_name))
             if len(alph) == 0:
                 continue
-            desc = component.Params.Output[i].Description.replace('\r', '')
-            line = '* ##### {}\n{}'.format(o_name, desc.replace('\n', ' '))
+            full_desc = []
+            for d_l in component.Params.Output[i].Description.split('\n'):
+                if ('-' in d_l or '_' in d_l or '.' in d_l) and len(d_l) <= 2:
+                    full_desc.append('\n')
+                elif d_l.startswith('*') or d_l.startswith('-'):
+                    full_desc.append('\n\n    {}'.format(d_l.replace('\r', '')))
+                else:
+                    full_desc.append('{} '.format(d_l.replace('\r', '')))
+            line = '* ##### {}\n{}'.format(o_name, ''.join(full_desc))
             lines.append(line)
 
     # write the .md file
@@ -269,9 +274,8 @@ def export_plugin_to_markdown(folder, plugin_name):
 
     # create the summary file header
     lines = []
-    header = '# Summary\n\n' + \
-        '* [{} Primer](README.md)\n' + \
-        '* [Components](text/categories/README.md)'.format(plugin_name)
+    read_md = '[%s Primer](README.md)' % plugin_name
+    header = '# Summary\n\n* ' + read_md + '\n* [Components](text/categories/README.md)'
     lines.append(header)
 
     # loop through the subcategories and add them to the index
