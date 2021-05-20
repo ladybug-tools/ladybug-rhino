@@ -27,11 +27,11 @@ For command line interface documentation and API documentation see the pages bel
    cli/index
 
 
-ladybug
+ladybug_rhino
 =======
 
 .. toctree::
-  :maxdepth: 2
+  :maxdepth: 4
 
   modules
 
