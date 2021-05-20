@@ -118,7 +118,7 @@ def export_component_screen_capture(folder, component, x_dim=1000, y_dim=1000):
     ul_y = component.Attributes.Pivot.Y - int(((y_dim / 2) - 120) / 2)
     rect = System.Drawing.Rectangle(ul_x, ul_y, x_dim, y_dim)
 
-    # set the image resolution is always 1000 px * 1000 px
+    # set the image zoon/resolution
     image_settings = Grasshopper.GUI.Canvas.GH_Canvas.GH_ImageSettings()
     image_settings.Zoom = 1.95
     canvas = Grasshopper.GH_InstanceServer.ActiveCanvas
@@ -127,12 +127,18 @@ def export_component_screen_capture(folder, component, x_dim=1000, y_dim=1000):
     images_of_canvas = canvas.GenerateHiResImage(rect, image_settings)
     screen_capture = images_of_canvas[0][0]
 
+    # resize the image
+    loaded_img = System.Drawing.Bitmap(screen_capture)
+    new_img = loaded_img.Clone(System.Drawing.Rectangle(0, 0, x_dim, y_dim),
+                                loaded_img.PixelFormat)
+
     # write the image to a file
     file_name = clean_component_filename(component)
     file_path = os.path.join(folder, '{}.png'.format(file_name))
-    shutil.copyfile(screen_capture, file_path)
+    new_img.Save(file_path)
 
     # delete original image
+    loaded_img.Dispose()
     path = os.path.split(screen_capture)[0]
     shutil.rmtree(path)
     return file_path
