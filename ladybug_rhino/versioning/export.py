@@ -206,22 +206,20 @@ def export_component_to_markdown(folder, component, github_repo=None):
             t = ''
             if i_name.startswith('_') and i_name.endswith('_'):
                 i_name = i_name[1:-1]
-                t = ''
             elif i_name.startswith('_'):
                 i_name = i_name[1:]
                 t = '[Required]'
             elif i_name.endswith('_'):
                 i_name = i_name[:-1]
-                t = ''
 
             full_desc = []
             for d_line in component.Params.Input[i].Description.split('\n'):
-                if ('-' in d_line or '_' in d_line) and len(d_line) <= 2:
+                if ('-' in d_line or '_' in d_line or '.' in d_line) and len(d_line) <= 2:
                     full_desc.append('\n')
                 elif d_line.startswith('*') or d_line.startswith('-'):
-                    full_desc.append('    {}\n'.format(d_line))
+                    full_desc.append('\n\n    {}'.format(d_line.replace('\r', '')))
                 else:
-                    full_desc.append('{} '.format(d_line))
+                    full_desc.append('{} '.format(d_line.replace('\r', '')))
             line = '* ##### {} {}\n{}'.format(i_name, t, ''.join(full_desc))
             lines.append(line)
 
@@ -232,9 +230,8 @@ def export_component_to_markdown(folder, component, github_repo=None):
             alph = ''.join(re.findall('[a-zA-Z]+', o_name))
             if len(alph) == 0:
                 continue
-
-            line = '* ##### {}\n{}'.format(
-                o_name, component.Params.Output[i].Description.replace('\n', ' '))
+            desc = component.Params.Output[i].Description.replace('\r', '')
+            line = '* ##### {}\n{}'.format(o_name, desc.replace('\n', ' '))
             lines.append(line)
 
     # write the .md file
