@@ -234,12 +234,12 @@ def data_tree_to_list(input):
     return all_data
 
 
-def list_to_data_tree(input, root_count=0):
+def list_to_data_tree(input, root_count=0, stype=object):
     """Transforms nested of lists or tuples to a Grasshopper DataTree"""
 
     def proc(input, tree, track):
         for i, item in enumerate(input):
-            if isinstance(item, (list, tuple)):  # don't count iterables like colors
+            if isinstance(item, (list, tuple, array.array)):  # don't count iterables like colors
                 track.append(i)
                 proc(item, tree, track)
                 track.pop()
@@ -247,7 +247,7 @@ def list_to_data_tree(input, root_count=0):
                 tree.Add(item, Path(*track))
 
     if input is not None:
-        t = DataTree[object]()
+        t = DataTree[stype]()
         proc(input, t, [root_count])
         return t
 

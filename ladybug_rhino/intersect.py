@@ -17,7 +17,7 @@ except ImportError as e:
     raise ImportError("Failed to import Rhino.\n{}".format(e))
 
 from .config import tolerance
-
+import array as specializedarray
 
 def join_geometry_to_mesh(geometry):
     """Convert an array of Rhino Breps and/or Meshes into a single Rhino Mesh.
@@ -97,12 +97,15 @@ def intersect_mesh_rays(mesh, points, vectors, normals=None, parallel=False):
             angle_list.append(vec_angle)
             if vec_angle <= cutoff_angle:
                 ray = rg.Ray3d(pt, vec)
-                is_clear = 0 if rg.Intersect.Intersection.MeshRay(mesh, ray) >= 0 else 1
+                if rg.Intersect.Intersection.MeshRay(mesh, ray) >= 0:
+                    is_clear = 0
+                else:
+                    is_clear = 1
                 int_list.append(is_clear)
             else:  # the vector is pointing behind the surface
                 int_list.append(0)
-        intersection_matrix[i] = int_list
-        angle_matrix[i] = angle_list
+        intersection_matrix[i] = specializedarray.array('B',int_list)
+        angle_matrix[i] = specializedarray.array('d',angle_list)
 
     if normals is not None:
         if parallel:
