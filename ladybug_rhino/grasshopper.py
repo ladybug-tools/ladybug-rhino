@@ -1,5 +1,6 @@
 """Functions for dealing with inputs and outputs from Grasshopper components."""
 import collections
+import array
 
 try:
     from System import Object
@@ -234,12 +235,21 @@ def data_tree_to_list(input):
     return all_data
 
 
-def list_to_data_tree(input, root_count=0, stype=object):
-    """Transforms nested of lists or tuples to a Grasshopper DataTree"""
+def list_to_data_tree(input, root_count=0, s_type=object):
+    """Transform nested of lists or tuples to a Grasshopper DataTree.
+    
+    Args:
+        input: A nested list of lists to be converted into a data tree.
+        root_count: An integer for the starting path of the data tree.
+        s_type: An optional data type (eg. float, int, str) that defines all of the
+            data in the data tree. The default (object) works will all data types
+            but the conversion to data trees can be more efficient if a more
+            specific type is specified
+    """
 
     def proc(input, tree, track):
         for i, item in enumerate(input):
-            if isinstance(item, (list, tuple, array.array)):  # don't count iterables like colors
+            if isinstance(item, (list, tuple, array.array)):  # ignore iterables like str
                 track.append(i)
                 proc(item, tree, track)
                 track.pop()
@@ -247,7 +257,7 @@ def list_to_data_tree(input, root_count=0, stype=object):
                 tree.Add(item, Path(*track))
 
     if input is not None:
-        t = DataTree[stype]()
+        t = DataTree[s_type]()
         proc(input, t, [root_count])
         return t
 
