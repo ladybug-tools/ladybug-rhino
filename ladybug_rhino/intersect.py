@@ -274,7 +274,6 @@ def intersect_solid(solid, other_solid):
     Args:
         solid: The solid Brep which will be split with intersections.
         other_solid: The other Brep, which will be used to split.
-        tolerance: Distance within which two points are considered to be co-located.
 
     Returns:
         A tuple with two elements
@@ -287,44 +286,11 @@ def intersect_solid(solid, other_solid):
     """
     # variables to track the splitting process
     intersection_exists = False  # boolean to note whether an intersection exists
-    done = False  # value to note when there are no more intersections
-
-    while(not done):  # loop will break when no more intersections are detected
-        num_faces_start = solid.Faces.Count  # track faces to detect intersections
-
-        for face in solid.Faces:
-            # get the intersection curves between the face and the other_brep
-            if face.IsSurface:  # untrimmed surface
-                intersect_lines = rg.Intersect.Intersection.BrepSurface(
-                    other_solid, face.DuplicateSurface(), tolerance)[1]
-            else:  # trimmed surfaces
-                edges_idx = face.AdjacentEdges()
-                edges = []
-                for ix in edges_idx:
-                    edges.append(solid.Edges.Item[ix])
-                crv = rg.Curve.JoinCurves(edges, tolerance)
-                int_brep = rg.Brep.CreatePlanarBreps(crv)
-                if not int_brep:  # non-planar surface
-                    continue
-                intersect_lines = rg.Intersect.Intersection.BrepBrep(
-                    int_brep[0], other_solid, tolerance)[1]
-
-            # clean the intersection curves
-            temp_int = rg.Curve.JoinCurves(intersect_lines, tolerance)
-            joinedLines = [crv for crv in temp_int if rg.Brep.CreatePlanarBreps(crv)]
-
-            # split the brep face with the intersection curves if they exist
-            if len(joinedLines) > 0:
-                intersection_exists = True
-                new_brep = face.Split(joinedLines, tolerance)  # returns None on failure
-                if new_brep and new_brep.Faces.Count > solid.Faces.Count:
-                    solid = new_brep
-                    break
-
-        # detect whether any intersections were found in this while loop iteration
-        if solid.Faces.Count == num_faces_start:
-            done = True  # no intersections were found in this iteration of the loop
-
+    temp_brep = solid.Split(other_solid, tolerance)
+    if len(temp_brep) != 0:
+        solid = rg.Brep.JoinBreps(temp_brep, tolerance)[0]
+        solid.Faces.ShrinkFaces()
+        intersection_exists = True
     return solid, intersection_exists
 
 
