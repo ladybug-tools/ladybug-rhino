@@ -166,7 +166,7 @@ def capture_view(viewport, file_path, width=None, height=None, display_mode=None
             be the current viewport's display mode. (Default: None).
         transparent: Boolean to note whether the background of the image should be
             transparent or have the same color as the Rhino scene. (Default: False).
-    
+
     Returns:
         Full path to the image file that was written.
     """
