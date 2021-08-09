@@ -142,9 +142,13 @@ def to_face3d(geo, meshing_parameters=None):
             if lb_face.area != 0:
                 faces.append(Face3D(all_verts))
     else:  # convert each Brep Face to a Face3D
-        meshing_parameters = meshing_parameters or rg.MeshingParameters.Default  # default
+        meshing_parameters = meshing_parameters or rg.MeshingParameters.Default
         for b_face in geo.Faces:
             if b_face.IsPlanar(tolerance):
+                try:
+                    bf_plane = to_plane(b_face.FrameAt(0, 0)[-1])
+                except Exception:  # failed to extract the plane from the geometry
+                    bf_plane = None  # auto-calculate the plane from the vertices
                 all_verts = []
                 for count in range(b_face.Loops.Count):  # Each loop is a boundary/hole
                     success, loop_pline = \
@@ -157,9 +161,10 @@ def to_face3d(geo, meshing_parameters=None):
                                            for i in range(loop_pline.Count - 1))
                     all_verts.append(_remove_dup_verts(loop_verts))
                 if len(all_verts) == 1:  # No holes in the shape
-                    faces.append(Face3D(all_verts[0]))
+                    faces.append(Face3D(all_verts[0], plane=bf_plane))
                 else:  # There's at least one hole in the shape
-                    faces.append(Face3D(boundary=all_verts[0], holes=all_verts[1:]))
+                    faces.append(Face3D(
+                        boundary=all_verts[0], holes=all_verts[1:], plane=bf_plane))
             else:  # curved face must be meshed into planar Face3D objects
                 faces.extend(_planar.curved_surface_faces(b_face, meshing_parameters))
     return faces
