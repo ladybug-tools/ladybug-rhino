@@ -194,7 +194,7 @@ def intersect_mesh_lines(mesh, start_points, end_points, max_dist=None, parallel
     return int_matrix
 
 
-def intersect_solids_parallel(solids, bound_boxes):
+def intersect_solids_parallel(solids, bound_boxes, cpu_count=None):
     """Intersect the co-planar faces of an array of solids using parallel processing.
 
     Args:
@@ -203,6 +203,10 @@ def intersect_solids_parallel(solids, bound_boxes):
         bound_boxes: An array of Rhino bounding boxes that parellels the input
             solids and will be used to check whether two Breps have any potential
             for intersection before the actual intersection is performed.
+        cpu_count: An integer for the number of CPUs to be used in the intersection
+            calculation. The ladybug_rhino.grasshopper.recommended_processor_count
+            function can be used to get a recommendation. If None, all available
+            processors will be used. (Default: None).
 
     Returns:
         int_solids -- The input array of solids, which have all been intersected
@@ -217,7 +221,8 @@ def intersect_solids_parallel(solids, bound_boxes):
         for j, bb_2 in enumerate(bound_boxes[i + 1:]):
             if not overlapping_bounding_boxes(bb_1, bb_2):
                 continue  # no overlap in bounding box; intersection impossible
-            split_brep1, int_exists = intersect_solid(int_solids[i], int_solids[i + j + 1])
+            split_brep1, int_exists = \
+                intersect_solid(int_solids[i], int_solids[i + j + 1])
             if int_exists:
                 int_solids[i] = split_brep1
         # intersect the solids that come before this one
@@ -228,7 +233,21 @@ def intersect_solids_parallel(solids, bound_boxes):
             if int_exists:
                 int_solids[i] = split_brep2
 
-    tasks.Parallel.ForEach(range(len(solids)), intersect_each_solid)
+    def intersect_each_solid_group(worker_i):
+        """Intersect groups of solids so that only the cpu_count is used."""
+        start_i, stop_i = s_groups[worker_i]
+        for count in range(start_i, stop_i):
+            intersect_each_solid(count)
+
+    if cpu_count is None or cpu_count <= 1:  # use all availabe CPUs
+        tasks.Parallel.ForEach(range(len(solids)), intersect_each_solid)
+    else:  # group the solids in order to meet the cpu_count
+        solid_count = len(int_solids)
+        worker_count = min((cpu_count, solid_count))
+        i_per_group = int(math.ceil(solid_count / worker_count))
+        s_groups = [[x, x + i_per_group] for x in range(0, solid_count, i_per_group)]
+        s_groups[-1][-1] = solid_count  # ensure the last group ends with solid count
+        tasks.Parallel.ForEach(range(len(s_groups)), intersect_each_solid_group)
 
     return int_solids
 
