@@ -4,12 +4,19 @@ import array
 
 try:
     from System import Object
+    from System.Windows import Forms
+    from System import Environment
 except ImportError:
     print("Failed to import System.")
 
 try:
+    import Rhino.UI as rui
+except ImportError as e:
+    raise ImportError("Failed to import Rhino.\n{}".format(e))
+
+try:
     import scriptcontext
-except ImportError as e:  # No Rhino doc is available.
+except ImportError:  # No Rhino doc is available.
     print('Failed to import Rhino scriptcontext. Document counters will be unavailable.')
 
 try:
@@ -44,6 +51,31 @@ def give_remark(component, message):
     component.AddRuntimeMessage(Message.Remark, message)
 
 
+def give_popup_message(message, window_title='', icon_type='information'):
+    """Give a Windows popup message with an OK button.
+
+    Useful in cases where you really need the user to pay attention to the message.
+
+    Args:
+        message: Text string for the popup message.
+        window_title: Text string for the title of the popup window. (Default: "").
+        icon_type: Text for the type of icon to be used. (Default: "information").
+            Choose from the following options.
+
+            * information
+            * warning
+            * error
+    """
+    icon_types = {
+        'information': Forms.MessageBoxIcon.Information,
+        'warning': Forms.MessageBoxIcon.Warning,
+        'error': Forms.MessageBoxIcon.Error
+    }
+    icon = icon_types[icon_type]
+    buttons = Forms.MessageBoxButtons.OK
+    rui.Dialogs.ShowMessageBox(message, window_title, buttons, icon)
+
+
 def all_required_inputs(component):
     """Check that all required inputs on a component are present.
 
@@ -73,6 +105,27 @@ def all_required_inputs(component):
                 give_warning(component, msg)
                 is_input_missing = True
     return not is_input_missing
+
+
+def local_processor_count():
+    """Get an integer for the number of processors on this machine.
+
+    If, for whatever reason, the number of processors could not be sensed,
+    None will be returned.
+    """
+    return Environment.ProcessorCount
+
+
+def recommended_processor_count():
+    """Get an integer for the recommended number of processors for parallel calculation.
+
+    This should be one less than the number of processors available on this machine
+    unless the machine has only one processor, in which case 1 will be returned.
+    If, for whatever reason, the number of processors could not be sensed, a value
+    of 1 will be returned.
+    """
+    cpu_count = local_processor_count()
+    return 1 if cpu_count is None or cpu_count <= 1 else cpu_count - 1
 
 
 def component_guid(component):
@@ -220,11 +273,11 @@ def data_tree_to_list(input):
         listData -- A list of namedtuples (path, dataList)
     """
     all_data = list(range(len(input.Paths)))
-    Pattern = collections.namedtuple('Pattern', 'path list')
+    pattern = collections.namedtuple('Pattern', 'path list')
 
     for i, path in enumerate(input.Paths):
         data = input.Branch(path)
-        branch = Pattern(path, [])
+        branch = pattern(path, [])
 
         for d in data:
             if d is not None:
@@ -237,7 +290,7 @@ def data_tree_to_list(input):
 
 def list_to_data_tree(input, root_count=0, s_type=object):
     """Transform nested of lists or tuples to a Grasshopper DataTree.
-    
+
     Args:
         input: A nested list of lists to be converted into a data tree.
         root_count: An integer for the starting path of the data tree.
