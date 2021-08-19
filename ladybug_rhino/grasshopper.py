@@ -1,11 +1,13 @@
 """Functions for dealing with inputs and outputs from Grasshopper components."""
 import collections
 import array
+import math
 
 try:
     from System import Object
     from System.Windows import Forms
     from System import Environment
+    import System.Threading.Tasks as tasks
 except ImportError:
     print("Failed to import System.")
 
@@ -126,6 +128,50 @@ def recommended_processor_count():
     """
     cpu_count = local_processor_count()
     return 1 if cpu_count is None or cpu_count <= 1 else cpu_count - 1
+
+
+def run_function_in_parallel(parallel_function, object_count, cpu_count=None):
+    """Run any function in parallel given a number of objects to be iterated over.
+
+    This method can run the calculation in a manner that targets a given CPU
+    count and will also run the function normally (without the use of Tasks)
+    if only one CPU is specified.
+
+    Args:
+        parallel_function: A function which will be iterated over in a parallelized
+            manner. This function should have a single input argument, which
+            is the integer of the object to be simulated. Note that, in order
+            for this function to be successfully parallelized, any lists of
+            output data must be set up beforehand and this parallel_function
+            should simply be replacing the data in this pre-created list.
+        object_count: An integer for the number of objects which will be iterated over
+            in a parallelized manner.
+        cpu_count: An integer for the number of CPUs to be used in the intersection
+            calculation. The ladybug_rhino.grasshopper.recommended_processor_count
+            function can be used to get a recommendation. If set to None, all
+            available processors will be used. (Default: None).
+    """
+
+    def compute_each_object_group(worker_i):
+        """Run groups of objects so that only the cpu_count is used."""
+        start_i, stop_i = obj_groups[worker_i]
+        for count in range(start_i, stop_i):
+            parallel_function(count)
+
+    if cpu_count is not None and cpu_count > 1:
+        # group the objects in order to meet the cpu_count
+        worker_count = min((cpu_count, object_count))
+        i_per_group = int(math.ceil(object_count / worker_count))
+        obj_groups = [[x, x + i_per_group] for x in range(0, object_count, i_per_group)]
+        obj_groups[-1][-1] = object_count  # ensure the last group ends with obj count
+
+    if cpu_count is None:  # use all availabe CPUs
+        tasks.Parallel.ForEach(range(object_count), parallel_function)
+    elif cpu_count <= 1:  # run everything on a single processor
+        for i in range(object_count):
+            parallel_function(i)
+    else:  # run the groups in a manner that meets the CPU count
+        tasks.Parallel.ForEach(range(len(obj_groups)), compute_each_object_group)
 
 
 def component_guid(component):
