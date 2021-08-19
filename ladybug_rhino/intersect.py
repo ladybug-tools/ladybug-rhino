@@ -42,7 +42,7 @@ def join_geometry_to_mesh(geometry):
     return joined_mesh
 
 
-def intersect_mesh_rays(mesh, points, vectors, normals=None, parallel=False):
+def intersect_mesh_rays(mesh, points, vectors, normals=None, cpu_count=None):
     """Intersect a group of rays (represented by points and vectors) with a mesh.
 
     All combinations of rays that are possible between the input points and
@@ -59,8 +59,10 @@ def intersect_mesh_rays(mesh, points, vectors, normals=None, parallel=False):
             points and denote the direction each point is facing. These will
             be used to eliminate any cases where the vector and the normal differ
             by more than 90 degrees. If None, points are assumed to have no direction.
-        parallel: Boolean to indicate if the intersection should be run in
-            parallel with one point per CPU. (Default: False).
+        cpu_count: An integer for the number of CPUs to be used in the intersection
+            calculation. The ladybug_rhino.grasshopper.recommended_processor_count
+            function can be used to get a recommendation. If set to None, all
+            available processors will be used. (Default: None).
 
     Returns:
         A tuple with two elements
@@ -111,22 +113,48 @@ def intersect_mesh_rays(mesh, points, vectors, normals=None, parallel=False):
         intersection_matrix[i] = specializedarray.array('B', int_list)
         angle_matrix[i] = specializedarray.array('d', angle_list)
 
+    def intersect_each_point_group(worker_i):
+        """Intersect groups of points so that only the cpu_count is used."""
+        start_i, stop_i = pt_groups[worker_i]
+        for count in range(start_i, stop_i):
+            intersect_point(count)
+
+    def intersect_each_point_group_normal_check(worker_i):
+        """Intersect groups of points with distance check so only cpu_count is used."""
+        start_i, stop_i = pt_groups[worker_i]
+        for count in range(start_i, stop_i):
+            intersect_point_normal_check(count)
+
+    if cpu_count is not None and cpu_count > 1:
+        # group the points in order to meet the cpu_count
+        pt_count = len(points)
+        worker_count = min((cpu_count, pt_count))
+        i_per_group = int(math.ceil(pt_count / worker_count))
+        pt_groups = [[x, x + i_per_group] for x in range(0, pt_count, i_per_group)]
+        pt_groups[-1][-1] = pt_count  # ensure the last group ends with point count
+
     if normals is not None:
-        if parallel:
+        if cpu_count is None:  # use all availabe CPUs
             tasks.Parallel.ForEach(range(len(points)), intersect_point_normal_check)
-        else:
+        elif cpu_count <= 1:  # run everything on a single processor
             for i in range(len(points)):
                 intersect_point_normal_check(i)
+        else:  # run the groups in a manner that meets the CPU count
+            tasks.Parallel.ForEach(
+                range(len(pt_groups)), intersect_each_point_group_normal_check)
     else:
-        if parallel:
+        if cpu_count is None:  # use all availabe CPUs
             tasks.Parallel.ForEach(range(len(points)), intersect_point)
-        else:
+        elif cpu_count <= 1:  # run everything on a single processor
             for i in range(len(points)):
                 intersect_point(i)
+        else:  # run the groups in a manner that meets the CPU count
+            tasks.Parallel.ForEach(range(len(pt_groups)), intersect_each_point_group)
+
     return intersection_matrix, angle_matrix
 
 
-def intersect_mesh_lines(mesh, start_points, end_points, max_dist=None, parallel=False):
+def intersect_mesh_lines(mesh, start_points, end_points, max_dist=None, cpu_count=None):
     """Intersect a group of lines (represented by start + end points) with a mesh.
 
     All combinations of lines that are possible between the input start_points and
@@ -143,8 +171,10 @@ def intersect_mesh_lines(mesh, start_points, end_points, max_dist=None, parallel
             end_points are no longer considered visible by the start_points.
             If None, points with an unobstructed view to one another will be
             considered visible no matter how far they are from one another.
-        parallel: Boolean to indicate if the intersection should be run in
-            parallel with one point per CPU. (Default: False).
+        cpu_count: An integer for the number of CPUs to be used in the intersection
+            calculation. The ladybug_rhino.grasshopper.recommended_processor_count
+            function can be used to get a recommendation. If set to None, all
+            available processors will be used. (Default: None).
 
     Returns:
         A 2D matrix of 0's and 1's indicating the results of the intersection.
@@ -179,18 +209,44 @@ def intersect_mesh_lines(mesh, start_points, end_points, max_dist=None, parallel
                 int_list.append(is_clear)
         int_matrix[i] = int_list
 
+    def intersect_each_line_group(worker_i):
+        """Intersect groups of lines so that only the cpu_count is used."""
+        start_i, stop_i = l_groups[worker_i]
+        for count in range(start_i, stop_i):
+            intersect_line(count)
+
+    def intersect_each_line_group_dist_check(worker_i):
+        """Intersect groups of lines with distance check so only cpu_count is used."""
+        start_i, stop_i = l_groups[worker_i]
+        for count in range(start_i, stop_i):
+            intersect_line_dist_check(count)
+
+    if cpu_count is not None and cpu_count > 1:
+        # group the lines in order to meet the cpu_count
+        l_count = len(start_points)
+        worker_count = min((cpu_count, l_count))
+        i_per_group = int(math.ceil(l_count / worker_count))
+        l_groups = [[x, x + i_per_group] for x in range(0, l_count, i_per_group)]
+        l_groups[-1][-1] = l_count  # ensure the last group ends with line count
+
     if max_dist is not None:
-        if parallel:
+        if cpu_count is None:  # use all availabe CPUs
             tasks.Parallel.ForEach(range(len(start_points)), intersect_line_dist_check)
-        else:
+        elif cpu_count <= 1:  # run everything on a single processor
             for i in range(len(start_points)):
                 intersect_line_dist_check(i)
+        else:  # run the groups in a manner that meets the CPU count
+            tasks.Parallel.ForEach(
+                range(len(l_groups)), intersect_each_line_group_dist_check)
     else:
-        if parallel:
+        if cpu_count is None:  # use all availabe CPUs
             tasks.Parallel.ForEach(range(len(start_points)), intersect_line)
-        else:
+        elif cpu_count <= 1:  # run everything on a single processor
             for i in range(len(start_points)):
                 intersect_line(i)
+        else:  # run the groups in a manner that meets the CPU count
+            tasks.Parallel.ForEach(
+                range(len(l_groups)), intersect_each_line_group)
     return int_matrix
 
 
