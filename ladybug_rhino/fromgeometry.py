@@ -129,7 +129,10 @@ def from_face3d(face):
         brep = rg.Brep.CreatePlanarBreps(segs, tolerance)[0]
     except TypeError:  # not planar in Rhino model tolerance; maybe from another model
         print('Brep not planar in Rhino model tolerance. Ignoring tolerance.')
-        brep = rg.Brep.CreatePlanarBreps(segs, 1e6)[0]
+        try:
+            brep = rg.Brep.CreatePlanarBreps(segs, 1e6)[0]
+        except TypeError:  # it must be a zero-area geometry
+            return None
     if face.has_holes:
         for hole in face.hole_segments:
             trim_crvs = [from_linesegment3d(seg) for seg in hole]
@@ -242,7 +245,7 @@ def from_face3ds_to_colored_mesh(faces, color):
         try:
             joined_mesh.Append(rg.Mesh.CreateFromBrep(
                 from_face3d(face), rg.MeshingParameters.Default)[0])
-        except TypeError:
+        except Exception:
             pass  # failed to create a Rhino Mesh from the Face3D
     joined_mesh.VertexColors.CreateMonotoneMesh(color_to_color(color))
     return joined_mesh
