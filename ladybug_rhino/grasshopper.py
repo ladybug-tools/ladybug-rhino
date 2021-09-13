@@ -343,7 +343,7 @@ def list_to_data_tree(input, root_count=0, s_type=object):
         s_type: An optional data type (eg. float, int, str) that defines all of the
             data in the data tree. The default (object) works will all data types
             but the conversion to data trees can be more efficient if a more
-            specific type is specified
+            specific type is specified.
     """
 
     def proc(input, tree, track):
@@ -359,6 +359,23 @@ def list_to_data_tree(input, root_count=0, s_type=object):
         t = DataTree[s_type]()
         proc(input, t, [root_count])
         return t
+
+
+def merge_data_tree(data_trees, s_type=object):
+    """Merge a list of grasshopper DataTrees into a single DataTree.
+
+    Args:
+        input: A list Grasshopper DataTrees to be merged into one.
+        s_type: An optional data type (eg. float, int, str) that defines all of the
+            data in the data tree. The default (object) works will all data types
+            but the conversion to data trees can be more efficient if a more
+            specific type is specified.
+    """
+    comb_tree = DataTree[s_type]()
+    for d_tree in data_trees:
+        for p, branch in zip(d_tree.Paths, d_tree.Branches):
+            comb_tree.AddRange(branch, p)
+    return comb_tree
 
 
 def flatten_data_tree(input):

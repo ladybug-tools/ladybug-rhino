@@ -42,7 +42,8 @@ def join_geometry_to_mesh(geometry):
     return joined_mesh
 
 
-def intersect_mesh_rays(mesh, points, vectors, normals=None, cpu_count=None):
+def intersect_mesh_rays(
+        mesh, points, vectors, normals=None, cpu_count=None, parallel=True):
     """Intersect a group of rays (represented by points and vectors) with a mesh.
 
     All combinations of rays that are possible between the input points and
@@ -63,6 +64,8 @@ def intersect_mesh_rays(mesh, points, vectors, normals=None, cpu_count=None):
             calculation. The ladybug_rhino.grasshopper.recommended_processor_count
             function can be used to get a recommendation. If set to None, all
             available processors will be used. (Default: None).
+        parallel: Optional boolean to override the cpu_count and use a single CPU
+            instead of multiple processors.
 
     Returns:
         A tuple with two elements
@@ -79,6 +82,8 @@ def intersect_mesh_rays(mesh, points, vectors, normals=None, cpu_count=None):
     intersection_matrix = [0] * len(points)  # matrix to be filled with results
     angle_matrix = [0] * len(normals) if normals is not None else None
     cutoff_angle = math.pi / 2  # constant used in all normal checks
+    if not parallel:
+        cpu_count = 1
 
     def intersect_point(i):
         """Intersect all of the vectors of a given point without any normal check."""
@@ -154,7 +159,8 @@ def intersect_mesh_rays(mesh, points, vectors, normals=None, cpu_count=None):
     return intersection_matrix, angle_matrix
 
 
-def intersect_mesh_lines(mesh, start_points, end_points, max_dist=None, cpu_count=None):
+def intersect_mesh_lines(
+        mesh, start_points, end_points, max_dist=None, cpu_count=None, parallel=True):
     """Intersect a group of lines (represented by start + end points) with a mesh.
 
     All combinations of lines that are possible between the input start_points and
@@ -175,6 +181,8 @@ def intersect_mesh_lines(mesh, start_points, end_points, max_dist=None, cpu_coun
             calculation. The ladybug_rhino.grasshopper.recommended_processor_count
             function can be used to get a recommendation. If set to None, all
             available processors will be used. (Default: None).
+        parallel: Optional boolean to override the cpu_count and use a single CPU
+            instead of multiple processors.
 
     Returns:
         A 2D matrix of 0's and 1's indicating the results of the intersection.
@@ -183,6 +191,8 @@ def intersect_mesh_lines(mesh, start_points, end_points, max_dist=None, cpu_coun
         a ray that was not blocked.
     """
     int_matrix = [0] * len(start_points)  # matrix to be filled with results
+    if not parallel:
+        cpu_count = 1
 
     def intersect_line(i):
         """Intersect a line defined by a start and an end with the mesh."""
@@ -263,6 +273,8 @@ def intersect_solids_parallel(solids, bound_boxes, cpu_count=None):
             calculation. The ladybug_rhino.grasshopper.recommended_processor_count
             function can be used to get a recommendation. If None, all available
             processors will be used. (Default: None).
+        parallel: Optional boolean to override the cpu_count and use a single CPU
+            instead of multiple processors.
 
     Returns:
         int_solids -- The input array of solids, which have all been intersected
