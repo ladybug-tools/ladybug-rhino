@@ -1,9 +1,15 @@
 """Functions to bake from Ladybug geomtries into a Rhino document."""
-
 from .fromgeometry import from_point2d, from_mesh2d, from_point3d, from_mesh3d, \
     from_face3d, from_polyface3d
+from .color import color_to_color, gray
 
 try:
+    from System.Drawing import Color
+except ImportError as e:
+    raise ImportError("Failed to import Windows/.NET libraries\n{}".format(e))
+
+try:
+    import Rhino.Geometry as rg
     import Rhino.RhinoDoc as rhdoc
     import Rhino.DocObjects as docobj
     doc = rhdoc.ActiveDoc
@@ -67,6 +73,56 @@ def add_polyface3d_to_scene(polyface, layer_name=None, attributes=None):
     """Add ladybug Polyface3D to the Rhino scene."""
     _pface = from_polyface3d(polyface)
     return doc.Objects.AddBrep(_pface, _get_attributes(layer_name, attributes))
+
+
+"""________ADDITIONAL 3D GEOMETRY TRANSLATORS________"""
+
+
+def add_mesh3d_as_hatch_to_scene(mesh, layer_name=None, attributes=None):
+    """Add ladybug Mesh3D to the Rhino scene as a colored hatch."""
+    # get a list of colors that align with the mesh faces
+    if mesh.colors is not None:
+        if mesh.is_color_by_face:
+            colors = [color_to_color(col) for col in mesh.colors]
+        else:  # compute the average color across the vertices
+            colors, v_cols = [], mesh.colors
+            for face in mesh.faces:
+                red = int(sum(v_cols[f].r for f in face) / len(face))
+                green = int(sum(v_cols[f].g for f in face) / len(face))
+                blue = int(sum(v_cols[f].b for f in face) / len(face))
+                colors.append(Color.FromArgb(255, red, green, blue))
+    else:
+        colors = [gray()] * len(mesh.faces)
+
+    # create hatches from each of the faces and get an aligned list of colors
+    hatches, hatch_colors = [], []
+    vertices = mesh.vertices
+    for face, color in zip(mesh.faces, colors):
+        f_verts = [from_point3d(vertices[f]) for f in face]
+        f_verts.append(f_verts[0])
+        p_line = rg.PolylineCurve(f_verts)
+        if p_line.IsPlanar():
+            hatches.append(rg.Hatch.Create(p_line, 0, 0, 0)[0])
+            hatch_colors.append(color)
+        elif len(face) == 4:
+            p_line_1 = rg.PolylineCurve(f_verts[:3] + [f_verts[0]])
+            p_line_2 = rg.PolylineCurve(f_verts[-3:] + [f_verts[-3]])
+            hatches.append(rg.Hatch.Create(p_line_1, 0, 0, 0)[0])
+            hatches.append(rg.Hatch.Create(p_line_2, 0, 0, 0)[0])
+            hatch_colors.extend((color, color))
+
+    # bake the hatches into the scene
+    guids = []
+    for hatch, color in zip(hatches, hatch_colors):
+        attribs = _get_attributes(layer_name, attributes)
+        attribs.ColorSource = docobj.ObjectColorSource.ColorFromObject
+        attribs.ObjectColor = color
+        guids.append(doc.Objects.AddHatch(hatch, attribs))
+
+    # group the hatches so that they are easy to handle in the Rhino scene
+    group_t = doc.Groups
+    docobj.Tables.GroupTable.Add(group_t, guids)
+    return guids
 
 
 """________________EXTRA HELPER FUNCTIONS________________"""
