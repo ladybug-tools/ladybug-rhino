@@ -182,7 +182,8 @@ def to_polyface3d(geo, meshing_parameters=None):
     """
     mesh_par = meshing_parameters or rg.MeshingParameters.Default  # default
     if not isinstance(geo, rg.Mesh) and _planar.has_curved_face(geo):  # keep solidity
-        return Polyface3D.from_faces(_planar.curved_solid_faces(geo, mesh_par), tolerance)
+        return Polyface3D.from_faces(
+            _planar.curved_solid_faces(geo, mesh_par), tolerance)
     return Polyface3D.from_faces(to_face3d(geo, mesh_par), tolerance)
 
 
