@@ -250,6 +250,17 @@ def from_face3ds_to_colored_mesh(faces, color):
     return joined_mesh
 
 
+def from_mesh2d_to_outline(mesh, z=0):
+    """Rhino Polylines from the faces of ladybug Mesh2D."""
+    pt_function = _get_point2d_function(z)
+    verts = [pt_function(pt) for pt in mesh.vertices]
+    face_plines = []
+    for face in mesh.faces:
+        outline = [verts[f] for f in face] + [verts[face[0]]]
+        face_plines.append(rg.PolylineCurve(outline))
+    return face_plines
+
+
 """________________EXTRA HELPER FUNCTIONS________________"""
 
 
