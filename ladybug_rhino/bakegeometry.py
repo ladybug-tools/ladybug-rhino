@@ -139,21 +139,23 @@ def _get_attributes(layer_name=None, attributes=None):
 def _get_layer(layer_name):
     """Get a layer index from the Rhino document from the layer name."""
     layer_table = doc.Layers  # layer table
-    layer_index = layer_table.FindByFullName(layer_name, True)
+    layer_index = layer_table.FindByFullPath(layer_name, True)
     combined_part_names = []
     if layer_index < 0:
-        
         part_names = layer_name.split("::") #  full name could be layer::sublayer::sublayer
+        for i in range(len(part_names)):
+            combined_part_names.append("::".join(part_names[0:i+1])) #  [0] = layer ,  [1] = layer::sublayer, [2] = layer::sublayer::sublayer
+            checking_index = layer_table.FindByFullPath(combined_part_names[i], True)
+            if  checking_index < 0:  # layer::sublayer doesnt exist:
 
-        combined_part_names.append("::".join(part_names[:i])) #  [0] = layer ,  [1] = layer::sublayer, [2] = layer::sublayer::sublayer
-
-        for i in range(part_names):
-
-            if layer_table.FindByFullName(combined_part_names[-1], True) < 0:  # layer::sublayer doesnt exist:
                 parent_layer = docobj.Layer()
-                parent_layer.Name = combined_part_names[i]
+                parent_layer.Name = part_names[i]
+                
                 if i > 0:
-                    parent_layer.ParentLayerId = layer_index # nesting it to previosly created layer
+                    parent_layer.ParentLayerId = prev_layer.Id # nesting it to previosly created layer
                 layer_index = layer_table.Add(parent_layer)
-            
+                prev_layer = doc.Layers[layer_index]
+            else:
+                prev_layer = doc.Layers[checking_index]
+
     return layer_index
