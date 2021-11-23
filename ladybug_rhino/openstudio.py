@@ -109,7 +109,7 @@ def import_openstudio():
 
     .. code-block:: python
 
-        from ladybug_rhino.openstudio import import_openstudio
+        from ladybug_rhino.openstudio import import_openstudio, dump_osm
         OpenStudio = import_openstudio()
 
         # create a new OpenStudio model from scratch
