@@ -43,7 +43,7 @@ def export_component(folder, component, change_type='fix'):
     * A .ghuser into the user_objects subfolder
     * A .py file into the src subfolder
     * A .json into the json subfolder
-    # A .png into the icon subfolder
+    * A .png into the icon subfolder
 
     Args:
         folder: Path to a folder into which the component files will be exported.
