@@ -212,6 +212,7 @@ def viewport_vh_vv(viewport, view_type):
             * 3 Cylindrical panorama (c)
             * 4 Angular fisheye (a)
             * 5 Planisphere [stereographic] projection (s)
+
     """
     if view_type == 0:  # perspective
         right_vec = viewport.GetFrustumRightPlane()[1][1]

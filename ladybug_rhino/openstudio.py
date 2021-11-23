@@ -5,12 +5,13 @@ import shutil
 try:
     import clr
 except ImportError as e:  # No .NET being used
-    raise ImportError("Failed to import CLR.\n{}".format(e))
+    print('Failed to import CLR. OpenStudio SDK is unavailable.\n{}'.format(e))
 
 try:
     from honeybee_energy.config import folders
-except ImportError as e:  # No .NET being used
-    raise ImportError("Failed to import honeybee_energy.\n{}".format(e))
+except ImportError as e:
+    print('Failed to import honeybee_energy. '
+          'OpenStudio SDK is unavailable.\n{}'.format(e))
 
 
 def load_osm(osm_path):

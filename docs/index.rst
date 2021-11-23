@@ -1,5 +1,5 @@
 Welcome to Ladybug-rhino's documentation!
-===================================
+=========================================
 
 .. image:: http://www.ladybug.tools/assets/img/ladybug.png
 
@@ -28,7 +28,7 @@ For command line interface documentation and API documentation see the pages bel
 
 
 ladybug_rhino
-=======
+=============
 
 .. toctree::
   :maxdepth: 4

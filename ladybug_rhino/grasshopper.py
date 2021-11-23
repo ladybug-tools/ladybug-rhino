@@ -67,6 +67,7 @@ def give_popup_message(message, window_title='', icon_type='information'):
             * information
             * warning
             * error
+
     """
     icon_types = {
         'information': Forms.MessageBoxIcon.Information,

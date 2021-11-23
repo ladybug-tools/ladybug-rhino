@@ -175,6 +175,7 @@ class AlignmentTypes(object):
         * 0 - Left
         * 1 - Center
         * 2 - Right
+
         """
         return cls._HORIZONTAL[field_number]
 
@@ -189,5 +190,6 @@ class AlignmentTypes(object):
         * 4 - MiddleOfBottom
         * 5 - Bottom
         * 6 - BottomOfBoundingBox
+
         """
         return cls._VERTICAL[field_number]
