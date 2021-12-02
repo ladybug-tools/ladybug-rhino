@@ -247,8 +247,13 @@ def sync_component(component, syncing_component):
         fp = os.path.join(UO_FOLDER, ghuser_file)
 
     # check to see if the user object is installed
-    if not os.path.isfile(fp):  # see if there's a folder for the category
-        if component.Category in FOLDER_MAP:
+    if not os.path.isfile(fp):
+        # check if it's a component with a name change
+        alt_fp = fp.replace('Vizualize', 'Visualize')
+        alt_fp = alt_fp.replace('gbXML', 'gbXML OSM IDF')
+        if os.path.isfile(alt_fp):
+            fp = alt_fp
+        elif component.Category in FOLDER_MAP:  # see if there's a folder for the category
             fp = os.path.join(UO_FOLDER, FOLDER_MAP[component.Category], ghuser_file)
         if not os.path.isfile(fp):  # see if the component is in the root
             fp = os.path.join(UO_FOLDER, ghuser_file)
