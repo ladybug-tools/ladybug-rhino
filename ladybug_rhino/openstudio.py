@@ -43,8 +43,11 @@ def load_osm(osm_path):
     ops = import_openstudio()
 
     # load the model object and return it
-    os_path = ops.OpenStudioUtilitiesCore.toPath(osm_path)
-    osm_path_obj = ops.Path(os_path)
+    try:
+        osm_path_obj = ops.Path(osm_path)
+    except TypeError:
+        os_path = ops.OpenStudioUtilitiesCore.toPath(osm_path)
+        osm_path_obj = ops.Path(os_path)
     exist_os_model = ops.Model.load(osm_path_obj)
     if exist_os_model.is_initialized():
         return exist_os_model.get()
@@ -92,8 +95,11 @@ def dump_osm(model, osm_path):
         'Expected OpenStudio Model. Got {}.'.format(type(model))
 
     # load the model object and return it
-    os_path = ops.OpenStudioUtilitiesCore.toPath(osm_path)
-    osm_path_obj = ops.Path(os_path)
+    try:
+        osm_path_obj = ops.Path(osm_path)
+    except TypeError:
+        os_path = ops.OpenStudioUtilitiesCore.toPath(osm_path)
+        osm_path_obj = ops.Path(os_path)
     model.save(osm_path_obj, True)
     return osm_path
 
