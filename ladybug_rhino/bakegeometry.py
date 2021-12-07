@@ -142,9 +142,15 @@ def _get_layer(layer_name):
     layer_index = layer_table.FindByFullPath(layer_name, True)
     combined_part_names = []
     if layer_index < 0:
-        part_names = layer_name.split("::") #  full name could be layer::sublayer::sublayer
+    
+        #  full name could be layer::sublayer::sublayer
+        part_names = layer_name.split("::") 
+        
         for i in range(len(part_names)):
-            combined_part_names.append("::".join(part_names[0:i+1])) #  [0] = layer ,  [1] = layer::sublayer, [2] = layer::sublayer::sublayer
+        
+            #  [0] = layer ,  [1] = layer::sublayer, [2] = layer::sublayer::sublayer
+            combined_part_names.append("::".join(part_names[0:i+1]))
+            
             checking_index = layer_table.FindByFullPath(combined_part_names[i], True)
             if  checking_index < 0:  # layer::sublayer doesnt exist:
 
@@ -152,7 +158,8 @@ def _get_layer(layer_name):
                 parent_layer.Name = part_names[i]
                 
                 if i > 0:
-                    parent_layer.ParentLayerId = prev_layer.Id # nesting it to previosly created layer
+                    # nesting it to previously created layer
+                    parent_layer.ParentLayerId = prev_layer.Id
                 layer_index = layer_table.Add(parent_layer)
                 prev_layer = doc.Layers[layer_index]
             else:
