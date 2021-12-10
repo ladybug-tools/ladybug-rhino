@@ -1,6 +1,7 @@
 """Functions for importing OpenStudio into the Python environment."""
 import os
 import shutil
+import sys
 
 try:
     import clr
@@ -43,11 +44,8 @@ def load_osm(osm_path):
     ops = import_openstudio()
 
     # load the model object and return it
-    try:
-        osm_path_obj = ops.Path(osm_path)
-    except TypeError:
-        os_path = ops.OpenStudioUtilitiesCore.toPath(osm_path)
-        osm_path_obj = ops.Path(os_path)
+    os_path = ops.OpenStudioUtilitiesCore.toPath(osm_path)
+    osm_path_obj = ops.Path(os_path)
     exist_os_model = ops.Model.load(osm_path_obj)
     if exist_os_model.is_initialized():
         return exist_os_model.get()
@@ -95,11 +93,8 @@ def dump_osm(model, osm_path):
         'Expected OpenStudio Model. Got {}.'.format(type(model))
 
     # load the model object and return it
-    try:
-        osm_path_obj = ops.Path(osm_path)
-    except TypeError:
-        os_path = ops.OpenStudioUtilitiesCore.toPath(osm_path)
-        osm_path_obj = ops.Path(os_path)
+    os_path = ops.OpenStudioUtilitiesCore.toPath(osm_path)
+    osm_path_obj = ops.Path(os_path)
     model.save(osm_path_obj, True)
     return osm_path
 
@@ -126,25 +121,29 @@ def import_openstudio():
         osm_path = 'C:/path/to/model.osm'
         osm = dump_osm(os_model, osm_path)
     """
-    # check to be sure that the OpenStudio CSharp folder has been installed
-    compatibility_url = 'https://github.com/ladybug-tools/lbt-grasshopper/wiki/' \
-    '1.4-Compatibility-Matrix'
-    in_msg = 'Download and install the version of OpenStudio listed in the Ladybug ' \
-        'Tools compatibility matrix\n{}.'.format(compatibility_url)
-    assert folders.openstudio_path is not None, \
-        'No OpenStudio installation was found on this machine.\n{}'.format(in_msg)
-    assert folders.openstudio_csharp_path is not None, \
-        'No OpenStudio CSharp folder was found in the OpenStudio installation ' \
-        'at:\n{}'.format(os.path.dirname(folders.openstudio_path))
-    _copy_openstudio_lib()
+    try:  # first see if OpenStudio has already been loaded
+        import OpenStudio
+        return OpenStudio
+    except ImportError:
+        # check to be sure that the OpenStudio CSharp folder has been installed
+        compatibility_url = 'https://github.com/ladybug-tools/lbt-grasshopper/wiki/' \
+        '1.4-Compatibility-Matrix'
+        in_msg = 'Download and install the version of OpenStudio listed in the ' \
+            'Ladybug Tools compatibility matrix\n{}.'.format(compatibility_url)
+        assert folders.openstudio_path is not None, \
+            'No OpenStudio installation was found on this machine.\n{}'.format(in_msg)
+        assert folders.openstudio_csharp_path is not None, \
+            'No OpenStudio CSharp folder was found in the OpenStudio installation ' \
+            'at:\n{}'.format(os.path.dirname(folders.openstudio_path))
+        _copy_openstudio_lib()
 
-    # add the OpenStudio DLL to the Common Language Runtime (CLR)
-    os_dll = os.path.join(folders.openstudio_csharp_path, 'OpenStudio.dll')
-    clr.AddReferenceToFileAndPath(os_dll)
-
-    # import OpenStudio and return it
-    import OpenStudio
-    return OpenStudio
+        # add the OpenStudio DLL to the Common Language Runtime (CLR)
+        os_dll = os.path.join(folders.openstudio_csharp_path, 'OpenStudio.dll')
+        clr.AddReferenceToFileAndPath(os_dll)
+        if folders.openstudio_csharp_path not in sys.path:
+            sys.path.append(folders.openstudio_csharp_path)
+        import OpenStudio
+        return OpenStudio
 
 
 def _copy_openstudio_lib():
