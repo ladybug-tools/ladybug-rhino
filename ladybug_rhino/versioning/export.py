@@ -81,8 +81,11 @@ def export_component(folder, component, change_type='fix'):
 
     # export the .py file to the src subfolder
     code = uo.InstantiateObject().Code
-    if isinstance(code, unicode):
-        code = code.encode('utf8', 'ignore').replace("\r", "")
+    try:
+        if isinstance(code, unicode):
+            code = code.encode('utf8', 'ignore').replace("\r", "")
+    except Exception:
+        pass  # we are not in Python 2
     with open(src_fp, 'w') as outf:
         outf.write(code)
 
@@ -134,7 +137,7 @@ def export_component_screen_capture(folder, component, x_dim=1000, y_dim=1000):
     # resize the image
     loaded_img = System.Drawing.Bitmap(screen_capture)
     new_img = loaded_img.Clone(System.Drawing.Rectangle(0, 0, x_dim, y_dim),
-                                loaded_img.PixelFormat)
+                               loaded_img.PixelFormat)
 
     # write the image to a file
     file_name = clean_component_filename(component)

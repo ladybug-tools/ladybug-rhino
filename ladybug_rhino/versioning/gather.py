@@ -47,7 +47,8 @@ def gather_canvas_components(component):
             if not cluster_doc:
                 continue
             for cluster_obj in cluster_doc.Objects:
-                if type(cluster_obj) == type(component) and is_ladybug_tools(cluster_obj):
+                if type(cluster_obj) == type(component) and \
+                        is_ladybug_tools(cluster_obj):
                     if cluster_obj.Locked:
                         continue
                     components.append(cluster_obj)
