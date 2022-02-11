@@ -17,7 +17,7 @@ try:
 except ImportError as e:
     raise ImportError("Failed to import Rhino.\n{}".format(e))
 
-from .config import tolerance
+from .config import tolerance, rhino_version
 
 
 def join_geometry_to_mesh(geometry):
@@ -451,5 +451,7 @@ def geo_min_max_height(geometry):
 
     This is useful as a pre-step before the split_solid_to_floors method.
     """
+    # intersection functions changed in Rhino 7.15 such that we now need 2* tolerance
+    add_val = tolerance * 2 if rhino_version > (7, 15) else 0
     bound_box = geometry.GetBoundingBox(rg.Plane.WorldXY)
-    return bound_box.Min.Z, bound_box.Max.Z
+    return bound_box.Min.Z + add_val, bound_box.Max.Z

@@ -1,6 +1,14 @@
 """Ladybug_rhino configurations.
-Global variables such as tolerances and units are stored here.
+
+Global variables such as tolerances, units and Rhino versions are stored here.
 """
+
+try:
+    import Rhino
+    rhino_version_str = str(Rhino.RhinoApp.Version)
+    rhino_version = tuple(int(n) for n in rhino_version_str.split('.'))
+except ImportError as e:
+    raise ImportError('Failed to import RhinoCommon.\n{}'.format(e))
 
 try:  # Try to import tolerance from the active Rhino document
     import scriptcontext
