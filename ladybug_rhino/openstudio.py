@@ -17,7 +17,7 @@ except ImportError as e:
 
 def load_osm(osm_path):
     """Load an OSM file to an OpenStudio SDK Model object in the Python environment.
-    
+
     Args:
         osm_path: The path to an OSM file to be loaded an an OpenStudio Model.
 
@@ -58,7 +58,7 @@ def load_osm(osm_path):
 
 def dump_osm(model, osm_path):
     """Dump an OpenStudio Model object to an OSM file.
-    
+
     Args:
         model: An OpenStudio Model to be written to a file.
         osm_path: The path of the .osm file where the OpenStudio Model will be saved.
@@ -127,7 +127,7 @@ def import_openstudio():
     except ImportError:
         # check to be sure that the OpenStudio CSharp folder has been installed
         compatibility_url = 'https://github.com/ladybug-tools/lbt-grasshopper/wiki/' \
-        '1.4-Compatibility-Matrix'
+            '1.4-Compatibility-Matrix'
         in_msg = 'Download and install the version of OpenStudio listed in the ' \
             'Ladybug Tools compatibility matrix\n{}.'.format(compatibility_url)
         assert folders.openstudio_path is not None, \
@@ -156,7 +156,7 @@ def _copy_openstudio_lib():
     dest_file = os.path.join(folders.openstudio_csharp_path, 'openstudiolib.dll')
     if os.path.isfile(dest_file):
         return None
-    
+
     # if not, see if the openstudio_lib_path has the file that needs to be copied
     base_msg = 'The OpenStudio CSharp path at "{}" lacks the openstudiolib.dll'.format(
         folders.openstudio_csharp_path)
@@ -165,6 +165,6 @@ def _copy_openstudio_lib():
     src_file = os.path.join(folders.openstudio_lib_path, 'openstudiolib.dll')
     assert os.path.isfile(src_file), \
         '{}\nand this file was not found at "{}".'.format(base_msg, src_file)
-    
+
     # copy the DLL if it exists
     shutil.copy(src_file, dest_file)

@@ -27,7 +27,8 @@ class Component(object):
         'Rhino': '{{Cad}}'
     }
 
-    def __init__(self, name, nickname, description, code, category, subcategory, version):
+    def __init__(self, name, nickname, description, code,
+                 category, subcategory, version):
         """Grasshopper component wrapper."""
         self.name = name.replace('\r\n', '\n')
         self.nickname = nickname.replace('\r\n', '\n')
