@@ -7,8 +7,8 @@ try:
     import Rhino
     rhino_version_str = str(Rhino.RhinoApp.Version)
     rhino_version = tuple(int(n) for n in rhino_version_str.split('.'))
-except ImportError as e:
-    raise ImportError('Failed to import RhinoCommon.\n{}'.format(e))
+except Exception:
+    rhino_version = (7, 0)
 
 try:  # Try to import tolerance from the active Rhino document
     import scriptcontext
