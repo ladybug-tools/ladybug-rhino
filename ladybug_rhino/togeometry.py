@@ -30,6 +30,7 @@ except ImportError as e:
     raise ImportError("Failed to import Rhino.\n{}".format(e))
 
 import ladybug_rhino.planarize as _planar
+from .fromgeometry import from_face3ds_to_joined_brep
 from .config import tolerance
 
 
@@ -182,8 +183,8 @@ def to_polyface3d(geo, meshing_parameters=None):
     """
     mesh_par = meshing_parameters or rg.MeshingParameters.Default  # default
     if not isinstance(geo, rg.Mesh) and _planar.has_curved_face(geo):  # keep solidity
-        return Polyface3D.from_faces(
-            _planar.curved_solid_faces(geo, mesh_par), tolerance)
+        new_brep = from_face3ds_to_joined_brep(_planar.curved_solid_faces(geo, mesh_par))
+        return Polyface3D.from_faces(to_face3d(new_brep[0], mesh_par), tolerance)
     return Polyface3D.from_faces(to_face3d(geo, mesh_par), tolerance)
 
 
