@@ -67,8 +67,8 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
         if original is None:
             return None
         text = rh.Display.Text3d(original.Text, original.TextPlane, original.Height)
-        text.Bold = original.Bold,
-        text.Italic = original.Italic,
+        text.Bold = original.Bold
+        text.Italic = original.Italic
         text.FontFace = original.FontFace
         return text
 
