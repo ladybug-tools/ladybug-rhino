@@ -137,11 +137,24 @@ def _get_attributes(layer_name=None, attributes=None):
 
 
 def _get_layer(layer_name):
-    """Get a layer index from the Rhino document from the ladyer name."""
+    """Get a layer index from the Rhino document from the layer name."""
     layer_table = doc.Layers  # layer table
-    layer_index = layer_table.Find(layer_name, True)
+    layer_index = layer_table.FindByFullPath(layer_name, True)
     if layer_index < 0:
-        parent_layer = docobj.Layer()
-        parent_layer.Name = layer_name
-        layer_index = layer_table.Add(parent_layer)
+        all_layers = layer_name.split('::')
+        parent_name = all_layers[0]
+        layer_index = layer_table.FindByFullPath(parent_name, True)
+        if layer_index < 0:
+            parent_layer = docobj.Layer()
+            parent_layer.Name = parent_name
+            layer_index = layer_table.Add(parent_layer)
+        for lay in all_layers[1:]:
+            parent_name = '{}::{}'.format(parent_name, lay)
+            parent_index = layer_index
+            layer_index = layer_table.FindByFullPath(parent_name, True)
+            if layer_index < 0:
+                parent_layer = docobj.Layer()
+                parent_layer.Name = lay
+                parent_layer.ParentLayerId = layer_table[parent_index].Id 
+                layer_index = layer_table.Add(parent_layer)
     return layer_index
