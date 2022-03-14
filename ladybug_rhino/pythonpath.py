@@ -11,12 +11,13 @@ except ImportError as e:
 
 
 # core library packages, which get copied or cleaned out of the Rhino scripts folder
-PACKAGES = \
-    ('ladybug_rhino', 'ladybug_geometry', 'ladybug_geometry_polyskel',
-     'ladybug', 'ladybug_comfort', 'honeybee', 'honeybee_standards', 'honeybee_energy',
-     'honeybee_radiance', 'honeybee_radiance_folder', 'honeybee_radiance_command',
-     'dragonfly', 'dragonfly_energy', 'dragonfly_radiance', 'dragonfly_uwg',
-     'lbt_recipes', 'pollination_handlers')
+PACKAGES = (
+    'ladybug_rhino', 'ladybug_geometry', 'ladybug_geometry_polyskel',
+    'ladybug', 'ladybug_comfort', 'honeybee', 'honeybee_standards', 'honeybee_energy',
+    'honeybee_radiance', 'honeybee_radiance_folder', 'honeybee_radiance_command',
+    'dragonfly', 'dragonfly_energy', 'dragonfly_radiance', 'dragonfly_uwg',
+    'lbt_recipes', 'pollination_handlers'
+)
 # Rhino versions that the plugins are compatible with
 RHINO_VERSIONS = ('6.0', '7.0')
 # UUID that McNeel uses to identify the IronPython plugin
@@ -135,8 +136,6 @@ def iron_python_search_path_windows(python_package_dir, settings_file,
             for entry in settings.iter('entry'):
                 if 'SearchPaths' in list(entry.attrib.values()):
                     existing_paths = entry.text
-                    if python_package_dir in entry.text:
-                        search_path_needed = False
         else:  # there's no settings key within the XML file; we must add it
             search_path_needed = False
             settings_key_needed = True
@@ -155,8 +154,11 @@ def iron_python_search_path_windows(python_package_dir, settings_file,
     if destination_file is None:
         destination_file = settings_file
     if search_path_needed:
+        if 'ladybug_tools' in python_package_dir and existing_paths is not None:
+            existing_paths = filter_existing_paths(existing_paths)
         new_paths = '{};{}'.format(existing_paths, python_package_dir) \
-            if existing_paths is not None else python_package_dir
+            if existing_paths is not None and existing_paths != '' \
+            else python_package_dir
         line_to_add = '    <entry key="SearchPaths">{}</entry>\n'.format(new_paths)
         with io.open(settings_file, 'r', encoding='utf-8') as fp:
             contents = fp.readlines()
@@ -183,6 +185,14 @@ def iron_python_search_path_windows(python_package_dir, settings_file,
         with io.open(destination_file, 'w', encoding='utf-8') as fp:
             fp.write(''.join(contents))
     return destination_file
+
+
+def filter_existing_paths(existing_paths):
+    """Filter out any duplicate/unwanted search paths."""
+    paths_list = existing_paths.split(';')
+    filt_paths = [p for p in paths_list
+                  if 'ladybug_tools' not in p and 'pollination' not in p]
+    return ';'.join(filt_paths)
 
 
 def find_installed_rhino_scripts():
