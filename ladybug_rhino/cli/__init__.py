@@ -17,6 +17,7 @@ import click
 from ladybug_rhino.pythonpath import create_python_package_dir, iron_python_search_path
 from ladybug_rhino.ghpath import copy_components_packages, \
     clean_userobjects, clean_libraries
+from ladybug_rhino.resourcepath import setup_resource_folders
 
 _logger = logging.getLogger(__name__)
 
@@ -31,6 +32,57 @@ def main():
 def viz():
     """Check if ladybug_rhino is flying!"""
     click.echo('viiiiiiiiiiiiizzzzzzzzz!')
+
+
+@main.command('setup-user-environment')
+@click.option(
+    '--component-directory', default=None, help='The path to a directory that '
+    'contains all of the Ladybug Tools Grasshopper python packages to be copied '
+    '(both user object packages and dotnet gha packages). If unspecified, no user '
+    'objects will be copied.',
+    type=click.Path(exists=True, file_okay=False, dir_okay=True, resolve_path=True))
+@click.option(
+    '--python-package-dir', help='Path to the directory with the python '
+    'packages, which will be added to the search path. If None, this command '
+    'will search for the site-packages folder in the ladybug_tools folder',
+    type=str, default=None, show_default=True)
+@click.option(
+    '--setup-resources/--overwrite-resources', ' /-o', help='Flag to note '
+    'whether the user resources should be overwritten or they should only '
+    'be set up if they do not exist, in which case existing resources will '
+    'be preserved.', default=True)
+def setup_user_environment(component_directory, python_package_dir, setup_resources):
+    """Set up the entire environment for the current user.
+
+    This includes setting the IronPython search path, copying the components to
+    the user-specific folders, and creating any user resource folders if they
+    do not already exist. Note that setting the IronPython search path won't
+    work well if Rhino is open while running this command.
+    """
+    try:
+        # set the ironpython search path
+        click.echo('Setting Rhino IronPython search path ...')
+        if python_package_dir is None:
+            python_package_dir = create_python_package_dir()
+        new_settings = iron_python_search_path(python_package_dir, None)
+        click.echo('Congratulations! Setting the search path in the following '
+                   'file was successful:\n{}'.format('\n'.join(new_settings)))
+        # copy the components if they exist
+        if component_directory is not None:
+            click.echo('Copying Grasshopper Components ...')
+            copy_components_packages(component_directory)
+            click.echo('Congratulations! All component packages are copied!')
+        # set the user resources
+        click.echo('Setting user-specific resources ...')
+        overwrite = not setup_resources
+        resource_folder = setup_resource_folders(overwrite)
+        click.echo('Setting up user resources in the following '
+                   'folder was successful:\n{}'.format(resource_folder))
+    except Exception as e:
+        _logger.exception('Setting up the user environment failed.\n{}'.format(e))
+        sys.exit(1)
+    else:
+        sys.exit(0)
 
 
 @main.command('set-python-search')
@@ -96,6 +148,27 @@ def remove_gh_components():
         click.echo('Congratulations! All component packages are removed!')
     except Exception as e:
         _logger.exception('Removing Grasshopper components failed.\n{}'.format(e))
+        sys.exit(1)
+    else:
+        sys.exit(0)
+
+
+@main.command('setup-resources')
+@click.option('--setup-only/--overwrite', ' /-o', help='Flag to note '
+              'whether the user resources should be overwritten or they should only '
+              'be set up if they do not exist, in which case existing resources will '
+              'be preserved.', default=True)
+def setup_resources(setup_only):
+    """Set up user resource folders in their respective locations."""
+    try:
+        overwrite = not setup_only
+        # setup the resource folders
+        click.echo('Setting user-specific resources ...')
+        resource_folder = setup_resource_folders(overwrite)
+        click.echo('Setting up user resources in the following '
+                   'folder was successful:\n{}'.format(resource_folder))
+    except Exception as e:
+        _logger.exception('Setting up resource folders failed.\n{}'.format(e))
         sys.exit(1)
     else:
         sys.exit(0)
