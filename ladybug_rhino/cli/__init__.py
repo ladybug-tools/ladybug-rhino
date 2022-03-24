@@ -11,8 +11,14 @@ creating the CLI.
 """
 
 import sys
+import os
 import logging
 import click
+
+try:
+    from ladybug.config import folders as lb_folders
+except ImportError as e:
+    raise ImportError("Failed to import ladybug.\n{}".format(e))
 
 from ladybug_rhino.pythonpath import create_python_package_dir, iron_python_search_path
 from ladybug_rhino.ghpath import copy_components_packages, \
@@ -38,13 +44,14 @@ def viz():
 @click.option(
     '--component-directory', default=None, help='The path to a directory that '
     'contains all of the Ladybug Tools Grasshopper python packages to be copied '
-    '(both user object packages and dotnet gha packages). If unspecified, no user '
-    'objects will be copied.',
+    '(both user object packages and dotnet gha packages). If unspecified, this command '
+    'will search for the site-packages folder in the ladybug_tools folder. If '
+    'they are not found, no user objects will be copied.',
     type=click.Path(exists=True, file_okay=False, dir_okay=True, resolve_path=True))
 @click.option(
     '--python-package-dir', help='Path to the directory with the python '
-    'packages, which will be added to the search path. If None, this command '
-    'will search for the site-packages folder in the ladybug_tools folder',
+    'packages, which will be added to the search path. If unspecified, this command '
+    'will search for the site-packages folder in the ladybug_tools folder.',
     type=str, default=None, show_default=True)
 @click.option(
     '--setup-resources/--overwrite-resources', ' /-o', help='Flag to note '
@@ -61,14 +68,17 @@ def setup_user_environment(component_directory, python_package_dir, setup_resour
     """
     try:
         # set the ironpython search path
-        click.echo('Setting Rhino IronPython search path ...')
         if python_package_dir is None:
             python_package_dir = create_python_package_dir()
-        new_settings = iron_python_search_path(python_package_dir, None)
-        click.echo('Congratulations! Setting the search path in the following '
-                   'file was successful:\n{}'.format('\n'.join(new_settings)))
+        if python_package_dir is not None:
+            click.echo('Setting Rhino IronPython search path ...')
+            new_settings = iron_python_search_path(python_package_dir, None)
+            click.echo('Congratulations! Setting the search path in the following '
+                       'file was successful:\n{}'.format('\n'.join(new_settings)))
         # copy the components if they exist
-        if component_directory is not None:
+        if component_directory is None:
+            comp_install = os.path.join(lb_folders.ladybug_tools_folder, 'grasshopper')
+        if os.path.isdir(comp_install):
             click.echo('Copying Grasshopper Components ...')
             copy_components_packages(component_directory)
             click.echo('Congratulations! All component packages are copied!')
