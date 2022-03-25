@@ -452,6 +452,6 @@ def geo_min_max_height(geometry):
     This is useful as a pre-step before the split_solid_to_floors method.
     """
     # intersection functions changed in Rhino 7.15 such that we now need 2* tolerance
-    add_val = tolerance * 2 if rhino_version > (7, 15) else 0
+    add_val = tolerance * 2 if (7, 15) <= rhino_version < (7, 17) else 0
     bound_box = geometry.GetBoundingBox(rg.Plane.WorldXY)
     return bound_box.Min.Z + add_val, bound_box.Max.Z
