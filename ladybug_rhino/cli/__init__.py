@@ -77,8 +77,9 @@ def setup_user_environment(component_directory, python_package_dir, setup_resour
                        'file was successful:\n{}'.format('\n'.join(new_settings)))
         # copy the components if they exist
         if component_directory is None:
-            comp_install = os.path.join(lb_folders.ladybug_tools_folder, 'grasshopper')
-        if os.path.isdir(comp_install):
+            component_directory = \
+                os.path.join(lb_folders.ladybug_tools_folder, 'grasshopper')
+        if os.path.isdir(component_directory):
             click.echo('Copying Grasshopper Components ...')
             copy_components_packages(component_directory)
             click.echo('Congratulations! All component packages are copied!')
