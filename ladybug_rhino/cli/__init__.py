@@ -24,6 +24,7 @@ from ladybug_rhino.pythonpath import create_python_package_dir, iron_python_sear
 from ladybug_rhino.ghpath import copy_components_packages, \
     clean_userobjects, clean_libraries
 from ladybug_rhino.resourcepath import setup_resource_folders
+from ladybug_rhino.versioning.change import change_installed_version
 
 _logger = logging.getLogger(__name__)
 
@@ -180,6 +181,29 @@ def setup_resources(setup_only):
                    'folder was successful:\n{}'.format(resource_folder))
     except Exception as e:
         _logger.exception('Setting up resource folders failed.\n{}'.format(e))
+        sys.exit(1)
+    else:
+        sys.exit(0)
+
+
+@main.command('change-installed-version')
+@click.option('--version', '-v', help=' An optional text string for the version of '
+              'the LBT plugin to be installed. The input should contain only integers '
+              'separated by two periods (eg. 1.0.0). If unspecified, the Ladybug '
+              'Tools plugin shall be updated to the latest available version. The '
+              'version specified here does not need to be newer than the current '
+              'installation and can be older but grasshopper plugin versions less '
+              'than 0.3.0 are not supported.', type=str, default=None)
+def run_versioner_process(version):
+    """Change the currently installed version of Ladybug Tools.
+
+    This requires an internet connection and will update all core libraries and
+    Grasshopper components to the specified version_to_install.
+    """
+    try:
+        change_installed_version(version)
+    except Exception as e:
+        _logger.exception('Changing the installed version failed.\n{}'.format(e))
         sys.exit(1)
     else:
         sys.exit(0)
