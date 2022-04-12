@@ -7,9 +7,26 @@ try:
 except ImportError:
     raise ImportError("Failed to import Grasshopper.")
 
-# location where the Grasshopper user objects are stored
+try:
+    from ladybug.config import folders
+except ImportError as e:
+    raise ImportError("Failed to import ladybug.\n{}".format(e))
+
+# find the location where the Grasshopper user objects are stored
 UO_FOLDER = Folders.UserObjectFolders[0]
 GHA_FOLDER = Folders.DefaultAssemblyFolder
+if os.name == 'nt':
+    # search all assembly folders to see if they live in the core installation
+    lbt_components = os.path.join(folders.ladybug_tools_folder, 'grasshopper')
+    if os.path.isdir(lbt_components):
+        comp_dir = 'C:\\ProgramData\\McNeel\\Rhinoceros\\packages'
+        for a_fold in Folders.AssemblyFolders:
+            a_fold = str(a_fold)
+            if a_fold.startswith(comp_dir) and 'LadybugTools' in a_fold:
+                # a special plugin loader has been added
+                UO_FOLDER = lbt_components
+                GHA_FOLDER = lbt_components
+                break
 
 # map from the AdditionalHelpFromDocStrings to values for user object exposure
 EXPOSURE_MAP = (
