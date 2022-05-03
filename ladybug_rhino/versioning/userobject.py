@@ -89,7 +89,10 @@ def create_userobject(component, move=True):
             os.mkdir(ufd)
         elif os.path.isfile(ufp):
             # remove current userobject
-            os.remove(ufp)
+            try:
+                os.remove(ufp)
+            except Exception:
+                pass  # access is denied to the user object location
         uo.Path = ufp
 
     uo.SaveToFile()
