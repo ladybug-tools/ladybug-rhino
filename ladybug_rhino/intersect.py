@@ -23,7 +23,7 @@ from .config import tolerance, rhino_version
 def join_geometry_to_mesh(geometry):
     """Convert an array of Rhino Breps and/or Meshes into a single Rhino Mesh.
 
-    This is a typical pre-step before using the intersect_mesh_rays function.
+    This is a typical pre-step before using the intersect_mesh_rays functions.
 
     Args:
         geometry: An array of Rhino Breps or Rhino Meshes.
@@ -40,6 +40,51 @@ def join_geometry_to_mesh(geometry):
             raise TypeError('Geometry must be either a Brep or a Mesh. '
                             'Not {}.'.format(type(geo)))
     return joined_mesh
+
+
+def join_geometry_to_brep(geometry):
+    """Convert an array of Rhino Breps and/or Meshes into a single Rhino Brep.
+
+    This is a typical pre-step before using the ray tracing functions.
+
+    Args:
+        geometry: An array of Rhino Breps or Rhino Meshes.
+    """
+    joined_mesh = join_geometry_to_mesh(geometry)
+    return rg.Brep.CreateFromMesh(joined_mesh, False)
+
+
+def bounding_box(geometry, high_accuracy=False):
+    """Get a Rhino bounding box around an input Rhino Mesh or Brep.
+
+    This is a typical pre-step before using intersection functions.
+
+    Args:
+        geometry: A Rhino Brep or Mesh.
+        high_accuracy: If True, a physically accurate bounding box will be computed.
+            If not, a bounding box estimate will be computed. For some geometry
+            types, there is no difference between the estimate and the accurate
+            bounding box. Estimated bounding boxes can be computed much (much)
+            faster than accurate (or "tight") bounding boxes. Estimated bounding
+            boxes are always similar to or larger than accurate bounding boxes.
+    """
+    return geometry.GetBoundingBox(high_accuracy)
+
+
+def bounding_box_extents(geometry, high_accuracy=False):
+    """Get min and max points around an input Rhino Mesh or Brep
+
+    Args:
+        geometry: A Rhino Brep or Mesh.
+        high_accuracy: If True, a physically accurate bounding box will be computed.
+            If not, a bounding box estimate will be computed. For some geometry
+            types, there is no difference between the estimate and the accurate
+            bounding box. Estimated bounding boxes can be computed much (much)
+            faster than accurate (or "tight") bounding boxes. Estimated bounding
+            boxes are always similar to or larger than accurate bounding boxes.
+    """
+    b_box = bounding_box(geometry, high_accuracy)
+    return b_box.Max, b_box.Min
 
 
 def intersect_mesh_rays(
@@ -139,7 +184,7 @@ def intersect_mesh_rays(
         pt_groups[-1][-1] = pt_count  # ensure the last group ends with point count
 
     if normals is not None:
-        if cpu_count is None:  # use all availabe CPUs
+        if cpu_count is None:  # use all available CPUs
             tasks.Parallel.ForEach(range(len(points)), intersect_point_normal_check)
         elif cpu_count <= 1:  # run everything on a single processor
             for i in range(len(points)):
@@ -148,7 +193,7 @@ def intersect_mesh_rays(
             tasks.Parallel.ForEach(
                 range(len(pt_groups)), intersect_each_point_group_normal_check)
     else:
-        if cpu_count is None:  # use all availabe CPUs
+        if cpu_count is None:  # use all available CPUs
             tasks.Parallel.ForEach(range(len(points)), intersect_point)
         elif cpu_count <= 1:  # run everything on a single processor
             for i in range(len(points)):
@@ -240,7 +285,7 @@ def intersect_mesh_lines(
         l_groups[-1][-1] = l_count  # ensure the last group ends with line count
 
     if max_dist is not None:
-        if cpu_count is None:  # use all availabe CPUs
+        if cpu_count is None:  # use all available CPUs
             tasks.Parallel.ForEach(range(len(start_points)), intersect_line_dist_check)
         elif cpu_count <= 1:  # run everything on a single processor
             for i in range(len(start_points)):
@@ -249,7 +294,7 @@ def intersect_mesh_lines(
             tasks.Parallel.ForEach(
                 range(len(l_groups)), intersect_each_line_group_dist_check)
     else:
-        if cpu_count is None:  # use all availabe CPUs
+        if cpu_count is None:  # use all available CPUs
             tasks.Parallel.ForEach(range(len(start_points)), intersect_line)
         elif cpu_count <= 1:  # run everything on a single processor
             for i in range(len(start_points)):
@@ -260,13 +305,35 @@ def intersect_mesh_lines(
     return int_matrix
 
 
+def trace_ray(ray, breps, bounce_count=1):
+    """Get a list of Rhino points for the path a ray takes bouncing through breps.
+
+    Args:
+        ray: A Rhino Ray whose path will be traced through the geometry.
+        breps: An array of Rhino breps through with the ray will be traced.
+        bounce_count: An positive integer for the number of ray bounces to trace
+            the sun rays forward. (Default: 1).
+    """
+    return rg.Intersect.Intersection.RayShoot(ray, breps, bounce_count)
+
+
+def normal_at_point(brep, point):
+    """Get a Rhino vector for the normal at a specific point that lies on a brep.
+
+    Args:
+        breps: A Rhino brep on which the normal direction will be evaluated.
+        point: A Rhino point on the input brep where the normal will be evaluated.
+    """
+    return brep.ClosestPoint(point, tolerance)[5]
+
+
 def intersect_solids_parallel(solids, bound_boxes, cpu_count=None):
     """Intersect the co-planar faces of an array of solids using parallel processing.
 
     Args:
         original_solids: An array of closed Rhino breps (polysurfaces) that do
             not have perfectly matching surfaces between adjacent Faces.
-        bound_boxes: An array of Rhino bounding boxes that parellels the input
+        bound_boxes: An array of Rhino bounding boxes that parallels the input
             solids and will be used to check whether two Breps have any potential
             for intersection before the actual intersection is performed.
         cpu_count: An integer for the number of CPUs to be used in the intersection
@@ -307,7 +374,7 @@ def intersect_solids_parallel(solids, bound_boxes, cpu_count=None):
         for count in range(start_i, stop_i):
             intersect_each_solid(count)
 
-    if cpu_count is None or cpu_count <= 1:  # use all availabe CPUs
+    if cpu_count is None or cpu_count <= 1:  # use all available CPUs
         tasks.Parallel.ForEach(range(len(solids)), intersect_each_solid)
     else:  # group the solids in order to meet the cpu_count
         solid_count = len(int_solids)
@@ -326,7 +393,7 @@ def intersect_solids(solids, bound_boxes):
     Args:
         original_solids: An array of closed Rhino breps (polysurfaces) that do
             not have perfectly matching surfaces between adjacent Faces.
-        bound_boxes: An array of Rhino bounding boxes that parellels the input
+        bound_boxes: An array of Rhino bounding boxes that parallels the input
             solids and will be used to check whether two Breps have any potential
             for intersection before the actual intersection is performed.
 
