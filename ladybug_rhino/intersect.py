@@ -502,7 +502,7 @@ def split_solid_to_floors(building_solid, floor_heights):
         floor_base_pt = rg.Point3d(0, 0, hgt)
         section_plane = rg.Plane(floor_base_pt, rg.Vector3d.ZAxis)
         floor_crvs = rg.Brep.CreateContourCurves(building_solid, section_plane)
-        try:  # Assume a single countour curve has been found
+        try:  # Assume a single contour curve has been found
             floor_brep = rg.Brep.CreatePlanarBreps(floor_crvs, tolerance)
         except TypeError:  # An array of contour curves has been found
             floor_brep = rg.Brep.CreatePlanarBreps(floor_crvs)

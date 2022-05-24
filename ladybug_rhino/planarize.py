@@ -85,17 +85,24 @@ def curved_surface_faces(b_face, meshing_parameters):
 """____________SOLID BREPS TO PLANAR____________"""
 
 
-def curved_solid_faces(brep, meshing_parameters):
+def curved_solid_faces(brep, meshing_parameters, ignore_sliver=True):
     """Extract Face3D objects from a curved solid brep.
 
-    This methods ensures that the resulting Face3Ds form a closed solid by
-    meshing the solid Brep alltogether.
+    This method ensures that the resulting Face3Ds sill form a closed solid if
+    the input brep is closed. This is accomplished by meshing the solid Brep
+    altogether.
 
     Args:
         brep: A curved solid brep.
         meshing_parameters: Rhino Meshing Parameters to describe how curved surfaces
             should be converted into planar elements. If None, Rhino's Default
             Meshing Parameters will be used.
+        ignore_sliver: A Boolean to note whether tiny sliver faces should simply be
+            excluded from the output (True) or whether a None should be put in
+            their place (False). The latter is useful when reporting to the user
+            that certain tiny geometries interfered with the planarization
+            process and the Rhino model tolerance should probably be lowered
+            in order to get a better planar representation. (Default: True).
 
     Returns:
         A list of ladybug Face3D objects that together approximate the input brep.
@@ -121,7 +128,14 @@ def curved_solid_faces(brep, meshing_parameters):
         else:
             faces.extend(mesh_faces_to_face3d(mesh))
     # remove colinear vertices as the meshing process makes a lot of them
-    return [face.remove_colinear_vertices(tolerance) for face in faces]
+    final_faces = []
+    for face in faces:
+        try:
+            final_faces.append(face.remove_colinear_vertices(tolerance))
+        except AssertionError:  # tiny sliver Face that should not be included
+            if not ignore_sliver:
+                final_faces.append(None)
+    return final_faces
 
 
 """________________EXTRA HELPER FUNCTIONS________________"""

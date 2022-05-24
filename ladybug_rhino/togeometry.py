@@ -137,11 +137,23 @@ def to_face3d(geo, meshing_parameters=None):
         for face in geo.Faces:
             if face.IsQuad:
                 all_verts = (pts[face[0]], pts[face[1]], pts[face[2]], pts[face[3]])
+                lb_face = Face3D(all_verts)
+                if lb_face.area != 0:
+                    for _v in lb_face.vertices:
+                        if lb_face.plane.distance_to_point(_v) >= tolerance:
+                            # non-planar quad split the quad into two planar triangles
+                            verts1 = (pts[face[0]], pts[face[1]], pts[face[2]])
+                            verts2 = (pts[face[3]], pts[face[0]], pts[face[1]])
+                            faces.append(Face3D(verts1))
+                            faces.append(Face3D(verts2))
+                            break
+                    else:
+                        faces.append(lb_face)
             else:
                 all_verts = (pts[face[0]], pts[face[1]], pts[face[2]])
-            lb_face = Face3D(all_verts)
-            if lb_face.area != 0:
-                faces.append(Face3D(all_verts))
+                lb_face = Face3D(all_verts)
+                if lb_face.area != 0:
+                    faces.append(lb_face)
     else:  # convert each Brep Face to a Face3D
         meshing_parameters = meshing_parameters or rg.MeshingParameters.Default
         for b_face in geo.Faces:
