@@ -10,27 +10,12 @@ try:
 except ImportError as e:
     raise ImportError('\nFailed to import ladybug:\n\t{}'.format(e))
 
+from ..config import folders as lbr_folders
 from ..pythonpath import iron_python_search_path, create_python_package_dir
 
 # find the location where the Grasshopper user objects are stored
-app_folder = os.getenv('APPDATA')
-if app_folder is not None:
-    UO_DIRECTORY = os.path.join(app_folder, 'Grasshopper', 'UserObjects')
-    GHA_DIRECTORY = os.path.join(app_folder, 'Grasshopper', 'Libraries')
-else:
-    home_folder = os.getenv('HOME') or os.path.expanduser('~')
-    gh_folder = os.path.join(home_folder, 'AppData', 'Roaming', 'Grasshopper')
-    UO_DIRECTORY = os.path.join(gh_folder, 'UserObjects')
-    GHA_DIRECTORY = os.path.join(gh_folder, 'Libraries')
-if os.name == 'nt':
-    # test to see if components live in the core installation
-    lbt_components = os.path.join(folders.ladybug_tools_folder, 'grasshopper')
-    print(lbt_components)
-    if os.path.isdir(lbt_components):
-        user_dir = os.path.join(UO_DIRECTORY, 'ladybug_grasshopper')
-        if not os.path.isdir(user_dir):
-            UO_DIRECTORY = lbt_components
-            GHA_DIRECTORY = lbt_components
+UO_DIRECTORY = lbr_folders.uo_folder
+GHA_DIRECTORY = lbr_folders.gha_folder
 
 
 def get_gem_directory():
@@ -82,6 +67,7 @@ def set_config_dict(config_dict):
 
 def update_libraries_pip(python_exe, package_name, version=None, target=None):
     """Change python libraries to be of a specific version using pip.
+
     Args:
         python_exe: The path to the Python executable to be used for installation.
         package_name: The name of the PyPI package to install.
@@ -113,24 +99,25 @@ def update_libraries_pip(python_exe, package_name, version=None, target=None):
 
 def download_repo_github(repo, target_directory, version=None):
     """Download a repo of a particular version from from github.
+
     Args:
         repo: The name of a repo to be downloaded (eg. 'lbt-grasshopper').
-        target_directory: the directory where the library should be downloaded to.
+        target_directory: The directory where the library should be downloaded.
         version: The version of the repository to download. If None, the most
             recent version will be downloaded. (Default: None)
-        """
+    """
     # download files
     if version is None:
-        url = "https://github.com/ladybug-tools/{}/archive/master.zip".format(repo)
+        url = 'https://github.com/ladybug-tools/{}/archive/master.zip'.format(repo)
     else:
-        url = "https://github.com/ladybug-tools/{}/archive/v{}.zip".format(repo, version)
+        url = 'https://github.com/ladybug-tools/{}/archive/v{}.zip'.format(repo, version)
     zip_file = os.path.join(target_directory, '%s.zip' % repo)
     print('Downloading "{}"  github repository to: {}'.format(repo, target_directory))
     try:
         download_file_by_name(url, target_directory, zip_file)
     except ValueError:
-        msg = 'Access is denied to: {}\nMake sure that you are running Rhino as ' \
-            'an Administrator by right-clicking on\nRhino and selecting "Run As ' \
+        msg = 'Access is denied to: {}\nMake sure that you are running this command as' \
+            ' an Administrator by right-clicking on\nRhino and selecting "Run As ' \
             'Administrator" before opening Grasshopper and\n running this ' \
             'component.'.format(target_directory)
         print(msg)
@@ -150,6 +137,65 @@ def download_repo_github(repo, target_directory, version=None):
         return os.path.join(target_directory, '{}-master'.format(repo))
     else:
         return os.path.join(target_directory, '{}-{}'.format(repo, version))
+
+
+def latest_github_version(repo, target_directory):
+    """Get the latest version tag of a particular repo on github.
+
+    Args:
+        repo: The name of a repo to be downloaded (eg. 'lbt-grasshopper').
+        target_directory: The directory where the HTML Tags page should be downloaded.
+    """
+    # download the latest page with all of the tags
+    url = 'https://github.com/ladybug-tools/{}/tags'.format(repo)
+    tag_file = os.path.join(target_directory, '%s.html' % repo)
+    try:
+        download_file_by_name(url, target_directory, tag_file)
+    except ValueError:
+        msg = 'Access is denied to: {}\nMake sure that you are running this command as' \
+            ' an Administrator.'.format(target_directory)
+        print(msg)
+        raise ValueError(msg)
+
+    # parse the page to find the correct tag
+    version_str, tag_found = None, False
+    with open(tag_file) as tf:
+        for row in tf:
+            if 'data-test-selector="tag-title"' in row:
+                tag_found = True
+            elif tag_found and '<a href' not in row:
+                version_str = row.strip().replace('v', '')
+                break
+
+    # try to clean up the downloaded html file
+    try:
+        os.remove(tag_file)
+    except Exception:
+        print('Failed to remove downloaded HTML file: {}.'.format(tag_file))
+    return version_str
+
+
+def update_requirements_version(uo_folder, lbt_version):
+    """Update the version of lbt_grasshopper in the user object requirements.txt file.
+
+    Args:
+        uo_folder: The directory where the user objects currently exist.
+        lbt_version: The version of LBT-grasshopper to be updated in the
+            requirements.txt file.
+    """
+    req_file = os.path.join(uo_folder, 'requirements.txt')
+    if os.path.isfile(req_file):
+        all_rows = []
+        with open(req_file) as rf:
+            for row in rf:
+                if row.startswith('lbt-grasshopper=='):
+                    all_rows.append('lbt-grasshopper=={}\n'.format(lbt_version))
+                else:
+                    all_rows.append(row)
+    else:
+        all_rows.append('lbt-grasshopper=={}\n'.format(lbt_version))
+    with open(req_file, 'w') as rf:
+        rf.write(''.join(all_rows))
 
 
 def parse_lbt_gh_versions(lbt_gh_folder):
@@ -193,7 +239,7 @@ def parse_lbt_gh_versions(lbt_gh_folder):
         'honeybee-grasshopper-energy': None,
         'dragonfly-grasshopper': None,
         'ladybug-grasshopper-dotnet': None
-        }
+    }
     libs_to_collect = list(version_dict.keys())
 
     def search_versions(version_file):
@@ -237,7 +283,7 @@ def change_installed_version(version_to_install=None):
     py_exe, py_lib = folders.python_exe_path, folders.python_package_path
     assert py_exe is not None and py_lib is not None, \
         'No valid Python installation was found at: {}.\nThis is a requirement in ' \
-        'order to contine with installation'.format(
+        'order to continue with installation'.format(
             os.path.join(folders.ladybug_tools_folder, 'python'))
 
     # get the compatible versions of all the dependencies
@@ -245,6 +291,8 @@ def change_installed_version(version_to_install=None):
     lbt_gh_folder = download_repo_github(
         'lbt-grasshopper', temp_folder, version_to_install)
     ver_dict = parse_lbt_gh_versions(lbt_gh_folder)
+    if version_to_install is None:
+        version_to_install = latest_github_version('lbt-grasshopper', temp_folder)
     ver_dict['lbt-grasshopper'] = version_to_install
 
     # install the core libraries
@@ -280,16 +328,19 @@ def change_installed_version(version_to_install=None):
         remove_dist_info_files(UO_DIRECTORY)  # remove the .dist-info files
     else:
         print(stderr)
+    if version_to_install is not None:
+        update_requirements_version(UO_DIRECTORY, version_to_install)
 
     # install the .gha Grasshopper components
     gha_location = os.path.join(GHA_DIRECTORY, 'ladybug_grasshopper_dotnet')
     if os.path.isdir(gha_location):
         msg = '.gha files already exist in your Components folder and cannot be ' \
-            'deleted while Grasshopper is open.\nClose Grasshopper, delete the ' \
-            'ladybug_grasshopper_dotnet folder at\n{}\nand rerun this versioner ' \
-            'component to get the new .gha files.\nOr simply keep '\
-            'using the old .gha component if you do not need the latest ' \
-            '.gha features.\n '.format(gha_location)
+            'deleted while Grasshopper is open.\nThese .gha files rarely change ' \
+            'and so it is not critical that they be updated. However, if you ' \
+            'want to be sure that you have the latest version installed, then close ' \
+            'Grasshopper, delete the ladybug_grasshopper_dotnet folder at\n{}\nand ' \
+            'rerun this versioner component to get the new .gha files.\n'.format(
+                gha_location)
         print(msg)
     else:
         gha_ver = ver_dict['ladybug-grasshopper-dotnet']
