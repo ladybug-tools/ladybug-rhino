@@ -12,6 +12,7 @@ creating the CLI.
 
 import sys
 import os
+import json
 import logging
 import click
 
@@ -20,6 +21,7 @@ try:
 except ImportError as e:
     raise ImportError("Failed to import ladybug.\n{}".format(e))
 
+from ladybug_rhino.config import folders
 from ladybug_rhino.pythonpath import create_python_package_dir, iron_python_search_path
 from ladybug_rhino.ghpath import copy_components_packages, \
     clean_userobjects, clean_libraries
@@ -204,6 +206,26 @@ def run_versioner_process(version):
         change_installed_version(version)
     except Exception as e:
         _logger.exception('Changing the installed version failed.\n{}'.format(e))
+        sys.exit(1)
+    else:
+        sys.exit(0)
+
+
+@main.command('config')
+@click.option('--output-file', help='Optional file to output the JSON string of '
+              'the config object. By default, it will be printed out to stdout',
+              type=click.File('w'), default='-', show_default=True)
+def config_variables(output_file):
+    """Get a JSON object with all configuration information."""
+    try:
+        config_dict = {
+            'uo_folder': folders.uo_folder,
+            'gha_folder': folders.gha_folder,
+            'lbt_grasshopper_version': folders.lbt_grasshopper_version_str
+        }
+        output_file.write(json.dumps(config_dict, indent=4))
+    except Exception as e:
+        _logger.exception('Failed to retrieve configurations.\n{}'.format(e))
         sys.exit(1)
     else:
         sys.exit(0)
