@@ -306,6 +306,15 @@ def change_installed_version(version_to_install=None):
         print(stderr)
     set_config_dict(config_dict)  # restore the previous configurations
 
+    # install the lbt_recipes package
+    print('Installing Ladybug Tools Recipes.')
+    rec_ver = ver_dict['lbt-recipes']
+    stderr = update_libraries_pip(py_exe, 'lbt-recipes', rec_ver)
+    if os.path.isdir(os.path.join(py_lib, 'lbt_recipes-{}.dist-info'.format(rec_ver))):
+        print('Ladybug Tools Recipes successfully installed!\n ')
+    else:
+        print(stderr)
+
     # install the library needed for interaction with Rhino
     print('Installing ladybug-rhino Python library.')
     rh_ver = ver_dict['ladybug-rhino']
@@ -314,8 +323,9 @@ def change_installed_version(version_to_install=None):
         print('Ladybug-rhino Python library successfully installed!\n ')
     else:
         print(stderr)
+
     if os.name != 'nt':  # make sure libraries are copied to the rhino scripts folder
-        iron_python_search_path(create_python_package_dir())
+        iron_python_search_path(create_python_package_dir()) 
 
     # install the grasshopper components
     print('Installing Ladybug Tools Grasshopper components.')
@@ -353,15 +363,6 @@ def change_installed_version(version_to_install=None):
             remove_dist_info_files(GHA_DIRECTORY)  # remove the dist-info files
         else:
             print(stderr)
-
-    # install the lbt_recipes package
-    print('Installing Ladybug Tools Recipes.')
-    rec_ver = ver_dict['lbt-recipes']
-    stderr = update_libraries_pip(py_exe, 'lbt-recipes', rec_ver)
-    if os.path.isdir(os.path.join(py_lib, 'lbt_recipes-{}.dist-info'.format(rec_ver))):
-        print('Ladybug Tools Recipes successfully installed!\n ')
-    else:
-        print(stderr)
 
     # install the honeybee-openstudio ruby gem
     gem_ver = ver_dict['honeybee-openstudio-gem']
