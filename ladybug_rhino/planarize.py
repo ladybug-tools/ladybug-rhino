@@ -39,6 +39,7 @@ def planar_face_curved_edge_vertices(b_face, count, meshing_parameters):
     """
     loop_pcrv = b_face.Loops.Item[count].To3dCurve()
     f_norm = b_face.NormalAt(0, 0)
+    f_norm = f_norm.Multiply(f_norm, tolerance * 2)
     if f_norm.Z < 0:
         loop_pcrv.Reverse()
     loop_verts = []
