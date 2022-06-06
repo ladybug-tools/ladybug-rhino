@@ -184,8 +184,8 @@ def update_requirements_version(uo_folder, lbt_version):
             requirements.txt file.
     """
     req_file = os.path.join(uo_folder, 'requirements.txt')
+    all_rows = []
     if os.path.isfile(req_file):
-        all_rows = []
         with open(req_file) as rf:
             for row in rf:
                 if row.startswith('lbt-grasshopper=='):
@@ -324,8 +324,9 @@ def change_installed_version(version_to_install=None):
     else:
         print(stderr)
 
-    if os.name != 'nt':  # make sure libraries are copied to the rhino scripts folder
-        iron_python_search_path(create_python_package_dir()) 
+    # make sure libraries are copied to the rhino scripts folder on Mac
+    if os.name != 'nt':
+        iron_python_search_path(create_python_package_dir())
 
     # install the grasshopper components
     print('Installing Ladybug Tools Grasshopper components.')
