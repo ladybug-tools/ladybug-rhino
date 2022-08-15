@@ -129,3 +129,61 @@ class ColoredPolyline(gh.Kernel.Types.GH_GeometricGoo[rh.Geometry.PolylineCurve]
         att.ObjectColor = self.color
         id = doc.Objects.AddCurve(self.polyline, att)
         return True, id
+
+
+class ColoredLine(gh.Kernel.Types.GH_GeometricGoo[rh.Geometry.LineCurve],
+                  gh.Kernel.IGH_BakeAwareData, gh.Kernel.IGH_PreviewData):
+    """A LineCurve object with set-able color and thickness properties.
+
+    Args:
+        line: A Rhino LineCurve object.
+    """
+
+    def __init__(self, line):
+        """Initialize ColoredPolyline."""
+        self.line = line
+        self.color = black()
+        self.thickness = 1
+
+    def DuplicateGeometry(self):
+        line = rh.Geometry.LineCurve(self.line)
+        new_pl = ColoredPolyline(line)
+        new_pl.color = self.color
+        new_pl.thickness = self.thickness
+        return new_pl
+
+    def get_TypeName(self):
+        return "Colored Polyline"
+
+    def get_TypeDescription(self):
+        return "Colored Polyline"
+
+    def ToString(self):
+        return 'Polyline Curve'
+
+    def Transform(self, xform):
+        line = rh.Geometry.LineCurve(self.line)
+        line.Transform(xform)
+        new_pl = ColoredPolyline(line)
+        new_pl.color = self.color
+        new_pl.thickness = self.thickness
+        return new_pl
+
+    def Morph(self, xmorph):
+        return self.DuplicateGeometry()
+
+    def DrawViewportWires(self, args):
+        args.Pipeline.DrawCurve(self.line, self.color, self.thickness)
+
+    def DrawViewportMeshes(self, args):
+        # Do not draw in meshing layer.
+        pass
+
+    def BakeGeometry(self, doc, att, id):
+        id = guid.Empty
+        if att is None:
+            att = doc.CreateDefaultAttributes()
+        att.ColorSource = rh.DocObjects.ObjectColorSource.ColorFromObject
+        att.ObjectColor = self.color
+        id = doc.Objects.AddCurve(self.line, att)
+        return True, id
