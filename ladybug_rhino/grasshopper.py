@@ -7,6 +7,7 @@ try:
     from System import Object
     from System.Windows import Forms
     from System import Environment
+    import System.Security.Principal as sec
     import System.Threading.Tasks as tasks
 except ImportError:
     print("Failed to import System.")
@@ -108,6 +109,12 @@ def all_required_inputs(component):
                 give_warning(component, msg)
                 is_input_missing = True
     return not is_input_missing
+
+
+def is_user_admin():
+    """Get a Boolean for whether the current User has Admin access through Rhino."""
+    principal = sec.WindowsPrincipal(sec.WindowsIdentity.GetCurrent())
+    return principal.IsInRole(sec.WindowsBuiltInRole.Administrator)
 
 
 def local_processor_count():
