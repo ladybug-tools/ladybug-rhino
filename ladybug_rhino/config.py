@@ -24,6 +24,8 @@ except ImportError:  # No Rhino doc is available. Use Rhino's default.
     tolerance = 0.01
     angle_tolerance = 1.0  # default is 1 degree
 
+from .ghpath import find_grasshopper_userobjects, find_grasshopper_libraries
+
 
 def conversion_to_meters():
     """Get the conversion factor to meters based on the current Rhino doc units system.
@@ -99,15 +101,8 @@ class Folders(object):
 
     def __init__(self):
         # find the location where the Grasshopper user objects are stored
-        app_folder = os.getenv('APPDATA')
-        if app_folder is not None:
-            self._uo_folder = os.path.join(app_folder, 'Grasshopper', 'UserObjects')
-            self._gha_folder = os.path.join(app_folder, 'Grasshopper', 'Libraries')
-        else:
-            home_folder = os.getenv('HOME') or os.path.expanduser('~')
-            gh_folder = os.path.join(home_folder, 'AppData', 'Roaming', 'Grasshopper')
-            self._uo_folder = os.path.join(gh_folder, 'UserObjects')
-            self._gha_folder = os.path.join(gh_folder, 'Libraries')
+        self._uo_folder = find_grasshopper_userobjects()[-1]
+        self._gha_folder = find_grasshopper_libraries()[-1]
         if os.name == 'nt':
             # test to see if components live in the core installation
             lbt_components = os.path.join(lb_folders.ladybug_tools_folder, 'grasshopper')
