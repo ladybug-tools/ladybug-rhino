@@ -159,13 +159,16 @@ def latest_github_version(repo, target_directory):
 
     # parse the page to find the correct tag
     version_str, tag_found = None, False
-    with open(tag_file) as tf:
-        for row in tf:
-            if 'data-test-selector="tag-title"' in row:
-                tag_found = True
-            elif tag_found and '<a href' not in row:
-                version_str = row.strip().replace('v', '')
-                break
+    try:
+        with open(tag_file) as tf:
+            for row in tf:
+                if 'data-test-selector="tag-title"' in row:
+                    tag_found = True
+                elif tag_found and '<a href' not in row:
+                    version_str = row.strip().replace('v', '')
+                    break
+    except UnicodeDecodeError:
+        pass  # machine lacks the encoding to read the HTML
 
     # try to clean up the downloaded html file
     try:
