@@ -1,4 +1,5 @@
-"""Functions for getting viewport properties, creating new viewports, and editing them."""
+"""Functions for getting viewport properties, creating new viewports, and editing them.
+"""
 import math
 
 try:
@@ -44,6 +45,7 @@ def orient_to_camera(geometry, position=None):
             will be oriented. If None, the lower left corner of the bounding box
             around the geometry will be used.
     """
+
     # set the default position if it is None
     origin = _bounding_box_origin(geometry)
     pt = origin if position is None else position
@@ -58,6 +60,10 @@ def orient_to_camera(geometry, position=None):
     for rh_geo in geometry:
         if isinstance(rh_geo, TextGoo):
             geo.append(rh_geo.Transform(xform))
+        elif isinstance(rh_geo, rg.Point3d):
+            geo.append(oriented_plane)
+        elif isinstance(rh_geo, rg.Plane):
+            geo.append(oriented_plane)
         else:
             new_geo = rh_geo.Duplicate()
             new_geo.Transform(xform)
@@ -83,7 +89,7 @@ def viewport_by_name(view_name=None):
         for i, viewp in enumerate(view_table):
             if viewp.Name == view_name:
                 active_viewp = sc.doc.Views.ActiveView.ActiveViewport
-                view_table.Restore (i, active_viewp)
+                view_table.Restore(i, active_viewp)
                 return active_viewp
         else:
             raise ValueError('Viewport "{}" was not found in the Rhino '
@@ -139,7 +145,7 @@ def set_iso_view_direction(viewport, direction, center_point=None):
     Args:
         viewport: A Rhino ViewPort object, which will have its direction set.
         direction: A Rhino vector that will be used to set the direction of
-            the isomateric view.
+            the isometric view.
         center_point: Optional Rhino point for the target of the camera. If no point
             is provided, the Rhino origin will be used (0, 0, 0).
     """
@@ -283,7 +289,14 @@ def _bounding_box_origin(geometry):
         geometry: A list of geometry for which the bounding box origin will
             be computed.
     """
+    # get the first geometry
     first_geo = geometry[0]
+    # if the geometry is a point or plane, just return the plane origin
+    if isinstance(first_geo, rg.Point3d):
+        return first_geo
+    elif isinstance(first_geo, rg.Plane):
+        return first_geo.Origin
+    # assume that the geometry is a bunch of breps, meshes or text objects
     b_box = first_geo.GetBoundingBox(False) if not isinstance(first_geo, TextGoo) \
         else first_geo.get_Boundingbox()
     for geo in geometry[1:]:
