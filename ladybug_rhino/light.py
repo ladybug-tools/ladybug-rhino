@@ -1,5 +1,4 @@
 """Functions for setting lights within the Rhino scene."""
-from ladybug.location import Location
 from ladybug.dt import DateTime
 
 try:
