@@ -261,6 +261,17 @@ def from_mesh2d_to_outline(mesh, z=0):
     return face_plines
 
 
+def from_mesh3d_to_outline(mesh):
+    """Rhino Mesh and Polylines from the ladybug Mesh3D.
+
+    Returns:
+        A tuple with two items - a Rhino Mesh first followed by outline curves
+        of the Mesh.
+    """
+    rh_mesh = from_mesh3d(mesh)
+    return rh_mesh, rh_mesh.GetNakedEdges()
+
+
 """________________EXTRA HELPER FUNCTIONS________________"""
 
 

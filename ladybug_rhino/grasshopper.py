@@ -173,7 +173,7 @@ def run_function_in_parallel(parallel_function, object_count, cpu_count=None):
         obj_groups = [[x, x + i_per_group] for x in range(0, object_count, i_per_group)]
         obj_groups[-1][-1] = object_count  # ensure the last group ends with obj count
 
-    if cpu_count is None:  # use all availabe CPUs
+    if cpu_count is None:  # use all available CPUs
         tasks.Parallel.ForEach(range(object_count), parallel_function)
     elif cpu_count <= 1:  # run everything on a single processor
         for i in range(object_count):
