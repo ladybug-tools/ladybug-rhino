@@ -1,4 +1,4 @@
-"""Functions to translate from Ladybug geomtries to Rhino geometries."""
+"""Functions to translate from Ladybug geometries to Rhino geometries."""
 from .config import tolerance
 from .color import color_to_color, gray
 
@@ -146,6 +146,22 @@ def from_polyface3d(polyface):
     brep = rg.Brep.JoinBreps(rh_faces, tolerance)
     if len(brep) == 1:
         return brep[0]
+
+
+def from_sphere(sphere):
+    """Rhino Sphere from ladybug Sphere."""
+    return rg.Sphere(from_point3d(sphere.center), sphere.radius)
+
+
+def from_cone(cone):
+    """Rhino Cone from ladybug Cone."""
+    plane = rg.Plane(from_point3d(cone.vertex), from_vector3d(cone.axis.normalize()))
+    return rg.Cone(plane, cone.height, cone.radius)
+
+
+def from_cylinder(cylinder):
+    """Rhino Cone from ladybug Cone."""
+    return rg.Cylinder(from_arc3d(cylinder.base_bottom), cylinder.height)
 
 
 """________ADDITIONAL 3D GEOMETRY TRANSLATORS________"""

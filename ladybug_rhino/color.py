@@ -10,7 +10,7 @@ def color_to_color(color, alpha=255):
     """Convert a ladybug color into .NET color.
 
     Args:
-        alpha: Optional integer betwen 1 and 255 for the alpha value of the color.
+        alpha: Optional integer between 1 and 255 for the alpha value of the color.
     """
     try:
         return Color.FromArgb(alpha, color.r, color.g, color.b)

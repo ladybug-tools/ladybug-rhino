@@ -108,7 +108,8 @@ def compass_objects(compass, z=0, custom_angles=None, projection=None, font='Ari
     else:
         for line in compass.ticks_from_angles(custom_angles):
             result.append(from_linesegment2d(line, z))
-        for txt, pt in zip(custom_angles, compass.label_points_from_angles(custom_angles)):
+        for txt, pt in zip(
+                custom_angles, compass.label_points_from_angles(custom_angles)):
             txt_pln = Plane(o=Point3D(pt.x, pt.y, z), x=xaxis)
             result.append(text_objects(str(txt), txt_pln, maj_txt, font, 1, 3))
 
