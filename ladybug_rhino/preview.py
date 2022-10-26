@@ -27,7 +27,96 @@ except ImportError as e:
 
 
 class VisualizationSetConduit(rd.DisplayConduit):
-    """Class to preview VisualizationSet in the Rhino scene."""
+    """Class to preview VisualizationSet in the Rhino Display pipeline."""
+
+    def __init__(self, visualization_set, render_3d_legend=False):
+        """Initialize VisualizationSetConduit."""
+        # set the primary properties
+        self.vis_con = VisualizationSetConverter(visualization_set, render_3d_legend)
+
+    def CalculateBoundingBox(self, calculateBoundingBoxEventArgs):
+        """Overwrite the method that passes the bounding box to the display."""
+        calculateBoundingBoxEventArgs.IncludeBoundingBox(self.vis_con.bbox)
+
+    def PreDrawObjects(self, drawEventArgs):
+        """Overwrite the method that draws the objects in the display."""
+        # get the DisplayPipeline from the event arguments
+        display = drawEventArgs.Display
+
+        # for each object to be rendered, pass the drawing arguments
+        for draw_args in self.vis_con.draw_3d_text:
+            display.Draw3dText(*draw_args)
+        for draw_args in self.vis_con.draw_mesh_false_colors:
+            display.DrawMeshFalseColors(draw_args)
+        for draw_args in self.vis_con.draw_mesh_wires:
+            display.DrawMeshWires(*draw_args)
+        for draw_args in self.vis_con.draw_mesh_shaded:
+            display.DrawMeshShaded(*draw_args)
+        for draw_args in self.vis_con.draw_mesh_vertices:
+            display.DrawMeshVertices(*draw_args)
+        for draw_args in self.vis_con.draw_point:
+            display.DrawPoint(*draw_args)
+        for draw_args in self.vis_con.draw_arrow:
+            display.DrawArrow(*draw_args)
+        for draw_args in self.vis_con.draw_brep_shaded:
+            display.DrawBrepShaded(*draw_args)
+        for draw_args in self.vis_con.draw_brep_wires:
+            display.DrawBrepWires(*draw_args)
+        for draw_args in self.vis_con.draw_line:
+            display.DrawLine(*draw_args)
+        for draw_args in self.vis_con.draw_patterned_line:
+            display.DrawPatternedLine(*draw_args)
+        for draw_args in self.vis_con.draw_patterned_polyline:
+            display.DrawPatternedPolyline(*draw_args)
+        for draw_args in self.vis_con.draw_curve:
+            display.DrawCurve(*draw_args)
+        for draw_args in self.vis_con.draw_circle:
+            display.DrawCircle(*draw_args)
+        for draw_args in self.vis_con.draw_arc:
+            display.DrawArc(*draw_args)
+        for draw_args in self.vis_con.draw_sphere:
+            display.DrawSphere(*draw_args)
+        for draw_args in self.vis_con.draw_cone:
+            display.DrawCone(*draw_args)
+        for draw_args in self.vis_con.draw_cylinder:
+            display.DrawCylinder(*draw_args)
+
+
+class VisualizationSetConverter(object):
+    """Class to translate VisualizationSets to arguments for the Rhino display pipeline.
+
+    Args:
+        visualization_set: A Ladybug Display VisualizationSet object to be translated
+            into arguments for the Rhino display pipeline.
+        render_3d_legend: A Boolean to note whether the VisualizationSet should be
+            rendered with 3D legends for any AnalysisGeometries it
+            includes. (Default: False).
+
+    Properties:
+        * vis_set
+        * render_3d_legend
+        * min_pt
+        * max_pt
+        * bbox
+        * draw_3d_text
+        * draw_mesh_false_colors
+        * draw_mesh_shaded
+        * draw_mesh_wires
+        * draw_mesh_vertices
+        * draw_brep_shaded
+        * draw_brep_wires
+        * draw_point
+        * draw_arrow
+        * draw_line
+        * draw_patterned_line
+        * draw_patterned_polyline
+        * draw_curve
+        * draw_circle
+        * draw_arc
+        * draw_sphere
+        * draw_cone
+        * draw_cylinder
+    """
     TEXT_HORIZ = {
         'Left': ro.TextHorizontalAlignment.Left,
         'Center': ro.TextHorizontalAlignment.Center,
@@ -45,7 +134,7 @@ class VisualizationSetConduit(rd.DisplayConduit):
     }
 
     def __init__(self, visualization_set, render_3d_legend=False):
-        """Initialize VisualizationSetConduit."""
+        """Initialize VisualizationSetConverter."""
         # set the primary properties
         self.vis_set = visualization_set
         self.render_3d_legend = render_3d_legend
@@ -67,53 +156,6 @@ class VisualizationSetConduit(rd.DisplayConduit):
 
         # translate all of the rhino objects to be rendered in the scene
         self.translate_objects()
-
-    def CalculateBoundingBox(self, calculateBoundingBoxEventArgs):
-        """Overwrite the method that passes the bounding box to the display."""
-        calculateBoundingBoxEventArgs.IncludeBoundingBox(self.bbox)
-
-    def PreDrawObjects(self, drawEventArgs):
-        """Overwrite the method that draws the objects in the display."""
-        # get the DisplayPipeline from the event arguments
-        display = drawEventArgs.Display
-
-        # for each object to be rendered, pass the drawing arguments
-        for draw_args in self.draw_3d_text:
-            display.Draw3dText(*draw_args)
-        for draw_args in self.draw_mesh_false_colors:
-            display.DrawMeshFalseColors(draw_args)
-        for draw_args in self.draw_mesh_wires:
-            display.DrawMeshWires(*draw_args)
-        for draw_args in self.draw_mesh_shaded:
-            display.DrawMeshShaded(*draw_args)
-        for draw_args in self.draw_mesh_vertices:
-            display.DrawMeshVertices(*draw_args)
-        for draw_args in self.draw_point:
-            display.DrawPoint(*draw_args)
-        for draw_args in self.draw_arrow:
-            display.DrawArrow(*draw_args)
-        for draw_args in self.draw_brep_shaded:
-            display.DrawBrepShaded(*draw_args)
-        for draw_args in self.draw_brep_wires:
-            display.DrawBrepWires(*draw_args)
-        for draw_args in self.draw_line:
-            display.DrawLine(*draw_args)
-        for draw_args in self.draw_patterned_line:
-            display.DrawPatternedLine(*draw_args)
-        for draw_args in self.draw_patterned_polyline:
-            display.DrawPatternedPolyline(*draw_args)
-        for draw_args in self.draw_curve:
-            display.DrawCurve(*draw_args)
-        for draw_args in self.draw_circle:
-            display.DrawCircle(*draw_args)
-        for draw_args in self.draw_arc:
-            display.DrawArc(*draw_args)
-        for draw_args in self.draw_sphere:
-            display.DrawSphere(*draw_args)
-        for draw_args in self.draw_cone:
-            display.DrawCone(*draw_args)
-        for draw_args in self.draw_cylinder:
-            display.DrawCylinder(*draw_args)
 
     def translate_objects(self):
         """Translate all of the objects in the VisualizationSet into a Rhino equivalent.
