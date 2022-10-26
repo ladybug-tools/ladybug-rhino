@@ -1,1 +1,1 @@
-ladybug-core>=0.39.51
+ladybug-display>=0.5.0
