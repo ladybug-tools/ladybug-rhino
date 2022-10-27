@@ -38,8 +38,11 @@ def from_linesegment2d(line, z=0):
 
 def from_arc2d(arc, z=0):
     """Rhino Arc from ladybug Arc2D."""
-    pts = (arc.p1, arc.midpoint, arc.p2)
-    return rg.Arc(*(from_point2d(pt) for pt in pts))
+    if arc.is_circle:
+        return rg.Circle(from_point2d(arc.c, z), arc.r)
+    else:
+        pts = (arc.p1, arc.midpoint, arc.p2)
+        return rg.Arc(*(from_point2d(pt, z) for pt in pts))
 
 
 def from_polygon2d(polygon, z=0):
