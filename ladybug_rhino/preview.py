@@ -468,7 +468,7 @@ class VisualizationSetConverter(object):
             # translate display point
             pt = from_point3d(geo_obj) if isinstance(geo_obj, Point3D) \
                 else from_point2d(geo_obj)
-            radius = 3 if isinstance(dis_obj.radius, Default) else dis_obj.radius
+            radius = 3 if isinstance(dis_obj.radius, Default) else int(dis_obj.radius)
             self.draw_point.append((pt, rd.PointStyle.RoundSimple, radius, col))
 
         elif isinstance(geo_obj, (LineSegment3D, LineSegment2D)):
