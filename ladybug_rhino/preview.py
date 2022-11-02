@@ -156,6 +156,7 @@ class VisualizationSetConverter(object):
 
         # translate all of the rhino objects to be rendered in the scene
         self.translate_objects()
+        self.sort_shaded_objects()
 
     def translate_objects(self):
         """Translate all of the objects in the VisualizationSet into a Rhino equivalent.
@@ -630,3 +631,18 @@ class VisualizationSetConverter(object):
             if dis_obj.show_axes:
                 self.draw_line.append((pln.Origin, pln.Origin + pln.XAxis * r, col, 3))
                 self.draw_line.append((pln.Origin, pln.Origin + pln.YAxis * r, col, 3))
+
+    def sort_shaded_objects(self):
+        """Sort shaded objects according to their transparency.
+
+        This ensures that the resulting display has visible objects behind
+        any transparent objects.
+        """
+        if len(self.draw_brep_shaded) != 0:
+            trans = (args[1].Transparency for args in self.draw_brep_shaded)
+            self.draw_brep_shaded = \
+                [a for _, a in sorted(zip(trans, self.draw_brep_shaded))]
+        if len(self.draw_mesh_shaded) != 0:
+            trans = (args[1].Transparency for args in self.draw_mesh_shaded)
+            self.draw_mesh_shaded = \
+                [a for _, a in sorted(zip(trans, self.draw_mesh_shaded))]
