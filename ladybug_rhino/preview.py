@@ -345,11 +345,11 @@ class VisualizationSetConverter(object):
                     else from_polyface3d(geo_obj)
                 self.draw_brep_shaded.append((rh_obj, mat))
                 if display_mode == 'SurfaceWithEdges':
-                    self.draw_brep_wires.append((rh_obj, black(), 1))
+                    self.draw_brep_wires.append((rh_obj, black(), -1))
             elif display_mode == 'Wireframe':
                 rh_obj = from_face3d(geo_obj) if isinstance(geo_obj, Face3D) \
                     else from_polyface3d(geo_obj)
-                self.draw_brep_wires.append((rh_obj, col, 3))
+                self.draw_brep_wires.append((rh_obj, col, 1))
             elif display_mode == 'Points':
                 for pt in geo_obj.vertices:
                     self.draw_point.append(
@@ -509,7 +509,7 @@ class VisualizationSetConverter(object):
                     else from_polyface3d(geo_obj)
                 self.draw_brep_shaded.append((rh_obj, mat))
                 if dis_obj.display_mode == 'SurfaceWithEdges':
-                    self.draw_brep_wires.append((rh_obj, black(), 1))
+                    self.draw_brep_wires.append((rh_obj, black(), -1))
             elif dis_obj.display_mode == 'Wireframe':
                 rh_obj = from_face3d(geo_obj) if isinstance(geo_obj, Face3D) \
                     else from_polyface3d(geo_obj)
