@@ -1,6 +1,7 @@
-"""Functions to bake from Ladybug geomtries into a Rhino document."""
-from .fromgeometry import from_point2d, from_mesh2d, from_point3d, from_mesh3d, \
-    from_face3d, from_polyface3d
+"""Functions to bake from Ladybug geometries into a Rhino document."""
+from .fromgeometry import from_point2d, from_arc2d, from_polyline2d, from_mesh2d, \
+    from_point3d, from_plane, from_arc3d, from_polyline3d, \
+    from_mesh3d, from_face3d, from_polyface3d, from_sphere, from_cone, from_cylinder
 from .color import color_to_color, gray
 
 try:
@@ -10,75 +11,166 @@ except ImportError as e:
 
 try:
     import Rhino.Geometry as rg
-    import Rhino.RhinoDoc as rhdoc
     import Rhino.DocObjects as docobj
+    import Rhino.RhinoDoc as rhdoc
     doc = rhdoc.ActiveDoc
 except ImportError as e:
     raise ImportError("Failed to import Rhino document attributes.\n{}".format(e))
 
+"""____________BAKE 2D GEOMETRY TO THE RHINO SCENE____________"""
 
-"""____________ADD GEOMETRY TO THE RHINO SCENE____________"""
+
+def bake_vector2d(vector, z=0, layer_name=None, attributes=None):
+    """Add ladybug Ray2D to the Rhino scene as a Line with an Arrowhead."""
+    seg = (rg.Point3d(0, 0, z), rg.Point3d(vector.x, vector.y, z))
+    attrib = _get_attributes(layer_name, attributes)
+    attrib.ObjectDecoration = docobj.ObjectDecoration.EndArrowhead
+    return doc.Objects.AddLine(seg[0], seg[1], attrib)
 
 
-def add_point2d_to_scene(point, z=0, layer_name=None, attributes=None):
-    """Add ladybug Point2D to the Rhino scene."""
+def bake_point2d(point, z=0, layer_name=None, attributes=None):
+    """Add ladybug Point2D to the Rhino scene as a Point."""
     pt = from_point2d(point, z)
     return doc.Objects.AddPoint(pt, _get_attributes(layer_name, attributes))
 
 
-def add_linesegment2d_to_scene(line, z=0, layer_name=None, attributes=None):
-    """Add ladybug LineSegment2D to the Rhino scene."""
+def bake_ray2d(ray, z=0, layer_name=None, attributes=None):
+    """Add ladybug Ray2D to the Rhino scene as a Line with an Arrowhead."""
+    seg = (from_point2d(ray.p, z), from_point2d(ray.p + ray.v, z))
+    attrib = _get_attributes(layer_name, attributes)
+    attrib.ObjectDecoration = docobj.ObjectDecoration.EndArrowhead
+    return doc.Objects.AddLine(seg[0], seg[1], attrib)
+
+
+def bake_linesegment2d(line, z=0, layer_name=None, attributes=None):
+    """Add ladybug LineSegment2D to the Rhino scene as a Line."""
     seg = (from_point2d(line.p1, z), from_point2d(line.p2, z))
     return doc.Objects.AddLine(seg[0], seg[1], _get_attributes(layer_name, attributes))
 
 
-def add_polygon2d_to_scene(polygon, z=0, layer_name=None, attributes=None):
-    """Add ladybug Polygon2D to the Rhino scene."""
+def bake_polygon2d(polygon, z=0, layer_name=None, attributes=None):
+    """Add ladybug Polygon2D to the Rhino scene as a Polyline."""
     pgon = [from_point2d(pt, z) for pt in polygon.vertices] + \
         [from_point2d(polygon[0], z)]
     return doc.Objects.AddPolyline(pgon, _get_attributes(layer_name, attributes))
 
 
-def add_mesh2d_to_scene(mesh, z=0, layer_name=None, attributes=None):
-    """Add ladybug Mesh2D to the Rhino scene."""
+def bake_arc2d(arc, z=0, layer_name=None, attributes=None):
+    """Add ladybug Arc2D to the Rhino scene as an Arc or a Circle."""
+    rh_arc = from_arc2d(arc, z)
+    if arc.is_circle:
+        return doc.Objects.AddCircle(rh_arc, _get_attributes(layer_name, attributes))
+    else:
+        return doc.Objects.AddArc(rh_arc, _get_attributes(layer_name, attributes))
+
+
+def bake_polyline2d(polyline, z=0, layer_name=None, attributes=None):
+    """Add ladybug Polyline2D to the Rhino scene as a Curve."""
+    rh_crv = from_polyline2d(polyline, z)
+    return doc.Objects.AddCurve(rh_crv, _get_attributes(layer_name, attributes))
+
+
+def bake_mesh2d(mesh, z=0, layer_name=None, attributes=None):
+    """Add ladybug Mesh2D to the Rhino scene as a Mesh."""
     _mesh = from_mesh2d(mesh, z)
     return doc.Objects.AddMesh(_mesh, _get_attributes(layer_name, attributes))
 
 
-def add_point3d_to_scene(point, layer_name=None, attributes=None):
-    """Add ladybug Point3D to the Rhino scene."""
+"""____________BAKE 3D GEOMETRY TO THE RHINO SCENE____________"""
+
+
+def bake_vector3d(vector, layer_name=None, attributes=None):
+    """Add ladybug Ray2D to the Rhino scene as a Line with an Arrowhead."""
+    seg = (rg.Point3d(0, 0, 0), rg.Point3d(vector.x, vector.y, vector.z))
+    attrib = _get_attributes(layer_name, attributes)
+    attrib.ObjectDecoration = docobj.ObjectDecoration.EndArrowhead
+    return doc.Objects.AddLine(seg[0], seg[1], attrib)
+
+
+def bake_point3d(point, layer_name=None, attributes=None):
+    """Add ladybug Point3D to the Rhino scene as a Point."""
     pt = from_point3d(point)
     return doc.Objects.AddPoint(pt, _get_attributes(layer_name, attributes))
 
 
-def add_linesegment3d_to_scene(line, layer_name=None, attributes=None):
-    """Add ladybug LineSegment3D to the Rhino scene."""
+def bake_ray3d(ray, layer_name=None, attributes=None):
+    """Add ladybug Ray2D to the Rhino scene as a Line with an Arrowhead."""
+    seg = (from_point3d(ray.p), from_point3d(ray.p + ray.v))
+    attrib = _get_attributes(layer_name, attributes)
+    attrib.ObjectDecoration = docobj.ObjectDecoration.EndArrowhead
+    return doc.Objects.AddLine(seg[0], seg[1], attrib)
+
+
+def bake_plane(plane, layer_name=None, attributes=None):
+    """Add ladybug Plane to the Rhino scene as a Rectangle."""
+    rh_pln = from_plane(plane)
+    r = 10  # default radius for a plane object in rhino model units
+    interval = rg.Interval(-r / 2, r / 2)
+    rect = rg.Rectangle3d(rh_pln, interval, interval)
+    return doc.Objects.AddRectangle(rect, _get_attributes(layer_name, attributes))
+
+
+def bake_linesegment3d(line, layer_name=None, attributes=None):
+    """Add ladybug LineSegment3D to the Rhino scene as a Line."""
     seg = (from_point3d(line.p1), from_point3d(line.p2))
     return doc.Objects.AddLine(seg[0], seg[1], _get_attributes(layer_name, attributes))
 
 
-def add_mesh3d_to_scene(mesh, layer_name=None, attributes=None):
-    """Add ladybug Mesh3D to the Rhino scene."""
+def bake_arc3d(arc, layer_name=None, attributes=None):
+    """Add ladybug Arc3D to the Rhino scene as an Arc or Circle."""
+    rh_arc = from_arc3d(arc)
+    if arc.is_circle:
+        return doc.Objects.AddCircle(rh_arc, _get_attributes(layer_name, attributes))
+    else:
+        return doc.Objects.AddArc(rh_arc, _get_attributes(layer_name, attributes))
+
+
+def bake_polyline3d(polyline, layer_name=None, attributes=None):
+    """Add ladybug Polyline3D to the Rhino scene as a Curve."""
+    rh_crv = from_polyline3d(polyline)
+    return doc.Objects.AddCurve(rh_crv, _get_attributes(layer_name, attributes))
+
+
+def bake_mesh3d(mesh, layer_name=None, attributes=None):
+    """Add ladybug Mesh3D to the Rhino scene as a Mesh."""
     _mesh = from_mesh3d(mesh)
     return doc.Objects.AddMesh(_mesh, _get_attributes(layer_name, attributes))
 
 
-def add_face3d_to_scene(face, layer_name=None, attributes=None):
-    """Add ladybug Face3D to the Rhino scene."""
+def bake_face3d(face, layer_name=None, attributes=None):
+    """Add ladybug Face3D to the Rhino scene as a Brep."""
     _face = from_face3d(face)
     return doc.Objects.AddBrep(_face, _get_attributes(layer_name, attributes))
 
 
-def add_polyface3d_to_scene(polyface, layer_name=None, attributes=None):
-    """Add ladybug Polyface3D to the Rhino scene."""
-    _pface = from_polyface3d(polyface)
-    return doc.Objects.AddBrep(_pface, _get_attributes(layer_name, attributes))
+def bake_polyface3d(polyface, layer_name=None, attributes=None):
+    """Add ladybug Polyface3D to the Rhino scene as a Brep."""
+    rh_polyface = from_polyface3d(polyface)
+    return doc.Objects.AddBrep(rh_polyface, _get_attributes(layer_name, attributes))
+
+
+def bake_sphere(sphere, layer_name=None, attributes=None):
+    """Add ladybug Sphere to the Rhino scene as a Brep."""
+    rh_sphere = from_sphere(sphere).ToBrep()
+    return doc.Objects.AddBrep(rh_sphere, _get_attributes(layer_name, attributes))
+
+
+def bake_cone(cone, layer_name=None, attributes=None):
+    """Add ladybug Cone to the Rhino scene as a Brep."""
+    rh_cone = from_cone(cone).ToBrep()
+    return doc.Objects.AddBrep(rh_cone, _get_attributes(layer_name, attributes))
+
+
+def bake_cylinder(cylinder, layer_name=None, attributes=None):
+    """Add ladybug Cylinder to the Rhino scene as a Brep."""
+    rh_cylinder = from_cylinder(cylinder).ToBrep()
+    return doc.Objects.AddBrep(rh_cylinder, _get_attributes(layer_name, attributes))
 
 
 """________ADDITIONAL 3D GEOMETRY TRANSLATORS________"""
 
 
-def add_mesh3d_as_hatch_to_scene(mesh, layer_name=None, attributes=None):
+def bake_mesh3d_as_hatch(mesh, layer_name=None, attributes=None):
     """Add ladybug Mesh3D to the Rhino scene as a colored hatch."""
     # get a list of colors that align with the mesh faces
     if mesh.colors is not None:
@@ -131,7 +223,11 @@ def add_mesh3d_as_hatch_to_scene(mesh, layer_name=None, attributes=None):
 def _get_attributes(layer_name=None, attributes=None):
     """Get Rhino object attributes."""
     attributes = doc.CreateDefaultAttributes() if attributes is None else attributes
-    if layer_name is not None:
+    if layer_name is None:
+        return attributes
+    elif isinstance(layer_name, int):
+        attributes.LayerIndex = layer_name
+    elif layer_name is not None:
         attributes.LayerIndex = _get_layer(layer_name)
     return attributes
 
@@ -155,6 +251,6 @@ def _get_layer(layer_name):
             if layer_index < 0:
                 parent_layer = docobj.Layer()
                 parent_layer.Name = lay
-                parent_layer.ParentLayerId = layer_table[parent_index].Id 
+                parent_layer.ParentLayerId = layer_table[parent_index].Id
                 layer_index = layer_table.Add(parent_layer)
     return layer_index
