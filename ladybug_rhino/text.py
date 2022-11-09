@@ -1,4 +1,5 @@
 """Functions to add text to the Rhino scene and create Grasshopper text objects."""
+from __future__ import division
 import math
 
 from .fromgeometry import from_plane
@@ -136,7 +137,9 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
             return False, id
         if att is None:
             att = doc.CreateDefaultAttributes()
+        self.m_value.Height = self.m_value.Height * (2 / 3)
         id = doc.Objects.AddText(self.m_value, att)
+        self.m_value.Height = self.m_value.Height * (3 / 2)
         return True, id
 
     def ScriptVariable(self):

@@ -18,6 +18,14 @@ def color_to_color(color, alpha=255):
         raise AttributeError('Input must be of type of Color:\n{}'.format(e))
 
 
+def argb_color_to_color(color):
+    """Convert a ladybug color into .NET color, including the alpha channel."""
+    try:
+        return Color.FromArgb(color.a, color.r, color.g, color.b)
+    except AttributeError as e:
+        raise AttributeError('Input must be of type of Color:\n{}'.format(e))
+
+
 def gray():
     """Get a .NET gray color object. Useful when you need a placeholder color."""
     return Color.Gray
