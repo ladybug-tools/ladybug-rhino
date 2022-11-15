@@ -11,13 +11,12 @@ from ladybug_display.altnumber import Default
 from ladybug_display.geometry3d import DisplayText3D
 from ladybug_display.visualization import AnalysisGeometry
 
-from .color import color_to_color, black
+from .color import color_to_color, argb_color_to_color, black
 from .fromgeometry import from_point2d, from_vector2d, from_ray2d, \
     from_arc2d, from_polygon2d, from_polyline2d, from_mesh2d, \
     from_point3d, from_vector3d, from_ray3d, from_plane, \
     from_arc3d, from_polyline3d, from_mesh3d, from_face3d, from_polyface3d, \
     from_sphere, from_cone, from_cylinder
-from .bakeobjects import bake_visualization_set
 
 try:
     import Rhino.Geometry as rg
@@ -48,7 +47,7 @@ class VisualizationSetConduit(rd.DisplayConduit):
         for draw_args in self.vis_con.draw_mesh_false_colors:
             display.DrawMeshFalseColors(draw_args)
         for draw_args in self.vis_con.draw_mesh_shaded:
-            display.DrawMeshShaded(*draw_args)
+            display.DrawMeshFalseColors(draw_args[0])
         for draw_args in self.vis_con.draw_brep_shaded:
             display.DrawBrepShaded(*draw_args)
 
@@ -369,6 +368,7 @@ class VisualizationSetConverter(object):
                 else from_mesh2d(geo_obj)
             if display_mode in ('Surface', 'SurfaceWithEdges'):
                 mat = rd.DisplayMaterial(col)
+                rh_obj.VertexColors.CreateMonotoneMesh(col)
                 self.draw_mesh_shaded.append((rh_obj, mat))
                 if display_mode == 'SurfaceWithEdges':
                     self.draw_mesh_wires.append((rh_obj, black(), 1))
@@ -533,6 +533,8 @@ class VisualizationSetConverter(object):
                 else from_mesh2d(geo_obj)
             if dis_obj.display_mode in ('Surface', 'SurfaceWithEdges'):
                 mat = rd.DisplayMaterial(col, 1 - (dis_obj.color.a / 255))
+                t_color = argb_color_to_color(dis_obj.color)
+                rh_obj.VertexColors.CreateMonotoneMesh(t_color)
                 self.draw_mesh_shaded.append((rh_obj, mat))
                 if dis_obj.display_mode == 'SurfaceWithEdges':
                     self.draw_mesh_wires.append((rh_obj, black(), 1))
