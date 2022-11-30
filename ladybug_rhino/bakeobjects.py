@@ -206,6 +206,12 @@ def bake_analysis(analysis, layer_name=None, bake_3d_legend=False,
         obj_ids.extend(objs_to_group)
         if bake_3d_legend:
             obj_ids.extend(bake_legend(graphic.legend, layer_index))
+    # hide the layer if it is hidden
+    if analysis.hidden:
+        layer_table = doc.Layers  # layer table
+        layer_index = _get_layer(layer_name)
+        layer_obj = layer_table[layer_index]
+        layer_obj.IsVisible = False
     return obj_ids
 
 
@@ -226,6 +232,11 @@ def bake_context(context, layer_name=None):
     layer_name = context.display_name if layer_name is None else \
         '{}::{}'.format(layer_name, context.display_name)
     layer_index = _get_layer(layer_name)
+    # hide the layer if it is hidden
+    if context.hidden:
+        layer_table = doc.Layers  # layer table
+        layer_obj = layer_table[layer_index]
+        layer_obj.IsVisible = False
     # loop through the objects and add them to the scene
     obj_ids = []
     for geo_obj in context.geometry:
