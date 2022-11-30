@@ -194,6 +194,8 @@ class VisualizationSetConverter(object):
         # loop through visualization geometry objects and draw them
         default_leg_x = 0
         for geo in self.vis_set.geometry:
+            if geo.hidden:
+                continue
             # translate it as AnalysisGeometry if specified
             if isinstance(geo, AnalysisGeometry):
                 # generate the colors that correspond to the values
