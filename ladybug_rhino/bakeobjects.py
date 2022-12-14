@@ -20,6 +20,8 @@ from ladybug_display.geometry3d import DisplayVector3D, DisplayPoint3D, \
     DisplayCylinder, DisplayText3D
 from ladybug_display.visualization import AnalysisGeometry
 
+from .config import units_system
+from .color import color_to_color
 from .bakegeometry import bake_point2d, bake_vector2d, bake_ray2d, \
     bake_linesegment2d, bake_arc2d, bake_polygon2d, bake_polyline2d, bake_mesh2d, \
     bake_point3d, bake_vector3d, bake_ray3d, bake_linesegment3d, bake_plane, \
@@ -33,7 +35,12 @@ from .bakedisplay import bake_display_point2d, bake_display_vector2d, \
     bake_display_polyline3d, bake_display_plane, bake_display_mesh3d, \
     bake_display_face3d, bake_display_polyface3d, bake_display_sphere, \
     bake_display_cone, bake_display_cylinder
-from .color import color_to_color
+
+try:
+    from System import Array
+    from System import Guid
+except ImportError as e:
+    raise ImportError("Failed to import Windows/.NET libraries\n{}".format(e))
 
 try:
     import Rhino.DocObjects as docobj
@@ -200,6 +207,7 @@ def bake_analysis(analysis, layer_name=None, bake_3d_legend=False,
         layer_table = doc.Layers  # layer table
         layer_obj = layer_table[layer_index]
         layer_obj.UserDictionary.Set('vis_data', json.dumps(data.to_dict()))
+        layer_obj.UserDictionary.Set('guids', Array[Guid](objs_to_group))
         if i != analysis.active_data:  # hide the inactive data layer
             layer_obj.IsVisible = False
         # add geometry to the global list and bake the legend if requested
@@ -258,6 +266,11 @@ def bake_visualization_set(vis_set, bake_3d_legend=False):
     Returns:
         A list of IDs that point to the objects in the Rhino scene.
     """
+    # convert the visualization set to model units if necessary
+    units_sys = units_system()
+    if vis_set.units is not None and vis_set.units != units_sys:
+        vis_set.convert_to_units(units_sys)
+    # bake all of the geometries
     obj_ids = []
     for geo in vis_set.geometry:
         if isinstance(geo, AnalysisGeometry):  # translate it as AnalysisGeometry
