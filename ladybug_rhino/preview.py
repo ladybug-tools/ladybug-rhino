@@ -11,6 +11,7 @@ from ladybug_display.altnumber import Default
 from ladybug_display.geometry3d import DisplayText3D
 from ladybug_display.visualization import AnalysisGeometry
 
+from .config import units_system
 from .color import color_to_color, argb_color_to_color, black
 from .fromgeometry import from_point2d, from_vector2d, from_ray2d, \
     from_arc2d, from_polygon2d, from_polyline2d, from_mesh2d, \
@@ -145,6 +146,11 @@ class VisualizationSetConverter(object):
         # set the primary properties
         self.vis_set = visualization_set
         self.render_3d_legend = render_3d_legend
+
+        # ensure the visualization set is in Rhino model units
+        units_sys = units_system()
+        if self.vis_set.units is not None and self.vis_set.units != units_sys:
+            self.vis_set.convert_to_units(units_sys)
 
         # set up the bounding box and min/max point
         self.min_pt = self.vis_set.min_point
