@@ -208,7 +208,7 @@ def bake_display_text3d(display_text, layer_name=None, attributes=None):
     """
     d_txt = display_text.text
     nl_count = len(d_txt.split('\n')) - 1
-    if nl_count > 1:
+    if nl_count > 1 and display_text.vertical_alignment == 'Bottom':
         m_vec = display_text.plane.y * (nl_count * display_text.height * -1.5)
         t_pln = display_text.plane.move(m_vec)
     else:
