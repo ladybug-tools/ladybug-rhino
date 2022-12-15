@@ -140,7 +140,7 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
         original_plane = None
         d_txt = self.m_value.Text
         nl_count = len(d_txt.split('\n')) - 1
-        if nl_count > 1:
+        if nl_count > 1 and str(self.m_value.VerticalAlignment) == 'Bottom':
             y_ax = rh.Geometry.Vector3d(self.m_value.TextPlane.YAxis)
             txt_h = self.m_value.Height * (3 / 2)
             m_vec = rh.Geometry.Vector3d.Multiply(y_ax, txt_h * -nl_count)
