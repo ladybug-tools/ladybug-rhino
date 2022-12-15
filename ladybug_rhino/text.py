@@ -137,9 +137,22 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
             return False, id
         if att is None:
             att = doc.CreateDefaultAttributes()
+        original_plane = None
+        d_txt = self.m_value.Text
+        nl_count = len(d_txt.split('\n')) - 1
+        if nl_count > 1:
+            y_ax = rh.Geometry.Vector3d(self.m_value.TextPlane.YAxis)
+            txt_h = self.m_value.Height * (3 / 2)
+            m_vec = rh.Geometry.Vector3d.Multiply(y_ax, txt_h * -nl_count)
+            original_plane = self.m_value.TextPlane
+            new_plane = rh.Geometry.Plane(self.m_value.TextPlane)
+            new_plane.Translate(m_vec)
+            self.m_value.TextPlane = new_plane
         self.m_value.Height = self.m_value.Height * (2 / 3)
         id = doc.Objects.AddText(self.m_value, att)
         self.m_value.Height = self.m_value.Height * (3 / 2)
+        if original_plane is not None:
+            self.m_value.TextPlane = original_plane
         return True, id
 
     def ScriptVariable(self):
