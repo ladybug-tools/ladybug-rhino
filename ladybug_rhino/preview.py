@@ -20,11 +20,21 @@ from .fromgeometry import from_point2d, from_vector2d, from_ray2d, \
     from_sphere, from_cone, from_cylinder
 
 try:
+    from System.Drawing import Bitmap
+except ImportError as e:
+    raise ImportError("Failed to import Windows/.NET libraries\n{}".format(e))
+
+try:
     import Rhino.Geometry as rg
     import Rhino.Display as rd
     import Rhino.DocObjects as ro
 except ImportError as e:
     raise ImportError('Failed to import Rhino.\n{}'.format(e))
+
+try:
+    import scriptcontext as sc
+except ImportError:
+    pass  # previewing 2D legends will not be available
 
 
 class VisualizationSetConduit(rd.DisplayConduit):
@@ -38,6 +48,17 @@ class VisualizationSetConduit(rd.DisplayConduit):
     def CalculateBoundingBox(self, calculateBoundingBoxEventArgs):
         """Overwrite the method that passes the bounding box to the display."""
         calculateBoundingBoxEventArgs.IncludeBoundingBox(self.vis_con.bbox)
+
+    def DrawForeground(self, drawEventArgs):
+        """Overwrite the method that draws the objects in the display."""
+        # get the DisplayPipeline from the event arguments
+        display = drawEventArgs.Display
+
+        # for each object to be rendered, pass the drawing arguments
+        for draw_args in self.vis_con.draw_2d_text:
+            display.Draw2dText(*draw_args)
+        for draw_args in self.vis_con.draw_sprite:
+            display.DrawSprite(*draw_args)
 
     def PreDrawObjects(self, drawEventArgs):
         """Overwrite the method that draws the objects in the display."""
@@ -99,13 +120,19 @@ class VisualizationSetConverter(object):
         render_3d_legend: A Boolean to note whether the VisualizationSet should be
             rendered with 3D legends for any AnalysisGeometries it
             includes. (Default: False).
+        render_2d_legend: A Boolean to note whether the VisualizationSet should be
+            rendered with 2D screen-oriented legends for any AnalysisGeometries it
+            includes. (Default: False).
 
     Properties:
         * vis_set
         * render_3d_legend
+        * render_2d_legend
         * min_pt
         * max_pt
         * bbox
+        * draw_sprite
+        * draw_2d_text
         * draw_3d_text
         * draw_mesh_false_colors
         * draw_mesh_shaded
@@ -141,11 +168,22 @@ class VisualizationSetConverter(object):
         'DashDot': int('0x1F11F1', base=16)
     }
 
-    def __init__(self, visualization_set, render_3d_legend=False):
+    def __init__(
+            self, visualization_set, render_3d_legend=False, render_2d_legend=False):
         """Initialize VisualizationSetConverter."""
         # set the primary properties
         self.vis_set = visualization_set
-        self.render_3d_legend = render_3d_legend
+        self.render_3d_legend = bool(render_3d_legend)
+        self.render_2d_legend = bool(render_2d_legend)
+
+        # get the active viewport width and height if 2D legends are requested
+        if self.render_2d_legend:
+            active_view = sc.doc.Views.ActiveView.ActiveViewport
+            v_size = active_view.Size
+            self.view_width = v_size.Width
+            self.view_height = v_size.Height
+        else:  # just use some defaults as it's probably not critical
+            self.view_width, self.view_height = 800, 600
 
         # ensure the visualization set is in Rhino model units
         units_sys = units_system()
@@ -178,6 +216,8 @@ class VisualizationSetConverter(object):
         can be rendered in the display pipeline.
         """
         # initialize all of the lists to hold the drawing arguments
+        self.draw_sprite = []
+        self.draw_2d_text = []
         self.draw_3d_text = []
         self.draw_mesh_false_colors = []
         self.draw_mesh_shaded = []
@@ -198,7 +238,7 @@ class VisualizationSetConverter(object):
         self.draw_cylinder = []
 
         # loop through visualization geometry objects and draw them
-        default_leg_x = 0
+        default_leg_x3d, default_leg_x2d, default_leg_y2d = 0, 10, 50
         for geo in self.vis_set.geometry:
             if geo.hidden:
                 continue
@@ -227,19 +267,42 @@ class VisualizationSetConverter(object):
                     for geo_obj, col in zip(geo.geometry, colors):
                         self.translate_analysis_geometry(
                             geo_obj, col, geo.display_mode)
-                # if the object is set to translate 3D legends, then display
+                # if the object is set to translate 3D legends, then display it
                 if self.render_3d_legend:
                     # ensure multiple legends are not on top of each other
                     if graphic.legend_parameters.is_base_plane_default:
                         l_par = graphic.legend_parameters
-                        m_vec = Vector3D(default_leg_x, 0, 0)
+                        m_vec = Vector3D(default_leg_x3d, 0, 0)
                         l_par.base_plane = l_par.base_plane.move(m_vec)
                         l_par.properties_3d._is_base_plane_default = True
                         leg_width = l_par.segment_width + 6 * l_par.text_height \
                             if l_par.vertical else \
                             l_par.segment_width * (l_par.segment_count + 2)
-                        default_leg_x += leg_width
-                    self.translate_legend(graphic.legend)
+                        default_leg_x3d += leg_width
+                    self.translate_legend3d(graphic.legend)
+                # if the object is set to translate 2D legends, then display it
+                if self.render_2d_legend:
+                    # ensure multiple legends are not on top of each other
+                    l_par = graphic.legend_parameters
+                    if l_par.vertical and l_par.is_origin_x_default:
+                        l_par.origin_x = '{}px'.format(default_leg_x2d)
+                        l_par.properties_2d._is_origin_x_default = True
+                        sw = graphic.legend.parse_dim_2d(
+                            l_par.segment_width_2d, self.view_width)
+                        th = graphic.legend.parse_dim_2d(
+                            l_par.text_height_2d, self.view_height)
+                        leg_width = sw + 6 * th
+                        default_leg_x2d += leg_width
+                    elif not l_par.vertical and l_par.is_origin_y_default:
+                        l_par.origin_y = '{}px'.format(default_leg_y2d)
+                        l_par.properties_2d._is_origin_y_default = True
+                        sh = graphic.legend.parse_dim_2d(
+                            l_par.segment_height_2d, self.view_height)
+                        th = graphic.legend.parse_dim_2d(
+                            l_par.text_height_2d, self.view_height)
+                        leg_height = sh + 4 * th
+                        default_leg_y2d += leg_height
+                    self.translate_legend2d(graphic.legend)
             else:  # it's a ContextGeometry object
                 for display_obj in geo.geometry:
                     if isinstance(display_obj, DisplayText3D):
@@ -259,7 +322,7 @@ class VisualizationSetConverter(object):
             self.TEXT_HORIZ[text_obj.horizontal_alignment],
             self.TEXT_VERT[text_obj.vertical_alignment]))
 
-    def translate_legend(self, legend):
+    def translate_legend3d(self, legend):
         """Translate a ladybug Legend into arguments for drawing in the scene.
 
         Args:
@@ -279,7 +342,7 @@ class VisualizationSetConverter(object):
                 for txt, loc in zip(legend.segment_text, legend.segment_text_location)]
         elif legend.legend_parameters.vertical is True:
             legend_text = [
-                DisplayText3D(txt, loc, _height, None, _font, 'Left', 'Center')
+                DisplayText3D(txt, loc, _height, None, _font, 'Left', 'Middle')
                 for txt, loc in zip(legend.segment_text, legend.segment_text_location)]
         else:
             legend_text = [
@@ -290,6 +353,45 @@ class VisualizationSetConverter(object):
         legend_text.insert(0, legend_title)
         for txt_obj in legend_text:
             self.translate_display_text3d(txt_obj)
+
+    def translate_legend2d(self, legend):
+        """Translate a ladybug Legend into arguments for drawing in the scene.
+
+        Args:
+            legend: A Ladybug Legend object to be converted to 2D
+                screen-oriented geometry.
+        """
+        # translate the color matrix to a bitmap
+        vw, vh = self.view_width, self.view_height
+        l_par = legend.legend_parameters
+        color_mtx = legend.color_map_2d(vw, vh)
+        color_mtx = [[color_to_color(c) for c in row] for row in color_mtx]
+        net_bm = Bitmap(len(color_mtx[0]), len(color_mtx))
+        for y, row in enumerate(color_mtx):
+            for x, col in enumerate(row):
+                net_bm.SetPixel(x, y, col)
+        rh_bm = rd.DisplayBitmap(net_bm)
+        or_x, or_y, sh, sw, th = legend._pixel_dims_2d(vw, vh)
+        s_count = l_par.segment_count
+        s_count = s_count - 1 if l_par.continuous_legend else s_count
+        leg_width = sw if l_par.vertical else sw * s_count
+        leg_height = sh if not l_par.vertical else sh * s_count
+        cent_pt = rg.Point2d(or_x + (leg_width / 2), or_y + (leg_height / 2))
+        self.draw_sprite.append((rh_bm, cent_pt, leg_width, leg_height))
+
+        # translate the legend text
+        _height = legend.parse_dim_2d(l_par.text_height_2d, vh)
+        _font = l_par.font
+        txt_pts = legend.segment_text_location_2d(vw, vh)
+        cent_txt = False if l_par.vertical else True
+        legend_text = [
+            (txt, black(), rg.Point2d(loc.x, loc.y), cent_txt, _height, _font)
+            for txt, loc in zip(legend.segment_text, txt_pts)]
+        t_pt = legend.title_location_2d(vw, vh)
+        legend_title = (legend.title, black(), rg.Point2d(t_pt.x, t_pt.y),
+                        False, _height, _font)
+        legend_text.insert(0, legend_title)
+        self.draw_2d_text.extend(legend_text)
 
     def translate_analysis_mesh(self, mesh, display_mode):
         """Translate an analysis mesh into arguments for drawing in the scene.
