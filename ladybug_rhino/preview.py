@@ -20,7 +20,7 @@ from .fromgeometry import from_point2d, from_vector2d, from_ray2d, \
     from_sphere, from_cone, from_cylinder
 
 try:
-    from System.Drawing import Bitmap
+    import System
 except ImportError as e:
     raise ImportError("Failed to import Windows/.NET libraries\n{}".format(e))
 
@@ -366,7 +366,7 @@ class VisualizationSetConverter(object):
         l_par = legend.legend_parameters
         color_mtx = legend.color_map_2d(vw, vh)
         color_mtx = [[color_to_color(c) for c in row] for row in color_mtx]
-        net_bm = Bitmap(len(color_mtx[0]), len(color_mtx))
+        net_bm = System.Drawing.Bitmap(len(color_mtx[0]), len(color_mtx))
         for y, row in enumerate(color_mtx):
             for x, col in enumerate(row):
                 net_bm.SetPixel(x, y, col)
