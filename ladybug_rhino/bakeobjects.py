@@ -37,8 +37,7 @@ from .bakedisplay import bake_display_point2d, bake_display_vector2d, \
     bake_display_cone, bake_display_cylinder
 
 try:
-    from System import Array
-    from System import Guid
+    import System
 except ImportError as e:
     raise ImportError("Failed to import Windows/.NET libraries\n{}".format(e))
 
@@ -48,6 +47,12 @@ try:
     doc = rhdoc.ActiveDoc
 except ImportError as e:
     raise ImportError("Failed to import Rhino document attributes.\n{}".format(e))
+
+try:
+    import Grasshopper as gh
+except ImportError:
+    print('Failed to import Grasshopper.Grasshopper Baking disabled.')
+    gh = None
 
 BAKE_MAPPER = {
     Vector2D: bake_vector2d,
@@ -207,7 +212,7 @@ def bake_analysis(analysis, layer_name=None, bake_3d_legend=False,
         layer_table = doc.Layers  # layer table
         layer_obj = layer_table[layer_index]
         layer_obj.UserDictionary.Set('vis_data', json.dumps(data.to_dict()))
-        layer_obj.UserDictionary.Set('guids', Array[Guid](objs_to_group))
+        layer_obj.UserDictionary.Set('guids', System.Array[System.Guid](objs_to_group))
         if i != analysis.active_data:  # hide the inactive data layer
             layer_obj.IsVisible = False
         # add geometry to the global list and bake the legend if requested
@@ -281,3 +286,31 @@ def bake_visualization_set(vis_set, bake_3d_legend=False):
         else:  # translate it as ContextGeometry
             obj_ids.extend(bake_context(geo, vis_set.display_name))
     return obj_ids
+
+
+class VisSetGoo(gh.Kernel.IGH_BakeAwareData):
+    """A Bake-able version of the VisualizationSet for Grasshopper.
+
+    Args:
+        visualization_set: A Ladybug Display VisualizationSet object to be bake-able
+            in the Rhino scene.
+    """
+
+    def __init__(self, visualization_set):
+        self.vis_set = visualization_set
+
+    def BakeGeometry(self, doc, att, id):
+        try:
+            if self.vis_set is not None:
+                guids = bake_visualization_set(self.vis_set, True)
+                return True, guids
+        except Exception as e:
+            System.Windows.Forms.MessageBox.Show(str(e), 'script error')
+            return False, System.Guid.Empty
+
+    def ToString(self):
+        """Overwrite .NET ToString method."""
+        return self.__repr__()
+
+    def __repr__(self):
+        return str(self.vis_set)
