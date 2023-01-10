@@ -10,7 +10,7 @@ This library is used by both the Grasshopper and Rhino plugins to communicate wi
 the ladybug core Python library. Note that this library has dependencies
 on Rhino SDK and Grasshopper SDK and is intended to contain all of such dependencies
 for the LBT-Grasshopper plugin. It is NOT intended to be run with cPython with
-the exception of running the CLI.
+the exceptions of running the CLI or when used with the cPython capabilities in Rhino 8.
 
 ## Installation
 
