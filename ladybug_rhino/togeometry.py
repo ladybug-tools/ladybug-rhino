@@ -174,7 +174,8 @@ def to_face3d(geo, meshing_parameters=None):
                                            for i in range(loop_pline.Count - 1))
                     all_verts.append(_remove_dup_verts(loop_verts))
                 if len(all_verts) == 1:  # No holes in the shape
-                    faces.append(Face3D(all_verts[0], plane=bf_plane))
+                    if len(all_verts[0]) >= 3:
+                        faces.append(Face3D(all_verts[0], plane=bf_plane))
                 else:  # There's at least one hole in the shape
                     faces.append(Face3D(
                         boundary=all_verts[0], holes=all_verts[1:], plane=bf_plane))
