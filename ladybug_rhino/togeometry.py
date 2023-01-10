@@ -173,12 +173,13 @@ def to_face3d(geo, meshing_parameters=None):
                         loop_verts = tuple(to_point3d(loop_pline.Item[i])
                                            for i in range(loop_pline.Count - 1))
                     all_verts.append(_remove_dup_verts(loop_verts))
-                if len(all_verts) == 1:  # No holes in the shape
-                    if len(all_verts[0]) >= 3:
+                if len(all_verts[0]) >= 3:
+                    if len(all_verts) == 1:  # No holes in the shape
                         faces.append(Face3D(all_verts[0], plane=bf_plane))
-                else:  # There's at least one hole in the shape
-                    faces.append(Face3D(
-                        boundary=all_verts[0], holes=all_verts[1:], plane=bf_plane))
+                    else:  # There's at least one hole in the shape
+                        hls = [hl for hl in all_verts[1:] if len(hl) >= 3]
+                        faces.append(Face3D(
+                            boundary=all_verts[0], holes=hls, plane=bf_plane))
             else:  # curved face must be meshed into planar Face3D objects
                 faces.extend(_planar.curved_surface_faces(b_face, meshing_parameters))
     return faces
