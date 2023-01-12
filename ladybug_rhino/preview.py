@@ -438,7 +438,7 @@ class VisualizationSetConverter(object):
             # translate analysis point
             pt = from_point3d(geo_obj) if isinstance(geo_obj, Point3D) \
                 else from_point2d(geo_obj)
-            self.draw_point.append((pt, rd.PointStyle.RoundSimple, 3, col))
+            self.draw_point.append((pt, rd.PointStyle.RoundSimple, 5, col))
 
         elif isinstance(geo_obj, (LineSegment3D, LineSegment2D)):
             # translate analysis line segment
