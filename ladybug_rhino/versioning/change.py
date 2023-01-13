@@ -158,14 +158,12 @@ def latest_github_version(repo, target_directory):
         raise ValueError(msg)
 
     # parse the page to find the correct tag
-    version_str, tag_found = None, False
+    version_str, key_word = None, '/ladybug-tools/lbt-grasshopper/releases/tag/'
     try:
         with open(tag_file) as tf:
             for row in tf:
-                if 'data-test-selector="tag-title"' in row:
-                    tag_found = True
-                elif tag_found and '<a href' not in row:
-                    version_str = row.strip().replace('v', '')
+                if key_word in row:
+                    version_str = row.split(key_word)[-1].split('"')[0].replace('v', '')
                     break
     except UnicodeDecodeError:
         pass  # machine lacks the encoding to read the HTML
