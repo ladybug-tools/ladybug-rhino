@@ -1,4 +1,4 @@
-"""Class to for a bake-able version of ladybug-display VisualizationSet."""
+"""Class for a bake-able version of the ladybug-display VisualizationSet."""
 from .bakeobjects import bake_visualization_set
 
 try:
