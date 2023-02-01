@@ -267,7 +267,8 @@ def bake_visualization_set(vis_set, bake_3d_legend=False):
     """
     # convert the visualization set to model units if necessary
     units_sys = units_system()
-    if vis_set.units is not None and vis_set.units != units_sys:
+    if vis_set.units is not None and units_sys is not None \
+            and vis_set.units != units_sys:
         vis_set.convert_to_units(units_sys)
     # bake all of the geometries
     obj_ids = []

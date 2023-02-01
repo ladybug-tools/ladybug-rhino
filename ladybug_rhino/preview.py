@@ -187,7 +187,8 @@ class VisualizationSetConverter(object):
 
         # ensure the visualization set is in Rhino model units
         units_sys = units_system()
-        if self.vis_set.units is not None and self.vis_set.units != units_sys:
+        if self.vis_set.units is not None and units_sys is not None \
+                and self.vis_set.units != units_sys:
             self.vis_set.convert_to_units(units_sys)
 
         # set up the bounding box and min/max point
