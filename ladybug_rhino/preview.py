@@ -362,37 +362,10 @@ class VisualizationSetConverter(object):
             legend: A Ladybug Legend object to be converted to 2D
                 screen-oriented geometry.
         """
-        # translate the color matrix to a bitmap
-        vw, vh = self.view_width, self.view_height
-        l_par = legend.legend_parameters
-        color_mtx = legend.color_map_2d(vw, vh)
-        color_mtx = [[color_to_color(c) for c in row] for row in color_mtx]
-        net_bm = System.Drawing.Bitmap(len(color_mtx[0]), len(color_mtx))
-        for y, row in enumerate(color_mtx):
-            for x, col in enumerate(row):
-                net_bm.SetPixel(x, y, col)
-        rh_bm = rd.DisplayBitmap(net_bm)
-        or_x, or_y, sh, sw, th = legend._pixel_dims_2d(vw, vh)
-        s_count = l_par.segment_count
-        s_count = s_count - 1 if l_par.continuous_legend else s_count
-        leg_width = sw if l_par.vertical else sw * s_count
-        leg_height = sh if not l_par.vertical else sh * s_count
-        cent_pt = rg.Point2d(or_x + (leg_width / 2), or_y + (leg_height / 2))
-        self.draw_sprite.append((rh_bm, cent_pt, leg_width, leg_height))
-
-        # translate the legend text
-        _height = legend.parse_dim_2d(l_par.text_height_2d, vh)
-        _font = l_par.font
-        txt_pts = legend.segment_text_location_2d(vw, vh)
-        cent_txt = False if l_par.vertical else True
-        legend_text = [
-            (txt, black(), rg.Point2d(loc.x, loc.y), cent_txt, _height, _font)
-            for txt, loc in zip(legend.segment_text, txt_pts)]
-        t_pt = legend.title_location_2d(vw, vh)
-        legend_title = (legend.title, black(), rg.Point2d(t_pt.x, t_pt.y),
-                        False, _height, _font)
-        legend_text.insert(0, legend_title)
-        self.draw_2d_text.extend(legend_text)
+        d_sprite, d_2d_text = self.convert_legend2d(
+            legend, self.view_width, self.view_height)
+        self.draw_sprite.append(d_sprite)
+        self.draw_2d_text.extend(d_2d_text)
 
     def translate_analysis_mesh(self, mesh, display_mode):
         """Translate an analysis mesh into arguments for drawing in the scene.
@@ -767,6 +740,64 @@ class VisualizationSetConverter(object):
             trans = (args[1].Transparency for args in self.draw_mesh_shaded)
             self.draw_mesh_shaded = \
                 [a for _, a in sorted(zip(trans, self.draw_mesh_shaded))]
+
+    @staticmethod
+    def convert_legend2d(legend, vw=None, vh=None):
+        """Convert a ladybug Legend into arguments for drawing in 2D on the screen.
+
+        Args:
+            legend: A Ladybug Legend object to be converted to 2D screen-oriented
+                geometry.
+            vw: An integer for the view width in pixels. If None, it will
+                be obtained from the active viewport. (Default: None).
+            vh: An integer for the view height in pixels. If None, it will
+                be obtained from the active viewport. (Default: None).
+
+        Returns:
+            A tuple with two values needed to render the legend in the 2D scene:
+
+            -   legend_mesh -- A colored mesh for the legend.
+
+            -   legend_title -- A text object for the legend title.
+        """
+        # figure out the dimensions of the active viewport
+        if vw is None or vh is None:
+            active_view = sc.doc.Views.ActiveView.ActiveViewport
+            v_size = active_view.Size
+            vw = v_size.Width if vw is None else vw
+            vh = v_size.Height if vh is None else vh
+
+        # translate the color matrix to a bitmap
+        l_par = legend.legend_parameters
+        color_mtx = legend.color_map_2d(vw, vh)
+        color_mtx = [[color_to_color(c) for c in row] for row in color_mtx]
+        net_bm = System.Drawing.Bitmap(len(color_mtx[0]), len(color_mtx))
+        for y, row in enumerate(color_mtx):
+            for x, col in enumerate(row):
+                net_bm.SetPixel(x, y, col)
+        rh_bm = rd.DisplayBitmap(net_bm)
+        or_x, or_y, sh, sw, th = legend._pixel_dims_2d(vw, vh)
+        s_count = l_par.segment_count
+        s_count = s_count - 1 if l_par.continuous_legend else s_count
+        leg_width = sw if l_par.vertical else sw * s_count
+        leg_height = sh if not l_par.vertical else sh * s_count
+        cent_pt = rg.Point2d(or_x + (leg_width / 2), or_y + (leg_height / 2))
+        draw_sprite = (rh_bm, cent_pt, leg_width, leg_height)
+
+        # translate the legend text
+        _height = legend.parse_dim_2d(l_par.text_height_2d, vh)
+        _font = l_par.font
+        txt_pts = legend.segment_text_location_2d(vw, vh)
+        cent_txt = False if l_par.vertical else True
+        draw_2d_text = [
+            (txt, black(), rg.Point2d(loc.x, loc.y), cent_txt, _height, _font)
+            for txt, loc in zip(legend.segment_text, txt_pts)]
+        t_pt = legend.title_location_2d(vw, vh)
+        legend_title = (legend.title, black(), rg.Point2d(t_pt.x, t_pt.y),
+                        False, _height, _font)
+        draw_2d_text.insert(0, legend_title)
+
+        return draw_sprite, draw_2d_text
 
     def ToString(self):
         """Overwrite .NET ToString method."""
