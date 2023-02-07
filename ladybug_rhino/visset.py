@@ -1,4 +1,5 @@
 """Class for a bake-able version of the ladybug-display VisualizationSet."""
+from ladybug_display.visualization import VisualizationSet
 from .bakeobjects import bake_visualization_set
 
 try:
@@ -39,3 +40,32 @@ class VisSetGoo(gh.Kernel.IGH_BakeAwareData):
 
     def __repr__(self):
         return str(self.vis_set)
+
+
+def process_vis_set(vis_set):
+    """Process various different types of VisualizationSet inputs.
+
+    This includes VisualizationSet files, classes that have to_vis_set methods
+    on them, and objects containing arguments for to_vis_set methods.
+    """
+    if isinstance(vis_set, VisualizationSet):
+        return vis_set
+    elif isinstance(vis_set, VisSetGoo):
+        return vis_set.vis_set
+    elif isinstance(vis_set, str):  # assume that it's a file
+        return VisualizationSet.from_file(vis_set)
+    elif hasattr(vis_set, 'to_vis_set'):  # an object with a method to be called
+        return vis_set.to_vis_set()
+    elif hasattr(vis_set, 'data'):  # an object to be decoded
+        args_list = vis_set.data
+        if isinstance(args_list[0], (list, tuple)):  # a list of VisualizationSets
+            base_set = args_list[0][0].to_vis_set(*args_list[0][1:])
+            for next_vis_args in args_list[1:]:
+                for geo_obj in next_vis_args[0].to_vis_set(*next_vis_args[1:]):
+                    base_set.add_geometry(geo_obj)
+            return base_set
+        else:  # a single list of arguments for to_vis_set
+            return args_list[0].to_vis_set(*args_list[1:])
+    else:
+        msg = 'Input _vis_set was not recognized as a valid input.'
+        raise ValueError(msg)
