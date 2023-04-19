@@ -9,7 +9,6 @@ except ImportError as e:  # No .NET; We are really screwed
 try:
     import Rhino.Render.Sun as sun
     import Rhino.RhinoDoc as rhdoc
-    doc = rhdoc.ActiveDoc
 except ImportError as e:
     raise ImportError("Failed to import Rhino document attributes.\n{}".format(e))
 
@@ -31,6 +30,7 @@ def set_sun(location, hoy, north=0):
     Returns:
         The Rhino sun object.
     """
+    doc = rhdoc.ActiveDoc
     # process the hoy into a .NET date/time
     lb_dt = DateTime.from_hoy(hoy)
     rh_dt = System.DateTime(
@@ -49,4 +49,5 @@ def set_sun(location, hoy, north=0):
 
 def disable_sun():
     """Disable the sun in the Rhino scene so it does not interfere with other lights."""
+    doc = rhdoc.ActiveDoc
     doc.Lights.Sun.Enabled = False

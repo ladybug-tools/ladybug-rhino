@@ -13,7 +13,6 @@ try:
     import Rhino.Display as rd
     import Rhino.DocObjects as docobj
     import Rhino.RhinoDoc as rhdoc
-    doc = rhdoc.ActiveDoc
 except ImportError as e:
     raise ImportError("Failed to import Rhino document attributes.\n{}".format(e))
 
@@ -206,6 +205,7 @@ def bake_display_text3d(display_text, layer_name=None, attributes=None):
             text. If None, text will be added to the current layer.
         attributes: Optional Rhino attributes for adding to the Rhino scene.
     """
+    doc = rhdoc.ActiveDoc
     d_txt = display_text.text
     nl_count = len(d_txt.split('\n')) - 1
     if nl_count > 1 and display_text.vertical_alignment == 'Bottom':
