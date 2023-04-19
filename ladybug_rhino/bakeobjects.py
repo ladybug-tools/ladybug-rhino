@@ -44,7 +44,6 @@ except ImportError as e:
 try:
     import Rhino.DocObjects as docobj
     import Rhino.RhinoDoc as rhdoc
-    doc = rhdoc.ActiveDoc
 except ImportError as e:
     raise ImportError("Failed to import Rhino document attributes.\n{}".format(e))
 
@@ -161,6 +160,7 @@ def bake_analysis(analysis, layer_name=None, bake_3d_legend=False,
     Returns:
         A list of IDs that point to the objects in the Rhino scene.
     """
+    doc = rhdoc.ActiveDoc
     # get attributes corresponding to the layer
     layer_name = analysis.display_name if layer_name is None else \
         '{}::{}'.format(layer_name, analysis.display_name)
@@ -235,6 +235,7 @@ def bake_context(context, layer_name=None):
     Returns:
         A list of IDs that point to the objects in the Rhino scene.
     """
+    doc = rhdoc.ActiveDoc
     # get attributes corresponding to the layer
     layer_name = context.display_name if layer_name is None else \
         '{}::{}'.format(layer_name, context.display_name)
