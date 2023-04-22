@@ -34,7 +34,7 @@ LINE_TYPES = {
     'DashDot': -1
 }
 _display_lts = ('Continuous', 'Dashed', 'Dots', 'DashDot')
-for i, lt in enumerate(doc.Linetypes):
+for i, lt in enumerate(rhdoc.ActiveDoc.Linetypes):
     lt_name = lt.Name
     for dlt in _display_lts:
         if lt_name == dlt:
