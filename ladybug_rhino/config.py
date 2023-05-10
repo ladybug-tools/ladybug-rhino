@@ -45,7 +45,7 @@ def conversion_to_meters():
     elif units == 'Millimeters':
         return 0.001
     elif units == 'Feet':
-        return 0.305
+        return 0.3048
     elif units == 'Inches':
         return 0.0254
     elif units == 'Centimeters':
