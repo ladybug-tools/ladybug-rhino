@@ -65,6 +65,19 @@ def set_config_dict(config_dict):
         json.dump(config_dict, fp, indent=4)
 
 
+def full_access_permission(directory):
+    """Give a directory any all of its files full permissions.
+    
+    Args:
+        directory: A directory containing for which full access will be given.
+    """
+    for root, dirs, files in os.walk(directory):
+        for d in dirs:
+            os.chmod(os.path.join(root, d), 0o777)
+        for f in files:
+            os.chmod(os.path.join(root, f), 0o777)
+
+
 def update_libraries_pip(python_exe, package_name, version=None, target=None):
     """Change python libraries to be of a specific version using pip.
 
@@ -338,6 +351,7 @@ def change_installed_version(version_to_install=None):
     if os.path.isdir(os.path.join(UO_DIRECTORY, lb_gh_info)):
         print('Ladybug Tools Grasshopper components successfully installed!\n ')
         remove_dist_info_files(UO_DIRECTORY)  # remove the .dist-info files
+        full_access_permission(UO_DIRECTORY)
     else:
         print(stderr)
     if version_to_install is not None:
@@ -363,6 +377,7 @@ def change_installed_version(version_to_install=None):
         if os.path.isdir(package_dir):
             print('Ladybug Tools .gha Grasshopper components successfully installed!\n ')
             remove_dist_info_files(GHA_DIRECTORY)  # remove the dist-info files
+            full_access_permission(GHA_DIRECTORY)
         else:
             print(stderr)
 
@@ -398,6 +413,7 @@ def change_installed_version(version_to_install=None):
     if os.path.isdir(os.path.join(stand_dir, hes_info)):
         print('Honeybee energy standards successfully installed!\n ')
         remove_dist_info_files(stand_dir)  # remove the dist-info files
+        full_access_permission(stand_dir)
     else:
         print(stderr)
 
