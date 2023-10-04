@@ -8,7 +8,7 @@ except ImportError as e:
     raise ImportError('Failed to import Rhino Geometry.\n{}'.format(e))
 
 try:
-    from ladybug_geometry.geometry2d.line import LineSegment2D
+    from ladybug_geometry.geometry2d import LineSegment2D, Polygon2D
 except ImportError as e:
     raise ImportError('Failed to import ladybug_geometry.\n{}'.format(e))
 
@@ -175,7 +175,7 @@ def from_polyline2d_to_joined_polyline(polylines, z=0):
 
     Args:
         polylines: An array of Ladybug Polyline2D or LineSegment2D to be joined
-            into a polyline.
+            into a polyline. This can also be an array with a single Polygon2D.
         z: A number for the Z-coordinate. (Default: 0).
 
     Returns:
@@ -184,6 +184,8 @@ def from_polyline2d_to_joined_polyline(polylines, z=0):
     """
     line_crv = []
     for pl in polylines:
+        if isinstance(pl, Polygon2D):
+            return from_polygon2d(pl)
         if isinstance(pl, LineSegment2D):
             line_crv.append(from_linesegment2d(pl))
         else:
@@ -196,7 +198,8 @@ def from_polyline2d_to_offset_brep(polylines, offset, z=0):
 
     Args:
         polylines: An array of Ladybug Polyline2D or LineSegment2D to be joined
-            and translated to an offset Brep.
+            and translated to an offset Brep. This can also be an array with
+            a single Polygon2D.
         offset: A number for the distance to offset the Polygon inward.
         z: A number for the Z-coordinate. (Default: 0).
 
