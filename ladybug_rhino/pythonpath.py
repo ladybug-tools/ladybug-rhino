@@ -13,8 +13,10 @@ except ImportError as e:
 # core library packages, which get copied or cleaned out of the Rhino scripts folder
 PACKAGES = (
     'ladybug_rhino', 'ladybug_geometry', 'ladybug_geometry_polyskel',
-    'ladybug', 'ladybug_comfort', 'honeybee', 'honeybee_standards', 'honeybee_energy',
-    'honeybee_radiance', 'honeybee_radiance_folder', 'honeybee_radiance_command',
+    'ladybug', 'ladybug_display', 'ladybug_radiance', 'ladybug_comfort',
+    'honeybee', 'honeybee_standards', 'honeybee_display', 'honeybee_energy',
+    'honeybee_radiance', 'honeybee_radiance_folder',
+    'honeybee_radiance_command', 'honeybee_radiance_postprocess',
     'dragonfly', 'dragonfly_energy', 'dragonfly_radiance', 'dragonfly_uwg',
     'lbt_recipes', 'pollination_handlers'
 )
@@ -31,8 +33,13 @@ def create_python_package_dir():
     method will create the folder.
     """
     py_install = os.path.join(lb_folders.ladybug_tools_folder, 'python')
-    py_path = os.path.join(py_install, 'Lib', 'site-packages') if os.name == 'nt' \
-        else os.path.join(py_install, 'lib', 'python3.7', 'site-packages')
+    if os.name == 'nt':
+        py_path = os.path.join(py_install, 'Lib', 'site-packages')
+    else:
+        py_ver = 'python3.7' \
+            if os.path.isdir(os.path.join(py_install, 'lib', 'python3.7')) \
+            else 'python3.10'
+        py_path = os.path.join(py_install, 'lib', py_ver, 'site-packages')
     if not os.path.isdir(py_path):
         return os.makedirs(py_path)
     return py_path
