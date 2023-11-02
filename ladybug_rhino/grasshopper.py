@@ -80,6 +80,19 @@ def give_popup_message(message, window_title='', icon_type='information'):
     rui.Dialogs.ShowMessageBox(message, window_title, buttons, icon)
 
 
+def turn_off_old_tag(component):
+    """Turn off the old tag that displays on GHPython components.
+
+    Args:
+        component: The grasshopper component object, which can be accessed through
+            the ghenv.Component call within Grasshopper API.
+    """
+    try:  # try to turn off the OLD tag on the component
+        component.ToggleObsolete(False)
+    except Exception:
+        pass  # older version of Rhino that does not have the Obsolete method
+
+
 def all_required_inputs(component):
     """Check that all required inputs on a component are present.
 
@@ -94,6 +107,7 @@ def all_required_inputs(component):
     Returns:
         True if all required inputs are present. False if they are not.
     """
+    turn_off_old_tag(component)
     is_input_missing = False
     for param in component.Params.Input:
         if param.NickName.startswith('_') and not param.NickName.endswith('_'):
