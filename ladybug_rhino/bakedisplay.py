@@ -12,7 +12,7 @@ from .bakegeometry import _get_attributes, bake_point2d, bake_vector2d, bake_ray
 try:
     import Rhino.Display as rd
     import Rhino.DocObjects as docobj
-    import Rhino.RhinoDoc as rhdoc
+    from Rhino import RhinoDoc as rhdoc
 except ImportError as e:
     raise ImportError("Failed to import Rhino document attributes.\n{}".format(e))
 

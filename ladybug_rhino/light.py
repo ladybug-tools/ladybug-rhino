@@ -8,7 +8,7 @@ except ImportError as e:  # No .NET; We are really screwed
 
 try:
     import Rhino.Render.Sun as sun
-    import Rhino.RhinoDoc as rhdoc
+    from Rhino import RhinoDoc as rhdoc
 except ImportError as e:
     raise ImportError("Failed to import Rhino document attributes.\n{}".format(e))
 

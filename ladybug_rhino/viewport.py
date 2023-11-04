@@ -10,7 +10,7 @@ except ImportError as e:  # No .NET; We are really screwed
 try:
     import Rhino.Geometry as rg
     import Rhino.Display as rd
-    import Rhino.RhinoDoc as rhdoc
+    from Rhino import RhinoDoc as rhdoc
     import Rhino.ApplicationSettings.AppearanceSettings as aps
 except ImportError as e:  # No RhinoCommon doc is available. This module is useless.
     raise ImportError("Failed to import Rhino.\n{}".format(e))
