@@ -11,9 +11,9 @@ except ImportError as e:
 
 try:
     import Rhino.Geometry as rg
-    from Rhino.RhinoMath import UnsetIntIndex
+    from Rhino import RhinoMath
     import Rhino.DocObjects as docobj
-    import Rhino.RhinoDoc as rhdoc
+    from Rhino import RhinoDoc as rhdoc
 except ImportError as e:
     raise ImportError("Failed to import Rhino document attributes.\n{}".format(e))
 
@@ -259,20 +259,21 @@ def _get_layer(layer_name):
     """Get a layer index from the Rhino document from the layer name."""
     doc = rhdoc.ActiveDoc
     layer_table = doc.Layers  # layer table
-    layer_index = layer_table.FindByFullPath(layer_name, UnsetIntIndex)
-    if layer_index == UnsetIntIndex:
+    layer_index = layer_table.FindByFullPath(layer_name, RhinoMath.UnsetIntIndex)
+    if layer_index == RhinoMath.UnsetIntIndex:
         all_layers = layer_name.split('::')
         parent_name = all_layers[0]
-        layer_index = layer_table.FindByFullPath(parent_name, UnsetIntIndex)
-        if layer_index == UnsetIntIndex:
+        layer_index = layer_table.FindByFullPath(parent_name, RhinoMath.UnsetIntIndex)
+        if layer_index == RhinoMath.UnsetIntIndex:
             parent_layer = docobj.Layer()
             parent_layer.Name = parent_name
             layer_index = layer_table.Add(parent_layer)
         for lay in all_layers[1:]:
             parent_name = '{}::{}'.format(parent_name, lay)
             parent_index = layer_index
-            layer_index = layer_table.FindByFullPath(parent_name, UnsetIntIndex)
-            if layer_index == UnsetIntIndex:
+            layer_index = layer_table.FindByFullPath(
+                parent_name, RhinoMath.UnsetIntIndex)
+            if layer_index == RhinoMath.UnsetIntIndex:
                 parent_layer = docobj.Layer()
                 parent_layer.Name = lay
                 parent_layer.ParentLayerId = layer_table[parent_index].Id

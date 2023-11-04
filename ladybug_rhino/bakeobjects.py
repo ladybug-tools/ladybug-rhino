@@ -43,7 +43,7 @@ except ImportError as e:
 
 try:
     import Rhino.DocObjects as docobj
-    import Rhino.RhinoDoc as rhdoc
+    from Rhino import RhinoDoc as rhdoc
 except ImportError as e:
     raise ImportError("Failed to import Rhino document attributes.\n{}".format(e))
 
