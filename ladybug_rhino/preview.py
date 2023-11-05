@@ -38,12 +38,24 @@ except ImportError:
 
 
 class VisualizationSetConduit(rd.DisplayConduit):
-    """Class to preview VisualizationSet in the Rhino Display pipeline."""
+    """Class to preview VisualizationSet in the Rhino Display pipeline.
+    
+    Args:
+        visualization_set: A Ladybug Display VisualizationSet object to be translated
+            into arguments for the Rhino display pipeline.
+        render_3d_legend: A Boolean to note whether the VisualizationSet should be
+            rendered with 3D legends for any AnalysisGeometries it
+            includes. (Default: False).
+        render_2d_legend: A Boolean to note whether the VisualizationSet should be
+            rendered with 2D screen-oriented legends for any AnalysisGeometries it
+            includes. (Default: False).
+    """
 
-    def __init__(self, visualization_set, render_3d_legend=False):
+    def __init__(self, visualization_set, render_3d_legend=False, render_2d_legend=False):
         """Initialize VisualizationSetConduit."""
         # set the primary properties
-        self.vis_con = VisualizationSetConverter(visualization_set, render_3d_legend)
+        self.vis_con = VisualizationSetConverter(
+            visualization_set, render_3d_legend, render_2d_legend)
 
     def CalculateBoundingBox(self, calculateBoundingBoxEventArgs):
         """Overwrite the method that passes the bounding box to the display."""
