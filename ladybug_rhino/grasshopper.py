@@ -127,8 +127,11 @@ def all_required_inputs(component):
 
 def is_user_admin():
     """Get a Boolean for whether the current User has Admin access through Rhino."""
-    principal = sec.WindowsPrincipal(sec.WindowsIdentity.GetCurrent())
-    return principal.IsInRole(sec.WindowsBuiltInRole.Administrator)
+    try:
+        principal = sec.WindowsPrincipal(sec.WindowsIdentity.GetCurrent())
+        return principal.IsInRole(sec.WindowsBuiltInRole.Administrator)
+    except Exception:  # methods unavailable; does not have Admin access
+        False  
 
 
 def local_processor_count():
