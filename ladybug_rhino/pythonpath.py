@@ -21,7 +21,7 @@ PACKAGES = (
     'lbt_recipes', 'pollination_handlers'
 )
 # Rhino versions that the plugins are compatible with
-RHINO_VERSIONS = ('6.0', '7.0')
+RHINO_VERSIONS = ('6.0', '7.0', '8.0')
 # UUID that McNeel uses to identify the IronPython plugin
 IRONPYTHON_ID = '814d908a-e25c-493d-97e9-ee3861957f49'
 
