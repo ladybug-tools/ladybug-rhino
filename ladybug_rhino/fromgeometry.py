@@ -272,6 +272,21 @@ def from_face3ds_to_colored_mesh(faces, color):
     return joined_mesh
 
 
+def from_mesh3ds_to_colored_mesh(meshes, color):
+    """Colored Rhino mesh from an array of ladybug Mesh3D and ladybug Color.
+
+    This is used in workflows such as coloring Model geometry with results.
+    """
+    joined_mesh = rg.Mesh()
+    for mesh in meshes:
+        try:
+            joined_mesh.Append(from_mesh3d(mesh))
+        except Exception:
+            pass  # failed to create a Rhino Mesh from the Face3D
+    joined_mesh.VertexColors.CreateMonotoneMesh(color_to_color(color))
+    return joined_mesh
+
+
 def from_mesh2d_to_outline(mesh, z=0):
     """Rhino Polylines from the faces of ladybug Mesh2D."""
     pt_function = _get_point2d_function(z)
