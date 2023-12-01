@@ -8,6 +8,8 @@ import array as specializedarray
 
 try:
     import System.Threading.Tasks as tasks
+    from System import Array
+    import clr
 except ImportError as e:
     print('Failed to import Windows/.NET libraries\nParallel processing functionality '
           'will not be available\n{}'.format(e))
@@ -202,6 +204,115 @@ def intersect_mesh_rays(
             tasks.Parallel.ForEach(range(len(pt_groups)), intersect_each_point_group)
 
     return intersection_matrix, angle_matrix
+
+
+def intersect_rays_with_mesh_faces(mesh, rays, context=None, cpu_count=None):
+    """Intersect a matrix of rays with a mesh to get the intersected mesh faces.
+
+    This method is useful when trying to color each face of the mesh with values
+    that can be linked to each one of the rays. For example, this method is
+    used in shade benefit calculations.
+
+    Args:
+        mesh: A Rhino mesh that will be intersected with the rays.
+        rays: A matrix (list of lists) where each sublist contains Rhino Rays to be
+            intersected with the mesh.
+        context: An optional Rhino mesh that will be used to evaluate if the
+            rays are blocked before performing the calulation with the input
+            mesh. Rays that intersect this context will be discounted from
+            the calculation.
+        cpu_count: An integer for the number of CPUs to be used in the intersection
+            calculation. The ladybug_rhino.grasshopper.recommended_processor_count
+            function can be used to get a recommendation. If set to None, all
+            available processors will be used. (Default: None).
+
+    Returns:
+        A 2D matrix of integers indicating the results of the intersection.
+        Each sub-list of the matrix represents one of the mesh faces and the
+        integers within it refer to the indices of the rays in the rays
+        list that intersected that face.
+    """
+    #create a list to populate intersected indices for each face
+    face_int = []
+    for face in range(mesh.Faces.Count):
+        face_int.append([])  # place holder for result
+
+    def intersect_rays(i):
+        for j, ray in enumerate(rays[i]):
+            face_ids = clr.StrongBox[Array[int]]()
+            ray_p = rg.Intersect.Intersection.MeshRay(mesh, ray, face_ids)
+            if ray_p >= 0:
+                for indx in list(face_ids.Value):
+                    face_int[indx].append(j)
+
+    def intersect_rays_context(i):
+        for j, ray in enumerate(rays[i]):
+            if rg.Intersect.Intersection.MeshRay(context, ray) < 0:
+                face_ids = clr.StrongBox[Array[int]]()
+                ray_p = rg.Intersect.Intersection.MeshRay(mesh, ray, face_ids)
+                if ray_p >= 0:
+                    for indx in list(face_ids.Value):
+                        face_int[indx].append(j)
+
+    def intersect_each_ray_group(worker_i):
+        """Intersect groups of rays so that only the cpu_count is used."""
+        start_i, stop_i = ray_groups[worker_i]
+        for count in range(start_i, stop_i):
+            intersect_rays(count)
+
+    def intersect_each_ray_group_context(worker_i):
+        """Intersect groups of points with distance check so only cpu_count is used."""
+        start_i, stop_i = ray_groups[worker_i]
+        for count in range(start_i, stop_i):
+            intersect_rays_context(count)
+
+    if cpu_count is not None and cpu_count > 1:
+        # group the rays in order to meet the cpu_count
+        ray_count = len(rays)
+        worker_count = min((cpu_count, ray_count))
+        i_per_group = int(math.ceil(ray_count / worker_count))
+        ray_groups = [[x, x + i_per_group] for x in range(0, ray_count, i_per_group)]
+        ray_groups[-1][-1] = ray_count  # ensure the last group ends with ray count
+
+    if context is not None:
+        if cpu_count is None:
+            tasks.Parallel.ForEach(range(len(rays)), intersect_rays_context)
+        elif cpu_count <= 1:  # run everything on a single processor
+            for i in range(len(rays)):
+                intersect_rays_context(i)
+        else:  # run the groups in a manner that meets the CPU count
+            tasks.Parallel.ForEach(
+                range(len(ray_groups)), intersect_each_ray_group_context)
+    else:
+        if cpu_count is None:
+            tasks.Parallel.ForEach(range(len(rays)), intersect_rays)
+        elif cpu_count <= 1:  # run everything on a single processor
+            for i in range(len(rays)):
+                intersect_rays(i)
+        else:  # run the groups in a manner that meets the CPU count
+            tasks.Parallel.ForEach(
+                range(len(ray_groups)), intersect_each_ray_group)
+
+    return face_int
+
+
+def generate_intersection_rays(points, vectors):
+    """Generate a series of rays to be used for intersection calculations.
+
+    All combinations of rays between the input points and vectors will be generated.
+
+    Args:
+        points: A list of Rhino point objects for the starting point of each ray.
+        vectors: A list of Rhino vector objects for the direction of each ray,
+            which will be projected from each point.
+    """
+    int_rays = []
+    for pt in points:
+        pt_rays = []
+        for vec in vectors:
+            pt_rays.append(rg.Ray3d(pt, vec))
+        int_rays.append(pt_rays)
+    return int_rays
 
 
 def intersect_mesh_lines(
