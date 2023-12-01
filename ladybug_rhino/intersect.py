@@ -206,21 +206,26 @@ def intersect_mesh_rays(
     return intersection_matrix, angle_matrix
 
 
-def intersect_rays_with_mesh_faces(mesh, rays, context=None, cpu_count=None):
+def intersect_rays_with_mesh_faces(
+        mesh, rays, context=None, normals=None, cpu_count=None):
     """Intersect a matrix of rays with a mesh to get the intersected mesh faces.
 
     This method is useful when trying to color each face of the mesh with values
     that can be linked to each one of the rays. For example, this method is
-    used in shade benefit calculations.
+    used in all shade benefit calculations.
 
     Args:
         mesh: A Rhino mesh that will be intersected with the rays.
         rays: A matrix (list of lists) where each sublist contains Rhino Rays to be
             intersected with the mesh.
         context: An optional Rhino mesh that will be used to evaluate if the
-            rays are blocked before performing the calulation with the input
+            rays are blocked before performing the calculation with the input
             mesh. Rays that intersect this context will be discounted from
             the calculation.
+        normals: An optional array of Rhino vectors that align with the input
+            rays and denote the direction each ray group is facing. These will
+            be used to eliminate any cases where the vector and the normal differ
+            by more than 90 degrees. If None, points are assumed to have no direction.
         cpu_count: An integer for the number of CPUs to be used in the intersection
             calculation. The ladybug_rhino.grasshopper.recommended_processor_count
             function can be used to get a recommendation. If set to None, all
@@ -234,20 +239,35 @@ def intersect_rays_with_mesh_faces(mesh, rays, context=None, cpu_count=None):
     """
     #create a list to populate intersected indices for each face
     face_int = []
-    for face in range(mesh.Faces.Count):
+    for _ in range(mesh.Faces.Count):
         face_int.append([])  # place holder for result
+
+    # process the input normals if supplied
+    if normals is None:
+        ang_mtx = [[True] * len(r) for r in rays]
+    else:
+        cutoff_angle = math.pi / 2  # constant used in all normal checks
+        ang_mtx = []
+        for ray_list, normal_vec in zip(rays, normals):
+            pt_ang = []
+            for ray in ray_list:
+                vec_angle = rg.Vector3d.VectorAngle(normal_vec, ray.Direction)
+                vec_seen = True if vec_angle <= cutoff_angle else False
+                pt_ang.append(vec_seen)
+            ang_mtx.append(pt_ang)
 
     def intersect_rays(i):
         for j, ray in enumerate(rays[i]):
-            face_ids = clr.StrongBox[Array[int]]()
-            ray_p = rg.Intersect.Intersection.MeshRay(mesh, ray, face_ids)
-            if ray_p >= 0:
-                for indx in list(face_ids.Value):
-                    face_int[indx].append(j)
+            if ang_mtx[i][j]:
+                face_ids = clr.StrongBox[Array[int]]()
+                ray_p = rg.Intersect.Intersection.MeshRay(mesh, ray, face_ids)
+                if ray_p >= 0:
+                    for indx in list(face_ids.Value):
+                        face_int[indx].append(j)
 
     def intersect_rays_context(i):
         for j, ray in enumerate(rays[i]):
-            if rg.Intersect.Intersection.MeshRay(context, ray) < 0:
+            if ang_mtx[i][j] and rg.Intersect.Intersection.MeshRay(context, ray) < 0:
                 face_ids = clr.StrongBox[Array[int]]()
                 ray_p = rg.Intersect.Intersection.MeshRay(mesh, ray, face_ids)
                 if ray_p >= 0:
