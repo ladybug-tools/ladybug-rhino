@@ -240,6 +240,21 @@ def from_polyface3d_to_wireframe(polyface):
     return [f for face in polyface.faces for f in from_face3d_to_wireframe(face)]
 
 
+def from_mesh3d_to_wireframe(mesh):
+    """Rhino LineCurves from ladybug Mesh3D.
+
+    Args:
+        mesh: A Ladybug Mesh3D object to be translated to a wireframe.
+
+    Returns:
+        A list of Rhino polyline curves for the mesh edges.
+    """
+    line_curves = []
+    for edge in mesh.edges:
+        line_curves.append(rg.LineCurve(from_point3d(edge.p1), from_point3d(edge.p2)))
+    return line_curves
+
+
 def from_face3d_to_solid(face, offset):
     """Rhino Solid Brep from a ladybug Face3D and an offset from the base face.
 
