@@ -1,4 +1,6 @@
 """Functions to translate from Ladybug geometries to Rhino geometries."""
+from __future__ import division
+
 from .config import tolerance
 from .color import color_to_color, gray
 

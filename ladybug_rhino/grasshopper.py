@@ -1,4 +1,6 @@
 """Functions for dealing with inputs and outputs from Grasshopper components."""
+from __future__ import division
+
 import collections
 import array
 import math

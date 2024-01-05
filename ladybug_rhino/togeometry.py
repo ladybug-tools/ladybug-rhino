@@ -1,4 +1,5 @@
 """Functions to create Ladybug geometries from Rhino geometries."""
+from __future__ import division
 
 try:
     from ladybug_geometry.geometry2d.pointvector import Vector2D, Point2D
