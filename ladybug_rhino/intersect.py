@@ -4,6 +4,7 @@ These represent geometry computation methods  that are either not supported by
 ladybug_geometry or there are much more efficient versions of them in Rhino.
 """
 import math
+import operator
 import array as specializedarray
 
 try:
@@ -434,6 +435,131 @@ def intersect_mesh_lines(
             tasks.Parallel.ForEach(
                 range(len(l_groups)), intersect_each_line_group)
     return int_matrix
+
+
+def intersect_view_factor(
+        meshes, points, vectors, vector_weights,
+        context=None, normals=None, cpu_count=None):
+    """Intersect a list of points with meshes to determine the view factor to each mesh.
+
+    Args:
+        meshes: A list of Rhino meshes that will be intersected to determine
+            the view factor from each point.
+        points: An array of Rhino points that will be used to generate rays.
+        vectors: An array of Rhino vectors that will be used to generate rays.
+        vector_weights: A list of numbers with the same length as the vectors
+            corresponding to the solid angle weight of each vector. The sum of
+            this list should be equal to one. These are needed to ensure that
+            the resulting view factors are accurate.
+        context: An optional Rhino mesh that will be used to evaluate if the
+            rays are blocked before performing the calculation with the input
+            meshes. Rays that intersect this context will be discounted from
+            the result.
+        normals: An optional array of Rhino vectors that align with the input
+            points and denote the direction each point is facing. These will
+            be used to eliminate any cases where the vector and the normal differ
+            by more than 90 degrees and will also be used to compute view factors
+            within the plane defined by this normal vector. If None, points are
+            assumed to have no direction and view factors will be computed
+            spherically around the points.
+        cpu_count: An integer for the number of CPUs to be used in the intersection
+            calculation. The ladybug_rhino.grasshopper.recommended_processor_count
+            function can be used to get a recommendation. If set to None, all
+            available processors will be used. (Default: None).
+
+    Returns:
+        A tuple with two values.
+
+        -   view_factors -- A 2D matrix of fractional values indicating the view
+            factor from each point to each mesh. Each sub-list of the matrix
+            denotes one of the input points.
+
+        -   mesh_indices -- A 2D matrix of integers indicating the index of each
+            mesh struck by each view ray. Each sub-list of the matrix represents
+            one of the points and the value in each sub-list is the integer of
+            the mesh that was struck by a given ray shot from the point.
+    """
+    # set up the matrices to be filled
+    view_factors = [[] for _ in points]
+    mesh_indices = [[] for _ in points]
+    vec_count = len(vectors)
+    cutoff_angle = math.pi / 2  # constant used in all normal checks
+
+    # combine the context with the meshes if it is specified
+    context_index = None
+    if context is not None:
+        meshes = list(meshes) + [context]
+        context_index = len(meshes) - 1
+
+    def intersect_point(i):
+        """Intersect all of the vectors of a given point without any normal check."""
+        # create the rays to be projected from each point
+        rel_pt = points[i]
+        point_rays = []
+        for vec in vectors:
+            point_rays.append(rg.Ray3d(rel_pt, vec))
+        
+        # perform the intersection of the rays with the mesh
+        pt_int_mtx = []
+        for ray in point_rays:
+            srf_list = []
+            for srf in meshes:
+                intersect = rg.Intersect.Intersection.MeshRay(srf, ray)
+                if intersect < 0:
+                    intersect = 'N'
+                srf_list.append(intersect)
+            pt_int_mtx.append(srf_list)
+        
+        # find the intersection that was the closest for each ray
+        srf_hits = [[] for _ in meshes]
+        for ray_count, int_list in enumerate(pt_int_mtx):
+            if not all(x == 'N' for x in int_list):
+                min_index, _ = min(enumerate(int_list), key=operator.itemgetter(1))
+                if min_index == context_index:
+                    mesh_indices[i].append(-1)
+                else:
+                    mesh_indices[i].append(min_index)
+                    if normals is None or normals[i] is None:
+                        srf_hits[min_index].append(vector_weights[ray_count])
+                    else:
+                        # get the angle between the surface and the vector
+                        vec_angle = rg.Vector3d.VectorAngle(
+                            vectors[ray_count], normals[i])
+                        if vec_angle > cutoff_angle:
+                            srf_hits[min_index].append(0)
+                        else:
+                            srf_hits[min_index].append(
+                                vector_weights[ray_count] * 4 * abs(math.cos(vec_angle)))
+            else:
+                mesh_indices[i].append(-1)
+        
+        # sum up the lists and divide by the total rays to get the view factor
+        for hit_list in srf_hits:
+            view_factors[i].append(sum(hit_list) / vec_count)
+
+    def intersect_each_point_group(worker_i):
+        """Intersect groups of points so that only the cpu_count is used."""
+        start_i, stop_i = pt_groups[worker_i]
+        for count in range(start_i, stop_i):
+            intersect_point(count)
+
+    if cpu_count is not None and cpu_count > 1:
+        # group the points in order to meet the cpu_count
+        pt_count = len(points)
+        worker_count = min((cpu_count, pt_count))
+        i_per_group = int(math.ceil(pt_count / worker_count))
+        pt_groups = [[x, x + i_per_group] for x in range(0, pt_count, i_per_group)]
+        pt_groups[-1][-1] = pt_count  # ensure the last group ends with point count
+
+    if cpu_count is None:  # use all available CPUs
+        tasks.Parallel.ForEach(range(len(points)), intersect_point)
+    elif cpu_count <= 1:  # run everything on a single processor
+        for i in range(len(points)):
+            intersect_point(i)
+    else:  # run the groups in a manner that meets the CPU count
+        tasks.Parallel.ForEach(range(len(pt_groups)), intersect_each_point_group)
+
+    return view_factors, mesh_indices
 
 
 def trace_ray(ray, breps, bounce_count=1):
