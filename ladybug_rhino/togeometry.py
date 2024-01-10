@@ -126,8 +126,8 @@ def to_face3d(geo, meshing_parameters=None):
     """List of Ladybug Face3D objects from a Rhino Brep, Surface or Mesh.
 
     Args:
-        brep: A Rhino Brep, Surface or Mesh that will be converted into a list
-            of Ladybug Face3D.
+        geo: A Rhino Brep, Surface, Extrusion or Mesh that will be converted into
+            a list of Ladybug Face3D.
         meshing_parameters: Optional Rhino Meshing Parameters to describe how
             curved faces should be converted into planar elements. If None,
             Rhino's Default Meshing Parameters will be used.
@@ -157,6 +157,8 @@ def to_face3d(geo, meshing_parameters=None):
                     faces.append(lb_face)
     else:  # convert each Brep Face to a Face3D
         meshing_parameters = meshing_parameters or rg.MeshingParameters.Default
+        if not isinstance(geo, rg.Brep):  # it's likely an extrusion object
+            geo = geo.ToBrep()  # extrusion objects must be cast to Brep in Rhino 8
         for b_face in geo.Faces:
             if b_face.IsPlanar(tolerance):
                 try:
@@ -197,9 +199,14 @@ def to_polyface3d(geo, meshing_parameters=None):
             Rhino's Default Meshing Parameters will be used.
     """
     mesh_par = meshing_parameters or rg.MeshingParameters.Default  # default
-    if not isinstance(geo, rg.Mesh) and _planar.has_curved_face(geo):  # keep solidity
-        new_brep = from_face3ds_to_joined_brep(_planar.curved_solid_faces(geo, mesh_par))
-        return Polyface3D.from_faces(to_face3d(new_brep[0], mesh_par), tolerance)
+    if not isinstance(geo, rg.Mesh):
+        if not isinstance(geo, rg.Brep):  # it's likely an extrusion object
+            geo = geo.ToBrep()  # extrusion objects must be cast to Brep in Rhino 8
+        if _planar.has_curved_face(geo):  # keep solidity
+            new_brep = from_face3ds_to_joined_brep(
+                _planar.curved_solid_faces(geo, mesh_par))
+            return Polyface3D.from_faces(to_face3d(new_brep[0], mesh_par), tolerance)
+        return Polyface3D.from_faces(to_face3d(geo, mesh_par), tolerance)
     return Polyface3D.from_faces(to_face3d(geo, mesh_par), tolerance)
 
 
