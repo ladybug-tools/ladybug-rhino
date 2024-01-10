@@ -11,7 +11,9 @@ except ImportError as e:
     raise ImportError('\nFailed to import ladybug:\n\t{}'.format(e))
 
 from ..config import folders as lbr_folders
-from ..pythonpath import iron_python_search_path, create_python_package_dir
+from ..config import rhino_version
+from ..pythonpath import iron_python_search_path, create_python_package_dir, \
+    clean_rhino_scripts
 
 # find the location where the Grasshopper user objects are stored
 UO_DIRECTORY = lbr_folders.uo_folder
@@ -340,7 +342,10 @@ def change_installed_version(version_to_install=None):
 
     # make sure libraries are copied to the rhino scripts folder on Mac
     if os.name != 'nt':
-        iron_python_search_path(create_python_package_dir())
+        if rhino_version[0] < 7:  # remove and replace all packages
+            iron_python_search_path(create_python_package_dir())
+        else:  # just remove any possible conflicting packages
+            clean_rhino_scripts()
 
     # install the grasshopper components
     print('Installing Ladybug Tools Grasshopper components.')
