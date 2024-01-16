@@ -135,7 +135,7 @@ def from_face3d(face):
     except TypeError:  # not planar in Rhino model tolerance; maybe from another model
         print('Brep not planar in Rhino model tolerance. Ignoring tolerance.')
         try:
-            brep = rg.Brep.CreatePlanarBreps(segs)[0]
+            brep = rg.Brep.CreatePlanarBreps(segs, 1e6)[0]
         except TypeError:  # it must be a zero-area geometry
             return None
     if face.has_holes:
