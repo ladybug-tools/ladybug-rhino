@@ -32,7 +32,7 @@ except ImportError as e:
 
 import ladybug_rhino.planarize as _planar
 from .fromgeometry import from_face3ds_to_joined_brep
-from .config import tolerance
+from .config import tolerance, angle_tolerance
 
 
 """____________2D GEOMETRY TRANSLATORS____________"""
@@ -64,16 +64,24 @@ def to_polyline2d(polyline):
 
     A LineSegment2D will be returned if the input polyline has only two points.
     """
-    pts = [to_point2d(polyline.Point(i)) for i in range(polyline.PointCount)]
+    try:
+        pts = [to_point2d(polyline.Point(i)) for i in range(polyline.PointCount)]
+    except AttributeError:  # likely a poly curve that can be be a polyline
+        polyline = polyline.ToPolyline(tolerance, angle_tolerance, 0, 1e6)
+        pts = [to_point2d(polyline.Point(i)) for i in range(polyline.PointCount)]
     return Polyline2D(pts) if len(pts) != 2 else LineSegment2D.from_end_points(*pts)
 
 
 def to_polygon2d(polygon):
     """Ladybug Polygon2D from Rhino closed PolyLineCurve."""
+    try:
+        pts = [to_point2d(polygon.Point(i)) for i in range(polygon.PointCount)]
+    except AttributeError:  # likely a poly curve that can be be a polyline
+        polygon = polygon.ToPolyline(tolerance, angle_tolerance, 0, 1e6)
+        pts = [to_point2d(polygon.Point(i)) for i in range(polygon.PointCount)]
     assert polygon.IsClosed, \
         'Rhino PolyLineCurve must be closed to make a Ladybug Polygon2D.'
-    return Polygon2D(
-        [to_point2d(polygon.Point(i)) for i in range(polygon.PointCount - 1)])
+    return Polygon2D(pts)
 
 
 def to_mesh2d(mesh, color_by_face=True):
