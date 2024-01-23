@@ -241,6 +241,8 @@ def to_gridded_mesh3d(brep, grid_size, offset_distance=0):
         offset_distance: A number for the distance at which to offset the mesh from
             the underlying brep. The default is 0.
     """
+    if not isinstance(brep, rg.Brep):  # it's likely an extrusion object
+        brep = brep.ToBrep()  # extrusion objects must be cast to Brep in Rhino 8
     meshing_param = rg.MeshingParameters.Default
     meshing_param.MaximumEdgeLength = grid_size
     meshing_param.MinimumEdgeLength = grid_size
@@ -275,10 +277,10 @@ def to_joined_gridded_mesh3d(geometry, grid_size, offset_distance=0):
     """
     lb_meshes = []
     for geo in geometry:
-        if isinstance(geo, rg.Brep):
-            lb_meshes.append(to_gridded_mesh3d(geo, grid_size, offset_distance))
-        else:  # assume that it's a Mesh
+        if isinstance(geo, rg.Mesh):
             lb_meshes.append(to_mesh3d(geo))
+        else:  # assume that it's a Brep
+            lb_meshes.append(to_gridded_mesh3d(geo, grid_size, offset_distance))
     if len(lb_meshes) == 1:
         return lb_meshes[0]
     else:

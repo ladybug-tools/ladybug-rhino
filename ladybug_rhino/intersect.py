@@ -45,6 +45,58 @@ def join_geometry_to_mesh(geometry):
     return joined_mesh
 
 
+def join_geometry_to_gridded_mesh(geometry, grid_size, offset_distance=0):
+    """Create a single gridded Ladybug Mesh3D from an array of Rhino geometry.
+
+    Args:
+        breps: An array of Rhino Breps and/or Rhino meshes that will be converted
+            into a single, joined gridded Ladybug Mesh3D.
+        grid_size: A number for the grid size dimension with which to make the mesh.
+        offset_distance: A number for the distance at which to offset the points
+            from the underlying geometry. The default is 0.
+    
+    Returns:
+         A tuple with three elements
+
+        -   joined_mesh -- A Rhino Mesh from the input geometry.
+
+        -   points -- A list of Rhino Point3ds for the mesh face centers.
+
+        -   normals -- A list of Rhino Point3ds for the mesh face normals.
+    """
+    # set up the meshing parameters
+    meshing_param = rg.MeshingParameters.Default
+    meshing_param.MaximumEdgeLength = grid_size
+    meshing_param.MinimumEdgeLength = grid_size
+    meshing_param.GridAspectRatio = 1
+    # loop through the geometry and mesh it
+    joined_mesh = rg.Mesh()
+    for geo in geometry:
+        if isinstance(geo, rg.Mesh):
+            joined_mesh.Append(geo)
+        else:
+            if not isinstance(geo, rg.Brep):  # it's likely an extrusion object
+                geo = geo.ToBrep()  # extrusion objects must be cast to Brep in Rhino 8
+            mesh_grids = rg.Mesh.CreateFromBrep(geo, meshing_param)
+            for m_grid in mesh_grids:
+                joined_mesh.Append(m_grid)
+    # compute the points at each face center and offset them if necessary
+    joined_mesh.FaceNormals.ComputeFaceNormals()
+    joined_mesh.FaceNormals.UnitizeFaceNormals()
+    normals = [joined_mesh.FaceNormals[i] for i in range(joined_mesh.FaceNormals.Count)]
+    points = []
+    if offset_distance == 0:
+        for i, n in enumerate(normals):
+            points.append(joined_mesh.Faces.GetFaceCenter(i))
+    else:
+        od = offset_distance
+        for i, n in enumerate(normals):
+            pt = joined_mesh.Faces.GetFaceCenter(i)
+            pt = rg.Point3d(pt.X + (n.X * od), pt.Y + (n.Y * od), pt.Z + (n.Z * od))
+            points.append(pt)
+    return joined_mesh, points, normals
+
+
 def join_geometry_to_brep(geometry):
     """Convert an array of Rhino Breps and/or Meshes into a single Rhino Brep.
 

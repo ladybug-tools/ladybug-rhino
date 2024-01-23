@@ -103,7 +103,8 @@ def bake_pollination_vis_set(vis_set, bake_3d_legend=False):
     for geo in vis_set.geometry:
         if isinstance(geo, AnalysisGeometry):
             if isinstance(geo.geometry[0], Mesh3D) and geo.matching_method == 'faces':
-                layer_name = '{}::{}'.format(vis_set.display_name, geo.display_name)
+                layer_name = vis_set.display_name if len(vis_set.geometry) == 1 else \
+                    '{}::{}'.format(vis_set.display_name, geo.display_name)
                 for i, data in enumerate(geo.data_sets):
                     # translate Mesh3D into Rhino Mesh
                     if len(geo.geometry)  == 1:
@@ -118,16 +119,18 @@ def bake_pollination_vis_set(vis_set, bake_3d_legend=False):
                     a_mesh = Core.Objects.AnalysisMeshObject(mesh, vis_data)
                     # add it to the Rhino document
                     doc = Rhino.RhinoDoc.ActiveDoc
-                    sub_layer_name = layer_name if data.data_type is None else \
+                    sub_layer_name = layer_name \
+                        if len(geo.data_sets) == 1 or data.data_type is None else \
                         '{}::{}'.format(layer_name, data.data_type.name)
-                    a_mesh.Id = doc.Objects.AddMesh(mesh, _get_attributes(sub_layer_name))
+                    a_mesh.Id = doc.Objects.AddMesh(
+                        mesh, _get_attributes(sub_layer_name))
                     current_model = Core.ModelEntity.CurrentModel
                     def do_act():
                         pass
                     def undo_act():
                         pass
-                    a_mesh_list = System.Array[Core.Objects.AnalysisMeshObject]([a_mesh])
-                    current_model.Add(doc, a_mesh_list, do_act, undo_act)
+                    am_list = System.Array[Core.Objects.AnalysisMeshObject]([a_mesh])
+                    current_model.Add(doc, am_list, do_act, undo_act)
             else:
                 bake_analysis(
                     geo, vis_set.display_name, bake_3d_legend,
@@ -161,10 +164,9 @@ def setup_epw_input():
     """Setup the request for an EPW input and check for any previously set EPW."""
     epw_input_request = Rhino.Input.Custom.GetString()
     epw_input_request.SetCommandPrompt('Select an EPW file path or URL')
-    epw_path = None
+    epw_input_request.AcceptNothing(True)
     if 'lbt_epw' in sc.sticky:
-        epw_path = sc.sticky['lbt_epw']
-        epw_input_request.SetDefaultString(epw_path)
+        epw_input_request.SetDefaultString(sc.sticky['lbt_epw'])
     return epw_input_request
 
 
@@ -203,10 +205,13 @@ def retrieve_epw_input(epw_input_request, command_options, option_values):
                 option_values[opt_ind - 1] = \
                     epw_input_request.Option().CurrentListOptionIndex
             continue
+        elif get_epw == Rhino.Input.GetResult.Cancel:
+            return None
         break
 
     # process the EPW file path or URL
     if not epw_path:
+        print('No EPW file was selected')
         return None
     _def_folder = folders.default_epw_folder
     if epw_path.startswith('http'):  # download the EPW file
@@ -300,9 +305,10 @@ def add_month_day_hour_options(
     description = 'Day - day of the month. Use -1 to specify all days'
     input_request.AddOptionInteger('Day', day_option, description)
 
-    hour_option = Rhino.Input.Custom.OptionInteger(hour_, -1, 22)
-    description = 'Hour - hour of the day. Use -1 to specify all hours'
-    input_request.AddOptionInteger('Hour', hour_option, description)
+    hour_option = Rhino.Input.Custom.OptionDouble(hour_, -1, 22)
+    description = 'Hour - hour of the day. Decimals accepted. ' \
+        'Use -1 to specify all hours'
+    input_request.AddOptionDouble('Hour', hour_option, description)
 
     return [month_option, day_option, hour_option], [month_i_, day_, hour_]
 
@@ -390,6 +396,8 @@ def study_geometry_request(study_name=None):
         -   grid_size: A number for the grid size that the user selected.
 
         -   offset: A number for the offset that the user selected.
+
+        -   preview: A boolean for whether to preview the result at the next step.
     """
     # setup the request to get the analysis geometry from the scene
     get_geo = Rhino.Input.Custom.GetObject()
@@ -413,17 +421,23 @@ def study_geometry_request(study_name=None):
         'analysis will occur'
     get_geo.AddOptionDouble('Offset', off_option, description)
 
+    preview_geo = sc.sticky['lbt_study_preview'] if 'lbt_study_preview' in sc.sticky \
+        else True
+    preview_option = Rhino.Input.Custom.OptionToggle(preview_geo, 'No', 'Yes')
+    get_geo.AddOptionToggle('PreviewPoints', preview_option)
+
     # request the geometry from the user
-    command_options = [gs_option, off_option]
-    option_values = [grid_size, offset_dist]
+    command_options = [gs_option, off_option, preview_option]
+    option_values = [grid_size, offset_dist, preview_geo]
     geometry = retrieve_geometry_input(get_geo, command_options, option_values)
-    grid_size, offset_dist = option_values
+    grid_size, offset_dist, preview_geo = option_values
 
     # update the sticky values for grid size and offset
     sc.sticky['lbt_study_grid_size'] = grid_size
     sc.sticky['lbt_study_offset'] = offset_dist
+    sc.sticky['lbt_study_preview'] = preview_geo
 
-    return geometry, grid_size, offset_dist
+    return geometry, grid_size, offset_dist, preview_geo
 
 
 def add_to_document_request(geometry_name=None):
