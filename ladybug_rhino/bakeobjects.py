@@ -6,18 +6,9 @@ visualization sets, etc.)
 """
 import json
 
-from ladybug_geometry.geometry2d import Vector2D, Point2D, Ray2D, LineSegment2D, \
-    Arc2D, Polyline2D, Polygon2D, Mesh2D
-from ladybug_geometry.geometry3d import Vector3D, Point3D, Ray3D, LineSegment3D, \
-    Arc3D, Polyline3D, Plane, Mesh3D, Face3D, Polyface3D, Sphere, Cone, Cylinder
+from ladybug_geometry.geometry3d import Mesh3D
 from ladybug.graphic import GraphicContainer
-from ladybug_display.geometry2d import DisplayVector2D, DisplayPoint2D, \
-    DisplayRay2D, DisplayLineSegment2D, DisplayPolyline2D, DisplayArc2D, \
-    DisplayPolygon2D, DisplayMesh2D
-from ladybug_display.geometry3d import DisplayVector3D, DisplayPoint3D, \
-    DisplayRay3D, DisplayPlane, DisplayLineSegment3D, DisplayPolyline3D, DisplayArc3D, \
-    DisplayFace3D, DisplayMesh3D, DisplayPolyface3D, DisplaySphere, DisplayCone, \
-    DisplayCylinder, DisplayText3D
+from ladybug_display.geometry3d import  DisplayText3D
 from ladybug_display.visualization import AnalysisGeometry
 
 from .config import units_system
@@ -48,49 +39,49 @@ except ImportError as e:
     raise ImportError("Failed to import Rhino document attributes.\n{}".format(e))
 
 BAKE_MAPPER = {
-    Vector2D: bake_vector2d,
-    Point2D: bake_point2d,
-    Ray2D: bake_ray2d,
-    LineSegment2D: bake_linesegment2d,
-    Arc2D: bake_arc2d,
-    Polyline2D: bake_polyline2d,
-    Polygon2D: bake_polygon2d,
-    Mesh2D: bake_mesh2d,
-    Vector3D: bake_vector3d,
-    Point3D: bake_point3d,
-    Ray3D: bake_ray3d,
-    LineSegment3D: bake_linesegment3d,
-    Arc3D: bake_arc3d,
-    Polyline3D: bake_polyline3d,
-    Plane: bake_plane,
-    Mesh3D: bake_mesh3d,
-    Face3D: bake_face3d,
-    Polyface3D: bake_polyface3d,
-    Sphere: bake_sphere,
-    Cone: bake_cone,
-    Cylinder: bake_cylinder,
-    DisplayVector2D: bake_display_vector2d,
-    DisplayPoint2D: bake_display_point2d,
-    DisplayRay2D: bake_display_ray2d,
-    DisplayLineSegment2D: bake_display_linesegment2d,
-    DisplayPolyline2D: bake_display_polyline2d,
-    DisplayArc2D: bake_display_arc2d,
-    DisplayPolygon2D: bake_display_polygon2d,
-    DisplayMesh2D: bake_display_mesh2d,
-    DisplayVector3D: bake_display_vector3d,
-    DisplayPoint3D: bake_display_point3d,
-    DisplayRay3D: bake_display_ray3d,
-    DisplayPlane: bake_display_plane,
-    DisplayLineSegment3D: bake_display_linesegment3d,
-    DisplayPolyline3D: bake_display_polyline3d,
-    DisplayArc3D: bake_display_arc3d,
-    DisplayFace3D: bake_display_face3d,
-    DisplayMesh3D: bake_display_mesh3d,
-    DisplayPolyface3D: bake_display_polyface3d,
-    DisplaySphere: bake_display_sphere,
-    DisplayCone: bake_display_cone,
-    DisplayCylinder: bake_display_cylinder,
-    DisplayText3D: bake_display_text3d
+    'Vector2D': bake_vector2d,
+    'Point2D': bake_point2d,
+    'Ray2D': bake_ray2d,
+    'LineSegment2D': bake_linesegment2d,
+    'Arc2D': bake_arc2d,
+    'Polyline2D': bake_polyline2d,
+    'Polygon2D': bake_polygon2d,
+    'Mesh2D': bake_mesh2d,
+    'Vector3D': bake_vector3d,
+    'Point3D': bake_point3d,
+    'Ray3D': bake_ray3d,
+    'LineSegment3D': bake_linesegment3d,
+    'Arc3D': bake_arc3d,
+    'Polyline3D': bake_polyline3d,
+    'Plane': bake_plane,
+    'Mesh3D': bake_mesh3d,
+    'Face3D': bake_face3d,
+    'Polyface3D': bake_polyface3d,
+    'Sphere': bake_sphere,
+    'Cone': bake_cone,
+    'Cylinder': bake_cylinder,
+    'DisplayVector2D': bake_display_vector2d,
+    'DisplayPoint2D': bake_display_point2d,
+    'DisplayRay2D': bake_display_ray2d,
+    'DisplayLineSegment2D': bake_display_linesegment2d,
+    'DisplayPolyline2D': bake_display_polyline2d,
+    'DisplayArc2D': bake_display_arc2d,
+    'DisplayPolygon2D': bake_display_polygon2d,
+    'DisplayMesh2D': bake_display_mesh2d,
+    'DisplayVector3D': bake_display_vector3d,
+    'DisplayPoint3D': bake_display_point3d,
+    'DisplayRay3D': bake_display_ray3d,
+    'DisplayPlane': bake_display_plane,
+    'DisplayLineSegment3D': bake_display_linesegment3d,
+    'DisplayPolyline3D': bake_display_polyline3d,
+    'DisplayArc3D': bake_display_arc3d,
+    'DisplayFace3D': bake_display_face3d,
+    'DisplayMesh3D': bake_display_mesh3d,
+    'DisplayPolyface3D': bake_display_polyface3d,
+    'DisplaySphere': bake_display_sphere,
+    'DisplayCone': bake_display_cone,
+    'DisplayCylinder': bake_display_cylinder,
+    'DisplayText3D': bake_display_text3d
 }
 
 
@@ -194,7 +185,7 @@ def bake_analysis(analysis, layer_name=None, bake_3d_legend=False,
                 bake_func = bake_mesh3d if isinstance(mesh, Mesh3D) else bake_mesh2d
                 objs_to_group.append(bake_func(mesh, layer_name=layer_index))
         else:  # one color per geometry object
-            bake_func = BAKE_MAPPER[analysis.geometry[0].__class__]
+            bake_func = BAKE_MAPPER[analysis.geometry[0].__class__.__name__]
             for geo_obj, col in zip(analysis.geometry, colors):
                 attrib = _get_attributes(layer_index)
                 attrib.ColorSource = docobj.ObjectColorSource.ColorFromObject
@@ -248,7 +239,7 @@ def bake_context(context, layer_name=None):
     # loop through the objects and add them to the scene
     obj_ids = []
     for geo_obj in context.geometry:
-        bake_func = BAKE_MAPPER[geo_obj.__class__]
+        bake_func = BAKE_MAPPER[geo_obj.__class__.__name__]
         obj_ids.append(bake_func(geo_obj, layer_index))
     return obj_ids
 
@@ -274,7 +265,7 @@ def bake_visualization_set(vis_set, bake_3d_legend=False):
     # bake all of the geometries
     obj_ids = []
     for geo in vis_set.geometry:
-        if isinstance(geo, AnalysisGeometry):  # translate it as AnalysisGeometry
+        if isinstance(geo, AnalysisGeometry):
             a_objs = bake_analysis(
                 geo, vis_set.display_name, bake_3d_legend,
                 vis_set.min_point, vis_set.max_point)
