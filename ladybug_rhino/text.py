@@ -18,8 +18,7 @@ except ImportError as e:
 try:
     import Grasshopper as gh
 except ImportError:
-    print('Failed to import Grasshopper.\n'
-          'Only functions for adding text to Rhino will be available.')
+    pass
 
 
 def text_objects(text, plane, height, font='Arial',
