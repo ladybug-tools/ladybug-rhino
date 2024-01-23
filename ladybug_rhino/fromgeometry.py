@@ -299,7 +299,7 @@ def from_mesh3ds_to_colored_mesh(meshes, color):
         try:
             joined_mesh.Append(from_mesh3d(mesh))
         except Exception:
-            pass  # failed to create a Rhino Mesh from the Face3D
+            pass  # failed to create a Rhino Mesh from the Mesh3d
     joined_mesh.VertexColors.CreateMonotoneMesh(color_to_color(color))
     return joined_mesh
 

@@ -20,7 +20,10 @@ try:
 except ImportError as e:  # No Rhino doc is available. This module is useless.
     raise ImportError("Failed to import Rhino scriptcontext.\n{}".format(e))
 
-from .text import TextGoo
+try:
+    from .text import TextGoo
+except Exception:  # we are outside of Grasshopper
+    TextGoo = None
 
 
 def camera_oriented_plane(origin):
