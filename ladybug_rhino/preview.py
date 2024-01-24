@@ -814,3 +814,32 @@ class VisualizationSetConverter(object):
     def ToString(self):
         """Overwrite .NET ToString method."""
         return 'VisualizationSet Converter'
+
+
+class RhinoPointConduit(rd.DisplayConduit):
+    """An optimized class to preview Rhino Point3d in the Rhino Display pipeline.
+    
+    Args:
+        points: A list of Rhino Point3d to be displayed in the pipeline.
+    """
+
+    def __init__(self, points):
+        """Initialize RhinoPointConduit."""
+        self.draw_point_args = []
+        col = black()
+        for pt in points:
+            self.draw_point_args.append((pt, rd.PointStyle.RoundSimple, 5, col))
+        self.bbox = rg.BoundingBox(points)
+
+    def CalculateBoundingBox(self, calculateBoundingBoxEventArgs):
+        """Overwrite the method that passes the bounding box to the display."""
+        calculateBoundingBoxEventArgs.IncludeBoundingBox(self.bbox)
+
+    def PostDrawObjects(self, drawEventArgs):
+        """Overwrite the method that draws the objects in the display."""
+        # get the DisplayPipeline from the event arguments
+        display = drawEventArgs.Display
+
+        # for each object to be rendered, pass the drawing arguments
+        for draw_args in self.draw_point_args:
+            display.DrawPoint(*draw_args)
