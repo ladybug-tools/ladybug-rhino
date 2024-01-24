@@ -264,19 +264,20 @@ def add_north_option(input_request):
 
 
 def add_month_day_hour_options(
-        input_request, default_inputs=(12, 21, 12), sticky_key=None):
+        input_request, default_inputs=(12, 21, 0, 23), sticky_key=None):
     """Add a options for Month, Day, and Hour to an input request.
 
     Args:
         input_request: A Rhino Command Input such as that obtained from the
             setup_epw_input function or the Rhino.Input.Custom.GetString
             constructor.
-        default_inputs: The default input month, day and hour. A negative
-            number denotes all values of a given month, day and hour are used.
-            In the case of month and dy, 0 can also be used to denote all
-            values. (Default: (12, 21, -1)).
+        default_inputs: The default input month, day, start_hour and end_hour.
+            A value of 0 for month or day denotes that all values of a given
+            month, day and hour are used. For the start_hour and end_hour,
+            the values should be between 0 and 23 where 0 denotes
+            midnight. (Default: (12, 21, 0, 23)).
         sticky_key: An optional sticky key, which will be used to to pull
-            previously set values from sticky. (eg. sunpath).
+            previously set values from sticky. (eg. direct_sun).
 
     Returns:
         A tuple with two values.
@@ -291,26 +292,32 @@ def add_month_day_hour_options(
         month_i_ = sc.sticky[month_key] if month_key in sc.sticky else default_inputs[0]
         day_key = 'lbt_{}_day'.format(sticky_key)
         day_ = sc.sticky[day_key] if day_key in sc.sticky else default_inputs[1]
-        hour_key = 'lbt_{}_hour'.format(sticky_key)
-        hour_ =  sc.sticky[hour_key] if hour_key in sc.sticky else default_inputs[2]
+        sthr_key = 'lbt_{}_start_hour'.format(sticky_key)
+        st_hr_ =  sc.sticky[sthr_key] if sthr_key in sc.sticky else default_inputs[2]
+        endhr_key = 'lbt_{}_end_hour'.format(sticky_key)
+        end_hr_ =  sc.sticky[endhr_key] if endhr_key in sc.sticky else default_inputs[3]
     else:
-        month_i_, day_, hour_ = default_inputs
+        month_i_, day_, st_hr_, end_hr_ = default_inputs
 
     month_i_ = 0 if month_i_ < 0 else month_i_
     month_option = ('All', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
-    month_list = input_request.AddOptionList('Month', month_option, month_i_)
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'DecMarJun')
+    input_request.AddOptionList('Month', month_option, month_i_)
 
-    day_option = Rhino.Input.Custom.OptionInteger(day_, -1, 31)
-    description = 'Day - day of the month. Use -1 to specify all days'
+    day_option = Rhino.Input.Custom.OptionInteger(day_, 0, 31)
+    description = 'Day - day of the month [1-31]. Use 0 to specify all days'
     input_request.AddOptionInteger('Day', day_option, description)
 
-    hour_option = Rhino.Input.Custom.OptionDouble(hour_, -1, 22)
-    description = 'Hour - hour of the day. Decimals accepted. ' \
-        'Use -1 to specify all hours'
-    input_request.AddOptionDouble('Hour', hour_option, description)
+    start_hr_option = Rhino.Input.Custom.OptionDouble(st_hr_, 0, 23)
+    description = 'StartHour - start hour of the day [0-23]. Decimals accepted.'
+    input_request.AddOptionDouble('StartHour', start_hr_option, description)
 
-    return [month_option, day_option, hour_option], [month_i_, day_, hour_]
+    end_hr_option = Rhino.Input.Custom.OptionDouble(end_hr_, 0, 23)
+    description = 'EndHour - start hour of the day [0-23]. Decimals accepted.'
+    input_request.AddOptionDouble('EndHour', end_hr_option, description)
+
+    return [month_option, day_option, start_hr_option, end_hr_option], \
+        [month_i_, day_, st_hr_, end_hr_]
 
 
 def retrieve_geometry_input(geo_input_request, command_options, option_values):
@@ -396,8 +403,6 @@ def study_geometry_request(study_name=None):
         -   grid_size: A number for the grid size that the user selected.
 
         -   offset: A number for the offset that the user selected.
-
-        -   preview: A boolean for whether to preview the result at the next step.
     """
     # setup the request to get the analysis geometry from the scene
     get_geo = Rhino.Input.Custom.GetObject()
@@ -421,23 +426,17 @@ def study_geometry_request(study_name=None):
         'analysis will occur'
     get_geo.AddOptionDouble('Offset', off_option, description)
 
-    preview_geo = sc.sticky['lbt_study_preview'] if 'lbt_study_preview' in sc.sticky \
-        else True
-    preview_option = Rhino.Input.Custom.OptionToggle(preview_geo, 'No', 'Yes')
-    get_geo.AddOptionToggle('PreviewPoints', preview_option)
-
     # request the geometry from the user
-    command_options = [gs_option, off_option, preview_option]
-    option_values = [grid_size, offset_dist, preview_geo]
+    command_options = [gs_option, off_option]
+    option_values = [grid_size, offset_dist]
     geometry = retrieve_geometry_input(get_geo, command_options, option_values)
-    grid_size, offset_dist, preview_geo = option_values
+    grid_size, offset_dist = option_values
 
     # update the sticky values for grid size and offset
     sc.sticky['lbt_study_grid_size'] = grid_size
     sc.sticky['lbt_study_offset'] = offset_dist
-    sc.sticky['lbt_study_preview'] = preview_geo
 
-    return geometry, grid_size, offset_dist, preview_geo
+    return geometry, grid_size, offset_dist
 
 
 def add_to_document_request(geometry_name=None):
