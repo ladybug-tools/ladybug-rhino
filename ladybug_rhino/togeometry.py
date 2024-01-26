@@ -79,6 +79,8 @@ def to_polygon2d(polygon):
     except AttributeError:  # likely a poly curve that can be be a polyline
         polygon = polygon.ToPolyline(tolerance, angle_tolerance, 0, 1e6)
         pts = [to_point2d(polygon.Point(i)) for i in range(polygon.PointCount)]
+    if pts[0].is_equivalent(pts[-1], tolerance):  # duplicated last vertex
+        pts.pop(-1)
     assert polygon.IsClosed, \
         'Rhino PolyLineCurve must be closed to make a Ladybug Polygon2D.'
     return Polygon2D(pts)
