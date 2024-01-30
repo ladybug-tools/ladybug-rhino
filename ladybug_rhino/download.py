@@ -108,6 +108,12 @@ def extract_project_info(project_info_json):
     if 'location' not in project_info or project_info['location'] is None:
         epw_obj = EPW(epw_path)
         project_info['location'] = epw_obj.location.to_dict()
+    else:
+        loc_dict = project_info['location']
+        loc_props = (loc_dict['latitude'], loc_dict['longitude'], loc_dict['elevation'])
+        if all(prop == 0 for prop in loc_props):
+            epw_obj = EPW(epw_path)
+            project_info['location'] = epw_obj.location.to_dict()
 
     # add the climate zone to the project_info dictionary
     if 'ashrae_climate_zone' not in project_info or \
