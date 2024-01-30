@@ -1,9 +1,13 @@
 """Collection of methods for downloading files securely using .NET libraries."""
 import os
+import json
 
 try:
-    from ladybug.futil import preparedir
     from ladybug.config import folders
+    from ladybug.futil import preparedir, unzip_file
+    from ladybug.epw import EPW
+    from ladybug.stat import STAT
+    from ladybug.climatezone import ashrae_climate_zone
 except ImportError as e:
     raise ImportError("Failed to import ladybug.\n{}".format(e))
 
@@ -61,3 +65,65 @@ def download_file(url, file_path, mkdir=False):
     """
     folder, fname = os.path.split(file_path)
     return download_file_by_name(url, folder, fname, mkdir)
+
+
+def extract_project_info(project_info_json):
+    """Extract relevant project information from project info JSON containing URLs.
+
+    Args:
+        project_info_json: A JSON string of a ProjectInfo object, which
+            contains at least one Weather URL. If the ProjectInfo does not
+            contain information that resides in the weather file, this info
+            will be extracted and put into the returned object.
+
+    Returns:
+        A tuple with two values.
+
+        -   project_info_json: A JSON string of project information containing
+            information extracted from the EPW URL.
+
+        -   epw_path: The local file path to the downloaded EPW.
+    """
+    #convert the JSON into a dictionary and extract the EPW URL
+    project_info = json.loads(project_info_json)
+    if 'weather_urls' not in project_info or len(project_info['weather_urls']) == 0:
+        return project_info_json
+    weather_url = project_info['weather_urls'][0]
+
+    # download the EPW file to the user folder
+    _def_folder = folders.default_epw_folder
+    if weather_url.lower().endswith('.zip'):  # onebuilding URL type
+        _folder_name = weather_url.split('/')[-1][:-4]
+    else:  # dept of energy URL type
+        _folder_name = weather_url.split('/')[-2]
+    epw_path = os.path.join(_def_folder, _folder_name, _folder_name + '.epw')
+    if not os.path.isfile(epw_path):
+        zip_file_path = os.path.join(
+            _def_folder, _folder_name, _folder_name + '.zip')
+        download_file(weather_url, zip_file_path, True)
+        unzip_file(zip_file_path)
+
+    # add the location to the project_info dictionary
+    epw_obj = None
+    if 'location' not in project_info or project_info['location'] is None:
+        epw_obj = EPW(epw_path)
+        project_info['location'] = epw_obj.location.to_dict()
+
+    # add the climate zone to the project_info dictionary
+    if 'ashrae_climate_zone' not in project_info or \
+            project_info['ashrae_climate_zone'] is None:
+        zone_set = False
+        stat_path = os.path.join(_def_folder, _folder_name, _folder_name + '.stat')
+        if os.path.isfile(stat_path):
+            stat_obj = STAT(stat_path)
+            if stat_obj.ashrae_climate_zone is not None:
+                project_info['ashrae_climate_zone'] = stat_obj.ashrae_climate_zone
+                zone_set = True
+        if not zone_set:  # get it from the EPW data
+            epw_obj = EPW(epw_path) if epw_obj is None else epw_obj
+            project_info['ashrae_climate_zone'] = \
+                ashrae_climate_zone(epw_obj.dry_bulb_temperature)
+    
+    # convert the dictionary to a JSON
+    project_info_json = json.dumps(project_info)
+    return project_info_json, epw_path
