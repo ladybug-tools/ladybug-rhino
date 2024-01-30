@@ -3,6 +3,7 @@ import os
 
 try:
     from ladybug.futil import preparedir
+    from ladybug.config import folders
 except ImportError as e:
     raise ImportError("Failed to import ladybug.\n{}".format(e))
 
