@@ -250,6 +250,7 @@ def sync_component(component, syncing_component):
     if not os.path.isfile(fp):
         # check if it's a component with a name change
         alt_fp = fp.replace('Vizualize', 'Visualize')
+        alt_fp = fp.replace('Mofidier', 'Modifier')
         alt_fp = alt_fp.replace('gbXML', 'gbXML OSM IDF')
         if os.path.isfile(alt_fp):
             fp = alt_fp
