@@ -93,6 +93,14 @@ def is_pollination_licensed():
     return is_licensed
 
 
+def project_information():
+    """Check if the installation of Pollination has an active license."""
+    Core = import_pollination_core()
+    if not Core:
+        return None
+    return Core.ModelEntity.CurrentModel.ProjectInfo
+
+
 def bake_pollination_vis_set(vis_set, bake_3d_legend=False):
     """Bake a VisualizationSet using Pollination Rhino libraries for an editable legend.
     """
@@ -160,6 +168,22 @@ def recommended_processor_count():
     return 1 if cpu_count is None or cpu_count <= 1 else cpu_count - 1
 
 
+def _download_weather(weather_URL):
+    """Download a weather URL with a check if it's already in the default folder."""
+    _def_folder = folders.default_epw_folder
+    if weather_URL.lower().endswith('.zip'):  # onebuilding URL type
+        _folder_name = weather_URL.split('/')[-1][:-4]
+    else:  # dept of energy URL type
+        _folder_name = weather_URL.split('/')[-2]
+    epw_path = os.path.join(_def_folder, _folder_name, _folder_name + '.epw')
+    if not os.path.isfile(epw_path):
+        zip_file_path = os.path.join(
+            _def_folder, _folder_name, _folder_name + '.zip')
+        download_file(weather_URL, zip_file_path, True)
+        unzip_file(zip_file_path)
+    return epw_path
+
+
 def setup_epw_input():
     """Setup the request for an EPW input and check for any previously set EPW."""
     epw_input_request = Rhino.Input.Custom.GetString()
@@ -167,6 +191,12 @@ def setup_epw_input():
     epw_input_request.AcceptNothing(True)
     if 'lbt_epw' in sc.sticky:
         epw_input_request.SetDefaultString(sc.sticky['lbt_epw'])
+    else:  # check if the project information has an EPW associated with it
+        proj_info = project_information()
+        if proj_info is not None and proj_info.WeatherUrls is not None \
+                and len(proj_info.WeatherUrls) > 0:
+            epw_path = _download_weather(proj_info.WeatherUrls[0])
+            epw_input_request.SetDefaultString(os.path.basename(epw_path))
     return epw_input_request
 
 
@@ -188,6 +218,8 @@ def retrieve_epw_input(epw_input_request, command_options, option_values):
     # separate the list options from the others
     list_opt_indices = [i + 1 for i, opt in enumerate(command_options)
                         if isinstance(opt, (tuple, list))]
+    string_opt_indices = [i + 1 for i, opt in enumerate(command_options)
+                          if isinstance(opt, str)]
 
     # get the weather file and all options
     epw_path = None
@@ -197,13 +229,25 @@ def retrieve_epw_input(epw_input_request, command_options, option_values):
         if get_epw == Rhino.Input.GetResult.String:
             epw_path = epw_input_request.StringResult()
             for i, opt in enumerate(command_options):
-                if not isinstance(opt, (tuple, list)):
+                if not isinstance(opt, (tuple, list, str)):
                     option_values[i] = opt.CurrentValue
         elif get_epw == Rhino.Input.GetResult.Option:
             opt_ind = epw_input_request.OptionIndex()
             if opt_ind in list_opt_indices:
                 option_values[opt_ind - 1] = \
                     epw_input_request.Option().CurrentListOptionIndex
+            elif opt_ind in string_opt_indices:
+                get_str = Rhino.Input.Custom.GetString()
+                get_str.SetCommandPrompt(command_options[opt_ind - 1])
+                string_result = get_str.GetLiteralString()
+                if string_result == Rhino.Input.GetResult.String:
+                    input_val = get_str.StringResult()
+                    option_values[opt_ind - 1] = input_val
+                    msg = '{} will been set to {}.'.format(
+                        command_options[opt_ind - 1], input_val)
+                    print(msg)
+                elif get_epw == Rhino.Input.GetResult.Cancel:
+                    return None
             continue
         elif get_epw == Rhino.Input.GetResult.Cancel:
             return None
@@ -215,17 +259,7 @@ def retrieve_epw_input(epw_input_request, command_options, option_values):
         return None
     _def_folder = folders.default_epw_folder
     if epw_path.startswith('http'):  # download the EPW file
-        _weather_URL = epw_path
-        if _weather_URL.lower().endswith('.zip'):  # onebuilding URL type
-            _folder_name = _weather_URL.split('/')[-1][:-4]
-        else:  # dept of energy URL type
-            _folder_name = _weather_URL.split('/')[-2]
-        epw_path = os.path.join(_def_folder, _folder_name, _folder_name + '.epw')
-        if not os.path.isfile(epw_path):
-            zip_file_path = os.path.join(
-                _def_folder, _folder_name, _folder_name + '.zip')
-            download_file(_weather_URL, zip_file_path, True)
-            unzip_file(zip_file_path)
+        epw_path = _download_weather(epw_path)
         sc.sticky['lbt_epw'] = os.path.basename(epw_path)
     elif not os.path.isfile(epw_path):
         possible_file = os.path.basename(epw_path)[:-4] \
@@ -255,7 +289,14 @@ def add_north_option(input_request):
 
         -   north_value: The value of the north.
     """
-    north_value = sc.sticky['lbt_north'] if 'lbt_north' in sc.sticky else 0
+    if 'lbt_north' in sc.sticky:
+        north_value = sc.sticky['lbt_north']
+    else:
+        proj_info = project_information()
+        if proj_info is not None and proj_info.North is not None:
+            north_value = float(proj_info.North)
+        else:
+            north_value = 0
     north_option = Rhino.Input.Custom.OptionDouble(north_value, -360, 360)
     description = 'North - the counterclockwise difference between true North and the ' \
         'Y-axis in degrees (90:West, -90:East)'
@@ -318,6 +359,29 @@ def add_month_day_hour_options(
 
     return [month_option, day_option, start_hr_option, end_hr_option], \
         [month_i_, day_, st_hr_, end_hr_]
+
+
+def add_legend_min_max_options(input_request):
+    """Add legend min and max outputs to an input request.
+
+    Args:
+        input_request: A Rhino Command Input such as that obtained from the
+            setup_epw_input function or the Rhino.Input.Custom.GetString
+            constructor.
+
+    Returns:
+        A tuple with two values.
+
+        -   options: The two Option objects for the legend min and max inputs.
+
+        -   values: The two values of the min and max.
+    """
+    min_val, max_val = float('-inf'), float('+inf')
+    min_option = Rhino.Input.Custom.OptionDouble(min_val)
+    input_request.AddOptionDouble('MinLegend', min_option)
+    max_option = Rhino.Input.Custom.OptionDouble(max_val)
+    input_request.AddOptionDouble('MaxLegend', max_option)
+    return [min_option, max_option], [min_val, max_val]
 
 
 def retrieve_geometry_input(geo_input_request, command_options, option_values):
