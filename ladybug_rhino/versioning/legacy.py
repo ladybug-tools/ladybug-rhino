@@ -27,7 +27,7 @@ LADYBUG_MAP = {
     "Ladybug_Wind Boundary Profile": "LB Wind Profile",
     "Ladybug_Wind Speed Calculator": "LB Wind Speed",
     "Ladybug_Passive Strategy List": "LB Passive Strategies",
-    "Ladybug_SunriseSunset": None,  # SOON!
+    "Ladybug_SunriseSunset": "LB Day Solar Information",
     "Ladybug_CDD_HDD": "LB Degree Days",
     "Ladybug_Pedestrian Wind Comfort": None,
     "Ladybug_PMV Comfort Calculator": "LB PMV Comfort",
