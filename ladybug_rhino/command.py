@@ -24,6 +24,10 @@ try:
     from ladybug_geometry.geometry3d import Mesh3D
     from ladybug.futil import unzip_file
     from ladybug.config import folders
+    from ladybug.ddy import DDY
+    from ladybug.wea import Wea
+    from ladybug.epw import EPW
+    from ladybug.stat import STAT
     from ladybug_display.visualization import AnalysisGeometry
 except ImportError as e:
     raise ImportError('\nFailed to import ladybug:\n\t{}'.format(e))
@@ -101,52 +105,6 @@ def project_information():
     return Core.ModelEntity.CurrentModel.ProjectInfo
 
 
-def bake_pollination_vis_set(vis_set, bake_3d_legend=False):
-    """Bake a VisualizationSet using Pollination Rhino libraries for an editable legend.
-    """
-    Core = import_pollination_core()
-    LadybugDisplaySchema = import_ladybug_display_schema()
-    if not Core or not LadybugDisplaySchema:
-        return
-    for geo in vis_set.geometry:
-        if isinstance(geo, AnalysisGeometry):
-            if isinstance(geo.geometry[0], Mesh3D) and geo.matching_method == 'faces':
-                layer_name = vis_set.display_name if len(vis_set.geometry) == 1 else \
-                    '{}::{}'.format(vis_set.display_name, geo.display_name)
-                for i, data in enumerate(geo.data_sets):
-                    # translate Mesh3D into Rhino Mesh
-                    if len(geo.geometry)  == 1:
-                        mesh = from_mesh3d(geo.geometry[0])
-                    else:
-                        mesh = Rhino.Geometry.Mesh()
-                        for mesh_i in geo.geometry:
-                            mesh.Append(from_mesh3d(mesh_i))
-                    # translate visualization data into .NET VisualizationData
-                    data_json = json.dumps(data.to_dict())
-                    vis_data = LadybugDisplaySchema.VisualizationData.FromJson(data_json)
-                    a_mesh = Core.Objects.AnalysisMeshObject(mesh, vis_data)
-                    # add it to the Rhino document
-                    doc = Rhino.RhinoDoc.ActiveDoc
-                    sub_layer_name = layer_name \
-                        if len(geo.data_sets) == 1 or data.data_type is None else \
-                        '{}::{}'.format(layer_name, data.data_type.name)
-                    a_mesh.Id = doc.Objects.AddMesh(
-                        mesh, _get_attributes(sub_layer_name))
-                    current_model = Core.ModelEntity.CurrentModel
-                    def do_act():
-                        pass
-                    def undo_act():
-                        pass
-                    am_list = System.Array[Core.Objects.AnalysisMeshObject]([a_mesh])
-                    current_model.Add(doc, am_list, do_act, undo_act)
-            else:
-                bake_analysis(
-                    geo, vis_set.display_name, bake_3d_legend,
-                    vis_set.min_point, vis_set.max_point)
-        else:
-            bake_context(geo, vis_set.display_name)
-
-
 def local_processor_count():
     """Get an integer for the number of processors on this machine.
 
@@ -218,8 +176,6 @@ def retrieve_epw_input(epw_input_request, command_options, option_values):
     # separate the list options from the others
     list_opt_indices = [i + 1 for i, opt in enumerate(command_options)
                         if isinstance(opt, (tuple, list))]
-    string_opt_indices = [i + 1 for i, opt in enumerate(command_options)
-                          if isinstance(opt, str)]
 
     # get the weather file and all options
     epw_path = None
@@ -229,25 +185,13 @@ def retrieve_epw_input(epw_input_request, command_options, option_values):
         if get_epw == Rhino.Input.GetResult.String:
             epw_path = epw_input_request.StringResult()
             for i, opt in enumerate(command_options):
-                if not isinstance(opt, (tuple, list, str)):
+                if not isinstance(opt, (tuple, list)):
                     option_values[i] = opt.CurrentValue
         elif get_epw == Rhino.Input.GetResult.Option:
             opt_ind = epw_input_request.OptionIndex()
             if opt_ind in list_opt_indices:
                 option_values[opt_ind - 1] = \
                     epw_input_request.Option().CurrentListOptionIndex
-            elif opt_ind in string_opt_indices:
-                get_str = Rhino.Input.Custom.GetString()
-                get_str.SetCommandPrompt(command_options[opt_ind - 1])
-                string_result = get_str.GetLiteralString()
-                if string_result == Rhino.Input.GetResult.String:
-                    input_val = get_str.StringResult()
-                    option_values[opt_ind - 1] = input_val
-                    msg = '{} will been set to {}.'.format(
-                        command_options[opt_ind - 1], input_val)
-                    print(msg)
-                elif get_epw == Rhino.Input.GetResult.Cancel:
-                    return None
             continue
         elif get_epw == Rhino.Input.GetResult.Cancel:
             return None
@@ -272,6 +216,134 @@ def retrieve_epw_input(epw_input_request, command_options, option_values):
     else:
         sc.sticky['lbt_epw'] = epw_path
     return epw_path
+
+
+def setup_design_day_input():
+    """Setup the request for a DDY, STAT, or EPW to get a design day."""
+    url_input_request = Rhino.Input.Custom.GetString()
+    url_input_request.SetCommandPrompt(
+        'Select a weather URL or DDY/STAT/EPW file path '
+        'from which a design day will be derived.')
+    url_input_request.AcceptNothing(True)
+    if 'lbt_url' in sc.sticky:
+        url_input_request.SetDefaultString(sc.sticky['lbt_url'])
+    else:  # check if the project information has an EPW associated with it
+        proj_info = project_information()
+        if proj_info is not None and proj_info.WeatherUrls is not None \
+                and len(proj_info.WeatherUrls) > 0:
+            epw_path = _download_weather(proj_info.WeatherUrls[0])
+            url_input_request.SetDefaultString(
+                os.path.basename(epw_path).replace('.epw', ''))
+    return url_input_request
+
+
+def retrieve_cooling_design_day_input(url_input_request, command_options, option_values):
+    """Retrieve the best cooling design day from what is available from a URL.
+
+    Args:
+        url_input_request: The Rhino.Input.Custom.GetString object that was used
+            to setup the URL input request. This input can be the file path to
+            an DDY, STAT or EPW file in which case the design day is taken directly
+            from the file. When a URL is used, the STAT file will first be searched
+            as it typically contains values for the most accurate solar model.
+            If no values are found there, the design day will be pulled from the
+            DDY. If there is no clear best design day in the DDY, it will be
+            derived from the EPW data.
+        command_options: A list of Rhino.Input.Custom.Option objects for the
+            options that were included with the URL request. The values for these
+            options will be retrieved along with the design day.
+        option_values: A list of values for each option, which will be updated
+            based on the user input.
+
+    Returns:
+        A tuple with two values.
+
+        -   design_day: A ladybug DesignDay object for the best cooling design
+            day that was determined from the input.
+
+        -   wea: A Wea object with annual hourly data collection of clear sky
+            radiation that represents design days throughout the year.
+    """
+    # separate the list options from the others
+    list_opt_indices = [i + 1 for i, opt in enumerate(command_options)
+                        if isinstance(opt, (tuple, list))]
+
+    # get the weather file and all options
+    url_path = None
+    while True:
+        # This will prompt the user to input an EPW and visualization options
+        get_url = url_input_request.Get()
+        if get_url == Rhino.Input.GetResult.String:
+            url_path = url_input_request.StringResult()
+            for i, opt in enumerate(command_options):
+                if not isinstance(opt, (tuple, list)):
+                    option_values[i] = opt.CurrentValue
+        elif get_url == Rhino.Input.GetResult.Option:
+            opt_ind = url_input_request.OptionIndex()
+            if opt_ind in list_opt_indices:
+                option_values[opt_ind - 1] = \
+                    url_input_request.Option().CurrentListOptionIndex
+            continue
+        elif get_url == Rhino.Input.GetResult.Cancel:
+            return None, None
+        break
+
+    # process the file path or URL
+    if not url_path:
+        print('No URL or file was selected')
+        return None, None
+    epw_path, stat_path, ddy_path = None, None, None
+    _def_folder = folders.default_epw_folder
+    if url_path.startswith('http'):  # download the EPW file
+        epw_path = _download_weather(url_path)
+        stat_path = epw_path.replace('.epw', '.stat')
+        ddy_path = epw_path.replace('.epw', '.ddy')
+        sc.sticky['lbt_url'] = os.path.basename(epw_path.replace('.epw', ''))
+    elif not os.path.isfile(url_path):
+        epw_path = os.path.join(_def_folder, url_path, url_path + '.epw')
+        stat_path = epw_path.replace('.epw', '.stat')
+        ddy_path = epw_path.replace('.epw', '.ddy')
+        if not os.path.isfile(epw_path):
+            print('Selected EPW file at does not exist at: {}'.format(epw_path))
+            return
+        sc.sticky['lbt_url'] = url_path
+    elif url_path.endswith('.ddy'):
+        ddy_path = url_path
+    elif url_path.endswith('.epw'):
+        epw_path = url_path
+    elif url_path.endswith('.stat'):
+        stat_path = url_path
+    else:
+        return None, None
+
+    # process the possible files into the best design day
+    if stat_path is not None:
+        stat_obj = STAT(stat_path)
+        des_day = stat_obj.annual_cooling_design_day_004
+        try:  # first see if we can get the values from monthly optical depths
+            wea = Wea.from_stat_file(stat_path)
+        except Exception:  # no optical data was found; use the original clear sky
+            wea = Wea.from_ashrae_clear_sky(stat_obj.location)
+        return des_day, wea
+    if ddy_path is not None:
+        ddy_obj = DDY.from_ddy_file(ddy_path)
+        des_days = []
+        for dday in ddy_obj:
+            if '.4%' in dday.name:
+                des_days.append(dday)
+        if len(des_days) != 0:
+            des_days.sort(key=lambda x: x.dry_bulb_condition, reverse=True)
+            des_day = des_days[0]
+            wea = Wea.from_ashrae_clear_sky(ddy_obj.location)
+            return des_day, wea
+    if epw_path is not None:
+        epw_obj = EPW(epw_path)
+        des_day = stat_obj.annual_cooling_design_day_004
+        if des_day is None:
+            des_day = epw_obj.approximate_design_day()
+        wea = Wea.from_ashrae_clear_sky(epw_obj.location)
+        return des_day, wea
+    return None, None
 
 
 def add_north_option(input_request):
@@ -334,9 +406,9 @@ def add_month_day_hour_options(
         day_key = 'lbt_{}_day'.format(sticky_key)
         day_ = sc.sticky[day_key] if day_key in sc.sticky else default_inputs[1]
         sthr_key = 'lbt_{}_start_hour'.format(sticky_key)
-        st_hr_ =  sc.sticky[sthr_key] if sthr_key in sc.sticky else default_inputs[2]
+        st_hr_ = sc.sticky[sthr_key] if sthr_key in sc.sticky else default_inputs[2]
         endhr_key = 'lbt_{}_end_hour'.format(sticky_key)
-        end_hr_ =  sc.sticky[endhr_key] if endhr_key in sc.sticky else default_inputs[3]
+        end_hr_ = sc.sticky[endhr_key] if endhr_key in sc.sticky else default_inputs[3]
     else:
         month_i_, day_, st_hr_, end_hr_ = default_inputs
 
@@ -441,7 +513,7 @@ def retrieve_geometry_input(geo_input_request, command_options, option_values):
         # the command.
         for i in range(0, geo_input_request.ObjectCount):
             rhino_obj = geo_input_request.Object(i).Object()
-            if not rhino_obj is None:
+            if rhino_obj is not None:
                 rhino_obj.Select(False)
         sc.doc.Views.Redraw()
 
@@ -530,3 +602,51 @@ def add_to_document_request(geometry_name=None):
             continue
         break
     return bake_result
+
+
+def bake_pollination_vis_set(vis_set, bake_3d_legend=False):
+    """Bake a VisualizationSet using Pollination Rhino libraries for an editable legend.
+    """
+    Core = import_pollination_core()
+    LadybugDisplaySchema = import_ladybug_display_schema()
+    if not Core or not LadybugDisplaySchema:
+        return
+    for geo in vis_set.geometry:
+        if isinstance(geo, AnalysisGeometry):
+            if isinstance(geo.geometry[0], Mesh3D) and geo.matching_method == 'faces':
+                layer_name = vis_set.display_name if len(vis_set.geometry) == 1 else \
+                    '{}::{}'.format(vis_set.display_name, geo.display_name)
+                for i, data in enumerate(geo.data_sets):
+                    # translate Mesh3D into Rhino Mesh
+                    if len(geo.geometry) == 1:
+                        mesh = from_mesh3d(geo.geometry[0])
+                    else:
+                        mesh = Rhino.Geometry.Mesh()
+                        for mesh_i in geo.geometry:
+                            mesh.Append(from_mesh3d(mesh_i))
+                    # translate visualization data into .NET VisualizationData
+                    data_json = json.dumps(data.to_dict())
+                    vis_data = LadybugDisplaySchema.VisualizationData.FromJson(data_json)
+                    a_mesh = Core.Objects.AnalysisMeshObject(mesh, vis_data)
+                    # add it to the Rhino document
+                    doc = Rhino.RhinoDoc.ActiveDoc
+                    sub_layer_name = layer_name \
+                        if len(geo.data_sets) == 1 or data.data_type is None else \
+                        '{}::{}'.format(layer_name, data.data_type.name)
+                    a_mesh.Id = doc.Objects.AddMesh(
+                        mesh, _get_attributes(sub_layer_name))
+                    current_model = Core.ModelEntity.CurrentModel
+
+                    def do_act():
+                        pass
+
+                    def undo_act():
+                        pass
+                    am_list = System.Array[Core.Objects.AnalysisMeshObject]([a_mesh])
+                    current_model.Add(doc, am_list, do_act, undo_act)
+            else:
+                bake_analysis(
+                    geo, vis_set.display_name, bake_3d_legend,
+                    vis_set.min_point, vis_set.max_point)
+        else:
+            bake_context(geo, vis_set.display_name)
