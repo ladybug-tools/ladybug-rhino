@@ -605,6 +605,13 @@ class VisualizationSetConverter(object):
                 self.draw_patterned_polyline.append(
                     (verts, col, self.LINE_TYPE[dis_obj.line_type], lw, False))
 
+        elif isinstance(geo_obj, (Ray2D, Ray3D)):
+            # translate display rays
+            rh_ray = from_ray3d(geo_obj) if isinstance(geo_obj, Ray3D) \
+                else from_ray2d(geo_obj)
+            rh_obj = rg.Line(rh_ray.Position, rh_ray.Direction)
+            self.draw_arrow.append((rh_obj, col))
+
         elif isinstance(geo_obj, (Face3D, Polyface3D)):
             # translate display Face3D and Polyface3D
             if dis_obj.display_mode in ('Surface', 'SurfaceWithEdges'):
