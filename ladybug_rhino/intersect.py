@@ -31,6 +31,8 @@ def join_geometry_to_mesh(geometry):
     Args:
         geometry: An array of Rhino Breps or Rhino Meshes.
     """
+    if len(geometry) == 1 and isinstance(geometry[0], rg.Mesh):
+        return geometry[0]
     joined_mesh = rg.Mesh()
     for geo in geometry:
         if isinstance(geo, rg.Brep):
@@ -367,6 +369,37 @@ def intersect_rays_with_mesh_faces(
                 range(len(ray_groups)), intersect_each_ray_group)
 
     return face_int
+
+
+def intersect_mesh_rays_distance(mesh, point, vectors, max_dist=None):
+    """Intersect a group of rays with a mesh to get the distance until intersection.
+
+    Args:
+        mesh: A Rhino mesh that can block the rays.
+        points: A Rhino point that will be used to generate rays.
+        vectors: An array of Rhino vectors that will be used to generate rays.
+        max_dist: An optional number to set the maximum distance beyond which context
+            blocking the view is no longer considered relevant. If None,
+            geometries at all distances will be evaluated for whether they
+            block the view and the results may contain negative numbers
+            indicating that the view from that ray is never blocked
+
+    Returns:
+        A list of values for the distance at which intersection occurs.
+    """
+    distances = []
+    if max_dist is None:
+        for vec in vectors:
+            ray = rg.Ray3d(point, vec)
+            dist = rg.Intersect.Intersection.MeshRay(mesh, ray)
+            distances.append(dist)
+    else:
+        for vec in vectors:
+            ray = rg.Ray3d(point, vec)
+            dist = rg.Intersect.Intersection.MeshRay(mesh, ray)
+            dist = max_dist if dist < 0 or dist > max_dist else dist
+            distances.append(dist)
+    return distances
 
 
 def generate_intersection_rays(points, vectors):

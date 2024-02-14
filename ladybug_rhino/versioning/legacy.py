@@ -139,7 +139,7 @@ LADYBUG_MAP = {
     "Ladybug_download EPW Weather File": "LB EPWmap",
     "Ladybug_Day_Month_Hour": "LB HOY to DateTime",
     "Ladybug_CDH_HDH": "LB Degree Days",
-    "Ladybug_Colored Sky Visualizer": None,
+    "Ladybug_Colored Sky Visualizer": None,  # SOON!
     "Ladybug_BTU2Wh": "LB To SI",
     "Ladybug_Sky Dome": "LB Sky Dome",
     "Ladybug_Ankle Draft Discomfort": None,  # SOON!
