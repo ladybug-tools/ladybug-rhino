@@ -39,22 +39,28 @@ from .bakegeometry import _get_attributes
 from .bakeobjects import bake_analysis, bake_context
 
 
+def _pollination_rhino_dll_dir():
+    """Get the directory in which the DLLs are installed."""
+    install_dir = os.path.dirname(folders.ladybug_tools_folder)
+    rh_ver = str(rhino_version[0]) + '.0'
+    dll_dir = os.path.join(install_dir, 'pollination', 'plugin', rh_ver, 'Pollination')
+    if not os.path.isdir:
+        msg = 'No Pollination installation could be found for Rhino {}.'.format(rh_ver)
+        print(msg)
+        return None
+    return dll_dir
+
+
 def import_pollination_core():
     """Import Pollination.Core from the dll or give a message if it is not found."""
     try:
         import Core
     except ImportError:  # the dll has not yet been added
         # add the Pollination.Core DLL to the Common Language Runtime (CLR)
-        install_dir = os.path.dirname(folders.ladybug_tools_folder)
-        rh_ver_str = str(rhino_version[0]) + '.0'
-        dll_dir = os.path.join(
-            install_dir, 'pollination', 'plugin', rh_ver_str, 'Pollination')
-        pol_dll = os.path.join(dll_dir, 'Pollination.Core.dll')
-        if not os.path.isfile:
-            msg = 'No Pollination installation could be found ' \
-                'for Rhino {}.'.format(rh_ver_str)
-            print(msg)
+        dll_dir = _pollination_rhino_dll_dir()
+        if dll_dir is None:
             return None
+        pol_dll = os.path.join(dll_dir, 'Pollination.Core.dll')
         clr.AddReferenceToFileAndPath(pol_dll)
         if pol_dll not in sys.path:
             sys.path.append(pol_dll)
@@ -68,21 +74,32 @@ def import_ladybug_display_schema():
         import LadybugDisplaySchema
     except ImportError:  # the dll has not yet been added
         # add the LadybugDisplaySchema DLL to the Common Language Runtime (CLR)
-        install_dir = os.path.dirname(folders.ladybug_tools_folder)
-        rh_ver_str = str(rhino_version[0]) + '.0'
-        dll_dir = os.path.join(
-            install_dir, 'pollination', 'plugin', rh_ver_str, 'Pollination')
-        pol_dll = os.path.join(dll_dir, 'LadybugDisplaySchema.dll')
-        if not os.path.isfile:
-            msg = 'No Pollination installation could be found ' \
-                'for Rhino {}.'.format(rh_ver_str)
-            print(msg)
+        dll_dir = _pollination_rhino_dll_dir()
+        if dll_dir is None:
             return None
+        pol_dll = os.path.join(dll_dir, 'LadybugDisplaySchema.dll')
         clr.AddReferenceToFileAndPath(pol_dll)
         if pol_dll not in sys.path:
             sys.path.append(pol_dll)
         import LadybugDisplaySchema
     return LadybugDisplaySchema
+
+
+def import_honeybee_ui():
+    """Import Honeybee.UI.Rhino from the dll or give a message if it is not found."""
+    try:
+        import Honeybee
+    except ImportError:  # the dll has not yet been added
+        # add the Honeybee.UI.Rhino DLL to the Common Language Runtime (CLR)
+        dll_dir = _pollination_rhino_dll_dir()
+        if dll_dir is None:
+            return None
+        pol_dll = os.path.join(dll_dir, 'Honeybee.UI.Rhino.dll')
+        clr.AddReferenceToFileAndPath(pol_dll)
+        if pol_dll not in sys.path:
+            sys.path.append(pol_dll)
+        import Honeybee
+    return Honeybee
 
 
 def is_pollination_licensed():
@@ -103,6 +120,36 @@ def project_information():
     if not Core:
         return None
     return Core.ModelEntity.CurrentModel.ProjectInfo
+
+
+def current_units(lbt_data_type):
+    """Get the currently-assigned units for a given data type."""
+    Honeybee = import_honeybee_ui()
+    from Honeybee.UI import Units
+    unit_map = {
+        'm': Units.UnitType.Length,
+        'm2': Units.UnitType.Area,
+        'm3': Units.UnitType.Volume,
+        'C': Units.UnitType.Temperature,
+        'dC': Units.UnitType.TemperatureDelta,
+        'W': Units.UnitType.Power,
+        'kWh': Units.UnitType.Energy,
+        'W/m2': Units.UnitType.PowerDensity,
+        'm3/s': Units.UnitType.AirFlowRate,
+        'm3/s-m2': Units.UnitType.AirFlowRateArea,
+        'm/s': Units.UnitType.Speed,
+        'lux': Units.UnitType.Illuminance,
+        'Pa': Units.UnitType.Pressure
+    }
+    try:
+        dot_net_units = unit_map[lbt_data_type.units[0]]
+    except KeyError:  # the data type does not exist in .NET
+        return lbt_data_type.units[0]
+    current_settings = Units.CustomUnitSettings
+    unit = Units.ToUnitsNetEnum(current_settings[dot_net_units])
+    unit_str = Units.GetAbbreviation(unit)
+    unit_str = _convert_unit_abbrev(unit_str)
+    return unit_str if unit_str in lbt_data_type.units else lbt_data_type.units[0]
 
 
 def local_processor_count():
@@ -650,3 +697,28 @@ def bake_pollination_vis_set(vis_set, bake_3d_legend=False):
                     vis_set.min_point, vis_set.max_point)
         else:
             bake_context(geo, vis_set.display_name)
+
+
+def _convert_unit_abbrev(unit_str):
+    """Replace all superscripts and other crud used in the .NET unit abbreviations."""
+    clean_chars = []
+    for c in unit_str:
+        c_ord = ord(c)
+        if c_ord < 128:  # ASCII character
+            clean_chars.append(c)
+        elif c_ord == 178:  # superscript 2
+            clean_chars.append('2')
+        elif c_ord == 179:  # superscript 3
+            clean_chars.append('3')
+        elif c_ord == 183:  # multiplication dot
+            clean_chars.append('-')
+        elif c_ord == 176:  # unnecessary degree symbol
+            pass
+        elif c_ord == 8710:  # delta symbol
+            clean_chars.append('d')
+        else:
+            print('Character "{}" with ordinal {} was not decoded.'.format(c, c_ord))
+    unit_str = ''.join(clean_chars)
+    if unit_str == 'lx':
+        return 'lux'
+    return unit_str.replace(' ', '').replace('BTU', 'Btu')
