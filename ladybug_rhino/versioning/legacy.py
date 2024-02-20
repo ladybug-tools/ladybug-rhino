@@ -7,6 +7,8 @@ except ImportError:
     raise ImportError("Failed to import System.")
 
 try:
+    import Rhino
+    import Grasshopper
     import Grasshopper.Kernel as gh
 except ImportError:
     raise ImportError("Failed to import Grasshopper.")
@@ -62,7 +64,7 @@ LADYBUG_MAP = {
     "Ladybug_F2C": ["LB To SI", "The 'LB To SI' component converts units of data collections.\nTo convert individual values, use the 'LB Unit Converter'."],
     "Ladybug_Analysis Period": ["LB Analysis Period", None],
     "Ladybug_Average Data": ["LB Time Interval Operation", None],
-    "Ladybug_Branch Data": ["Partition List", "Native GH 'Partition List' w/ Size of 24 is best for days.\nSee ladybug-core SDK for data collection group_by_month()."],
+    "Ladybug_Branch Data": ["PartitionList", "Native GH 'Partition List' w/ Size of 24 is best for days.\nSee ladybug-core SDK for data collection group_by_month()."],
     "Ladybug_Surface Hourly Solar": ["LB Directional Solar Irradiance", None],
     "Ladybug_Capture View": ["LB Capture View", None],
     "Ladybug_Set Rhino Sun": ["LB Set Rhino Sun", None],
@@ -376,7 +378,7 @@ HONEYBEE_MAP = {
     "Honeybee_Assign HVAC System": ["HB All-Air HVAC", "Note that the LBT plugin has 3 separate components\nfor applying HVAC system templates: All-Air, DOAS, and HeatCool."],
     "Honeybee_Convert HDR to GIF": ["HB HDR to GIF", None],
     "Honeybee_Glazing Parameters List": ["HB Facade Parameters", None],
-    "Honeybee_Import Pts File": ["Read File", "The native Grasshopper 'Read File' component can read pts files,\nwhich are easily processed with native GH text components."],  # SOON!
+    "Honeybee_Import Pts File": ["ReadFile", "The native Grasshopper 'Read File' component can read pts files,\nwhich are easily processed with native GH text components."],  # SOON!
     "Honeybee_Create EP Ground": ["HB Ground", None],
     "Honeybee_Read EP Custom Result": ["HB Read Custom Result", None],
     "Honeybee_Convert EnergyPlus Schedule to Values": ["HB Schedule to Data", None],
@@ -404,10 +406,29 @@ def insert_new_user_object(user_object, component, doc):
     # use component to find the location
     x = component.Attributes.Pivot.X + 30
     y = component.Attributes.Pivot.Y - 20
-
-    # insert the new one
     user_object.Attributes.Pivot = System.Drawing.PointF(x, y)
+    # insert the new one
     doc.AddObject(user_object, False, 0)
+
+
+def insert_new_native_gh_component(new_comp_id, component, doc):
+    """Insert a new native Grasshopper component in the Grasshopper doc.
+
+    Args:
+        new_comp_id: The GUID of the native grasshopper component to be inserted.
+        component: The outdated component where the userobject will be inserted
+            next to.
+        doc: The Grasshopper document object.
+    """
+    # create the new component instance
+    comp_instance = Grasshopper.Instances.ComponentServer.EmitObject(new_comp_id)
+    comp_instance.CreateAttributes()
+    # use component to find the location
+    x = component.Attributes.Pivot.X + 30
+    y = component.Attributes.Pivot.Y - 20
+    comp_instance.Attributes.Pivot = System.Drawing.PointF(x, y)
+    # insert the new one
+    doc.AddObject(comp_instance, False)
 
 
 def mark_component(doc, component, note=None):
@@ -484,13 +505,22 @@ def suggest_new_component(component, updating_component):
         for lbt_uo_f in LBT_UO_FOLDERS:
             fp = os.path.join(UO_FOLDER, lbt_uo_f, 'user_objects', ghuser_file)
             if os.path.isfile(fp):
+                uo = gh.GH_UserObject(fp).InstantiateObject()
+                insert_new_user_object(uo, component, doc)
                 break
         else:  # no installed LBT component was found
-            warning = 'Failed to find the installed userobject for "{}", which ' \
-                'is the suggested update for "{}".'.format(new_comp_name, comp_name_str)
-            give_warning(updating_component, warning)
-            return warning
-        uo = gh.GH_UserObject(fp).InstantiateObject()
-        insert_new_user_object(uo, component, doc)
+            # check to see if there's a native GH component
+            new_component = Rhino.NodeInCode.Components.FindComponent(new_comp_name)
+            if new_component is not None:
+                new_comp_id = new_component.ComponentGuid
+                insert_new_native_gh_component(new_comp_id, component, doc)
+            elif new_comp_name == 'File Path':
+                new_comp_id = System.Guid('06953bda-1d37-4d58-9b38-4b3c74e54c8f')
+                insert_new_native_gh_component(new_comp_id, component, doc)
+            else:  # no replacement component was found; give a warning
+                warning = 'Failed to find the installed component for "{}", which ' \
+                    'is the suggested update for "{}".'.format(new_comp_name, comp_name_str)
+                give_warning(updating_component, warning)
+                return warning
 
     return 'Successfully suggested update for %s.' % component.Name
