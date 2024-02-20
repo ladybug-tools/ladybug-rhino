@@ -35,15 +35,21 @@ def join_geometry_to_mesh(geometry):
         return geometry[0]
     joined_mesh = rg.Mesh()
     for geo in geometry:
-        if isinstance(geo, rg.Brep):
+        if isinstance(geo, rg.Mesh):
+            joined_mesh.Append(geo)
+        elif isinstance(geo, rg.Brep):
             meshes = rg.Mesh.CreateFromBrep(geo, rg.MeshingParameters.Default)
             for mesh in meshes:
                 joined_mesh.Append(mesh)
-        elif isinstance(geo, rg.Mesh):
-            joined_mesh.Append(geo)
-        else:
-            raise TypeError('Geometry must be either a Brep or a Mesh. '
-                            'Not {}.'.format(type(geo)))
+        else:  # it's likely an extrusion object
+            try:
+                geo = geo.ToBrep()  # extrusion objects must be cast to Brep in Rhino 8
+                meshes = rg.Mesh.CreateFromBrep(geo, rg.MeshingParameters.Default)
+                for mesh in meshes:
+                    joined_mesh.Append(mesh)
+            except:
+                raise TypeError('Geometry must be either a Brep or a Mesh. '
+                                'Not {}.'.format(type(geo)))
     return joined_mesh
 
 
