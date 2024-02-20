@@ -230,7 +230,7 @@ def sync_component(component, syncing_component):
     dropping the new user object next to the component.
 
     Args:
-        component: A Grasshopper component object on the canvas to be circled.
+        component: A Grasshopper component object on the canvas to be synced.
         syncing_component: An object for the component that is doing the syncing.
             This will be used to give warnings and access the Grasshopper doc.
             Typically, this can be accessed through the ghenv.Component call.
@@ -251,6 +251,7 @@ def sync_component(component, syncing_component):
         # check if it's a component with a name change
         alt_fp = fp.replace('Vizualize', 'Visualize')
         alt_fp = fp.replace('Mofidier', 'Modifier')
+        alt_fp = fp.replace('Abolute', 'Absolute')
         alt_fp = alt_fp.replace('gbXML', 'gbXML OSM IDF')
         if os.path.isfile(alt_fp):
             fp = alt_fp
