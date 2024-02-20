@@ -133,8 +133,9 @@ def current_units(lbt_data_type):
         'C': Units.UnitType.Temperature,
         'dC': Units.UnitType.TemperatureDelta,
         'W': Units.UnitType.Power,
-        'kWh': Units.UnitType.Energy,
         'W/m2': Units.UnitType.PowerDensity,
+        'kWh': Units.UnitType.Energy,
+        'kWh/m2': Units.UnitType.EnergyIntensity,
         'm3/s': Units.UnitType.AirFlowRate,
         'm3/s-m2': Units.UnitType.AirFlowRateArea,
         'm/s': Units.UnitType.Speed,
@@ -660,10 +661,11 @@ def bake_pollination_vis_set(vis_set, bake_3d_legend=False):
         return
     for geo in vis_set.geometry:
         if isinstance(geo, AnalysisGeometry):
-            if isinstance(geo.geometry[0], Mesh3D) and geo.matching_method == 'faces':
+            amsh_typs = ('faces', 'vertices')
+            if isinstance(geo.geometry[0], Mesh3D) and geo.matching_method in amsh_typs:
                 layer_name = vis_set.display_name if len(vis_set.geometry) == 1 else \
                     '{}::{}'.format(vis_set.display_name, geo.display_name)
-                for i, data in enumerate(geo.data_sets):
+                for data in geo.data_sets:
                     # translate Mesh3D into Rhino Mesh
                     if len(geo.geometry) == 1:
                         mesh = from_mesh3d(geo.geometry[0])
