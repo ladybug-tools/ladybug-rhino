@@ -630,9 +630,9 @@ def add_to_document_request(geometry_name=None):
         or not (False).
     """
     gres = Rhino.Input.Custom.GetString()
-    geo_name = geometry_name + ' ' if geometry_name is not None else ''
-    msg = 'Would you like to add the {}geometry to the document? ' \
-        'Hit ENTER when done.'.format(geo_name)
+    study_name = geometry_name if geometry_name is not None else 'Study'
+    msg = '{} complete! Hit ENTER when done. Add the ' \
+        'geometry to the document?'.format(study_name)
     gres.SetCommandPrompt(msg)
     gres.SetDefaultString('Add?')
     bake_result = False
