@@ -55,8 +55,11 @@ def to_ray2d(ray):
 
 def to_linesegment2d(line):
     """Ladybug LineSegment2D from Rhino LineCurve."""
-    return LineSegment2D.from_end_points(
-        to_point2d(line.PointAtStart), to_point2d(line.PointAtEnd))
+    try:  # assume the likely scenario it is a LineCurve
+        return LineSegment2D.from_end_points(
+            to_point2d(line.PointAtStart), to_point2d(line.PointAtEnd))
+    except AttributeError:  # likely the Line struct and not a LineCurve
+        return LineSegment2D.from_end_points(to_point2d(line.To), to_point2d(line.From))
 
 
 def to_polyline2d(polyline):
@@ -64,21 +67,57 @@ def to_polyline2d(polyline):
 
     A LineSegment2D will be returned if the input polyline has only two points.
     """
-    try:
+    if isinstance(polyline, rg.PolylineCurve):
         pts = [to_point2d(polyline.Point(i)) for i in range(polyline.PointCount)]
-    except AttributeError:  # likely a poly curve that can be be a polyline
-        polyline = polyline.ToPolyline(tolerance, angle_tolerance, 0, 1e6)
-        pts = [to_point2d(polyline.Point(i)) for i in range(polyline.PointCount)]
+    elif isinstance(polyline, rg.Polyline):
+        pts = [to_point2d(polyline.Item[i]) for i in range(polyline.Count)]
+    elif isinstance(polyline, rg.PolyCurve): # convert poly curve to a polyline
+        if polyline.IsPolyline():
+            segs = polyline.Explode()
+            pts = []
+            for seg in segs:
+                if isinstance(seg, rg.LineCurve):
+                    pts.append(to_point2d(seg.PointAtStart))
+                elif isinstance(seg, rg.PolylineCurve):
+                    for i in range(seg.PointCount - 1):
+                        pts.append(to_point2d(seg.Point(i)))
+            pts.append(to_point2d(segs[-1].PointAtEnd))
+        else:
+            polyline = polyline.ToPolyline(tolerance, angle_tolerance, 0, 1e12)
+            pts = [to_point2d(polyline.Point(i)) for i in range(polyline.PointCount)]
+    elif isinstance(polyline, rg.LineCurve):  # extract end points
+        pts = [to_point2d(polyline.PointAtStart), to_point2d(polyline.PointAtEnd)]
+    elif isinstance(polyline, rg.Line):  # extract end points
+        pts = [to_point2d(polyline.To), to_point2d(polyline.From)]
+    else:
+        msg = 'Object type {} cannot be translated to Polyline2D.'.format(type(polyline))
+        raise AttributeError(msg)
     return Polyline2D(pts) if len(pts) != 2 else LineSegment2D.from_end_points(*pts)
 
 
 def to_polygon2d(polygon):
     """Ladybug Polygon2D from Rhino closed PolyLineCurve."""
-    try:
+    if isinstance(polygon, rg.PolylineCurve):
         pts = [to_point2d(polygon.Point(i)) for i in range(polygon.PointCount)]
-    except AttributeError:  # likely a poly curve that can be be a polyline
-        polygon = polygon.ToPolyline(tolerance, angle_tolerance, 0, 1e6)
-        pts = [to_point2d(polygon.Point(i)) for i in range(polygon.PointCount)]
+    elif isinstance(polygon, rg.Polyline):
+        pts = [to_point2d(polygon.Item[i]) for i in range(polygon.Count)]
+    elif isinstance(polygon, rg.PolyCurve): # convert poly curve to a polyline
+        if polygon.IsPolyline():
+            segs = polygon.Explode()
+            pts = []
+            for seg in segs:
+                if isinstance(seg, rg.LineCurve):
+                    pts.append(to_point2d(seg.PointAtStart))
+                elif isinstance(seg, rg.PolylineCurve):
+                    for i in range(seg.PointCount - 1):
+                        pts.append(to_point2d(seg.Point(i)))
+            pts.append(to_point2d(segs[-1].PointAtEnd))
+        else:
+            polygon = polygon.ToPolyline(tolerance, angle_tolerance, 0, 1e12)
+            pts = [to_point2d(polygon.Point(i)) for i in range(polygon.PointCount)]
+    else:
+        msg = 'Object type {} cannot be translated to Polygon2D.'.format(type(polygon))
+        raise AttributeError(msg)
     if pts[0].is_equivalent(pts[-1], tolerance):  # duplicated last vertex
         pts.pop(-1)
     assert polygon.IsClosed, \
@@ -113,8 +152,11 @@ def to_ray3d(ray):
 
 def to_linesegment3d(line):
     """Ladybug LineSegment3D from Rhino LineCurve."""
-    return LineSegment3D.from_end_points(
-        to_point3d(line.PointAtStart), to_point3d(line.PointAtEnd))
+    try:  # assume the likely scenario it is a LineCurve
+        return LineSegment3D.from_end_points(
+            to_point3d(line.PointAtStart), to_point3d(line.PointAtEnd))
+    except AttributeError:  # likely the Line struct and not a LineCurve
+        return LineSegment3D.from_end_points(to_point3d(line.To), to_point3d(line.From))
 
 
 def to_polyline3d(polyline):
@@ -122,7 +164,31 @@ def to_polyline3d(polyline):
 
     A LineSegment3D will be returned if the input polyline has only two points.
     """
-    pts = [to_point3d(polyline.Point(i)) for i in range(polyline.PointCount)]
+    if isinstance(polyline, rg.PolylineCurve):
+        pts = [to_point3d(polyline.Point(i)) for i in range(polyline.PointCount)]
+    elif isinstance(polyline, rg.Polyline):
+        pts = [to_point3d(polyline.Item[i]) for i in range(polyline.Count)]
+    elif isinstance(polyline, rg.PolyCurve): # convert poly curve to a polyline
+        if polyline.IsPolyline():
+            segs = polyline.Explode()
+            pts = []
+            for seg in segs:
+                if isinstance(seg, rg.LineCurve):
+                    pts.append(to_point3d(seg.PointAtStart))
+                elif isinstance(seg, rg.PolylineCurve):
+                    for i in range(seg.PointCount - 1):
+                        pts.append(to_point3d(seg.Point(i)))
+            pts.append(to_point3d(segs[-1].PointAtEnd))
+        else:
+            polyline = polyline.ToPolyline(tolerance, angle_tolerance, 0, 1e12)
+            pts = [to_point3d(polyline.Point(i)) for i in range(polyline.PointCount)]
+    elif isinstance(polyline, rg.LineCurve):  # extract end points
+        pts = [to_point3d(polyline.PointAtStart), to_point3d(polyline.PointAtEnd)]
+    elif isinstance(polyline, rg.Line):  # extract end points
+        pts = [to_point3d(polyline.To), to_point3d(polyline.From)]
+    else:
+        msg = 'Object type {} cannot be translated to Polyline3D.'.format(type(polyline))
+        raise AttributeError(msg)
     return Polyline3D(pts) if len(pts) != 2 else LineSegment3D.from_end_points(*pts)
 
 
