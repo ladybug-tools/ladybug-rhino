@@ -147,9 +147,10 @@ class TextGoo(gh.Kernel.Types.GH_GeometricGoo[rh.Display.Text3d],
             new_plane = rh.Geometry.Plane(self.m_value.TextPlane)
             new_plane.Translate(m_vec)
             self.m_value.TextPlane = new_plane
-        self.m_value.Height = self.m_value.Height * (2 / 3)
+        self.m_value.Height = self.m_value.Height
+        doc.ModelSpaceAnnotationScalingEnabled = False  # disable model scale
         id = doc.Objects.AddText(self.m_value, att)
-        self.m_value.Height = self.m_value.Height * (3 / 2)
+        self.m_value.Height = self.m_value.Height
         if original_plane is not None:
             self.m_value.TextPlane = original_plane
         return True, id

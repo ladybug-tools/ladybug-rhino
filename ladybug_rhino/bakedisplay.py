@@ -205,6 +205,7 @@ def bake_display_text3d(display_text, layer_name=None, attributes=None):
             text. If None, text will be added to the current layer.
         attributes: Optional Rhino attributes for adding to the Rhino scene.
     """
+    # extract properties from the text
     doc = rhdoc.ActiveDoc
     d_txt = display_text.text
     nl_count = len(d_txt.split('\n')) - 1
@@ -213,14 +214,18 @@ def bake_display_text3d(display_text, layer_name=None, attributes=None):
         t_pln = display_text.plane.move(m_vec)
     else:
         t_pln = display_text.plane
-    txt_h = display_text.height * 0.666
+    txt_h = display_text.height
+    # create the Rhino Display Text object
     txt = rd.Text3d(d_txt, from_plane(t_pln), txt_h)
     txt.FontFace = display_text.font
     txt.HorizontalAlignment = TEXT_HORIZ[display_text.horizontal_alignment]
     txt.VerticalAlignment = TEXT_VERT[display_text.vertical_alignment]
     attrib = _get_attributes(layer_name, attributes)
     attrib.ObjectColor = color_to_color(display_text.color)
-    return doc.Objects.AddText(txt, attrib)
+    # add the text to the document and return the GUID
+    doc.ModelSpaceAnnotationScalingEnabled = False  # disable model scale
+    txt_guid = doc.Objects.AddText(txt, attrib)
+    return txt_guid
 
 
 """________________EXTRA HELPER FUNCTIONS________________"""
