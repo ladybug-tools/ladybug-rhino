@@ -320,6 +320,28 @@ def document_counter(counter_name):
     return scriptcontext.sticky[counter_name]
 
 
+def set_sticky_variable(variable_name, value):
+    """Set a variable in sticky memory.
+
+    Args:
+        variable_name: The name of the variable to set.
+        value: The value to set.
+    """
+    scriptcontext.sticky[variable_name] = value
+
+
+def get_sticky_variable(variable_name):
+    """Get a variable from sticky memory. Will be None if the variable is not set.
+
+    Args:
+        variable_name: The name of the variable to get.
+    """
+    try:
+        return scriptcontext.sticky[variable_name]
+    except KeyError:  # first time that the counter is called
+        return None
+
+
 def longest_list(values, index):
     """Get a value from a list while applying Grasshopper's longest-list logic.
 
