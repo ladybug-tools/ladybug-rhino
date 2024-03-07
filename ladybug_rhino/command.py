@@ -139,7 +139,10 @@ def current_units(lbt_data_type):
         'm3/s': Units.UnitType.AirFlowRate,
         'm3/s-m2': Units.UnitType.AirFlowRateArea,
         'm/s': Units.UnitType.Speed,
+        'kg': Units.UnitType.Mass,
+        'kg/s': Units.UnitType.MassFlow,
         'lux': Units.UnitType.Illuminance,
+        'cd/m2': Units.UnitType.Luminance,
         'Pa': Units.UnitType.Pressure
     }
     try:
@@ -177,7 +180,7 @@ def recommended_processor_count():
 def _download_weather(weather_URL):
     """Download a weather URL with a check if it's already in the default folder."""
     _def_folder = folders.default_epw_folder
-    if weather_URL.lower().endswith('.zip'):  # onebuilding URL type
+    if weather_URL.lower().endswith('.zip'):  # one building URL type
         _folder_name = weather_URL.split('/')[-1][:-4]
     else:  # dept of energy URL type
         _folder_name = weather_URL.split('/')[-2]
