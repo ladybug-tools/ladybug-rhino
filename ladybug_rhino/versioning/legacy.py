@@ -126,7 +126,7 @@ LADYBUG_MAP = {
     "Ladybug_Sunpath Shading": ["HB Generation Loads", "Detailed shading calculations now happen with EnergyPlus\nin the 'HB Generation Loads' component."],
     "Ladybug_SolarEnvelope": ["LB Solar Envelope", None],
     "Ladybug_Clothing List": ["Clothing List", None],
-    "Ladybug_True North": [None, "Coming Soon!"],  # SOON!
+    "Ladybug_True North": ["LB Magnetic to True North", None],
     "Ladybug_Search": [None, "Consult the search-able online docs of the components for similar functionality.\nhttps://discourse.ladybug.tools/pub/lbt-grasshopper-doc"],
     "Ladybug_Update Ladybug": ["LB Versioner", None],
     "Ladybug_Solar Water Heating Performance Metrics": [None, "Coming Soon to HB-Energy!"],  # SOON!
@@ -138,7 +138,7 @@ LADYBUG_MAP = {
     "Ladybug_North": ["LB Compass", None],
     "Ladybug_Forward Raytracing": ["LB Surface Ray Tracing", None],
     "Ladybug_Commercial Public Apartment Hot Water": ["HB Service Hot Water", "See also HB-Energy Program Types for a variety of\nservice hot water demand profiles."],
-    "Ladybug_Set the View": [None, "Coming Soon!"],  # SOON!
+    "Ladybug_Set the View": ["LB Set View", None],
     "Ladybug_DC to AC derate factor": ["HB Electric Load Center", "The 'Electric Load Center' component uses the PVWatts inverter\nperformance curve implemented in E+ to convert DC to AC."],
     "Ladybug_Thermal Comfort Indices": ["LB PET Comfort", "For thermal comfort indices other than PET,\nsee the 'LB Thermal Indices' component."],
     "Ladybug_Countour Mesh": [None, "Coming soon with support for contour curves only\n(colored mesh between curves is unreliable)."],  # SOON!
