@@ -32,7 +32,7 @@ def camera_oriented_plane(origin):
     Args:
         origin: A Rhino Point for the origin of the plane.
     """
-    active_view = sc.doc.Views.ActiveView.ActiveViewport
+    active_view = rhdoc.ActiveDoc.Views.ActiveView.ActiveViewport
     camera_x = active_view.CameraX
     camera_y = active_view.CameraY
     return rg.Plane(origin, camera_x, camera_y)
@@ -84,14 +84,14 @@ def viewport_by_name(view_name=None):
             the Rhino document.
     """
     try:
-        return sc.doc.Views.Find(view_name, False).ActiveViewport \
-            if view_name is not None else sc.doc.Views.ActiveView.ActiveViewport
+        return rhdoc.ActiveDoc.Views.Find(view_name, False).ActiveViewport \
+            if view_name is not None else rhdoc.ActiveDoc.Views.ActiveView.ActiveViewport
     except Exception:
         # try to find a named view and restore it
         view_table = rhdoc.ActiveDoc.NamedViews
         for i, viewp in enumerate(view_table):
             if viewp.Name == view_name:
-                active_viewp = sc.doc.Views.ActiveView.ActiveViewport
+                active_viewp = rhdoc.ActiveDoc.Views.ActiveView.ActiveViewport
                 view_table.Restore(i, active_viewp)
                 return active_viewp
         else:
@@ -112,12 +112,12 @@ def open_viewport(view_name, width=None, height=None):
             None, the height of the currently active viewport will be used.
     """
     # close the view if it already exists
-    if sc.doc.Views.Find(view_name, False):
-        sc.doc.Views.Find(view_name, False).Close()
+    if rhdoc.ActiveDoc.Views.Find(view_name, False):
+        rhdoc.ActiveDoc.Views.Find(view_name, False).Close()
 
     # get the width and the height if it was not specified
-    w = sc.doc.Views.ActiveView.ActiveViewport.Size.Width if not width else width
-    h = sc.doc.Views.ActiveView.ActiveViewport.Size.Height if not height else height
+    w = rhdoc.ActiveDoc.Views.ActiveView.ActiveViewport.Size.Width if not width else width
+    h = rhdoc.ActiveDoc.Views.ActiveView.ActiveViewport.Size.Height if not height else height
 
     # compute the X,Y screen coordinates where the new viewport will be placed
     x = round((System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - w) / 2)
@@ -140,6 +140,24 @@ def set_view_display_mode(viewport, display_mode):
     """
     mode_obj = rd.DisplayModeDescription.FindByName(display_mode)
     viewport.DisplayMode = mode_obj
+
+
+def set_view_direction(viewport, direction, position=None, lens_length=None):
+    """Set a Rhino Viewport to face a specific direction.
+
+    Args:
+        viewport: A Rhino ViewPort object, which will have its direction set.
+        direction: A Rhino vector that will be used to set the direction of the view.
+        position: Optional Rhino point for the target of the camera. If no point
+            is provided, the Rhino origin will be used (0, 0, 0).
+    """
+    position = position if position is not None else rg.Point3d.Origin
+    target = rg.Point3d.Add(position, direction)
+    viewport.SetCameraLocation(position, True)
+    viewport.SetCameraDirection(direction, False)
+    viewport.SetCameraTarget(target, False)
+    if lens_length is not None:
+        viewport.Camera35mmLensLength = lens_length
 
 
 def set_iso_view_direction(viewport, direction, center_point=None):
@@ -197,7 +215,7 @@ def capture_view(viewport, file_path, width=None, height=None, display_mode=None
         back_col = aps.ViewportBackgroundColor
         if (display_mode is None and viewport.DisplayMode.EnglishName == 'Rendered') \
                 or display_mode == 'Rendered':
-            back_col = sc.doc.Views.Document.RenderSettings.BackgroundColorTop
+            back_col = rhdoc.ActiveDoc.Views.Document.RenderSettings.BackgroundColorTop
         pic.MakeTransparent(back_col)
 
     # save the bitmap to a png file
