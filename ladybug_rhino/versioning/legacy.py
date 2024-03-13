@@ -48,7 +48,7 @@ LADYBUG_MAP = {
     "Ladybug_Import Sandia Photovoltaics Module": ["HB Photovoltaic Properties", "A better replacement may be available in the future."],  # possible better future
     "Ladybug_Wind Boundary Profile": ["LB Wind Profile", None],
     "Ladybug_Wind Speed Calculator": ["LB Wind Speed", None],
-    "Ladybug_Passive Strategy List": ["LB Passive Strategies", "More passive strategies are planned for the future."], # SOON!
+    "Ladybug_Passive Strategy List": ["LB Passive Strategies", "More passive strategies are planned for the future."], # possible better future
     "Ladybug_SunriseSunset": ["LB Day Solar Information", None],
     "Ladybug_CDD_HDD": ["LB Degree Days", None],
     "Ladybug_Pedestrian Wind Comfort": [None, "No plans to replace. Never made it out of WIP.\nDid not have a clear relationship to other components."],
@@ -57,7 +57,7 @@ LADYBUG_MAP = {
     "Ladybug_SolarFan": [None, "Coming Soon!"],  # SOON!
     "Ladybug_Import epw": ["LB Import EPW", None],
     "Ladybug_View From Sun": ["LB View From Sun", None],
-    "Ladybug_Separate By Normal": [None, "Coming Soon!"],  # SOON!
+    "Ladybug_Separate By Normal": ["LB Filter by Normal", "Note the _orientation input of the new component\nhas changed since Legacy."],
     "Ladybug_GenCumulativeSkyMtx": ["LB Cumulative Sky Matrix", "This LBT component also does what\nLegacy Ladybug_selectSkyMtx did."],
     "Ladybug_Shading Parameters List": ["HB Facade Parameters", None],
     "Ladybug_Radiation Calla Dome": ["LB Radiation Dome", None],
