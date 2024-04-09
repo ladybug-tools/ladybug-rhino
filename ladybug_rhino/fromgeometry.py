@@ -243,7 +243,7 @@ def from_polyface3d_to_wireframe(polyface):
 
 
 def from_mesh3d_to_wireframe(mesh):
-    """Rhino LineCurves from ladybug Mesh3D.
+    """Rhino PolyLineCurves from ladybug Mesh3D.
 
     Args:
         mesh: A Ladybug Mesh3D object to be translated to a wireframe.
@@ -252,8 +252,8 @@ def from_mesh3d_to_wireframe(mesh):
         A list of Rhino polyline curves for the mesh edges.
     """
     line_curves = []
-    for edge in mesh.edges:
-        line_curves.append(rg.LineCurve(from_point3d(edge.p1), from_point3d(edge.p2)))
+    for edge in mesh.face_edges:
+        line_curves.append(from_polyline3d(edge))
     return line_curves
 
 
