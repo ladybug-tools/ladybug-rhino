@@ -27,6 +27,7 @@ except ImportError:  # No Rhino doc is available.
 try:
     from Grasshopper.Kernel import GH_RuntimeMessageLevel as Message
     from Grasshopper.Kernel.Types import GH_ObjectWrapper as Goo
+    from Grasshopper.Kernel.Types import GH_Number
     from Grasshopper import DataTree
     from Grasshopper.Kernel.Data import GH_Path as Path
     from Grasshopper import Instances
@@ -264,6 +265,28 @@ def wrap_output(output):
         return output
     try:
         return (Goo(i) for i in output)
+    except Exception as e:
+        raise ValueError('Failed to wrap {}:\n{}.'.format(output, e))
+
+
+def wrap_output_to_number(output):
+    """Wrap Python objects as Grasshopper Number objects.
+
+    Passing output lists of Python float or int values through this function can
+    greatly reduce the time needed to run the component since Grasshopper can
+    spend a long time figuring out the object type is if it is not recognized.
+    However, to use this method, you must be sure that ALL of the output you are
+    wrapping is composed of floats and ints. Otherwise, you will get an exception
+    by using this method.
+
+    Args:
+        output: A list of floats and/or ints to be wrapped as Grasshopper
+            Number objects.
+    """
+    if not output:
+        return output
+    try:
+        return (GH_Number(i) for i in output)
     except Exception as e:
         raise ValueError('Failed to wrap {}:\n{}.'.format(output, e))
 
