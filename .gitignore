@@ -9,6 +9,7 @@ test.py
 .tox
 *.egg-info
 tox.ini
+build
 /.cache
 /.vscode
 .eggs
