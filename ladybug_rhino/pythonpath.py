@@ -260,3 +260,40 @@ def clean_rhino_scripts(directory=None):
             if os.path.isdir(lib_folder):
                 nukedir(lib_folder, True)
                 print('Python packages removed from: {}'.format(lib_folder))
+
+
+def script_editor_search_path(python_package_dir=None):
+    """Set the Rhino 8+ ScriptEditor to search for libraries (on either OS).
+
+    Args:
+        python_package_dir: The path to a directory that contains the Ladybug
+            Tools core libraries. If None, it will be set to the current
+            python_package_path of the ladybug.config module
+    """
+    python_dir = python_package_dir if python_package_dir is not None \
+        else lb_folders.python_package_path
+    installed_pth_files = []
+    for ver in find_installed_rhino_versions_windows():
+        if float(ver) >= 8:  # we can add the path to the rhinocode folder
+            # get the settings folder or create it if it doesn't exist
+            user_folder = os.getenv('USERPROFILE') if os.name == 'nt' \
+                else os.path.expanduser('~')
+            rh_code_folder = os.path.join(user_folder, '.rhinocode')
+            if not os.path.isdir(rh_code_folder):
+                os.makedirs(rh_code_folder)
+            # append the default settings to the list of files to edit
+            for pth_f in ('python-2.pth', 'python-3.pth'):
+                pf = os.path.join(rh_code_folder, pth_f)
+                installed_pth_files.append(pf)
+                file_contents, path_found = [], False
+                if os.path.isfile(pf):
+                    with open(pf, 'r') as pth_file:
+                        for line in pth_file:
+                            if python_dir.replace('\\', '/') in line.replace('\\', '/'):
+                                path_found = True
+                            file_contents.append(line)
+                if not path_found:
+                    file_contents.insert(0, '{}\n'.format(python_dir))
+                    with open(pf, 'w') as pth_file:
+                        pth_file.write(''.join(file_contents))
+    return installed_pth_files
