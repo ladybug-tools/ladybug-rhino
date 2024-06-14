@@ -70,7 +70,7 @@ def to_polyline2d(polyline):
     if isinstance(polyline, rg.PolylineCurve):
         pts = [to_point2d(polyline.Point(i)) for i in range(polyline.PointCount)]
     elif isinstance(polyline, rg.Polyline):
-        pts = [to_point2d(polyline.Item[i]) for i in range(polyline.Count)]
+        pts = [to_point2d(polyline[i]) for i in range(polyline.Count)]
     elif isinstance(polyline, rg.PolyCurve): # convert poly curve to a polyline
         if polyline.IsPolyline():
             segs = polyline.Explode()
@@ -100,7 +100,7 @@ def to_polygon2d(polygon):
     if isinstance(polygon, rg.PolylineCurve):
         pts = [to_point2d(polygon.Point(i)) for i in range(polygon.PointCount)]
     elif isinstance(polygon, rg.Polyline):
-        pts = [to_point2d(polygon.Item[i]) for i in range(polygon.Count)]
+        pts = [to_point2d(polygon[i]) for i in range(polygon.Count)]
     elif isinstance(polygon, rg.PolyCurve): # convert poly curve to a polyline
         if polygon.IsPolyline():
             segs = polygon.Explode()
@@ -167,7 +167,7 @@ def to_polyline3d(polyline):
     if isinstance(polyline, rg.PolylineCurve):
         pts = [to_point3d(polyline.Point(i)) for i in range(polyline.PointCount)]
     elif isinstance(polyline, rg.Polyline):
-        pts = [to_point3d(polyline.Item[i]) for i in range(polyline.Count)]
+        pts = [to_point3d(polyline[i]) for i in range(polyline.Count)]
     elif isinstance(polyline, rg.PolyCurve): # convert poly curve to a polyline
         if polyline.IsPolyline():
             segs = polyline.Explode()
@@ -244,12 +244,12 @@ def to_face3d(geo, meshing_parameters=None):
                 all_verts = []
                 for count in range(b_face.Loops.Count):  # Each loop is a boundary/hole
                     success, loop_pline = \
-                        b_face.Loops.Item[count].To3dCurve().TryGetPolyline()
+                        b_face.Loops[count].To3dCurve().TryGetPolyline()
                     if not success:  # Failed to get a polyline; there's a curved edge
                         loop_verts = _planar.planar_face_curved_edge_vertices(
                             b_face, count, meshing_parameters)
                     else:  # we have a polyline representing the loop
-                        loop_verts = tuple(to_point3d(loop_pline.Item[i])
+                        loop_verts = tuple(to_point3d(loop_pline[i])
                                            for i in range(loop_pline.Count - 1))
                     all_verts.append(_remove_dup_verts(loop_verts))
                 if len(all_verts[0]) >= 3:
