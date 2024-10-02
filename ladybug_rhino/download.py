@@ -84,24 +84,43 @@ def extract_project_info(project_info_json):
 
         -   epw_path: The local file path to the downloaded EPW.
     """
-    #convert the JSON into a dictionary and extract the EPW URL
+    # convert the JSON into a dictionary and extract the EPW URL
     project_info = json.loads(project_info_json)
     if 'weather_urls' not in project_info or len(project_info['weather_urls']) == 0:
         return project_info_json
     weather_url = project_info['weather_urls'][0]
 
-    # download the EPW file to the user folder
-    _def_folder = folders.default_epw_folder
-    if weather_url.lower().endswith('.zip'):  # onebuilding URL type
-        _folder_name = weather_url.split('/')[-1][:-4]
-    else:  # dept of energy URL type
-        _folder_name = weather_url.split('/')[-2]
-    epw_path = os.path.join(_def_folder, _folder_name, _folder_name + '.epw')
-    if not os.path.isfile(epw_path):
-        zip_file_path = os.path.join(
-            _def_folder, _folder_name, _folder_name + '.zip')
-        download_file(weather_url, zip_file_path, True)
-        unzip_file(zip_file_path)
+    # first check wether the url is actually a local path
+    if not weather_url.lower().startswith('http'):
+        assert os.path.isdir(weather_url), 'Input weather URL is not a web ' \
+            'address nor a local folder directory.'
+        file_checklist = ['.epw', '.stat', '.ddy']
+        for f in os.listdir(weather_url):
+            for i, f_check in enumerate(file_checklist):
+                if f.lower().endswith(f_check):  # file type found
+                    file_checklist.pop(i)
+                    if f_check == '.epw':
+                        epw_path = f
+                    elif f_check == '.stat':
+                        stat_path = f
+                    break
+        if len(file_checklist) != 0:
+            msg = 'The following directory does not contain these files '\
+                '({}):\n{}'.format(', '.join(file_checklist), weather_url)
+            raise ValueError(msg)
+    else:  # download the EPW file to the user folder
+        _def_folder = folders.default_epw_folder
+        if weather_url.lower().endswith('.zip'):  # onebuilding URL type
+            _folder_name = weather_url.split('/')[-1][:-4]
+        else:  # dept of energy URL type
+            _folder_name = weather_url.split('/')[-2]
+        epw_path = os.path.join(_def_folder, _folder_name, _folder_name + '.epw')
+        stat_path = os.path.join(_def_folder, _folder_name, _folder_name + '.stat')
+        if not os.path.isfile(epw_path):
+            zip_file_path = os.path.join(
+                _def_folder, _folder_name, _folder_name + '.zip')
+            download_file(weather_url, zip_file_path, True)
+            unzip_file(zip_file_path)
 
     # add the location to the project_info dictionary
     epw_obj = None
@@ -114,12 +133,13 @@ def extract_project_info(project_info_json):
         if all(prop == 0 for prop in loc_props):
             epw_obj = EPW(epw_path)
             project_info['location'] = epw_obj.location.to_dict()
+            project_info['location']['time_zone'] = \
+                int(project_info['location']['time_zone'])
 
     # add the climate zone to the project_info dictionary
     if 'ashrae_climate_zone' not in project_info or \
             project_info['ashrae_climate_zone'] is None:
         zone_set = False
-        stat_path = os.path.join(_def_folder, _folder_name, _folder_name + '.stat')
         if os.path.isfile(stat_path):
             stat_obj = STAT(stat_path)
             if stat_obj.ashrae_climate_zone is not None:
@@ -129,7 +149,7 @@ def extract_project_info(project_info_json):
             epw_obj = EPW(epw_path) if epw_obj is None else epw_obj
             project_info['ashrae_climate_zone'] = \
                 ashrae_climate_zone(epw_obj.dry_bulb_temperature)
-    
+
     # convert the dictionary to a JSON
     project_info_json = json.dumps(project_info)
     return project_info_json, epw_path
