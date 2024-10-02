@@ -179,6 +179,14 @@ def recommended_processor_count():
 
 def _download_weather(weather_URL):
     """Download a weather URL with a check if it's already in the default folder."""
+    # first check wether the url is actually a local path
+    if not weather_URL.lower().startswith('http'):
+        assert os.path.isdir(weather_URL), 'Input weather URL is not a web ' \
+            'address nor a local folder directory.'
+        for fp in os.listdir(weather_URL):
+            if fp.lower().endswith('.epw'):  # file type found
+                return os.path.join(weather_URL, fp)
+
     _def_folder = folders.default_epw_folder
     if weather_URL.lower().endswith('.zip'):  # one building URL type
         _folder_name = weather_URL.split('/')[-1][:-4]
