@@ -270,30 +270,50 @@ def script_editor_search_path(python_package_dir=None):
             Tools core libraries. If None, it will be set to the current
             python_package_path of the ladybug.config module
     """
+    # check the python package directory and forego setting the path for Revit
     python_dir = python_package_dir if python_package_dir is not None \
         else lb_folders.python_package_path
+    if 'revit' in python_dir.lower():  # don't set Rhino paths to use Revit libraries
+        return []
+
+    # add the pth files to set the ScriptEditor search paths
     installed_pth_files = []
     for ver in find_installed_rhino_versions_windows():
-        if float(ver) >= 8:  # we can add the path to the rhinocode folder
-            # get the settings folder or create it if it doesn't exist
+        if float(ver) >= 8:  # we can add the path to the Script Editor
+            # determine where the .pth files will be written (PROGRAMDATA or rhinocode)
+            pth_files = []
+            prog_folder = os.getenv('PROGRAMDATA')
+            data_folder = os.path.join(
+                    prog_folder, 'McNeel', 'Rhinoceros', ver, 'scripts')
+            data_files = (os.path.join(data_folder, 'python-2_lbt.pth'),
+                          os.path.join(data_folder, 'python-3_lbt.pth'))
             user_folder = os.getenv('USERPROFILE') if os.name == 'nt' \
                 else os.path.expanduser('~')
             rh_code_folder = os.path.join(user_folder, '.rhinocode')
-            if not os.path.isdir(rh_code_folder):
-                os.makedirs(rh_code_folder)
-            # append the default settings to the list of files to edit
-            for pth_f in ('python-2.pth', 'python-3.pth'):
-                pf = os.path.join(rh_code_folder, pth_f)
-                installed_pth_files.append(pf)
-                file_contents, path_found = [], False
-                if os.path.isfile(pf):
-                    with open(pf, 'r') as pth_file:
+            rh_code_files = (os.path.join(rh_code_folder, 'python-2.pth'),
+                             os.path.join(rh_code_folder, 'python-3.pth'))
+            if os.path.isfile(rh_code_files[0]):
+                pth_files.extend(rh_code_files)  # existing file to be corrected
+            elif prog_folder is None or not os.access(prog_folder, os.W_OK):
+                pth_files.extend(rh_code_files)  # unable to use data folder
+            if prog_folder is not None and os.access(prog_folder, os.W_OK):
+                pth_files.extend(data_files)  # the best place to have the .pth files
+            # append the LBT folder to the Rhino Script Editor search paths
+            for pth_f in pth_files:
+                pth_folder = os.path.dirname(pth_f)
+                if not os.path.isdir(pth_folder):
+                    os.makedirs(pth_folder)
+                installed_pth_files.append(pth_f)
+                file_contents = []
+                if os.path.isfile(pth_f):
+                    with open(pth_f, 'r') as pth_file:
                         for line in pth_file:
-                            if python_dir.replace('\\', '/') in line.replace('\\', '/'):
-                                path_found = True
-                            file_contents.append(line)
-                if not path_found:
-                    file_contents.insert(0, '{}\n'.format(python_dir))
-                    with open(pf, 'w') as pth_file:
-                        pth_file.write(''.join(file_contents))
+                            if 'pollination_revit' in line:
+                                continue
+                            if python_dir.replace('\\', '/') not in \
+                                    line.replace('\\', '/'):
+                                file_contents.append(line)
+                file_contents.insert(0, '{}\n'.format(python_dir))
+                with open(pth_f, 'w') as pth_file:
+                    pth_file.write(''.join(file_contents))
     return installed_pth_files

@@ -81,9 +81,11 @@ def setup_user_environment(component_directory, python_package_dir, setup_resour
                        'file was successful:\n{}'.format('\n'.join(new_settings)))
             try:
                 pth_files = script_editor_search_path(python_package_dir)
-                click.echo('Setting the Rhino ScriptEditor path in the following '
-                           'locations was successful:\n{}'.format('; '.join(pth_files)))
-            except Exception as e:
+                if len(pth_files) != 0:
+                    click.echo(
+                        'Setting the Rhino ScriptEditor path in the following '
+                        'locations was successful:\n{}'.format('; '.join(pth_files)))
+            except Exception:
                 pass  # no need to worry about this part failing
         # copy the components if they exist
         if component_directory is None:
@@ -129,9 +131,11 @@ def set_python_search(python_package_dir, settings_file):
                    'file was successful:\n{}'.format('\n'.join(new_settings)))
         try:
             pth_files = script_editor_search_path(python_package_dir)
-            click.echo('Setting the Rhino ScriptEditor path in the following '
-                        'locations was successful:\n{}'.format('; '.join(pth_files)))
-        except Exception as e:
+            if len(pth_files) != 0:
+                click.echo(
+                    'Setting the Rhino ScriptEditor path in the following '
+                    'locations was successful:\n{}'.format('; '.join(pth_files)))
+        except Exception:
             pass  # no need to worry about this part failing
     except Exception as e:
         _logger.exception('Setting IronPython search path failed.\n{}'.format(e))
@@ -196,9 +200,11 @@ def setup_resources(setup_only):
                    'folder was successful:\n{}'.format(resource_folder))
         try:
             pth_files = script_editor_search_path()
-            click.echo('Setting the Rhino ScriptEditor path in the following '
-                       'locations was successful:\n{}'.format('; '.join(pth_files)))
-        except Exception as e:
+            if len(pth_files) != 0:
+                click.echo(
+                    'Setting the Rhino ScriptEditor path in the following '
+                    'locations was successful:\n{}'.format('; '.join(pth_files)))
+        except Exception:
             pass  # no need to worry about this part failing
     except Exception as e:
         _logger.exception('Setting up resource folders failed.\n{}'.format(e))
