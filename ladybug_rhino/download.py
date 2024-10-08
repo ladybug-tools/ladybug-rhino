@@ -100,9 +100,9 @@ def extract_project_info(project_info_json):
                 if f.lower().endswith(f_check):  # file type found
                     file_checklist.pop(i)
                     if f_check == '.epw':
-                        epw_path = f
+                        epw_path = os.path.join(weather_url, f)
                     elif f_check == '.stat':
-                        stat_path = f
+                        stat_path = os.path.join(weather_url, f)
                     break
         if len(file_checklist) != 0:
             msg = 'The following directory does not contain these files '\
