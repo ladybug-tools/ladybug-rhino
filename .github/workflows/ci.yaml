@@ -7,27 +7,25 @@ jobs:
 
   test:
     name: Unit tests
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12']
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - name: set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.7
+          python-version: ${{ matrix.python-version }}
       - name: install python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r dev-requirements.txt
       - name: run tests
-        run: python -m pytest --cov=. tests/
-      - name: run test coverage
-        run: |
-          echo "Coveralls is no longer supported"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m pytest tests/
 
   deploy:
     name: Deploy to GitHub and PyPI
@@ -39,7 +37,7 @@ jobs:
       - name: set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.7
+          python-version: '3.12'
       - name: set up node  # we need node for for semantic release
         uses: actions/setup-node@v4
         with:
@@ -83,7 +81,7 @@ jobs:
       - name: set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.7
+          python-version: '3.12'
       - name: install dependencies
         run: |
           pip install -U .
