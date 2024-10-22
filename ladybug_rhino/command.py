@@ -61,9 +61,9 @@ def import_pollination_core():
         if dll_dir is None:
             return None
         pol_dll = os.path.join(dll_dir, 'Pollination.Core.dll')
-        clr.AddReferenceToFileAndPath(pol_dll)
         if pol_dll not in sys.path:
             sys.path.append(pol_dll)
+        clr.AddReference("Pollination.Core")
         import Core
     return Core
 
@@ -78,9 +78,9 @@ def import_ladybug_display_schema():
         if dll_dir is None:
             return None
         pol_dll = os.path.join(dll_dir, 'LadybugDisplaySchema.dll')
-        clr.AddReferenceToFileAndPath(pol_dll)
         if pol_dll not in sys.path:
             sys.path.append(pol_dll)
+        clr.AddReference("LadybugDisplaySchema")
         import LadybugDisplaySchema
     return LadybugDisplaySchema
 
@@ -95,9 +95,9 @@ def import_honeybee_ui():
         if dll_dir is None:
             return None
         pol_dll = os.path.join(dll_dir, 'Honeybee.UI.Rhino.dll')
-        clr.AddReferenceToFileAndPath(pol_dll)
         if pol_dll not in sys.path:
             sys.path.append(pol_dll)
+        clr.AddReference("Honeybee.UI.Rhino")
         import Honeybee
     return Honeybee
 
