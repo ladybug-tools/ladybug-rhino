@@ -181,6 +181,8 @@ def _download_weather(weather_URL):
     """Download a weather URL with a check if it's already in the default folder."""
     # first check wether the url is actually a local path
     if not weather_URL.lower().startswith('http'):
+        if weather_URL.lower().endswith('.epw') and os.path.isfile(weather_URL):
+            return weather_URL
         assert os.path.isdir(weather_URL), 'Input weather URL is not a web ' \
             'address nor a local folder directory.'
         for fp in os.listdir(weather_URL):

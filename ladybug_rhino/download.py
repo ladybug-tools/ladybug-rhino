@@ -92,22 +92,34 @@ def extract_project_info(project_info_json):
 
     # first check wether the url is actually a local path
     if not weather_url.lower().startswith('http'):
-        assert os.path.isdir(weather_url), 'Input weather URL is not a web ' \
-            'address nor a local folder directory.'
-        file_checklist = ['.epw', '.stat', '.ddy']
-        for f in os.listdir(weather_url):
-            for i, f_check in enumerate(file_checklist):
-                if f.lower().endswith(f_check):  # file type found
-                    file_checklist.pop(i)
-                    if f_check == '.epw':
-                        epw_path = os.path.join(weather_url, f)
-                    elif f_check == '.stat':
-                        stat_path = os.path.join(weather_url, f)
-                    break
-        if len(file_checklist) != 0:
-            msg = 'The following directory does not contain these files '\
-                '({}):\n{}'.format(', '.join(file_checklist), weather_url)
-            raise ValueError(msg)
+        assert os.path.isdir(weather_url) or os.path.isfile(weather_url), \
+            'Input weather URL is not a web address nor a local folder directory.'
+        if os.path.isfile(weather_url):
+            assert weather_url.endswith('.epw'), \
+                'Input weather URL is not an EPW file.'
+            epw_path = weather_url
+            weather_url, file_name = os.path.split(weather_url)
+            stat_path = os.path.join(weather_url, file_name.replace('.epw', '.stat'))
+            ddy_path = os.path.join(weather_url, file_name.replace('.epw', '.ddy'))
+            assert os.path.isfile(stat_path), \
+                'No STAT file was found at: {}.'.format(stat_path)
+            assert os.path.isfile(stat_path), \
+                'No DDY file was found at: {}.'.format(ddy_path)
+        else:
+            file_checklist = ['.epw', '.stat', '.ddy']
+            for f in os.listdir(weather_url):
+                for i, f_check in enumerate(file_checklist):
+                    if f.lower().endswith(f_check):  # file type found
+                        file_checklist.pop(i)
+                        if f_check == '.epw':
+                            epw_path = os.path.join(weather_url, f)
+                        elif f_check == '.stat':
+                            stat_path = os.path.join(weather_url, f)
+                        break
+            if len(file_checklist) != 0:
+                msg = 'The following directory does not contain these files '\
+                    '({}):\n{}'.format(', '.join(file_checklist), weather_url)
+                raise ValueError(msg)
     else:  # download the EPW file to the user folder
         _def_folder = folders.default_epw_folder
         if weather_url.lower().endswith('.zip'):  # onebuilding URL type
