@@ -268,8 +268,15 @@ def retrieve_epw_input(epw_input_request, command_options, option_values):
         sc.sticky['lbt_epw'] = os.path.basename(epw_path)
     elif not os.path.isfile(epw_path):
         possible_file = os.path.basename(epw_path)[:-4] \
-            if epw_path.lower().endswith('.epw') else epw_path
-        epw_path = os.path.join(_def_folder, possible_file, possible_file + '.epw')
+                if epw_path.lower().endswith('.epw') else epw_path
+        proj_info = project_information()
+        if proj_info is not None and proj_info.WeatherUrls is not None \
+                and len(proj_info.WeatherUrls) > 0:
+            epw_file_path = _download_weather(proj_info.WeatherUrls[0])
+            if possible_file in epw_file_path:
+                epw_path = epw_file_path
+        else:
+            epw_path = os.path.join(_def_folder, possible_file, possible_file + '.epw')
         if not os.path.isfile(epw_path):
             print('Selected EPW file at does not exist at: {}'.format(epw_path))
             return
@@ -361,7 +368,16 @@ def retrieve_cooling_design_day_input(url_input_request, command_options, option
         ddy_path = epw_path.replace('.epw', '.ddy')
         sc.sticky['lbt_url'] = os.path.basename(epw_path.replace('.epw', ''))
     elif not os.path.isfile(url_path):
-        epw_path = os.path.join(_def_folder, url_path, url_path + '.epw')
+        possible_file = os.path.basename(url_path)[:-4] \
+                if url_path.lower().endswith('.epw') else url_path
+        proj_info = project_information()
+        if proj_info is not None and proj_info.WeatherUrls is not None \
+                and len(proj_info.WeatherUrls) > 0:
+            epw_file_path = _download_weather(proj_info.WeatherUrls[0])
+            if possible_file in epw_file_path:
+                epw_path = epw_file_path
+        else:
+            epw_path = os.path.join(_def_folder, possible_file, possible_file + '.epw')
         stat_path = epw_path.replace('.epw', '.stat')
         ddy_path = epw_path.replace('.epw', '.ddy')
         if not os.path.isfile(epw_path):
