@@ -59,13 +59,19 @@ def process_vis_set(vis_set):
     elif hasattr(vis_set, 'data'):  # an object to be decoded
         args_list = vis_set.data
         if isinstance(args_list[0], (list, tuple)):  # a list of VisualizationSets
-            base_set = args_list[0][0].to_vis_set(*args_list[0][1:])
+            base_set = args_list[0][0].duplicate() \
+                if isinstance(args_list[0][0], VisualizationSet) else \
+                args_list[0][0].to_vis_set(*args_list[0][1:])
             for next_vis_args in args_list[1:]:
-                for geo_obj in next_vis_args[0].to_vis_set(*next_vis_args[1:]):
+                next_set = next_vis_args[0] \
+                    if isinstance(next_vis_args[0], VisualizationSet) else \
+                    next_vis_args[0].to_vis_set(*next_vis_args[1:])
+                for geo_obj in next_set:
                     base_set.add_geometry(geo_obj)
             return base_set
         else:  # a single list of arguments for to_vis_set
-            return args_list[0].to_vis_set(*args_list[1:])
+            return args_list[0] if isinstance(args_list[0], VisualizationSet) else \
+                args_list[0].to_vis_set(*args_list[1:])
     else:
         msg = 'Input _vis_set was not recognized as a valid input.'
         raise ValueError(msg)
