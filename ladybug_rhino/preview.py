@@ -11,7 +11,7 @@ from ladybug_display.altnumber import Default
 from ladybug_display.geometry3d import DisplayText3D
 from ladybug_display.visualization import AnalysisGeometry
 
-from .config import units_system
+from .config import units_system, rhino_version
 from .color import color_to_color, argb_color_to_color, black
 from .fromgeometry import from_point2d, from_vector2d, from_ray2d, \
     from_arc2d, from_polygon2d, from_polyline2d, from_mesh2d, \
@@ -39,7 +39,7 @@ except ImportError:
 
 class VisualizationSetConduit(rd.DisplayConduit):
     """Class to preview VisualizationSet in the Rhino Display pipeline.
-    
+
     Args:
         visualization_set: A Ladybug Display VisualizationSet object to be translated
             into arguments for the Rhino display pipeline.
@@ -790,6 +790,8 @@ class VisualizationSetConverter(object):
         l_par = legend.legend_parameters
         color_mtx = legend.color_map_2d(vw, vh)
         color_mtx = [[color_to_color(c) for c in row] for row in color_mtx]
+        if rhino_version >= (8, 14):
+            color_mtx = list(reversed(color_mtx))
         net_bm = System.Drawing.Bitmap(len(color_mtx[0]), len(color_mtx))
         for y, row in enumerate(color_mtx):
             for x, col in enumerate(row):
