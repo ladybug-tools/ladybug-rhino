@@ -790,7 +790,7 @@ class VisualizationSetConverter(object):
         l_par = legend.legend_parameters
         color_mtx = legend.color_map_2d(vw, vh)
         color_mtx = [[color_to_color(c) for c in row] for row in color_mtx]
-        if (8, 14) <= rhino_version < (8, 15, 25008):
+        if (8, 14) <= rhino_version < (8, 15, 25007):
             color_mtx = list(reversed(color_mtx))
         net_bm = System.Drawing.Bitmap(len(color_mtx[0]), len(color_mtx))
         for y, row in enumerate(color_mtx):
