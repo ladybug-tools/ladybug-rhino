@@ -54,15 +54,28 @@ def planar_face_curved_edge_vertices(b_face, count, meshing_parameters):
         if seg.Degree == 1:
             loop_verts.append(_point3d(seg.PointAtStart))
         else:
-            if not seg.HasBezierSpans or seg.Degree == 2:
-                # Ensure curve subdivisions align with adjacent curved faces
-                seg_mesh = rg.Mesh.CreateFromSurface(
-                    rg.Surface.CreateExtrusion(seg, f_norm),
-                    meshing_parameters)
-                for i in xrange(seg_mesh.Vertices.Count / 2 - 1):
-                    loop_verts.append(_point3d(seg_mesh.Vertices[i]))
-            else:  # typically not a curve that is worth keeping
+            # perform curvature analysis to see if it is just a line
+            max_curve = seg.MaxCurvaturePoints()
+            if max_curve is None:  # it is just a line-like curve
                 loop_verts.append(_point3d(seg.PointAtStart))
+                continue
+            max_par = seg.ClosestPoint(max_curve[0])[1]
+            if seg.CurvatureAt(max_par).Length < 0.001:  # it is a line-like curve
+                loop_verts.append(_point3d(seg.PointAtStart))
+                continue
+            # ensure curve subdivisions align with adjacent curved faces
+            seg_mesh = rg.Mesh.CreateFromSurface(
+                rg.Surface.CreateExtrusion(seg, f_norm),
+                meshing_parameters)
+            for i in xrange(seg_mesh.Vertices.Count / 2 - 1):
+                pt = seg_mesh.Vertices[i]
+                pt = rg.Point3d(pt.X, pt.Y, pt.Z)
+                close_pt = seg.PointAt(seg.ClosestPoint(pt)[1])
+                if pt.DistanceTo(close_pt) < tolerance:
+                    loop_verts.append(_point3d(pt))
+                else:
+                    break
+
     return loop_verts
 
 
