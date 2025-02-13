@@ -54,12 +54,15 @@ def planar_face_curved_edge_vertices(b_face, count, meshing_parameters):
         if seg.Degree == 1:
             loop_verts.append(_point3d(seg.PointAtStart))
         else:
-            # Ensure curve subdivisions align with adjacent curved faces
-            seg_mesh = rg.Mesh.CreateFromSurface(
-                rg.Surface.CreateExtrusion(seg, f_norm),
-                meshing_parameters)
-            for i in xrange(seg_mesh.Vertices.Count / 2 - 1):
-                loop_verts.append(_point3d(seg_mesh.Vertices[i]))
+            if not seg.HasBezierSpans or seg.Degree == 2:
+                # Ensure curve subdivisions align with adjacent curved faces
+                seg_mesh = rg.Mesh.CreateFromSurface(
+                    rg.Surface.CreateExtrusion(seg, f_norm),
+                    meshing_parameters)
+                for i in xrange(seg_mesh.Vertices.Count / 2 - 1):
+                    loop_verts.append(_point3d(seg_mesh.Vertices[i]))
+            else:  # typically not a curve that is worth keeping
+                loop_verts.append(_point3d(seg.PointAtStart))
     return loop_verts
 
 
