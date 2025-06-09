@@ -137,6 +137,9 @@ def from_face3d(face):
         try:
             brep = rg.Brep.CreatePlanarBreps(segs, 1e6)[0]
         except TypeError:  # it must be a zero-area geometry
+            if 2 < len(face) <= 4:
+                pts = [from_point3d(pt) for pt in face.vertices] + [tolerance,]
+                return rg.Brep.CreateFromCornerPoints(*pts)
             return None
     if face.has_holes:
         for hole in face.hole_segments:

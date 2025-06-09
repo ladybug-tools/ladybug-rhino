@@ -71,7 +71,7 @@ def to_polyline2d(polyline):
         pts = [to_point2d(polyline.Point(i)) for i in range(polyline.PointCount)]
     elif isinstance(polyline, rg.Polyline):
         pts = [to_point2d(polyline[i]) for i in range(polyline.Count)]
-    elif isinstance(polyline, rg.PolyCurve): # convert poly curve to a polyline
+    elif isinstance(polyline, rg.PolyCurve):  # convert poly curve to a polyline
         if polyline.IsPolyline():
             segs = polyline.Explode()
             pts = []
@@ -101,7 +101,7 @@ def to_polygon2d(polygon):
         pts = [to_point2d(polygon.Point(i)) for i in range(polygon.PointCount)]
     elif isinstance(polygon, rg.Polyline):
         pts = [to_point2d(polygon[i]) for i in range(polygon.Count)]
-    elif isinstance(polygon, rg.PolyCurve): # convert poly curve to a polyline
+    elif isinstance(polygon, rg.PolyCurve):  # convert poly curve to a polyline
         if polygon.IsPolyline():
             segs = polygon.Explode()
             pts = []
@@ -168,7 +168,7 @@ def to_polyline3d(polyline):
         pts = [to_point3d(polyline.Point(i)) for i in range(polyline.PointCount)]
     elif isinstance(polyline, rg.Polyline):
         pts = [to_point3d(polyline[i]) for i in range(polyline.Count)]
-    elif isinstance(polyline, rg.PolyCurve): # convert poly curve to a polyline
+    elif isinstance(polyline, rg.PolyCurve):  # convert poly curve to a polyline
         if polyline.IsPolyline():
             segs = polyline.Explode()
             pts = []
@@ -198,7 +198,7 @@ def to_plane(pl):
         to_vector3d(pl.ZAxis), to_point3d(pl.Origin), to_vector3d(pl.XAxis))
 
 
-def to_face3d(geo, meshing_parameters=None):
+def to_face3d(geo, meshing_parameters=None, non_planar_quads=False):
     """List of Ladybug Face3D objects from a Rhino Brep, Surface or Mesh.
 
     Args:
@@ -207,6 +207,10 @@ def to_face3d(geo, meshing_parameters=None):
         meshing_parameters: Optional Rhino Meshing Parameters to describe how
             curved faces should be converted into planar elements. If None,
             Rhino's Default Meshing Parameters will be used.
+        non_planar_quads: Boolean to note whether conversion from Mesh should
+            preserve non-planar quads as individual Face3D in the result or all
+            Face3D should be planar in the result with non-planar quads
+            triangulated. (Default: False).
     """
     faces = []  # list of Face3Ds to be populated and returned
     if isinstance(geo, rg.Mesh):  # convert each Mesh face to a Face3D
@@ -216,11 +220,14 @@ def to_face3d(geo, meshing_parameters=None):
                 all_verts = (pts[face[0]], pts[face[1]], pts[face[2]], pts[face[3]])
                 lb_face = Face3D(all_verts)
                 if lb_face.area != 0:
+                    if non_planar_quads:
+                        faces.append(lb_face)
+                        continue
                     for _v in lb_face.vertices:
                         if lb_face.plane.distance_to_point(_v) >= tolerance:
                             # non-planar quad split the quad into two planar triangles
                             verts1 = (pts[face[0]], pts[face[1]], pts[face[2]])
-                            verts2 = (pts[face[3]], pts[face[0]], pts[face[1]])
+                            verts2 = (pts[face[2]], pts[face[3]], pts[face[0]])
                             faces.append(Face3D(verts1))
                             faces.append(Face3D(verts2))
                             break
