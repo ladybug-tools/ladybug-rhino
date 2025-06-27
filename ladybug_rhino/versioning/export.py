@@ -123,6 +123,9 @@ def export_component_screen_capture(folder, component, x_dim=1000, y_dim=1000):
     elif component.Name == 'LB Clothing List':
         ul_x = component.Attributes.Pivot.X - int(((x_dim / 2) - 200) / 2)
         ul_y = component.Attributes.Pivot.Y - int(((y_dim / 2) - 450) / 2)
+    elif 'HVAC Templates' in component.Name:
+        ul_x = component.Attributes.Pivot.X - int(((x_dim / 2) - 400) / 2)
+        ul_y = component.Attributes.Pivot.Y - int(((y_dim / 2) - 120) / 2)
     else:
         ul_x = component.Attributes.Pivot.X - int(((x_dim / 2) - 120) / 2)
         ul_y = component.Attributes.Pivot.Y - int(((y_dim / 2) - 120) / 2)
