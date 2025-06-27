@@ -117,9 +117,12 @@ def export_component_screen_capture(folder, component, x_dim=1000, y_dim=1000):
             pixels. (Default: 1000).
     """
     # Get the coordinates of the upper-left corner of the image from the component
-    if component.Name == 'LB ImageViewer':
+    if component.Name == 'LB Image Viewer':
         ul_x = component.Attributes.Pivot.X - int(((x_dim / 2) - 400) / 2)
         ul_y = component.Attributes.Pivot.Y - int(((y_dim / 2) - 400) / 2)
+    elif component.Name == 'LB Clothing List':
+        ul_x = component.Attributes.Pivot.X - int(((x_dim / 2) - 200) / 2)
+        ul_y = component.Attributes.Pivot.Y - int(((y_dim / 2) - 450) / 2)
     else:
         ul_x = component.Attributes.Pivot.X - int(((x_dim / 2) - 120) / 2)
         ul_y = component.Attributes.Pivot.Y - int(((y_dim / 2) - 120) / 2)
