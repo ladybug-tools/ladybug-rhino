@@ -55,11 +55,14 @@ def planar_face_curved_edge_vertices(b_face, count, meshing_parameters):
             loop_verts.append(_point3d(seg.PointAtStart))
         else:
             # perform curvature analysis to see if it is just a line
-            max_curve = seg.MaxCurvaturePoints()
-            if max_curve is None:  # it is just a line-like curve
-                loop_verts.append(_point3d(seg.PointAtStart))
-                continue
-            max_par = seg.ClosestPoint(max_curve[0])[1]
+            if seg.Degree != 2:
+                max_curve = seg.MaxCurvaturePoints()
+                if max_curve is None:  # it is just a line-like curve
+                    loop_verts.append(_point3d(seg.PointAtStart))
+                    continue
+                max_par = seg.ClosestPoint(max_curve[0])[1]
+            else:  # arcs have the same curvature everywhere
+                max_par = 0
             if seg.CurvatureAt(max_par).Length < 0.001:  # it is a line-like curve
                 loop_verts.append(_point3d(seg.PointAtStart))
                 continue
