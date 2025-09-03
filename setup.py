@@ -23,9 +23,7 @@ setuptools.setup(
     },
     classifiers=[
         "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: Implementation :: CPython",
-        "License :: OSI Approved :: GNU Affero General Public License v3",
+        "Programming Language :: Python :: Implementation :: IronPython",
         "Operating System :: OS Independent"
     ],
     license="AGPL-3.0"
