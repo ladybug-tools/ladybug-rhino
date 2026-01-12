@@ -21,7 +21,8 @@ LBT_UO_FOLDERS = (
     'honeybee_grasshopper_core',
     'honeybee_grasshopper_radiance',
     'honeybee_grasshopper_energy',
-    'dragonfly_grasshopper'
+    'dragonfly_grasshopper',
+    'fairyfly_grasshopper'
 )
 
 # the comments in the dictionaries below note whether there are plans for
@@ -209,16 +210,16 @@ HONEYBEE_MAP = {
     "Honeybee_R-Value With Air Films": ["HB Deconstruct Construction", "The 'U-Factor' outputs of the 'HB Deconstruct Construction' component\ninclude air films while the 'R-value' outputs do not."],
     "Honeybee_orientHBGlz": ["HB Facade Parameters", None],
     "Honeybee_Read DS Result for a point": ["HB Annual Results to Data", "Time series results are now loaded to data collections.\nThere will be one data collection per point."],
-    "Honeybee_Therm Material": [None, "It's unknown whether Therm will be ported to LBT\ngiven the known limitations/bugs of it's closed source meshing\nand exclusive reliance on Windows."],  # uncertain
+    "Honeybee_Therm Material": ["FF Solid Material", None],
     "Honeybee_Generate EP Output": ["HB Simulation Output", "Simulation Output now gets connected to the 'HB Simulation Parameter'\ncomponent instead of the OpenStudio component."],
     "Honeybee_Get Zone EnergyPlus Loads": ["HB Color Room Attributes", "The 'HB Color Room Attributes' component both visualizes and returns\nthe loads assigned to rooms. Use the 'HB Room Energy Attributes'\ncomponent to see all available loads."],
     "Honeybee_Visualize Microclimate Map": ["HB Visualize Thermal Map", None],
     "Honeybee_Make Adiabatic By Type": ["HB Adiabatic by Type", "For more customized assignment of Adiabatic boundary conditions,\nthe 'HB Properties by Guide Surface' can alternatively be used."],
     "Honeybee_Annual Daylight Simulation": ["HB Annual Daylight", "Recipe components now also run the Radiance simulation."],
-    "Honeybee_Import WINDOW Glz System": [None, "It's unknown whether Therm will be ported to LBT\ngiven the known limitations/bugs of it's closed source meshing\nand exclusive reliance on Windows."],  # uncertain
+    "Honeybee_Import WINDOW Glz System": [None, "Support for glazing systems will be added to Fairyfly in the near future."],  # SOON!
     "Honeybee_Surface Attribute List": ["HB Face Attributes", None],
     "Honeybee_PET Analysis Recipe": [None, "Coming Soon!"],  # SOON!
-    "Honeybee_Therm Material to EnergyPlus Material": [None, "It's unknown whether Therm will be ported to LBT\ngiven the known limitations/bugs of it's closed source meshing\nand exclusive reliance on Windows."],  # uncertain
+    "Honeybee_Therm Material to EnergyPlus Material": ["FF Deconstruct Material", "To convert a THERM material into something useful for energy simulation, deconstruct it and use its attributes in the HB Opaque Material component."],
     "Honeybee_Read HVAC Sizing": ["HB Read HVAC Sizing", None],
     "Honeybee_OpenFileDirectory": ["LB Open Directory", None],
     "Honeybee_Radiance BSDF Material": ["HB BSDF Modifier", None],
@@ -227,7 +228,7 @@ HONEYBEE_MAP = {
     "Honeybee_Set Loads And Schedules": ["HB Apply ProgramType", "Use the 'HB Search Programs' component to see a\nfull list of currently-supported programs."],
     "Honeybee_IES Luminaire": [None, "Coming Soon!"],  # SOON!
     "Honeybee_Daily Schedule": ["HB Gene Pool to Day Schedule", None],
-    "Honeybee_Custom Radiant Environment": [None, "It's unknown whether Therm will be ported to LBT\ngiven the known limitations/bugs of it's closed source meshing\nand exclusive reliance on Windows."],  # uncertain
+    "Honeybee_Custom Radiant Environment": ["FF Radiant Environment", None],
     "Honeybee_Generator_PV": ["HB Photovoltaic Properties", "Photovoltaic properties are now always assigned to\nShades, which represent the PV geometry."],
     "Honeybee_Separate conditioned and unconditioned zones": ["HB Rooms by Attribute", "Use the 'HB Room Energy Attributes' component to select\nthe attribute name for 'Is Conditioned.'"],
     "Honeybee_addHBGlz": ["HB Add Subface", "The 'HB Add Subface' component does not accept Breps\nand raw geometry must be first processed through the\n'HB Aperture' or 'HB Door' component."],
@@ -255,7 +256,7 @@ HONEYBEE_MAP = {
     "Honeybee_OpenStudio to gbXML": ["HB Dump gbXML", None],
     "Honeybee_Set EP Air Flow": ["HB Window Opening", "The 'HB Window Opening' component is for air flow resulting from operable windows.\,For assigning fan-driven air flow that is separate from the HVAC system,\nuse the 'HB Fan Ventilation' component."],
     "Honeybee_Decompose EP Material": ["HB Deconstruct Material", None],
-    "Honeybee_Import THERM XML": [None, "It's unknown whether Therm will be ported to LBT\ngiven the known limitations/bugs of it's closed source meshing\nand exclusive reliance on Windows."],  # uncertain
+    "Honeybee_Import THERM XML": [None, "This capability will be coming soon to Fairyfly through THMZ files of THERM 8."],  # SOON!
     "Honeybee_Separate Zones By Program": ["HB Rooms by Attribute", "Use the 'HB Room Energy Attributes' component to select\nthe attribute name for 'Program.'"],
     "Honeybee_Solve Adjacencies": ["HB Solve Adjacency", None],
     "Honeybee_Skylight Based on Ratio": ["HB Skylights by Ratio", None],
@@ -289,7 +290,7 @@ HONEYBEE_MAP = {
     "Honeybee_Read Microclimate Matrix": ["HB Read Thermal Matrix", None],
     "Honeybee_Visualise_Honeybeegeneration_cashflow": [None, "No plans are in place to port this component to LBT\nunless we find a way to make it generic for different\nenergy conservation strategies."],
     "Honeybee_HVAC Air Details": ["HB All-Air HVAC", "No longer used as options for HVAC customization live on\nthe components that assign the HVAC template."],
-    "Honeybee_Read THERM Result": [None, "It's unknown whether Therm will be ported to LBT\ngiven the known limitations/bugs of it's closed source meshing\nand exclusive reliance on Windows."],  # uncertain
+    "Honeybee_Read THERM Result": ["FF Read THERM Result", "Alternatively (or additionally), use the FF UFactor Result component\nif you need the U-Factor results from THERM."],
     "Honeybee_Extrude Windows": ["HB Extruded Border Shades", None],
     "Honeybee_Daysim Electrical Lighting Use": ["HB Daylight Control Schedule", "The recommended workflow is to apply the schedule from the 'HB Daylight Control Schedule'\nto an energy simulation to get the final lighting energy use."],
     "Honeybee_ExportEPC": [None, "EPC is deprecated and there are no plans to update this component."],
@@ -297,7 +298,7 @@ HONEYBEE_MAP = {
     "Honeybee_Label Zones": ["HB Label Rooms", None],
     "Honeybee_Convert TIF to HDR": [None, "There are currently no plans to translate between TIF and HDR\nunless this is requested on the forum."],
     "Honeybee_Balance Temperature Calculator": ["HB Balance Temperature", None],
-    "Honeybee_Create Therm Polygons": [None, "It's unknown whether Therm will be ported to LBT\ngiven the known limitations/bugs of it's closed source meshing\nand exclusive reliance on Windows."],  # uncertain
+    "Honeybee_Create Therm Polygons": ["FF Shape", None],
     "Honeybee_Apply OpenStudio Measure": ["HB Run OSW", "Measures are typically assigned with the 'HB Model to OSM' component\nbut incorporating them into and OpenStudio Workflow (OSW)\nJSON will allow you to run them with the 'HB Run OSW' component."],
     "Honeybee_Label Zone Surfaces": ["HB Label Faces", None],
     "Honeybee_Radiance Mirror Material": ["HB Mirror Modifier", None],
@@ -315,7 +316,7 @@ HONEYBEE_MAP = {
     "Honeybee_DecomposeHBZone": ["HB Deconstruct Object", None],
     "Honeybee_FalseColor": ["HB False Color", None],
     "Honeybee_gbXML to Honeybee": ["HB Load gbXML OSM IDF", None],
-    "Honeybee_Create Therm Boundaries": [None, "It's unknown whether Therm will be ported to LBT\ngiven the known limitations/bugs of it's closed source meshing\nand exclusive reliance on Windows."],  # uncertain
+    "Honeybee_Create Therm Boundaries": ["FF Boundary", None],
     "Honeybee_Matrix to Data Tree": ["LB Deconstruct Matrix", None],
     "Honeybee_HVACSystemsList": ["HB All-Air HVAC Templates", "Note that the LBT plugin has 3 separate HVAC system dropdown components:\nAll-Air, DOAS, and HeatCool."],
     "Honeybee_Energy Simulation Par": ["HB Simulation Parameter", None],
@@ -359,11 +360,11 @@ HONEYBEE_MAP = {
     "Honeybee_IES Luminaire Zone": [None, "Coming Soon!"],  # SOON!
     "Honeybee_Conceptual Dynamic Shading Recipe": ["HB Automatic Aperture Group", None],
     "Honeybee_Get EnergyPlus Loads": ["HB Deconstruct ProgramType", "Deconstruct the individual load objects out of the 'HB Deconstruct ProgramType'\ncomponent to get both the load values and schedules in the program."],
-    "Honeybee_Write THERM File": [None, "It's unknown whether Therm will be ported to LBT\ngiven the known limitations/bugs of it's closed source meshing\nand exclusive reliance on Windows."],  # uncertain
+    "Honeybee_Write THERM File": ["FF Model to THMZ", None],
     "Honeybee_Remove Glazing": ["HB Apertures by Ratio", "Set the ratio to zero to have the 'HB Apertures by Ratio'\ncomponent remove all windows."],
     "Honeybee_Move Honeybee": ["HB Move", None],
     "Honeybee_EnergyPlus Shade Material": ["HB Shade Material", None],
-    "Honeybee_Condensation calculator": [None, "There are no plans to port this component over as it is very specific to THERM."],  # uncertain
+    "Honeybee_Condensation calculator": [None, "This will eventually be exposed through FAiryfly's support of transient THERM simulations."],  # SOON!
     "Honeybee_Generate Custom Sky": ["HB Custom Sky", None],
     "Honeybee_Call from EP Schedule Library": ["HB Search Schedules", None],
     "Honeybee_Get Zone EnergyPlus Schedules": ["HB Color Room Attributes", "The 'HB Color Room Attributes' component both visualizes and returns\nthe schedules assigned to rooms. Use the 'HB Room Energy Attributes'\ncomponent to see all available schedules."],
@@ -374,7 +375,7 @@ HONEYBEE_MAP = {
     "Honeybee_SplitFloor2ThermalZones": ["HB Straight Skeleton", "The 'HB Straight Skeleton' component is more reliable than\nits legacy counterpart but works from flat floor plates instead of solids."],
     "Honeybee_Read EP Surface Result": ["HB Read Face Result", None],
     "Honeybee_Import idf": ["HB Load gbXML OSM IDF", None],
-    "Honeybee_Thermally Bridged EP Construction": [None, "There are no plans to port this component over as it is very specific to THERM."],  # uncertain
+    "Honeybee_Thermally Bridged EP Construction": [None, "This component can be ported over if there is a demand for it but the current workflow is to deconstruct the energy construction and then reconstruct it with a new thermally bridged material in the insulation layer."],
     "Honeybee_Assign HVAC System": ["HB All-Air HVAC", "Note that the LBT plugin has 3 separate components\nfor applying HVAC system templates: All-Air, DOAS, and HeatCool."],
     "Honeybee_Convert HDR to GIF": ["HB HDR to GIF", None],
     "Honeybee_Glazing Parameters List": ["HB Facade Parameters", None],

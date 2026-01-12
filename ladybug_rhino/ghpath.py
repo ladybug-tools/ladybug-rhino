@@ -11,7 +11,7 @@ from .pythonpath import RHINO_VERSIONS
 # core library packages, which get copied or cleaned out of the Rhino scripts folder
 PACKAGES = \
     ('ladybug_grasshopper', 'honeybee_grasshopper_core', 'honeybee_grasshopper_energy',
-     'honeybee_grasshopper_radiance', 'dragonfly_grasshopper')
+     'honeybee_grasshopper_radiance', 'dragonfly_grasshopper', 'fairyfly_grasshopper')
 # package containing .gha files
 DOTNET_PACKAGES = ('ladybug_grasshopper_dotnet',)
 GRASSHOPPER_ID = 'b45a29b1-4343-4035-989e-044e8580d9cf'

@@ -69,7 +69,7 @@ def set_config_dict(config_dict):
 
 def full_access_permission(directory):
     """Give a directory any all of its files full permissions.
-    
+
     Args:
         directory: A directory containing for which full access will be given.
     """
@@ -237,6 +237,7 @@ def parse_lbt_gh_versions(lbt_gh_folder):
             'honeybee-grasshopper-radiance': '0.0.0',
             'honeybee-grasshopper-energy': '0.0.0',
             'dragonfly-grasshopper': '0.0.0',
+            'fairyfly-grasshopper': '0.0.0',
             'ladybug-grasshopper-dotnet': '0.0.0'
         }
     """
@@ -254,6 +255,7 @@ def parse_lbt_gh_versions(lbt_gh_folder):
         'honeybee-grasshopper-radiance': None,
         'honeybee-grasshopper-energy': None,
         'dragonfly-grasshopper': None,
+        'fairyfly-grasshopper': None,
         'ladybug-grasshopper-dotnet': None
     }
     libs_to_collect = list(version_dict.keys())
