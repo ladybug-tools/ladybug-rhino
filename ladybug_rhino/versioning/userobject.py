@@ -47,6 +47,7 @@ FOLDER_MAP = {
     'HB-Radiance': 'honeybee_grasshopper_radiance',
     'HB-Energy': 'honeybee_grasshopper_energy',
     'Dragonfly': 'dragonfly_grasshopper',
+    'Fairyfly': 'fairyfly_grasshopper',
     'LB-Legacy': 'LB-Legacy',
     'HB-Legacy': 'HB-Legacy',
     'HoneybeePlus': 'HoneybeePlus'

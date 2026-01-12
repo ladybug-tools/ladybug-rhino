@@ -18,7 +18,7 @@ PACKAGES = (
     'honeybee_radiance', 'honeybee_radiance_folder',
     'honeybee_radiance_command', 'honeybee_radiance_postprocess',
     'dragonfly', 'dragonfly_energy', 'dragonfly_radiance', 'dragonfly_uwg',
-    'lbt_recipes', 'pollination_handlers'
+    'fairyfly', 'fairyfly_therm', 'lbt_recipes', 'pollination_handlers'
 )
 # Rhino versions that the plugins are compatible with
 RHINO_VERSIONS = ('6.0', '7.0', '8.0')
