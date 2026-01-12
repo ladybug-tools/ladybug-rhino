@@ -140,31 +140,31 @@ class ColoredLine(gh.Kernel.Types.GH_GeometricGoo[rh.Geometry.LineCurve],
     """
 
     def __init__(self, line):
-        """Initialize ColoredPolyline."""
+        """Initialize ColoredLine."""
         self.line = line
         self.color = black()
         self.thickness = 1
 
     def DuplicateGeometry(self):
         line = rh.Geometry.LineCurve(self.line)
-        new_pl = ColoredPolyline(line)
+        new_pl = ColoredLine(line)
         new_pl.color = self.color
         new_pl.thickness = self.thickness
         return new_pl
 
     def get_TypeName(self):
-        return "Colored Polyline"
+        return "Colored Line"
 
     def get_TypeDescription(self):
-        return "Colored Polyline"
+        return "Colored Line"
 
     def ToString(self):
-        return 'Polyline Curve'
+        return 'Polyline Line'
 
     def Transform(self, xform):
         line = rh.Geometry.LineCurve(self.line)
         line.Transform(xform)
-        new_pl = ColoredPolyline(line)
+        new_pl = ColoredLine(line)
         new_pl.color = self.color
         new_pl.thickness = self.thickness
         return new_pl
@@ -173,7 +173,8 @@ class ColoredLine(gh.Kernel.Types.GH_GeometricGoo[rh.Geometry.LineCurve],
         return self.DuplicateGeometry()
 
     def DrawViewportWires(self, args):
-        args.Pipeline.DrawCurve(self.line, self.color, self.thickness)
+        args.Pipeline.DrawLine(self.line.PointAtStart, self.line.PointAtEnd,
+                               self.color, self.thickness)
 
     def DrawViewportMeshes(self, args):
         # Do not draw in meshing layer.

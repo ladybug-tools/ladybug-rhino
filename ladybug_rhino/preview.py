@@ -827,7 +827,7 @@ class VisualizationSetConverter(object):
 
 class RhinoPointConduit(rd.DisplayConduit):
     """An optimized class to preview Rhino Point3d in the Rhino Display pipeline.
-    
+
     Args:
         points: A list of Rhino Point3d to be displayed in the pipeline.
     """
