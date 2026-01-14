@@ -21,7 +21,7 @@ try:  # Try to import tolerance from the active Rhino document
     tolerance = scriptcontext.doc.ModelAbsoluteTolerance
     angle_tolerance = scriptcontext.doc.ModelAngleToleranceDegrees
 except ImportError:  # No Rhino doc is available. Use Rhino's default.
-    tolerance = 0.01
+    tolerance = 0.001
     angle_tolerance = 1.0  # default is 1 degree
 
 from .ghpath import find_grasshopper_userobjects, find_grasshopper_libraries
@@ -63,6 +63,15 @@ def units_system():
         return str(scriptcontext.doc.ModelUnitSystem).split('.')[-1]
     except ImportError:  # No Rhino doc available. Default to the greatest of all units
         return 'Meters'
+
+
+def current_tolerance():
+    """Get a number for the current absolute tolerance."""
+    try:  # Try to import units from the active Rhino document
+        import scriptcontext
+        return scriptcontext.doc.ModelAbsoluteTolerance
+    except ImportError:  # No Rhino doc available. Default to a reasonable value
+        return 0.001
 
 
 def units_abbreviation():
