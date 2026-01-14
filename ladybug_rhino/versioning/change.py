@@ -244,8 +244,9 @@ def parse_lbt_gh_versions(lbt_gh_folder):
     # set the names of the libraries to collect and the version dict
     version_dict = {
         'lbt-dragonfly': None,
-        'ladybug-rhino': None,
         'lbt-recipes': None,
+        'fairyfly-therm': None,
+        'ladybug-rhino': None,
         'honeybee-standards': None,
         'honeybee-energy-standards': None,
         'honeybee-openstudio-gem': None,
@@ -323,6 +324,15 @@ def change_installed_version(version_to_install=None):
     else:
         print(stderr)
     set_config_dict(config_dict)  # restore the previous configurations
+
+    # install fairyfly-therm library
+    ff_ver = ver_dict['fairyfly-therm']
+    if ff_ver is not None:
+        stderr = update_libraries_pip(py_exe, 'fairyfly-therm', ff_ver)
+        if os.path.isdir(os.path.join(py_lib, 'fairyfly_therm-{}.dist-info'.format(ff_ver))):
+            print('Fairyfly successfully installed!\n ')
+        else:
+            print(stderr)
 
     # install the lbt_recipes package
     print('Installing Ladybug Tools Recipes.')
