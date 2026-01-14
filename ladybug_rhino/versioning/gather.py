@@ -12,7 +12,7 @@ except ImportError:
 
 
 # Master array of all identifiers of Ladybug Tools components
-LADYBUG_TOOLS = ('LB', 'HB', 'DF', 'BF', 'Ladybug', 'Honeybee',
+LADYBUG_TOOLS = ('LB', 'HB', 'DF', 'BF', 'FF', 'Ladybug', 'Honeybee',
                  'Butterfly', 'HoneybeePlus')
 
 

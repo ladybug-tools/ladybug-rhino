@@ -237,7 +237,7 @@ def sync_component(component, syncing_component):
     """
     # identify the correct user object sub-folder to which the component belongs
     ghuser_file = '%s.ghuser' % component.Name
-    if str(component.Name).startswith(('LB', 'HB', 'DF')):
+    if str(component.Name).startswith(('LB', 'HB', 'DF', 'FF')):
         fp = os.path.join(UO_FOLDER, FOLDER_MAP[component.Category],
                           'user_objects', ghuser_file)
     elif str(component.Name).startswith(('Ladybug', 'Honeybee', 'HoneybeePlus')):
