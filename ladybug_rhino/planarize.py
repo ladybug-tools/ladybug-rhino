@@ -1,5 +1,5 @@
 """Functions to convert curved Rhino geometries into planar ladybug ones."""
-from .config import tolerance
+from .config import current_tolerance
 
 try:
     from ladybug_geometry.geometry3d.pointvector import Point3D
@@ -37,6 +37,7 @@ def planar_face_curved_edge_vertices(b_face, count, meshing_parameters):
     Returns:
         A list of ladybug Point3D objects representing the input planar face.
     """
+    tolerance = current_tolerance()
     loop_pcrv = b_face.Loops.Item[count].To3dCurve()
     f_norm = b_face.NormalAt(0, 0)
     if f_norm.Z < 0:
@@ -126,6 +127,7 @@ def curved_solid_faces(brep, meshing_parameters, ignore_sliver=True):
     Returns:
         A list of ladybug Face3D objects that together approximate the input brep.
     """
+    tolerance = current_tolerance()
     # mesh the geometry as a solid
     mesh_par = meshing_parameters or rg.MeshingParameters.Default  # default
     meshed_geo = rg.Mesh.CreateFromBrep(brep, mesh_par)
@@ -166,6 +168,7 @@ def has_curved_face(brep):
     Args:
         brep: A Rhino Brep to test whether it has a curved face.
     """
+    tolerance = current_tolerance()
     for b_face in brep.Faces:
         if not b_face.IsPlanar(tolerance):
             return True
@@ -181,6 +184,7 @@ def mesh_faces_to_face3d(mesh):
     Returns:
         A list of ladybug Face3D objects derived from the input mesh faces.
     """
+    tolerance = current_tolerance()
     faces = []
     for m_face in mesh.Faces:
         if m_face.IsQuad:

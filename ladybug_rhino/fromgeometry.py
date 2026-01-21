@@ -1,7 +1,7 @@
 """Functions to translate from Ladybug geometries to Rhino geometries."""
 from __future__ import division
 
-from .config import tolerance
+from .config import current_tolerance
 from .color import color_to_color, gray
 
 try:
@@ -129,6 +129,7 @@ def from_mesh3d(mesh):
 
 def from_face3d(face):
     """Rhino Brep from ladybug Face3D."""
+    tolerance = current_tolerance()
     segs = [from_linesegment3d(seg) for seg in face.boundary_segments]
     try:
         brep = rg.Brep.CreatePlanarBreps(segs, tolerance)[0]
@@ -150,6 +151,7 @@ def from_face3d(face):
 
 def from_polyface3d(polyface):
     """Rhino Brep from ladybug Polyface3D."""
+    tolerance = current_tolerance()
     rh_faces = [from_face3d(face) for face in polyface.faces]
     brep = rg.Brep.JoinBreps(rh_faces, tolerance)
     if len(brep) == 1:
@@ -215,7 +217,7 @@ def from_polyline2d_to_offset_brep(polylines, offset, z=0):
     curve = from_polyline2d_to_joined_polyline(polylines, z)
     crv_style = rg.CurveOffsetCornerStyle.Sharp
     all_curves = [curve]
-    off_curves = curve.Offset(rg.Plane.WorldXY, -offset, tolerance, crv_style)
+    off_curves = curve.Offset(rg.Plane.WorldXY, -offset, current_tolerance(), crv_style)
     if off_curves is not None:
         all_curves.extend(off_curves)
         offset_brep = rg.Brep.CreatePlanarBreps(all_curves)
@@ -269,12 +271,12 @@ def from_face3d_to_solid(face, offset):
     """
     srf_brep = from_face3d(face)
     return rg.Brep.CreateFromOffsetFace(
-        srf_brep.Faces[0], offset, tolerance, False, True)
+        srf_brep.Faces[0], offset, current_tolerance(), False, True)
 
 
 def from_face3ds_to_joined_brep(faces):
     """A list of joined Breps from an array of ladybug Face3D."""
-    return rg.Brep.JoinBreps([from_face3d(face) for face in faces], tolerance)
+    return rg.Brep.JoinBreps([from_face3d(face) for face in faces], current_tolerance())
 
 
 def from_face3ds_to_colored_mesh(faces, color):

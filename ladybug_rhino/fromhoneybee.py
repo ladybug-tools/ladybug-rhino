@@ -1,7 +1,7 @@
 """Functions to translate from Honeybee geometries to Rhino geometries."""
 from __future__ import division
 
-from .config import tolerance
+from .config import current_tolerance
 from .fromgeometry import from_face3d, from_mesh3d, from_face3d_to_wireframe, \
     from_mesh3d_to_wireframe
 
@@ -74,7 +74,7 @@ def from_face(face):
         door_breps = from_aperture(dr)
         face_breps.append(door_breps[0])
         shade_breps.extend(door_breps[1:])
-    face_breps = list(rg.Brep.JoinBreps(face_breps, tolerance))
+    face_breps = list(rg.Brep.JoinBreps(face_breps, current_tolerance()))
     return face_breps + shade_breps
 
 
@@ -90,7 +90,7 @@ def from_room(room):
         face_breps = from_face(face)
         room_breps.append(face_breps[0])
         shade_breps.extend(face_breps[1:])
-    room_breps = list(rg.Brep.JoinBreps(room_breps, tolerance))
+    room_breps = list(rg.Brep.JoinBreps(room_breps, current_tolerance()))
     return room_breps + shade_breps
 
 
