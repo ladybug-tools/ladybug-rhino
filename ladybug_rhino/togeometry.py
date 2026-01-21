@@ -32,7 +32,7 @@ except ImportError as e:
 
 import ladybug_rhino.planarize as _planar
 from .fromgeometry import from_face3ds_to_joined_brep
-from .config import tolerance, angle_tolerance
+from .config import angle_tolerance, current_tolerance
 
 
 """____________2D GEOMETRY TRANSLATORS____________"""
@@ -83,7 +83,7 @@ def to_polyline2d(polyline):
                         pts.append(to_point2d(seg.Point(i)))
             pts.append(to_point2d(segs[-1].PointAtEnd))
         else:
-            polyline = polyline.ToPolyline(tolerance, angle_tolerance, 0, 1e12)
+            polyline = polyline.ToPolyline(current_tolerance(), angle_tolerance, 0, 1e12)
             pts = [to_point2d(polyline.Point(i)) for i in range(polyline.PointCount)]
     elif isinstance(polyline, rg.LineCurve):  # extract end points
         pts = [to_point2d(polyline.PointAtStart), to_point2d(polyline.PointAtEnd)]
@@ -97,6 +97,7 @@ def to_polyline2d(polyline):
 
 def to_polygon2d(polygon):
     """Ladybug Polygon2D from Rhino closed PolyLineCurve."""
+    tolerance = current_tolerance()
     if isinstance(polygon, rg.PolylineCurve):
         pts = [to_point2d(polygon.Point(i)) for i in range(polygon.PointCount)]
     elif isinstance(polygon, rg.Polyline):
@@ -180,7 +181,7 @@ def to_polyline3d(polyline):
                         pts.append(to_point3d(seg.Point(i)))
             pts.append(to_point3d(segs[-1].PointAtEnd))
         else:
-            polyline = polyline.ToPolyline(tolerance, angle_tolerance, 0, 1e12)
+            polyline = polyline.ToPolyline(current_tolerance(), angle_tolerance, 0, 1e12)
             pts = [to_point3d(polyline.Point(i)) for i in range(polyline.PointCount)]
     elif isinstance(polyline, rg.LineCurve):  # extract end points
         pts = [to_point3d(polyline.PointAtStart), to_point3d(polyline.PointAtEnd)]
@@ -212,6 +213,7 @@ def to_face3d(geo, meshing_parameters=None, non_planar_quads=False):
             Face3D should be planar in the result with non-planar quads
             triangulated. (Default: False).
     """
+    tolerance = current_tolerance()
     faces = []  # list of Face3Ds to be populated and returned
     if isinstance(geo, rg.Mesh):  # convert each Mesh face to a Face3D
         pts = tuple(to_point3d(pt) for pt in geo.Vertices)
@@ -258,7 +260,7 @@ def to_face3d(geo, meshing_parameters=None, non_planar_quads=False):
                     else:  # we have a polyline representing the loop
                         loop_verts = tuple(to_point3d(loop_pline[i])
                                            for i in range(loop_pline.Count - 1))
-                    all_verts.append(_remove_dup_verts(loop_verts))
+                    all_verts.append(_remove_dup_verts(loop_verts, tolerance))
                 if len(all_verts[0]) >= 3:
                     if len(all_verts) == 1:  # No holes in the shape
                         faces.append(Face3D(all_verts[0], plane=bf_plane))
@@ -281,6 +283,7 @@ def to_polyface3d(geo, meshing_parameters=None):
             curved faces should be converted into planar elements. If None,
             Rhino's Default Meshing Parameters will be used.
     """
+    tolerance = current_tolerance()
     mesh_par = meshing_parameters or rg.MeshingParameters.Default  # default
     if not isinstance(geo, rg.Mesh):
         if not isinstance(geo, rg.Brep):  # it's likely an extrusion object
@@ -387,7 +390,7 @@ def _extract_mesh_faces_colors(mesh, color_by_face):
     return lb_faces, colors
 
 
-def _remove_dup_verts(vertices):
+def _remove_dup_verts(vertices, tolerance):
     """Remove vertices from an array of Point3Ds that are equal within the tolerance."""
     return [pt for i, pt in enumerate(vertices)
             if not pt.is_equivalent(vertices[i - 1], tolerance)]

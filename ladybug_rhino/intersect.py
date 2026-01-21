@@ -20,7 +20,7 @@ try:
 except ImportError as e:
     raise ImportError("Failed to import Rhino.\n{}".format(e))
 
-from .config import tolerance, rhino_version
+from .config import current_tolerance, rhino_version
 
 
 def join_geometry_to_mesh(geometry):
@@ -47,7 +47,7 @@ def join_geometry_to_mesh(geometry):
                 meshes = rg.Mesh.CreateFromBrep(geo, rg.MeshingParameters.Default)
                 for mesh in meshes:
                     joined_mesh.Append(mesh)
-            except:
+            except Exception:
                 raise TypeError('Geometry must be either a Brep or a Mesh. '
                                 'Not {}.'.format(type(geo)))
     return joined_mesh
@@ -298,7 +298,7 @@ def intersect_rays_with_mesh_faces(
         integers within it refer to the indices of the rays in the rays
         list that intersected that face.
     """
-    #create a list to populate intersected indices for each face
+    # create a list to populate intersected indices for each face
     face_int = []
     for _ in range(mesh.Faces.Count):
         face_int.append([])  # place holder for result
@@ -672,7 +672,7 @@ def normal_at_point(brep, point):
         breps: A Rhino brep on which the normal direction will be evaluated.
         point: A Rhino point on the input brep where the normal will be evaluated.
     """
-    return brep.ClosestPoint(point, tolerance)[5]
+    return brep.ClosestPoint(point, current_tolerance())[5]
 
 
 def intersect_solids_parallel(solids, bound_boxes, cpu_count=None):
@@ -788,9 +788,9 @@ def intersect_solid(solid, other_solid):
     """
     # variables to track the splitting process
     intersection_exists = False  # boolean to note whether an intersection exists
-    temp_brep = solid.Split(other_solid, tolerance)
+    temp_brep = solid.Split(other_solid, current_tolerance())
     if len(temp_brep) != 0:
-        solid = rg.Brep.JoinBreps(temp_brep, tolerance)[0]
+        solid = rg.Brep.JoinBreps(temp_brep, current_tolerance())[0]
         solid.Faces.ShrinkFaces()
         intersection_exists = True
     return solid, intersection_exists
@@ -825,6 +825,7 @@ def overlapping_bounding_boxes(bound_box1, bound_box2):
     dist_btwn_z = abs(bound_box1.Center.Z - bound_box2.Center.Z)
     z_gap_btwn_box = dist_btwn_z - (0.5 * bb1_height) - (0.5 * bb2_height)
 
+    tolerance = current_tolerance()
     if x_gap_btwn_box > tolerance or y_gap_btwn_box > tolerance or \
             z_gap_btwn_box > tolerance:
         return False  # no overlap
@@ -843,6 +844,7 @@ def split_solid_to_floors(building_solid, floor_heights):
         floor_breps -- A list of planar, horizontal breps representing the floors
         of the building.
     """
+    tolerance = current_tolerance()
     # get the floor brep at each of the floor heights.
     floor_breps = []
     for hgt in floor_heights:
@@ -866,7 +868,7 @@ def geo_min_max_height(geometry):
 
     This is useful as a pre-step before the split_solid_to_floors method.
     """
-    # intersection functions changed in Rhino 7.15 such that we now need 2* tolerance
-    add_val = tolerance * 2 if (7, 15) <= rhino_version < (7, 17) else 0
+    # intersection functions changed in Rhino 7.15 such that we now need 2 * tolerance
+    add_val = current_tolerance() * 2 if (7, 15) <= rhino_version < (7, 17) else 0
     bound_box = geometry.GetBoundingBox(rg.Plane.WorldXY)
     return bound_box.Min.Z + add_val, bound_box.Max.Z
