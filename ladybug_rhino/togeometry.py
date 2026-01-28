@@ -243,7 +243,10 @@ def to_face3d(geo, meshing_parameters=None, non_planar_quads=False):
     else:  # convert each Brep Face to a Face3D
         meshing_parameters = meshing_parameters or rg.MeshingParameters.Default
         if not isinstance(geo, rg.Brep):  # it's likely an extrusion object
-            geo = geo.ToBrep()  # extrusion objects must be cast to Brep in Rhino 8
+            try:  # possibly a Rhino 8 extrusion object; must be cast to Brep
+                geo = geo.ToBrep()
+            except AttributeError:  # possibly a planar polyline curve
+                geo = rg.Brep.CreatePlanarBreps(geo, tolerance)[0]
         for b_face in geo.Faces:
             if b_face.IsPlanar(tolerance):
                 try:
