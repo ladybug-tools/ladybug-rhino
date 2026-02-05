@@ -1,0 +1,7 @@
+ladybug\_rhino.text module
+==========================
+
+.. automodule:: ladybug_rhino.text
+   :members:
+   :undoc-members:
+   :show-inheritance:
