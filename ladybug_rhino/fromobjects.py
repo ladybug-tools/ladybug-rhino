@@ -15,7 +15,7 @@ except ImportError as e:
     raise ImportError("Failed to import ladybug_geometry.\n{}".format(e))
 
 try:
-    from ladybug.legend import Legend, LegendParameters
+    from ladybug.legend import Legend, LegendParameters, LegendParametersCategorized
 except ImportError as e:
     raise ImportError('\nFailed to import ladybug:\n\t{}'.format(e))
 
@@ -151,7 +151,7 @@ def compass_objects(compass, z=0, custom_angles=None, projection=None, font='Ari
 
 
 def mesh_to_contours(mesh, values, legend_parameters=None,
-                     smooth_iterations=1, smooth_strength=1):
+                     smooth_iterations=1, smooth_strength=1, as_lb_geo=False):
     """Get Polylines for contours from a Rhino Mesh and associated values.
 
     Args:
@@ -167,6 +167,9 @@ def mesh_to_contours(mesh, values, legend_parameters=None,
         smooth_strength: A number between 0 and 1 to denote controls how much
             control points move towards the average of the neighboring control
             points. (Default: 1).
+        as_lb_geo: Boolean to note wether the result shall be returned as
+            ladybug geometry Polyline3D and LineSegment3D (true) or as Rhino
+            Polyline and Line objects (False). (Default: False).
 
     Returns:
         A list of Rhino geometries in the following order.
@@ -189,17 +192,20 @@ def mesh_to_contours(mesh, values, legend_parameters=None,
     l_par = legend_parameters if legend_parameters is not None else LegendParameters()
 
     # figure out the thresholds to be used for the contour lines
-    legend = Legend(values, l_par)
-    min_val, max_val = legend.legend_parameters.min, legend.legend_parameters.max
-    if min_val == max_val:
-        return [], []  # no contours to be generated
-    thresholds = list(legend.segment_numbers)
-    if legend.is_max_default:
-        thresholds.pop(-1)  # no need to make a contour
-    if legend.is_min_default:
-        thresholds.pop(0)  # no need to make a contour
-    if len(thresholds) == 0:  # ensure there is at least one threshold
-        thresholds = [(max_val + min_val) / 2]
+    if isinstance(l_par, LegendParametersCategorized):
+        thresholds = l_par.domain
+    else:
+        legend = Legend(values, l_par)
+        min_val, max_val = legend.legend_parameters.min, legend.legend_parameters.max
+        if min_val == max_val:
+            return [], []  # no contours to be generated
+        thresholds = list(legend.segment_numbers)
+        if legend.is_max_default:
+            thresholds.pop(-1)  # no need to make a contour
+        if legend.is_min_default:
+            thresholds.pop(0)  # no need to make a contour
+        if len(thresholds) == 0:  # ensure there is at least one threshold
+            thresholds = [(max_val + min_val) / 2]
 
     # get the naked segments of the starting mesh
     init_naked_edges = []
@@ -255,26 +261,33 @@ def mesh_to_contours(mesh, values, legend_parameters=None,
 
         # convert the contour segments to Rhino PolylineCurves and smooth them
         final_contours = []
-        for cont in polylines:
-            if isinstance(cont, Polyline3D):
+        if as_lb_geo:
+            for cont in polylines:
+                if isinstance(cont, Polyline3D):
+                    for i in range(smooth_iterations):
+                        cont.smooth(smooth_strength)
+                final_contours.append(cont)
+        else:
+            for cont in polylines:
                 rhino_pts = [from_point3d(pt) for pt in cont.vertices]
-                rh_poly = rg.Polyline(rhino_pts)
-                for i in range(smooth_iterations):
-                    rh_poly.Smooth(smooth_strength)
-            else:  # it is a line segment
-                rh_poly = from_linesegment3d(cont)
-            final_contours.append(rh_poly)
+                if isinstance(cont, Polyline3D):
+                    rh_poly = rg.Polyline(rhino_pts)
+                    for i in range(smooth_iterations):
+                        rh_poly.Smooth(smooth_strength)
+                else:  # it is a line segment
+                    rh_poly = rg.Line(*rhino_pts)
+                final_contours.append(rh_poly)
         contours.append(final_contours)
 
     return contours, thresholds
 
 
 def label_countours(contours, thresholds, legend_parameters=None):
-    """Create text labels for countours.
+    """Create text labels for contours.
 
     Args:
         contours: A list of lists where each sub-list represents contours associated
-            with a specific threshold. Sublists contain Rhino Polyline objects.
+            with a specific threshold. Sub-lists contain Rhino Polyline objects.
         thresholds: list of numbers for the threshold value associated
             with each contour. The length of this list matches the contours.
         legend_parameters: Ladybug LegendParameters to be used to customize
@@ -288,11 +301,25 @@ def label_countours(contours, thresholds, legend_parameters=None):
 
         -   labels -- list of text labels (if text_labels is set to True).
     """
+    # convert any input ladybug-geometry to Rhino geometry
+    rh_contours = []
+    for group in contours:
+        rh_cont = []
+        for cont in group:
+            if isinstance(cont, Polyline3D):
+                rhino_pts = [from_point3d(pt) for pt in cont.vertices]
+                cont = rg.Polyline(rhino_pts)
+            elif isinstance(cont, LineSegment3D):  # it is a line segment
+                rhino_pts = [from_point3d(pt) for pt in cont.vertices]
+                cont = rg.Line(*rhino_pts)
+            rh_cont.append(cont)
+        rh_contours.append(rh_cont)
+
     # get the text size with which to make the labels
     l_par = legend_parameters if legend_parameters is not None else LegendParameters()
     txt_h = l_par.text_height
     if l_par.is_text_height_default:
-        lengths = [pl.Length for group in contours for pl in group]
+        lengths = [pl.Length for group in rh_contours for pl in group]
         n = len(lengths)
         s = sorted(lengths)
         if n:
@@ -305,7 +332,7 @@ def label_countours(contours, thresholds, legend_parameters=None):
 
     # create the labels
     updated_contours, labels = [], []
-    for thresh, contour_group in zip(thresholds, contours):
+    for thresh, contour_group in zip(thresholds, rh_contours):
         label_str = format_str % thresh
         group_cont, group_labels = [], []
         for poly in contour_group:
@@ -488,7 +515,7 @@ def create_luminaire_brep(luminaire):
         List[Rhino.Geometry.Brep]
     """
     w = luminaire.width_m
-    l = luminaire.length_m
+    l = luminaire.length_m  # noqa: E741
     h = luminaire.height_m
 
     plane = rg.Plane.WorldXY
