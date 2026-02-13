@@ -11,6 +11,7 @@ try:
         Arc2D, Polyline2D, Polygon2D, Mesh2D
     from ladybug_geometry.geometry3d import Vector3D, Point3D, Ray3D, LineSegment3D, \
         Arc3D, Polyline3D, Plane, Mesh3D, Face3D, Polyface3D, Sphere, Cone, Cylinder
+    from ladybug_geometry.util import coordinates_hash_3d
 except ImportError as e:
     raise ImportError("Failed to import ladybug_geometry.\n{}".format(e))
 
@@ -208,13 +209,11 @@ def mesh_to_contours(mesh, values, legend_parameters=None,
             thresholds = [(max_val + min_val) / 2]
 
     # get the naked segments of the starting mesh
-    init_naked_edges = []
+    naked_vertices = set()
     for geo in mesh.GetNakedEdges():
         lb_geo = to_polyline3d(geo)
-        if isinstance(lb_geo, Polyline3D):
-            init_naked_edges.extend(lb_geo.segments)
-        else:
-            init_naked_edges.append(lb_geo)
+        for pt in lb_geo.vertices:
+            naked_vertices.add(coordinates_hash_3d(pt, tol))
 
     # loop through the thresholds and generate contour lines
     contours = []
@@ -248,13 +247,10 @@ def mesh_to_contours(mesh, values, legend_parameters=None,
             else:
                 all_segs.append(lb_geo)
         for seg in all_segs:
-            for i_seg in init_naked_edges:
-                if seg.p1.is_equivalent(i_seg.p1, tol) and \
-                        seg.p2.is_equivalent(i_seg.p2, tol):
-                    break
-                elif seg.p1.is_equivalent(i_seg.p2, tol) and \
-                        seg.p2.is_equivalent(i_seg.p1, tol):
-                    break
+            seg_p1_str = coordinates_hash_3d(seg.p1, tol)
+            seg_p2_str = coordinates_hash_3d(seg.p2, tol)
+            if seg_p1_str in naked_vertices and seg_p2_str in naked_vertices:
+                pass  # naked edge to be ignored
             else:  # we have found a new segment for contouring
                 contour_segs.append(seg)
         polylines = Polyline3D.join_segments(contour_segs, tol)
