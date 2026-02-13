@@ -2,8 +2,7 @@
 from .config import current_tolerance
 
 try:
-    from ladybug_geometry.geometry3d.pointvector import Point3D
-    from ladybug_geometry.geometry3d.face import Face3D
+    from ladybug_geometry.geometry3d import Vector3D, Point3D, Plane, Face3D
 except ImportError as e:
     raise ImportError("Failed to import ladybug_geometry.\n{}".format(e))
 
@@ -136,16 +135,21 @@ def curved_solid_faces(brep, meshing_parameters, ignore_sliver=True):
     faces = []
     for mesh, b_face in zip(meshed_geo, brep.Faces):
         if b_face.IsPlanar(tolerance):  # only take the naked vertices of planar faces
+            try:
+                bf_plane = _plane(b_face.FrameAt(0, 0)[-1])
+            except Exception:  # failed to extract the plane from the geometry
+                bf_plane = None  # auto-calculate the plane from the vertices
             naked_edges = mesh.GetNakedEdges()
             all_verts = []
             for loop_pline in naked_edges:  # each loop_pline is a boundary/hole
                 all_verts.append([_point3d(loop_pline.Item[i])
                                   for i in xrange(loop_pline.Count - 1)])
             if len(all_verts) == 1:  # No holes in the shape
-                faces.append(Face3D(all_verts[0]))
+                faces.append(Face3D(all_verts[0], plane=bf_plane))
             else:  # There's at least one hole in the shape
                 faces.append(
-                    Face3D(boundary=all_verts[0], holes=all_verts[1:]))
+                    Face3D(boundary=all_verts[0], plane=bf_plane, holes=all_verts[1:])
+                )
         else:
             faces.extend(mesh_faces_to_face3d(mesh))
     # remove colinear vertices as the meshing process makes a lot of them
@@ -212,3 +216,15 @@ def mesh_faces_to_face3d(mesh):
 def _point3d(point):
     """Ladybug Point3D from Rhino Point3d."""
     return Point3D(point.X, point.Y, point.Z)
+
+
+def _vector3d(vector):
+    """Ladybug Vector3D from Rhino Vector3d."""
+    return Vector3D(vector.X, vector.Y, vector.Z)
+
+
+def _plane(pl):
+    """Ladybug Plane from Rhino Plane."""
+    return Plane(
+        _vector3d(pl.ZAxis), _point3d(pl.Origin), _vector3d(pl.XAxis))
+
