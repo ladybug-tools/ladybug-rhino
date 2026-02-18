@@ -45,7 +45,7 @@ LADYBUG_MAP = {
     "Ladybug_Mesh Threshold Selector": ["LB Mesh Threshold Selector", None],
     "Ladybug_Shading Mask_II": ["LB Sky Mask", None],
     "Ladybug_Psychrometric Chart": ["LB Psychrometric Chart", "Note that the 'LB PMV Polygon' is a separate\ncomponent that plots the comfort polygon."],
-    "Ladybug_Import Ground Temp": [None, "Coming Soon!"],  # SOON!
+    "Ladybug_Import Ground Temp": ["LB Import EPW", "Ground temperatures now import with the EPW data."],
     "Ladybug_Import Sandia Photovoltaics Module": ["HB Photovoltaic Properties", "A better replacement may be available in the future."],  # possible better future
     "Ladybug_Wind Boundary Profile": ["LB Wind Profile", None],
     "Ladybug_Wind Speed Calculator": ["LB Wind Speed", None],
@@ -142,7 +142,7 @@ LADYBUG_MAP = {
     "Ladybug_Set the View": ["LB Set View", None],
     "Ladybug_DC to AC derate factor": ["HB Electric Load Center", "The 'Electric Load Center' component uses the PVWatts inverter\nperformance curve implemented in E+ to convert DC to AC."],
     "Ladybug_Thermal Comfort Indices": ["LB PET Comfort", "For thermal comfort indices other than PET,\nsee the 'LB Thermal Indices' component."],
-    "Ladybug_Countour Mesh": [None, "Coming soon with support for contour curves only\n(colored mesh between curves is unreliable)."],  # SOON!
+    "Ladybug_Countour Mesh": ["LB Contour Mesh", None],
     "Ladybug_Solar Water Heating System Detailed": [None, "Coming Soon to HB-Energy!"],  # SOON!
     "Ladybug_Gradient Library": ["LB Color Range", None],
     "Ladybug_Steady State Surface Temperature": [None, "Coming Soon!"],  # SOON!
@@ -176,7 +176,7 @@ HONEYBEE_MAP = {
     "Honeybee_Lookup Daylighting Folder": [None, "No longer needed as most HB-Radiance result-parsing components\naccept the root of the result folder."],
     "Honeybee_Set Zone Properties": ["HB Set Multiplier", "All Room geometry attributes are now always computed from the geometry.\nThe only set-able properties are the multiplier and whether the floor area is excluded."],
     "Honeybee EP context Surfaces": ["HB Shade", None],
-    "Honeybee_IES Custom Lamp": [None, "Coming Soon!"],  # SOON!
+    "Honeybee_IES Custom Lamp": ["HB Custom Lamp", None],
     "Honeybee_PerimeterCoreZoning": ["HB Rooms by Orientation", None],
     "Honeybee_Generate Cumulative Sky": ["HB Cumulative Radiation", "Recipe components now also run the Radiance simulation."],
     "Honeybee_Seasonal Schedule": ["HB Seasonal Schedule", None],
@@ -184,7 +184,7 @@ HONEYBEE_MAP = {
     "Honeybee_Surface Data Based On Type": ["HB Face Result by Type", None],
     "Honeybee_Read EP HVAC Result": ["HB Read Custom Result", "It is now recommended that HVAC outputs be requested one-by-one\nand loaded with the 'Custom Result' component.\nThis avoids long result-parsing times for thousands of HVAC nodes."],  # possible better version
     "Honeybee_Masses2Zones": ["HB Room from Solid", None],
-    "Honeybee_IES Project": [None, "Coming Soon!"],  # SOON!
+    "Honeybee_IES Project": ["HB Model to Rad Folder", "IES Lamp data should be looked up within the\nradiance folder exported from the model."],
     "Honeybee_SplitBuildingMass2Floors": ["DF Building from Solid", "Workflows for generating full-building energy models from\nmassing or footprints are now in the Dragonfly tab."],
     "Honeybee_Create EP Plenum": ["HB Plenum", None],
     "Honeybee_infORventPerArea Calculator": ["HB Apply Absolute Load Values", "Absolute flow rates of infiltration and ventilation are now\nspecified with 'HB Apply Absolute Load Values.'\nBlower door flow rate conversions can be done with the\n'HB Blower Pressure Converter' component."],
@@ -224,9 +224,9 @@ HONEYBEE_MAP = {
     "Honeybee_OpenFileDirectory": ["LB Open Directory", None],
     "Honeybee_Radiance BSDF Material": ["HB BSDF Modifier", None],
     "Honeybee Lighting Density Calculator": [None, "Most factors that relate LPD to illuminance targets are now\nincorporated into daylight control schedules, such as those in\nthe 'HB Daylight Control Schedule' or the 'HB Apply Daylight Control' components."],
-    "Honeybee_AddEarthtube": [None, "Coming Soon!"],  # SOON!
+    "Honeybee_AddEarthtube": [None, "It is now recommended to specify earth tubes with additional IDF strings."],
     "Honeybee_Set Loads And Schedules": ["HB Apply ProgramType", "Use the 'HB Search Programs' component to see a\nfull list of currently-supported programs."],
-    "Honeybee_IES Luminaire": [None, "Coming Soon!"],  # SOON!
+    "Honeybee_IES Luminaire": ["HB Luminaire", "Visualize Luminaire geometry with the\n'HB Visualize Luminaire' component."],
     "Honeybee_Daily Schedule": ["HB Gene Pool to Day Schedule", None],
     "Honeybee_Custom Radiant Environment": ["FF Radiant Environment", None],
     "Honeybee_Generator_PV": ["HB Photovoltaic Properties", "Photovoltaic properties are now always assigned to\nShades, which represent the PV geometry."],
@@ -256,7 +256,7 @@ HONEYBEE_MAP = {
     "Honeybee_OpenStudio to gbXML": ["HB Dump gbXML", None],
     "Honeybee_Set EP Air Flow": ["HB Window Opening", "The 'HB Window Opening' component is for air flow resulting from operable windows.\,For assigning fan-driven air flow that is separate from the HVAC system,\nuse the 'HB Fan Ventilation' component."],
     "Honeybee_Decompose EP Material": ["HB Deconstruct Material", None],
-    "Honeybee_Import THERM XML": [None, "This capability will be coming soon to Fairyfly through THMZ files of THERM 8."],  # SOON!
+    "Honeybee_Import THERM XML": ["FF Read THERM Result", "Reading the shape_geo output from 'FF Read THERM Result' is the fastest way\nto reconstruct the original Fairyfly objects in Grasshopper."],
     "Honeybee_Separate Zones By Program": ["HB Rooms by Attribute", "Use the 'HB Room Energy Attributes' component to select\nthe attribute name for 'Program.'"],
     "Honeybee_Solve Adjacencies": ["HB Solve Adjacency", None],
     "Honeybee_Skylight Based on Ratio": ["HB Skylights by Ratio", None],
@@ -357,7 +357,7 @@ HONEYBEE_MAP = {
     "Honeybee_Color Zones by EP Result": ["HB Color Rooms", None],
     "Honeybee_Daysim shading group sensors": ["HB Aperture Group Schedule", None],
     "Honeybee_Daylight Factor Simulation": ["HB Daylight Factor", None],
-    "Honeybee_IES Luminaire Zone": [None, "Coming Soon!"],  # SOON!
+    "Honeybee_IES Luminaire Zone": ["HB Luminaire Zone", None],
     "Honeybee_Conceptual Dynamic Shading Recipe": ["HB Automatic Aperture Group", None],
     "Honeybee_Get EnergyPlus Loads": ["HB Deconstruct ProgramType", "Deconstruct the individual load objects out of the 'HB Deconstruct ProgramType'\ncomponent to get both the load values and schedules in the program."],
     "Honeybee_Write THERM File": ["FF Model to THMZ", None],
@@ -379,7 +379,7 @@ HONEYBEE_MAP = {
     "Honeybee_Assign HVAC System": ["HB All-Air HVAC", "Note that the LBT plugin has 3 separate components\nfor applying HVAC system templates: All-Air, DOAS, and HeatCool."],
     "Honeybee_Convert HDR to GIF": ["HB HDR to GIF", None],
     "Honeybee_Glazing Parameters List": ["HB Facade Parameters", None],
-    "Honeybee_Import Pts File": ["ReadFile", "The native Grasshopper 'Read File' component can read pts files,\nwhich are easily processed with native GH text components."],  # SOON!
+    "Honeybee_Import Pts File": ["ReadFile", "The native Grasshopper 'Read File' component can read pts files,\nwhich are easily processed with native GH text components."],
     "Honeybee_Create EP Ground": ["HB Ground", None],
     "Honeybee_Read EP Custom Result": ["HB Read Custom Result", None],
     "Honeybee_Convert EnergyPlus Schedule to Values": ["HB Schedule to Data", None],
