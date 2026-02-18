@@ -301,6 +301,7 @@ def export_plugin_to_markdown(folder, plugin_name):
     for s_category in sorted_sub_categories:
         # write the subcategory into the summary
         clean_cat = ''.join(s_category.split()).replace('|', '_').replace('::', '_')
+        clean_cat = clean_cat.replace(':', '_')
         line = '\t* [%s](text/categories/%s.md)' % (s_category, clean_cat)
         lines.append(line)
 
