@@ -1,0 +1,7 @@
+ladybug\_rhino.colorize module
+==============================
+
+.. automodule:: ladybug_rhino.colorize
+   :members:
+   :undoc-members:
+   :show-inheritance:

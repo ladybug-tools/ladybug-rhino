@@ -1,0 +1,7 @@
+main
+====
+
+.. click:: ladybug_rhino.cli.__init__:main
+   :prog: ladybug-rhino
+   :show-nested:
+   :commands: viz ,setup-user-environment ,set-python-search ,copy-gh-components ,remove-gh-components ,setup-resources ,change-installed-version ,config

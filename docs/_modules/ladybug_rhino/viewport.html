@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ladybug_rhino.viewport &#8212; ladybug-rhino  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=0bf093e7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=45cd8fae" />
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          ladybug-rhino</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/main.html">main</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/main.html#ladybug-rhino">ladybug-rhino</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-viz">viz</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-setup-user-environment">setup-user-environment</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-set-python-search">set-python-search</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-copy-gh-components">copy-gh-components</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-remove-gh-components">remove-gh-components</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-setup-resources">setup-resources</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-change-installed-version">change-installed-version</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/main.html#ladybug-rhino-config">config</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">ladybug_rhino</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ladybug_rhino.html">ladybug_rhino package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.cli.html">ladybug_rhino.cli package</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.cli.html#module-ladybug_rhino.cli">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.versioning.html">ladybug_rhino.versioning package</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.html#submodules">Submodules</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html">ladybug_rhino.versioning.change module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.change_installed_version"><code class="docutils literal notranslate"><span class="pre">change_installed_version()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.download_repo_github"><code class="docutils literal notranslate"><span class="pre">download_repo_github()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.full_access_permission"><code class="docutils literal notranslate"><span class="pre">full_access_permission()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.get_config_dict"><code class="docutils literal notranslate"><span class="pre">get_config_dict()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.get_gem_directory"><code class="docutils literal notranslate"><span class="pre">get_gem_directory()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.get_standards_directory"><code class="docutils literal notranslate"><span class="pre">get_standards_directory()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.latest_github_version"><code class="docutils literal notranslate"><span class="pre">latest_github_version()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.parse_lbt_gh_versions"><code class="docutils literal notranslate"><span class="pre">parse_lbt_gh_versions()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.remove_dist_info_files"><code class="docutils literal notranslate"><span class="pre">remove_dist_info_files()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.set_config_dict"><code class="docutils literal notranslate"><span class="pre">set_config_dict()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.update_libraries_pip"><code class="docutils literal notranslate"><span class="pre">update_libraries_pip()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.change.html#ladybug_rhino.versioning.change.update_requirements_version"><code class="docutils literal notranslate"><span class="pre">update_requirements_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html">ladybug_rhino.versioning.component module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Component"><code class="docutils literal notranslate"><span class="pre">Component</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Component.add_input"><code class="docutils literal notranslate"><span class="pre">add_input()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Component.add_output"><code class="docutils literal notranslate"><span class="pre">add_output()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Component.from_gh_component"><code class="docutils literal notranslate"><span class="pre">from_gh_component()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Component.to_dict"><code class="docutils literal notranslate"><span class="pre">to_dict()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Component.to_json"><code class="docutils literal notranslate"><span class="pre">to_json()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Component.MAPPING"><code class="docutils literal notranslate"><span class="pre">MAPPING</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Component.inputs"><code class="docutils literal notranslate"><span class="pre">inputs</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Component.outputs"><code class="docutils literal notranslate"><span class="pre">outputs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Port"><code class="docutils literal notranslate"><span class="pre">Port</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Port.from_gh_port"><code class="docutils literal notranslate"><span class="pre">from_gh_port()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="../../ladybug_rhino.versioning.component.html#ladybug_rhino.versioning.component.Port.to_dict"><code class="docutils literal notranslate"><span class="pre">to_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html">ladybug_rhino.versioning.diff module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html#ladybug_rhino.versioning.diff.current_userobject_version"><code class="docutils literal notranslate"><span class="pre">current_userobject_version()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html#ladybug_rhino.versioning.diff.has_version_changed"><code class="docutils literal notranslate"><span class="pre">has_version_changed()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html#ladybug_rhino.versioning.diff.input_output_changed"><code class="docutils literal notranslate"><span class="pre">input_output_changed()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html#ladybug_rhino.versioning.diff.insert_new_user_object"><code class="docutils literal notranslate"><span class="pre">insert_new_user_object()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html#ladybug_rhino.versioning.diff.mark_component"><code class="docutils literal notranslate"><span class="pre">mark_component()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html#ladybug_rhino.versioning.diff.parse_version"><code class="docutils literal notranslate"><span class="pre">parse_version()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html#ladybug_rhino.versioning.diff.sync_component"><code class="docutils literal notranslate"><span class="pre">sync_component()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html#ladybug_rhino.versioning.diff.update_port"><code class="docutils literal notranslate"><span class="pre">update_port()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html#ladybug_rhino.versioning.diff.update_ports"><code class="docutils literal notranslate"><span class="pre">update_ports()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html#ladybug_rhino.versioning.diff.validate_change_type"><code class="docutils literal notranslate"><span class="pre">validate_change_type()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.diff.html#ladybug_rhino.versioning.diff.validate_version"><code class="docutils literal notranslate"><span class="pre">validate_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html">ladybug_rhino.versioning.export module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html#ladybug_rhino.versioning.export.clean_component_filename"><code class="docutils literal notranslate"><span class="pre">clean_component_filename()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html#ladybug_rhino.versioning.export.export_component"><code class="docutils literal notranslate"><span class="pre">export_component()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html#ladybug_rhino.versioning.export.export_component_icon"><code class="docutils literal notranslate"><span class="pre">export_component_icon()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html#ladybug_rhino.versioning.export.export_component_screen_capture"><code class="docutils literal notranslate"><span class="pre">export_component_screen_capture()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html#ladybug_rhino.versioning.export.export_component_to_markdown"><code class="docutils literal notranslate"><span class="pre">export_component_to_markdown()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html#ladybug_rhino.versioning.export.export_plugin_to_markdown"><code class="docutils literal notranslate"><span class="pre">export_plugin_to_markdown()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.export.html#ladybug_rhino.versioning.export.refresh_toolbar"><code class="docutils literal notranslate"><span class="pre">refresh_toolbar()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html">ladybug_rhino.versioning.gather module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html#ladybug_rhino.versioning.gather.gather_canvas_components"><code class="docutils literal notranslate"><span class="pre">gather_canvas_components()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html#ladybug_rhino.versioning.gather.gather_connected_components"><code class="docutils literal notranslate"><span class="pre">gather_connected_components()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html#ladybug_rhino.versioning.gather.is_ladybug_tools"><code class="docutils literal notranslate"><span class="pre">is_ladybug_tools()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html#ladybug_rhino.versioning.gather.place_component"><code class="docutils literal notranslate"><span class="pre">place_component()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html#ladybug_rhino.versioning.gather.place_plugin_components"><code class="docutils literal notranslate"><span class="pre">place_plugin_components()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html#ladybug_rhino.versioning.gather.plugin_components"><code class="docutils literal notranslate"><span class="pre">plugin_components()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.gather.html#ladybug_rhino.versioning.gather.remove_component"><code class="docutils literal notranslate"><span class="pre">remove_component()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.versioning.legacy.html">ladybug_rhino.versioning.legacy module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.legacy.html#ladybug_rhino.versioning.legacy.insert_new_native_gh_component"><code class="docutils literal notranslate"><span class="pre">insert_new_native_gh_component()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.legacy.html#ladybug_rhino.versioning.legacy.insert_new_user_object"><code class="docutils literal notranslate"><span class="pre">insert_new_user_object()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.legacy.html#ladybug_rhino.versioning.legacy.mark_component"><code class="docutils literal notranslate"><span class="pre">mark_component()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.legacy.html#ladybug_rhino.versioning.legacy.suggest_new_component"><code class="docutils literal notranslate"><span class="pre">suggest_new_component()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.versioning.release.html">ladybug_rhino.versioning.release module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.release.html#ladybug_rhino.versioning.release.update_component_version"><code class="docutils literal notranslate"><span class="pre">update_component_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.versioning.userobject.html">ladybug_rhino.versioning.userobject module</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../ladybug_rhino.versioning.userobject.html#ladybug_rhino.versioning.userobject.create_userobject"><code class="docutils literal notranslate"><span class="pre">create_userobject()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.versioning.html#module-ladybug_rhino.versioning">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html">ladybug_rhino.bakedisplay module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_arc2d"><code class="docutils literal notranslate"><span class="pre">bake_display_arc2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_arc3d"><code class="docutils literal notranslate"><span class="pre">bake_display_arc3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_cone"><code class="docutils literal notranslate"><span class="pre">bake_display_cone()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_cylinder"><code class="docutils literal notranslate"><span class="pre">bake_display_cylinder()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_face3d"><code class="docutils literal notranslate"><span class="pre">bake_display_face3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_linesegment2d"><code class="docutils literal notranslate"><span class="pre">bake_display_linesegment2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_linesegment3d"><code class="docutils literal notranslate"><span class="pre">bake_display_linesegment3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_mesh2d"><code class="docutils literal notranslate"><span class="pre">bake_display_mesh2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_mesh3d"><code class="docutils literal notranslate"><span class="pre">bake_display_mesh3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_plane"><code class="docutils literal notranslate"><span class="pre">bake_display_plane()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_point2d"><code class="docutils literal notranslate"><span class="pre">bake_display_point2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_point3d"><code class="docutils literal notranslate"><span class="pre">bake_display_point3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_polyface3d"><code class="docutils literal notranslate"><span class="pre">bake_display_polyface3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_polygon2d"><code class="docutils literal notranslate"><span class="pre">bake_display_polygon2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_polyline2d"><code class="docutils literal notranslate"><span class="pre">bake_display_polyline2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_polyline3d"><code class="docutils literal notranslate"><span class="pre">bake_display_polyline3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_ray2d"><code class="docutils literal notranslate"><span class="pre">bake_display_ray2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_ray3d"><code class="docutils literal notranslate"><span class="pre">bake_display_ray3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_sphere"><code class="docutils literal notranslate"><span class="pre">bake_display_sphere()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_text3d"><code class="docutils literal notranslate"><span class="pre">bake_display_text3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_vector2d"><code class="docutils literal notranslate"><span class="pre">bake_display_vector2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakedisplay.html#ladybug_rhino.bakedisplay.bake_display_vector3d"><code class="docutils literal notranslate"><span class="pre">bake_display_vector3d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html">ladybug_rhino.bakegeometry module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_arc2d"><code class="docutils literal notranslate"><span class="pre">bake_arc2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_arc3d"><code class="docutils literal notranslate"><span class="pre">bake_arc3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_cone"><code class="docutils literal notranslate"><span class="pre">bake_cone()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_cylinder"><code class="docutils literal notranslate"><span class="pre">bake_cylinder()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_face3d"><code class="docutils literal notranslate"><span class="pre">bake_face3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_linesegment2d"><code class="docutils literal notranslate"><span class="pre">bake_linesegment2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_linesegment3d"><code class="docutils literal notranslate"><span class="pre">bake_linesegment3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_mesh2d"><code class="docutils literal notranslate"><span class="pre">bake_mesh2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_mesh3d"><code class="docutils literal notranslate"><span class="pre">bake_mesh3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_mesh3d_as_hatch"><code class="docutils literal notranslate"><span class="pre">bake_mesh3d_as_hatch()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_plane"><code class="docutils literal notranslate"><span class="pre">bake_plane()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_point2d"><code class="docutils literal notranslate"><span class="pre">bake_point2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_point3d"><code class="docutils literal notranslate"><span class="pre">bake_point3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_polyface3d"><code class="docutils literal notranslate"><span class="pre">bake_polyface3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_polygon2d"><code class="docutils literal notranslate"><span class="pre">bake_polygon2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_polyline2d"><code class="docutils literal notranslate"><span class="pre">bake_polyline2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_polyline3d"><code class="docutils literal notranslate"><span class="pre">bake_polyline3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_ray2d"><code class="docutils literal notranslate"><span class="pre">bake_ray2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_ray3d"><code class="docutils literal notranslate"><span class="pre">bake_ray3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_sphere"><code class="docutils literal notranslate"><span class="pre">bake_sphere()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_vector2d"><code class="docutils literal notranslate"><span class="pre">bake_vector2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakegeometry.html#ladybug_rhino.bakegeometry.bake_vector3d"><code class="docutils literal notranslate"><span class="pre">bake_vector3d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.bakeobjects.html">ladybug_rhino.bakeobjects module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakeobjects.html#ladybug_rhino.bakeobjects.bake_analysis"><code class="docutils literal notranslate"><span class="pre">bake_analysis()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakeobjects.html#ladybug_rhino.bakeobjects.bake_context"><code class="docutils literal notranslate"><span class="pre">bake_context()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakeobjects.html#ladybug_rhino.bakeobjects.bake_legend"><code class="docutils literal notranslate"><span class="pre">bake_legend()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.bakeobjects.html#ladybug_rhino.bakeobjects.bake_visualization_set"><code class="docutils literal notranslate"><span class="pre">bake_visualization_set()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.color.html">ladybug_rhino.color module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.color.html#ladybug_rhino.color.argb_color_to_color"><code class="docutils literal notranslate"><span class="pre">argb_color_to_color()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.color.html#ladybug_rhino.color.black"><code class="docutils literal notranslate"><span class="pre">black()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.color.html#ladybug_rhino.color.color_to_color"><code class="docutils literal notranslate"><span class="pre">color_to_color()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.color.html#ladybug_rhino.color.gray"><code class="docutils literal notranslate"><span class="pre">gray()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.colorize.html">ladybug_rhino.colorize module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredLine"><code class="docutils literal notranslate"><span class="pre">ColoredLine</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredLine.BakeGeometry"><code class="docutils literal notranslate"><span class="pre">BakeGeometry()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredLine.DrawViewportMeshes"><code class="docutils literal notranslate"><span class="pre">DrawViewportMeshes()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredLine.DrawViewportWires"><code class="docutils literal notranslate"><span class="pre">DrawViewportWires()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredLine.DuplicateGeometry"><code class="docutils literal notranslate"><span class="pre">DuplicateGeometry()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredLine.Morph"><code class="docutils literal notranslate"><span class="pre">Morph()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredLine.ToString"><code class="docutils literal notranslate"><span class="pre">ToString()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredLine.Transform"><code class="docutils literal notranslate"><span class="pre">Transform()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredLine.get_TypeDescription"><code class="docutils literal notranslate"><span class="pre">get_TypeDescription()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredLine.get_TypeName"><code class="docutils literal notranslate"><span class="pre">get_TypeName()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint"><code class="docutils literal notranslate"><span class="pre">ColoredPoint</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.BakeGeometry"><code class="docutils literal notranslate"><span class="pre">BakeGeometry()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.DrawViewportMeshes"><code class="docutils literal notranslate"><span class="pre">DrawViewportMeshes()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.DrawViewportWires"><code class="docutils literal notranslate"><span class="pre">DrawViewportWires()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.DuplicateGeometry"><code class="docutils literal notranslate"><span class="pre">DuplicateGeometry()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.Morph"><code class="docutils literal notranslate"><span class="pre">Morph()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.ToString"><code class="docutils literal notranslate"><span class="pre">ToString()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.Transform"><code class="docutils literal notranslate"><span class="pre">Transform()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.get_TypeDescription"><code class="docutils literal notranslate"><span class="pre">get_TypeDescription()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPoint.get_TypeName"><code class="docutils literal notranslate"><span class="pre">get_TypeName()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline"><code class="docutils literal notranslate"><span class="pre">ColoredPolyline</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.BakeGeometry"><code class="docutils literal notranslate"><span class="pre">BakeGeometry()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.DrawViewportMeshes"><code class="docutils literal notranslate"><span class="pre">DrawViewportMeshes()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.DrawViewportWires"><code class="docutils literal notranslate"><span class="pre">DrawViewportWires()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.DuplicateGeometry"><code class="docutils literal notranslate"><span class="pre">DuplicateGeometry()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.Morph"><code class="docutils literal notranslate"><span class="pre">Morph()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.ToString"><code class="docutils literal notranslate"><span class="pre">ToString()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.Transform"><code class="docutils literal notranslate"><span class="pre">Transform()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.get_TypeDescription"><code class="docutils literal notranslate"><span class="pre">get_TypeDescription()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.colorize.html#ladybug_rhino.colorize.ColoredPolyline.get_TypeName"><code class="docutils literal notranslate"><span class="pre">get_TypeName()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.command.html">ladybug_rhino.command module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.add_legend_min_max_options"><code class="docutils literal notranslate"><span class="pre">add_legend_min_max_options()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.add_month_day_hour_options"><code class="docutils literal notranslate"><span class="pre">add_month_day_hour_options()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.add_north_option"><code class="docutils literal notranslate"><span class="pre">add_north_option()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.add_to_document_request"><code class="docutils literal notranslate"><span class="pre">add_to_document_request()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.bake_pollination_vis_set"><code class="docutils literal notranslate"><span class="pre">bake_pollination_vis_set()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.current_units"><code class="docutils literal notranslate"><span class="pre">current_units()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.import_honeybee_ui"><code class="docutils literal notranslate"><span class="pre">import_honeybee_ui()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.import_ladybug_display_schema"><code class="docutils literal notranslate"><span class="pre">import_ladybug_display_schema()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.import_pollination_core"><code class="docutils literal notranslate"><span class="pre">import_pollination_core()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.is_pollination_licensed"><code class="docutils literal notranslate"><span class="pre">is_pollination_licensed()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.local_processor_count"><code class="docutils literal notranslate"><span class="pre">local_processor_count()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.project_information"><code class="docutils literal notranslate"><span class="pre">project_information()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.recommended_processor_count"><code class="docutils literal notranslate"><span class="pre">recommended_processor_count()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.retrieve_cooling_design_day_input"><code class="docutils literal notranslate"><span class="pre">retrieve_cooling_design_day_input()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.retrieve_epw_input"><code class="docutils literal notranslate"><span class="pre">retrieve_epw_input()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.retrieve_geometry_input"><code class="docutils literal notranslate"><span class="pre">retrieve_geometry_input()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.setup_design_day_input"><code class="docutils literal notranslate"><span class="pre">setup_design_day_input()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.setup_epw_input"><code class="docutils literal notranslate"><span class="pre">setup_epw_input()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.command.html#ladybug_rhino.command.study_geometry_request"><code class="docutils literal notranslate"><span class="pre">study_geometry_request()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.config.html">ladybug_rhino.config module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.config.html#ladybug_rhino.config.Folders"><code class="docutils literal notranslate"><span class="pre">Folders</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.config.html#ladybug_rhino.config.Folders.gha_folder"><code class="docutils literal notranslate"><span class="pre">gha_folder</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.config.html#ladybug_rhino.config.Folders.lbt_grasshopper_version"><code class="docutils literal notranslate"><span class="pre">lbt_grasshopper_version</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.config.html#ladybug_rhino.config.Folders.lbt_grasshopper_version_str"><code class="docutils literal notranslate"><span class="pre">lbt_grasshopper_version_str</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.config.html#ladybug_rhino.config.Folders.uo_folder"><code class="docutils literal notranslate"><span class="pre">uo_folder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.config.html#ladybug_rhino.config.conversion_to_meters"><code class="docutils literal notranslate"><span class="pre">conversion_to_meters()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.config.html#ladybug_rhino.config.current_tolerance"><code class="docutils literal notranslate"><span class="pre">current_tolerance()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.config.html#ladybug_rhino.config.units_abbreviation"><code class="docutils literal notranslate"><span class="pre">units_abbreviation()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.config.html#ladybug_rhino.config.units_system"><code class="docutils literal notranslate"><span class="pre">units_system()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.download.html">ladybug_rhino.download module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.download.html#ladybug_rhino.download.download_file"><code class="docutils literal notranslate"><span class="pre">download_file()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.download.html#ladybug_rhino.download.download_file_by_name"><code class="docutils literal notranslate"><span class="pre">download_file_by_name()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.download.html#ladybug_rhino.download.extract_project_info"><code class="docutils literal notranslate"><span class="pre">extract_project_info()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html">ladybug_rhino.fromgeometry module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_arc2d"><code class="docutils literal notranslate"><span class="pre">from_arc2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_arc3d"><code class="docutils literal notranslate"><span class="pre">from_arc3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_cone"><code class="docutils literal notranslate"><span class="pre">from_cone()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_cylinder"><code class="docutils literal notranslate"><span class="pre">from_cylinder()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_face3d"><code class="docutils literal notranslate"><span class="pre">from_face3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_face3d_to_solid"><code class="docutils literal notranslate"><span class="pre">from_face3d_to_solid()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_face3d_to_wireframe"><code class="docutils literal notranslate"><span class="pre">from_face3d_to_wireframe()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_face3ds_to_colored_mesh"><code class="docutils literal notranslate"><span class="pre">from_face3ds_to_colored_mesh()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_face3ds_to_joined_brep"><code class="docutils literal notranslate"><span class="pre">from_face3ds_to_joined_brep()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_linesegment2d"><code class="docutils literal notranslate"><span class="pre">from_linesegment2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_linesegment3d"><code class="docutils literal notranslate"><span class="pre">from_linesegment3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_mesh2d"><code class="docutils literal notranslate"><span class="pre">from_mesh2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_mesh2d_to_outline"><code class="docutils literal notranslate"><span class="pre">from_mesh2d_to_outline()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_mesh3d"><code class="docutils literal notranslate"><span class="pre">from_mesh3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_mesh3d_to_outline"><code class="docutils literal notranslate"><span class="pre">from_mesh3d_to_outline()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_mesh3d_to_wireframe"><code class="docutils literal notranslate"><span class="pre">from_mesh3d_to_wireframe()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_mesh3ds_to_colored_mesh"><code class="docutils literal notranslate"><span class="pre">from_mesh3ds_to_colored_mesh()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_plane"><code class="docutils literal notranslate"><span class="pre">from_plane()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_point2d"><code class="docutils literal notranslate"><span class="pre">from_point2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_point3d"><code class="docutils literal notranslate"><span class="pre">from_point3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_polyface3d"><code class="docutils literal notranslate"><span class="pre">from_polyface3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_polyface3d_to_wireframe"><code class="docutils literal notranslate"><span class="pre">from_polyface3d_to_wireframe()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_polygon2d"><code class="docutils literal notranslate"><span class="pre">from_polygon2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_polyline2d"><code class="docutils literal notranslate"><span class="pre">from_polyline2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_polyline2d_to_joined_polyline"><code class="docutils literal notranslate"><span class="pre">from_polyline2d_to_joined_polyline()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_polyline2d_to_offset_brep"><code class="docutils literal notranslate"><span class="pre">from_polyline2d_to_offset_brep()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_polyline3d"><code class="docutils literal notranslate"><span class="pre">from_polyline3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_ray2d"><code class="docutils literal notranslate"><span class="pre">from_ray2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_ray3d"><code class="docutils literal notranslate"><span class="pre">from_ray3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_sphere"><code class="docutils literal notranslate"><span class="pre">from_sphere()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_vector2d"><code class="docutils literal notranslate"><span class="pre">from_vector2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromgeometry.html#ladybug_rhino.fromgeometry.from_vector3d"><code class="docutils literal notranslate"><span class="pre">from_vector3d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html">ladybug_rhino.fromhoneybee module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_aperture"><code class="docutils literal notranslate"><span class="pre">from_aperture()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_aperture_to_wireframe"><code class="docutils literal notranslate"><span class="pre">from_aperture_to_wireframe()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_door"><code class="docutils literal notranslate"><span class="pre">from_door()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_door_to_wireframe"><code class="docutils literal notranslate"><span class="pre">from_door_to_wireframe()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_face"><code class="docutils literal notranslate"><span class="pre">from_face()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_face_to_wireframe"><code class="docutils literal notranslate"><span class="pre">from_face_to_wireframe()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_hb_objects"><code class="docutils literal notranslate"><span class="pre">from_hb_objects()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_hb_objects_to_wireframe"><code class="docutils literal notranslate"><span class="pre">from_hb_objects_to_wireframe()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_model"><code class="docutils literal notranslate"><span class="pre">from_model()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_model_to_wireframe"><code class="docutils literal notranslate"><span class="pre">from_model_to_wireframe()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_room"><code class="docutils literal notranslate"><span class="pre">from_room()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_room_to_wireframe"><code class="docutils literal notranslate"><span class="pre">from_room_to_wireframe()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_shade"><code class="docutils literal notranslate"><span class="pre">from_shade()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_shade_mesh"><code class="docutils literal notranslate"><span class="pre">from_shade_mesh()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_shade_mesh_to_wireframe"><code class="docutils literal notranslate"><span class="pre">from_shade_mesh_to_wireframe()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromhoneybee.html#ladybug_rhino.fromhoneybee.from_shade_to_wireframe"><code class="docutils literal notranslate"><span class="pre">from_shade_to_wireframe()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html">ladybug_rhino.fromobjects module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html#ladybug_rhino.fromobjects.compass_objects"><code class="docutils literal notranslate"><span class="pre">compass_objects()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html#ladybug_rhino.fromobjects.create_luminaire_axes"><code class="docutils literal notranslate"><span class="pre">create_luminaire_axes()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html#ladybug_rhino.fromobjects.create_luminaire_brep"><code class="docutils literal notranslate"><span class="pre">create_luminaire_brep()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html#ladybug_rhino.fromobjects.from_geometry"><code class="docutils literal notranslate"><span class="pre">from_geometry()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html#ladybug_rhino.fromobjects.label_countours"><code class="docutils literal notranslate"><span class="pre">label_countours()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html#ladybug_rhino.fromobjects.legend_objects"><code class="docutils literal notranslate"><span class="pre">legend_objects()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html#ladybug_rhino.fromobjects.luminaire_objects"><code class="docutils literal notranslate"><span class="pre">luminaire_objects()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html#ladybug_rhino.fromobjects.luminaire_web_to_rhino_breps"><code class="docutils literal notranslate"><span class="pre">luminaire_web_to_rhino_breps()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html#ladybug_rhino.fromobjects.mesh_to_contours"><code class="docutils literal notranslate"><span class="pre">mesh_to_contours()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html#ladybug_rhino.fromobjects.place_luminaire_from_object"><code class="docutils literal notranslate"><span class="pre">place_luminaire_from_object()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.fromobjects.html#ladybug_rhino.fromobjects.transform_geometry"><code class="docutils literal notranslate"><span class="pre">transform_geometry()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.ghpath.html">ladybug_rhino.ghpath module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.ghpath.html#ladybug_rhino.ghpath.clean_libraries"><code class="docutils literal notranslate"><span class="pre">clean_libraries()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.ghpath.html#ladybug_rhino.ghpath.clean_userobjects"><code class="docutils literal notranslate"><span class="pre">clean_userobjects()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.ghpath.html#ladybug_rhino.ghpath.copy_components_packages"><code class="docutils literal notranslate"><span class="pre">copy_components_packages()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.ghpath.html#ladybug_rhino.ghpath.copy_packages_to_libraries"><code class="docutils literal notranslate"><span class="pre">copy_packages_to_libraries()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.ghpath.html#ladybug_rhino.ghpath.copy_packages_to_userobjects"><code class="docutils literal notranslate"><span class="pre">copy_packages_to_userobjects()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.ghpath.html#ladybug_rhino.ghpath.find_grasshopper_libraries"><code class="docutils literal notranslate"><span class="pre">find_grasshopper_libraries()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.ghpath.html#ladybug_rhino.ghpath.find_grasshopper_userobjects"><code class="docutils literal notranslate"><span class="pre">find_grasshopper_userobjects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html">ladybug_rhino.grasshopper module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.all_required_inputs"><code class="docutils literal notranslate"><span class="pre">all_required_inputs()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.bring_to_front"><code class="docutils literal notranslate"><span class="pre">bring_to_front()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.component_guid"><code class="docutils literal notranslate"><span class="pre">component_guid()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.data_tree_to_list"><code class="docutils literal notranslate"><span class="pre">data_tree_to_list()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.de_objectify_output"><code class="docutils literal notranslate"><span class="pre">de_objectify_output()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.document_counter"><code class="docutils literal notranslate"><span class="pre">document_counter()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.flatten_data_tree"><code class="docutils literal notranslate"><span class="pre">flatten_data_tree()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.get_sticky_variable"><code class="docutils literal notranslate"><span class="pre">get_sticky_variable()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.give_popup_message"><code class="docutils literal notranslate"><span class="pre">give_popup_message()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.give_remark"><code class="docutils literal notranslate"><span class="pre">give_remark()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.give_warning"><code class="docutils literal notranslate"><span class="pre">give_warning()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.hide_output"><code class="docutils literal notranslate"><span class="pre">hide_output()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.is_user_admin"><code class="docutils literal notranslate"><span class="pre">is_user_admin()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.list_to_data_tree"><code class="docutils literal notranslate"><span class="pre">list_to_data_tree()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.local_processor_count"><code class="docutils literal notranslate"><span class="pre">local_processor_count()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.longest_list"><code class="docutils literal notranslate"><span class="pre">longest_list()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.merge_data_tree"><code class="docutils literal notranslate"><span class="pre">merge_data_tree()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.objectify_output"><code class="docutils literal notranslate"><span class="pre">objectify_output()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.recipe_result"><code class="docutils literal notranslate"><span class="pre">recipe_result()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.recommended_processor_count"><code class="docutils literal notranslate"><span class="pre">recommended_processor_count()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.run_function_in_parallel"><code class="docutils literal notranslate"><span class="pre">run_function_in_parallel()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.schedule_solution"><code class="docutils literal notranslate"><span class="pre">schedule_solution()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.send_to_back"><code class="docutils literal notranslate"><span class="pre">send_to_back()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.set_sticky_variable"><code class="docutils literal notranslate"><span class="pre">set_sticky_variable()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.show_output"><code class="docutils literal notranslate"><span class="pre">show_output()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.turn_off_old_tag"><code class="docutils literal notranslate"><span class="pre">turn_off_old_tag()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.unflatten_to_data_tree"><code class="docutils literal notranslate"><span class="pre">unflatten_to_data_tree()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.wrap_output"><code class="docutils literal notranslate"><span class="pre">wrap_output()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.grasshopper.html#ladybug_rhino.grasshopper.wrap_output_to_number"><code class="docutils literal notranslate"><span class="pre">wrap_output_to_number()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.intersect.html">ladybug_rhino.intersect module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.bounding_box"><code class="docutils literal notranslate"><span class="pre">bounding_box()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.bounding_box_extents"><code class="docutils literal notranslate"><span class="pre">bounding_box_extents()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.generate_intersection_rays"><code class="docutils literal notranslate"><span class="pre">generate_intersection_rays()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.geo_min_max_height"><code class="docutils literal notranslate"><span class="pre">geo_min_max_height()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.intersect_mesh_lines"><code class="docutils literal notranslate"><span class="pre">intersect_mesh_lines()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.intersect_mesh_rays"><code class="docutils literal notranslate"><span class="pre">intersect_mesh_rays()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.intersect_mesh_rays_distance"><code class="docutils literal notranslate"><span class="pre">intersect_mesh_rays_distance()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.intersect_rays_with_mesh_faces"><code class="docutils literal notranslate"><span class="pre">intersect_rays_with_mesh_faces()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.intersect_solid"><code class="docutils literal notranslate"><span class="pre">intersect_solid()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.intersect_solids"><code class="docutils literal notranslate"><span class="pre">intersect_solids()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.intersect_solids_parallel"><code class="docutils literal notranslate"><span class="pre">intersect_solids_parallel()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.intersect_view_factor"><code class="docutils literal notranslate"><span class="pre">intersect_view_factor()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.join_geometry_to_brep"><code class="docutils literal notranslate"><span class="pre">join_geometry_to_brep()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.join_geometry_to_gridded_mesh"><code class="docutils literal notranslate"><span class="pre">join_geometry_to_gridded_mesh()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.join_geometry_to_mesh"><code class="docutils literal notranslate"><span class="pre">join_geometry_to_mesh()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.normal_at_point"><code class="docutils literal notranslate"><span class="pre">normal_at_point()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.overlapping_bounding_boxes"><code class="docutils literal notranslate"><span class="pre">overlapping_bounding_boxes()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.split_solid_to_floors"><code class="docutils literal notranslate"><span class="pre">split_solid_to_floors()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.intersect.html#ladybug_rhino.intersect.trace_ray"><code class="docutils literal notranslate"><span class="pre">trace_ray()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.light.html">ladybug_rhino.light module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.light.html#ladybug_rhino.light.disable_sun"><code class="docutils literal notranslate"><span class="pre">disable_sun()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.light.html#ladybug_rhino.light.set_sun"><code class="docutils literal notranslate"><span class="pre">set_sun()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.light.html#ladybug_rhino.light.set_suns"><code class="docutils literal notranslate"><span class="pre">set_suns()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.openstudio.html">ladybug_rhino.openstudio module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.openstudio.html#ladybug_rhino.openstudio.dump_osm"><code class="docutils literal notranslate"><span class="pre">dump_osm()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.openstudio.html#ladybug_rhino.openstudio.import_openstudio"><code class="docutils literal notranslate"><span class="pre">import_openstudio()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.openstudio.html#ladybug_rhino.openstudio.load_osm"><code class="docutils literal notranslate"><span class="pre">load_osm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.planarize.html">ladybug_rhino.planarize module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.planarize.html#ladybug_rhino.planarize.curved_solid_faces"><code class="docutils literal notranslate"><span class="pre">curved_solid_faces()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.planarize.html#ladybug_rhino.planarize.curved_surface_faces"><code class="docutils literal notranslate"><span class="pre">curved_surface_faces()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.planarize.html#ladybug_rhino.planarize.has_curved_face"><code class="docutils literal notranslate"><span class="pre">has_curved_face()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.planarize.html#ladybug_rhino.planarize.mesh_faces_to_face3d"><code class="docutils literal notranslate"><span class="pre">mesh_faces_to_face3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.planarize.html#ladybug_rhino.planarize.planar_face_curved_edge_vertices"><code class="docutils literal notranslate"><span class="pre">planar_face_curved_edge_vertices()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.preview.html">ladybug_rhino.preview module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.RhinoPointConduit"><code class="docutils literal notranslate"><span class="pre">RhinoPointConduit</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.RhinoPointConduit.CalculateBoundingBox"><code class="docutils literal notranslate"><span class="pre">CalculateBoundingBox()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.RhinoPointConduit.PostDrawObjects"><code class="docutils literal notranslate"><span class="pre">PostDrawObjects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConduit"><code class="docutils literal notranslate"><span class="pre">VisualizationSetConduit</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConduit.CalculateBoundingBox"><code class="docutils literal notranslate"><span class="pre">CalculateBoundingBox()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConduit.DrawForeground"><code class="docutils literal notranslate"><span class="pre">DrawForeground()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConduit.PostDrawObjects"><code class="docutils literal notranslate"><span class="pre">PostDrawObjects()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConduit.PreDrawObjects"><code class="docutils literal notranslate"><span class="pre">PreDrawObjects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter"><code class="docutils literal notranslate"><span class="pre">VisualizationSetConverter</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.ToString"><code class="docutils literal notranslate"><span class="pre">ToString()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.convert_legend2d"><code class="docutils literal notranslate"><span class="pre">convert_legend2d()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.sort_shaded_objects"><code class="docutils literal notranslate"><span class="pre">sort_shaded_objects()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.translate_analysis_geometry"><code class="docutils literal notranslate"><span class="pre">translate_analysis_geometry()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.translate_analysis_mesh"><code class="docutils literal notranslate"><span class="pre">translate_analysis_mesh()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.translate_context_geometry"><code class="docutils literal notranslate"><span class="pre">translate_context_geometry()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.translate_display_text3d"><code class="docutils literal notranslate"><span class="pre">translate_display_text3d()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.translate_legend2d"><code class="docutils literal notranslate"><span class="pre">translate_legend2d()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.translate_legend3d"><code class="docutils literal notranslate"><span class="pre">translate_legend3d()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.translate_objects"><code class="docutils literal notranslate"><span class="pre">translate_objects()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.LINE_TYPE"><code class="docutils literal notranslate"><span class="pre">LINE_TYPE</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.TEXT_HORIZ"><code class="docutils literal notranslate"><span class="pre">TEXT_HORIZ</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.preview.html#ladybug_rhino.preview.VisualizationSetConverter.TEXT_VERT"><code class="docutils literal notranslate"><span class="pre">TEXT_VERT</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html">ladybug_rhino.pythonpath module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.clean_rhino_scripts"><code class="docutils literal notranslate"><span class="pre">clean_rhino_scripts()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.copy_packages_to_rhino_scripts"><code class="docutils literal notranslate"><span class="pre">copy_packages_to_rhino_scripts()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.create_python_package_dir"><code class="docutils literal notranslate"><span class="pre">create_python_package_dir()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.filter_existing_paths"><code class="docutils literal notranslate"><span class="pre">filter_existing_paths()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.find_installed_rhino_scripts"><code class="docutils literal notranslate"><span class="pre">find_installed_rhino_scripts()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.find_installed_rhino_versions_windows"><code class="docutils literal notranslate"><span class="pre">find_installed_rhino_versions_windows()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.find_ironpython_settings_windows"><code class="docutils literal notranslate"><span class="pre">find_ironpython_settings_windows()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.iron_python_search_path"><code class="docutils literal notranslate"><span class="pre">iron_python_search_path()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.iron_python_search_path_windows"><code class="docutils literal notranslate"><span class="pre">iron_python_search_path_windows()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.pythonpath.html#ladybug_rhino.pythonpath.script_editor_search_path"><code class="docutils literal notranslate"><span class="pre">script_editor_search_path()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.resourcepath.html">ladybug_rhino.resourcepath module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.resourcepath.html#ladybug_rhino.resourcepath.setup_resource_folders"><code class="docutils literal notranslate"><span class="pre">setup_resource_folders()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.text.html">ladybug_rhino.text module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.AlignmentTypes"><code class="docutils literal notranslate"><span class="pre">AlignmentTypes</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.AlignmentTypes.horizontal"><code class="docutils literal notranslate"><span class="pre">horizontal()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.AlignmentTypes.vertical"><code class="docutils literal notranslate"><span class="pre">vertical()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo"><code class="docutils literal notranslate"><span class="pre">TextGoo</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.BakeGeometry"><code class="docutils literal notranslate"><span class="pre">BakeGeometry()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.DrawViewportMeshes"><code class="docutils literal notranslate"><span class="pre">DrawViewportMeshes()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.DrawViewportWires"><code class="docutils literal notranslate"><span class="pre">DrawViewportWires()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.DuplicateGeometry"><code class="docutils literal notranslate"><span class="pre">DuplicateGeometry()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.DuplicateText3d"><code class="docutils literal notranslate"><span class="pre">DuplicateText3d()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.GetBoundingBox"><code class="docutils literal notranslate"><span class="pre">GetBoundingBox()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.Morph"><code class="docutils literal notranslate"><span class="pre">Morph()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.ScriptVariable"><code class="docutils literal notranslate"><span class="pre">ScriptVariable()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.ToString"><code class="docutils literal notranslate"><span class="pre">ToString()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.Transform"><code class="docutils literal notranslate"><span class="pre">Transform()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.get_Boundingbox"><code class="docutils literal notranslate"><span class="pre">get_Boundingbox()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.get_ClippingBox"><code class="docutils literal notranslate"><span class="pre">get_ClippingBox()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.get_TypeDescription"><code class="docutils literal notranslate"><span class="pre">get_TypeDescription()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.TextGoo.get_TypeName"><code class="docutils literal notranslate"><span class="pre">get_TypeName()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.text.html#ladybug_rhino.text.text_objects"><code class="docutils literal notranslate"><span class="pre">text_objects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.togeometry.html">ladybug_rhino.togeometry module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_face3d"><code class="docutils literal notranslate"><span class="pre">to_face3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_gridded_mesh3d"><code class="docutils literal notranslate"><span class="pre">to_gridded_mesh3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_joined_gridded_mesh3d"><code class="docutils literal notranslate"><span class="pre">to_joined_gridded_mesh3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_linesegment2d"><code class="docutils literal notranslate"><span class="pre">to_linesegment2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_linesegment3d"><code class="docutils literal notranslate"><span class="pre">to_linesegment3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_mesh2d"><code class="docutils literal notranslate"><span class="pre">to_mesh2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_mesh3d"><code class="docutils literal notranslate"><span class="pre">to_mesh3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_plane"><code class="docutils literal notranslate"><span class="pre">to_plane()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_point2d"><code class="docutils literal notranslate"><span class="pre">to_point2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_point3d"><code class="docutils literal notranslate"><span class="pre">to_point3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_polyface3d"><code class="docutils literal notranslate"><span class="pre">to_polyface3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_polygon2d"><code class="docutils literal notranslate"><span class="pre">to_polygon2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_polyline2d"><code class="docutils literal notranslate"><span class="pre">to_polyline2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_polyline3d"><code class="docutils literal notranslate"><span class="pre">to_polyline3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_ray2d"><code class="docutils literal notranslate"><span class="pre">to_ray2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_ray3d"><code class="docutils literal notranslate"><span class="pre">to_ray3d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_vector2d"><code class="docutils literal notranslate"><span class="pre">to_vector2d()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.togeometry.html#ladybug_rhino.togeometry.to_vector3d"><code class="docutils literal notranslate"><span class="pre">to_vector3d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.viewport.html">ladybug_rhino.viewport module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.camera_oriented_plane"><code class="docutils literal notranslate"><span class="pre">camera_oriented_plane()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.capture_view"><code class="docutils literal notranslate"><span class="pre">capture_view()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.open_viewport"><code class="docutils literal notranslate"><span class="pre">open_viewport()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.orient_to_camera"><code class="docutils literal notranslate"><span class="pre">orient_to_camera()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.set_iso_view_direction"><code class="docutils literal notranslate"><span class="pre">set_iso_view_direction()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.set_view_direction"><code class="docutils literal notranslate"><span class="pre">set_view_direction()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.set_view_display_mode"><code class="docutils literal notranslate"><span class="pre">set_view_display_mode()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.viewport_by_name"><code class="docutils literal notranslate"><span class="pre">viewport_by_name()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.viewport_properties"><code class="docutils literal notranslate"><span class="pre">viewport_properties()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.viewport_vh_vv"><code class="docutils literal notranslate"><span class="pre">viewport_vh_vv()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../ladybug_rhino.visset.html">ladybug_rhino.visset module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.visset.html#ladybug_rhino.visset.VisSetGoo"><code class="docutils literal notranslate"><span class="pre">VisSetGoo</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.visset.html#ladybug_rhino.visset.VisSetGoo.BakeGeometry"><code class="docutils literal notranslate"><span class="pre">BakeGeometry()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../ladybug_rhino.visset.html#ladybug_rhino.visset.VisSetGoo.ToString"><code class="docutils literal notranslate"><span class="pre">ToString()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../ladybug_rhino.visset.html#ladybug_rhino.visset.process_vis_set"><code class="docutils literal notranslate"><span class="pre">process_vis_set()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../ladybug_rhino.html#module-ladybug_rhino">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">ladybug_rhino</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">ladybug_rhino</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for ladybug_rhino.viewport</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions for getting viewport properties, creating new viewports, and editing them.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">System</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># No .NET; We are really screwed</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Failed to import System.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">Rhino.Geometry</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rg</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">Rhino.Display</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rd</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">Rhino</span><span class="w"> </span><span class="kn">import</span> <span class="n">RhinoDoc</span> <span class="k">as</span> <span class="n">rhdoc</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">Rhino.ApplicationSettings.AppearanceSettings</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">aps</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># No RhinoCommon doc is available. This module is useless.</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Failed to import Rhino.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">scriptcontext</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sc</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># No Rhino doc is available. This module is useless.</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Failed to import Rhino scriptcontext.</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextGoo</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># we are outside of Grasshopper</span>
+    <span class="n">TextGoo</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="camera_oriented_plane">
+<a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.camera_oriented_plane">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">camera_oriented_plane</span><span class="p">(</span><span class="n">origin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a Rhino Plane that is oriented facing the camera.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        origin: A Rhino Point for the origin of the plane.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">active_view</span> <span class="o">=</span> <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">ActiveView</span><span class="o">.</span><span class="n">ActiveViewport</span>
+    <span class="n">camera_x</span> <span class="o">=</span> <span class="n">active_view</span><span class="o">.</span><span class="n">CameraX</span>
+    <span class="n">camera_y</span> <span class="o">=</span> <span class="n">active_view</span><span class="o">.</span><span class="n">CameraY</span>
+    <span class="k">return</span> <span class="n">rg</span><span class="o">.</span><span class="n">Plane</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">camera_x</span><span class="p">,</span> <span class="n">camera_y</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="orient_to_camera">
+<a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.orient_to_camera">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">orient_to_camera</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Orient an array of Rhino geometry objects to the camera of the active viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geometry: An array of Rhino Geometry objects (or TextGoo objects) to</span>
+<span class="sd">            the camera of the active Rhino viewport.</span>
+<span class="sd">        position: A point to be used as the origin around which the the geometry</span>
+<span class="sd">            will be oriented. If None, the lower left corner of the bounding box</span>
+<span class="sd">            around the geometry will be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># set the default position if it is None</span>
+    <span class="n">origin</span> <span class="o">=</span> <span class="n">_bounding_box_origin</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span>
+    <span class="n">pt</span> <span class="o">=</span> <span class="n">origin</span> <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">position</span>
+
+    <span class="c1"># get a plane oriented to the camera</span>
+    <span class="n">oriented_plane</span> <span class="o">=</span> <span class="n">camera_oriented_plane</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+
+    <span class="c1"># orient the input geometry to the plane facing the camera</span>
+    <span class="n">base_plane</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Plane</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">rg</span><span class="o">.</span><span class="n">Vector3d</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">xform</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Transform</span><span class="o">.</span><span class="n">PlaneToPlane</span><span class="p">(</span><span class="n">base_plane</span><span class="p">,</span> <span class="n">oriented_plane</span><span class="p">)</span>
+    <span class="n">geo</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">rh_geo</span> <span class="ow">in</span> <span class="n">geometry</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rh_geo</span><span class="p">,</span> <span class="n">TextGoo</span><span class="p">):</span>
+            <span class="n">geo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rh_geo</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">xform</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rh_geo</span><span class="p">,</span> <span class="n">rg</span><span class="o">.</span><span class="n">Point3d</span><span class="p">):</span>
+            <span class="n">geo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">oriented_plane</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rh_geo</span><span class="p">,</span> <span class="n">rg</span><span class="o">.</span><span class="n">Plane</span><span class="p">):</span>
+            <span class="n">geo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">oriented_plane</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_geo</span> <span class="o">=</span> <span class="n">rh_geo</span><span class="o">.</span><span class="n">Duplicate</span><span class="p">()</span>
+            <span class="n">new_geo</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">xform</span><span class="p">)</span>
+            <span class="n">geo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_geo</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">geo</span></div>
+
+
+
+<div class="viewcode-block" id="viewport_by_name">
+<a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.viewport_by_name">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">viewport_by_name</span><span class="p">(</span><span class="n">view_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a Rhino Viewport object using the name of the viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        view_name: Text for the name of the Rhino Viewport. If None, the</span>
+<span class="sd">            current Rhino viewport will be used. If the view is a named view that</span>
+<span class="sd">            is not currently open, it will be restored to the active view of</span>
+<span class="sd">            the Rhino document.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">Find</span><span class="p">(</span><span class="n">view_name</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">ActiveViewport</span> \
+            <span class="k">if</span> <span class="n">view_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">ActiveView</span><span class="o">.</span><span class="n">ActiveViewport</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="c1"># try to find a named view and restore it</span>
+        <span class="n">view_table</span> <span class="o">=</span> <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">NamedViews</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">viewp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">view_table</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">viewp</span><span class="o">.</span><span class="n">Name</span> <span class="o">==</span> <span class="n">view_name</span><span class="p">:</span>
+                <span class="n">active_viewp</span> <span class="o">=</span> <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">ActiveView</span><span class="o">.</span><span class="n">ActiveViewport</span>
+                <span class="n">view_table</span><span class="o">.</span><span class="n">Restore</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">active_viewp</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">active_viewp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Viewport &quot;</span><span class="si">{}</span><span class="s1">&quot; was not found in the Rhino &#39;</span>
+                             <span class="s1">&#39;document.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">view_name</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="open_viewport">
+<a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.open_viewport">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">open_viewport</span><span class="p">(</span><span class="n">view_name</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new Viewport in the active Rhino document at specified dimensions.</span>
+
+<span class="sd">    This will also set the newly-created view to be tha active Viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        view_name: Text for the name of the new Rhino Viewport that will be created.</span>
+<span class="sd">        width: Optional positive integer for the width of the view in pixels. If None,</span>
+<span class="sd">            the width of the currently active viewport will be used.</span>
+<span class="sd">        height: Optional positive integer for the height of the view in pixels. If</span>
+<span class="sd">            None, the height of the currently active viewport will be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># close the view if it already exists</span>
+    <span class="k">if</span> <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">Find</span><span class="p">(</span><span class="n">view_name</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">Find</span><span class="p">(</span><span class="n">view_name</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+
+    <span class="c1"># get the width and the height if it was not specified</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">ActiveView</span><span class="o">.</span><span class="n">ActiveViewport</span><span class="o">.</span><span class="n">Size</span><span class="o">.</span><span class="n">Width</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">width</span> <span class="k">else</span> <span class="n">width</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">ActiveView</span><span class="o">.</span><span class="n">ActiveViewport</span><span class="o">.</span><span class="n">Size</span><span class="o">.</span><span class="n">Height</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">height</span> <span class="k">else</span> <span class="n">height</span>
+
+    <span class="c1"># compute the X,Y screen coordinates where the new viewport will be placed</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">System</span><span class="o">.</span><span class="n">Windows</span><span class="o">.</span><span class="n">Forms</span><span class="o">.</span><span class="n">Screen</span><span class="o">.</span><span class="n">PrimaryScreen</span><span class="o">.</span><span class="n">Bounds</span><span class="o">.</span><span class="n">Width</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">System</span><span class="o">.</span><span class="n">Windows</span><span class="o">.</span><span class="n">Forms</span><span class="o">.</span><span class="n">Screen</span><span class="o">.</span><span class="n">PrimaryScreen</span><span class="o">.</span><span class="n">Bounds</span><span class="o">.</span><span class="n">Height</span> <span class="o">-</span> <span class="n">h</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">rec</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="n">Drawing</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">System</span><span class="o">.</span><span class="n">Drawing</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">System</span><span class="o">.</span><span class="n">Drawing</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+
+    <span class="c1"># add the new view to the rhino document</span>
+    <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span>
+        <span class="n">view_name</span><span class="p">,</span> <span class="n">rd</span><span class="o">.</span><span class="n">DefinedViewportProjection</span><span class="o">.</span><span class="n">Perspective</span><span class="p">,</span> <span class="n">rec</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">viewport_by_name</span><span class="p">(</span><span class="n">view_name</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="set_view_display_mode">
+<a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.set_view_display_mode">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_view_display_mode</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">display_mode</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the display mode of a Rhino Viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        viewport: A Rhino ViewPort object, which will have its display mode set.</span>
+<span class="sd">        display_mode: Text for the display mode to which the Rhino viewport will be</span>
+<span class="sd">            set. For example: Wireframe, Shaded, Rendered, etc.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mode_obj</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="n">DisplayModeDescription</span><span class="o">.</span><span class="n">FindByName</span><span class="p">(</span><span class="n">display_mode</span><span class="p">)</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">DisplayMode</span> <span class="o">=</span> <span class="n">mode_obj</span></div>
+
+
+
+<div class="viewcode-block" id="set_view_direction">
+<a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.set_view_direction">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_view_direction</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lens_length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a Rhino Viewport to face a specific direction.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        viewport: A Rhino ViewPort object, which will have its direction set.</span>
+<span class="sd">        direction: A Rhino vector that will be used to set the direction of the view.</span>
+<span class="sd">        position: Optional Rhino point for the target of the camera. If no point</span>
+<span class="sd">            is provided, the Rhino origin will be used (0, 0, 0).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">position</span> <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rg</span><span class="o">.</span><span class="n">Point3d</span><span class="o">.</span><span class="n">Origin</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Point3d</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">SetCameraLocation</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">SetCameraDirection</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">SetCameraTarget</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lens_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">viewport</span><span class="o">.</span><span class="n">Camera35mmLensLength</span> <span class="o">=</span> <span class="n">lens_length</span></div>
+
+
+
+<div class="viewcode-block" id="set_iso_view_direction">
+<a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.set_iso_view_direction">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_iso_view_direction</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">center_point</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a Rhino Viewport to have an isometric view in a specific direction.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        viewport: A Rhino ViewPort object, which will have its direction set.</span>
+<span class="sd">        direction: A Rhino vector that will be used to set the direction of</span>
+<span class="sd">            the isometric view.</span>
+<span class="sd">        center_point: Optional Rhino point for the target of the camera. If no point</span>
+<span class="sd">            is provided, the Rhino origin will be used (0, 0, 0).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">ChangeToParallelProjection</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">center_point</span> <span class="o">=</span> <span class="n">center_point</span> <span class="k">if</span> <span class="n">center_point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rg</span><span class="o">.</span><span class="n">Point3d</span><span class="o">.</span><span class="n">Origin</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">SetCameraLocation</span><span class="p">(</span><span class="n">rg</span><span class="o">.</span><span class="n">Point3d</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">center_point</span><span class="p">,</span> <span class="n">direction</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">SetCameraTarget</span><span class="p">(</span><span class="n">center_point</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">viewport</span><span class="o">.</span><span class="n">SetCameraDirection</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="capture_view">
+<a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.capture_view">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">capture_view</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">transparent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Capture a Viewport to a PNG file path.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        viewport: A Rhino ViewPort object, which will have its display mode set.</span>
+<span class="sd">        file_path: Full path to the file where the image will be saved.</span>
+<span class="sd">        width: Integer for the image width in pixels. If None, the width of the</span>
+<span class="sd">            active viewport will be used. (Default: None).</span>
+<span class="sd">        height: Integer for the image height in pixels. If None, the height of the</span>
+<span class="sd">            active viewport will be used. (Default: None).</span>
+<span class="sd">        display_mode: Text for the display mode to which the Rhino viewport will be</span>
+<span class="sd">            set. For example: Wireframe, Shaded, Rendered, etc. If None, it will</span>
+<span class="sd">            be the current viewport&#39;s display mode. (Default: None).</span>
+<span class="sd">        transparent: Boolean to note whether the background of the image should be</span>
+<span class="sd">            transparent or have the same color as the Rhino scene. (Default: False).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Full path to the image file that was written.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># create the view capture object</span>
+    <span class="n">active_viewp</span> <span class="o">=</span> <span class="n">viewport_by_name</span><span class="p">()</span>
+    <span class="n">img_w</span> <span class="o">=</span> <span class="n">active_viewp</span><span class="o">.</span><span class="n">Size</span><span class="o">.</span><span class="n">Width</span> <span class="k">if</span> <span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">width</span>
+    <span class="n">img_h</span> <span class="o">=</span> <span class="n">active_viewp</span><span class="o">.</span><span class="n">Size</span><span class="o">.</span><span class="n">Height</span> <span class="k">if</span> <span class="n">height</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">height</span>
+    <span class="n">img_size</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="n">Drawing</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="n">img_w</span><span class="p">,</span> <span class="n">img_h</span><span class="p">)</span>
+
+    <span class="c1"># capture the view</span>
+    <span class="k">if</span> <span class="n">display_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">mode_obj</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="n">DisplayModeDescription</span><span class="o">.</span><span class="n">FindByName</span><span class="p">(</span><span class="n">display_mode</span><span class="p">)</span>
+        <span class="n">pic</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">ParentView</span><span class="o">.</span><span class="n">CaptureToBitmap</span><span class="p">(</span><span class="n">img_size</span><span class="p">,</span> <span class="n">mode_obj</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pic</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">ParentView</span><span class="o">.</span><span class="n">CaptureToBitmap</span><span class="p">(</span><span class="n">img_size</span><span class="p">)</span>
+
+    <span class="c1"># remove the background color if requested</span>
+    <span class="k">if</span> <span class="n">transparent</span><span class="p">:</span>
+        <span class="n">back_col</span> <span class="o">=</span> <span class="n">aps</span><span class="o">.</span><span class="n">ViewportBackgroundColor</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">display_mode</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">viewport</span><span class="o">.</span><span class="n">DisplayMode</span><span class="o">.</span><span class="n">EnglishName</span> <span class="o">==</span> <span class="s1">&#39;Rendered&#39;</span><span class="p">)</span> \
+                <span class="ow">or</span> <span class="n">display_mode</span> <span class="o">==</span> <span class="s1">&#39;Rendered&#39;</span><span class="p">:</span>
+            <span class="n">back_col</span> <span class="o">=</span> <span class="n">rhdoc</span><span class="o">.</span><span class="n">ActiveDoc</span><span class="o">.</span><span class="n">Views</span><span class="o">.</span><span class="n">Document</span><span class="o">.</span><span class="n">RenderSettings</span><span class="o">.</span><span class="n">BackgroundColorTop</span>
+        <span class="n">pic</span><span class="o">.</span><span class="n">MakeTransparent</span><span class="p">(</span><span class="n">back_col</span><span class="p">)</span>
+
+    <span class="c1"># save the bitmap to a png file</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">file_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.png&#39;</span><span class="p">):</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="n">System</span><span class="o">.</span><span class="n">Drawing</span><span class="o">.</span><span class="n">Bitmap</span><span class="o">.</span><span class="n">Save</span><span class="p">(</span><span class="n">pic</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_path</span></div>
+
+
+
+<div class="viewcode-block" id="viewport_vh_vv">
+<a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.viewport_vh_vv">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">viewport_vh_vv</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">view_type</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the horizontal angle (vh) and the vertical angle (vv) from a viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        viewport: A Rhino ViewPort object for which properties will be extracted.</span>
+<span class="sd">        view_type: An integer to set the view type (-vt). Choose from the</span>
+<span class="sd">            choices below.</span>
+
+<span class="sd">            * 0 Perspective (v)</span>
+<span class="sd">            * 1 Hemispherical fisheye (h)</span>
+<span class="sd">            * 2 Parallel (l)</span>
+<span class="sd">            * 3 Cylindrical panorama (c)</span>
+<span class="sd">            * 4 Angular fisheye (a)</span>
+<span class="sd">            * 5 Planisphere [stereographic] projection (s)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># perspective</span>
+        <span class="n">right_vec</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">GetFrustumRightPlane</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">left_vec</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">GetFrustumLeftPlane</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">h_angle</span> <span class="o">=</span> <span class="mi">180</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">rg</span><span class="o">.</span><span class="n">Vector3d</span><span class="o">.</span><span class="n">VectorAngle</span><span class="p">(</span><span class="n">right_vec</span><span class="p">,</span> <span class="n">left_vec</span><span class="p">))</span>
+        <span class="n">bottom_vec</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">GetFrustumBottomPlane</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">top_vec</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">GetFrustumTopPlane</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">v_angle</span> <span class="o">=</span> <span class="mi">180</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">rg</span><span class="o">.</span><span class="n">Vector3d</span><span class="o">.</span><span class="n">VectorAngle</span><span class="p">(</span><span class="n">bottom_vec</span><span class="p">,</span> <span class="n">top_vec</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">h_angle</span><span class="p">,</span> <span class="n">v_angle</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">180</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">v_rect</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">GetNearRect</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">v_rect</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">DistanceTo</span><span class="p">(</span><span class="n">v_rect</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="nb">int</span><span class="p">(</span><span class="n">v_rect</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">DistanceTo</span><span class="p">(</span><span class="n">v_rect</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">180</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">60</span></div>
+
+
+
+<div class="viewcode-block" id="viewport_properties">
+<a class="viewcode-back" href="../../ladybug_rhino.viewport.html#ladybug_rhino.viewport.viewport_properties">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">viewport_properties</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">view_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a dictionary of properties of a Rhino viewport.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        viewport: A Rhino ViewPort object for which properties will be extracted.</span>
+<span class="sd">        view_type: An integer to set the view type (-vt). Choose from the</span>
+<span class="sd">            choices below or set to None to have it derived from the viewport.</span>
+
+<span class="sd">            * 0 Perspective (v)</span>
+<span class="sd">            * 1 Hemispherical fisheye (h)</span>
+<span class="sd">            * 2 Parallel (l)</span>
+<span class="sd">            * 3 Cylindrical panorama (c)</span>
+<span class="sd">            * 4 Angular fisheye (a)</span>
+<span class="sd">            * 5 Planisphere [stereographic] projection (s)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A dictionary with the following keys: &#39;view_type&#39;, &#39;position&#39;, &#39;direction&#39;,</span>
+<span class="sd">        &#39;up_vector&#39;, &#39;h_angle&#39;, &#39;v_angle&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># ensure that we have an integer for the view_type</span>
+    <span class="k">if</span> <span class="n">view_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">view_type</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">viewport</span><span class="o">.</span><span class="n">IsParallelProjection</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="c1"># get the position, direction and up vectors</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">CameraLocation</span>
+    <span class="n">direct</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">CameraDirection</span>
+    <span class="n">up_vec</span> <span class="o">=</span> <span class="n">viewport</span><span class="o">.</span><span class="n">CameraUp</span>
+    <span class="n">direct</span><span class="o">.</span><span class="n">Unitize</span><span class="p">()</span>
+    <span class="n">up_vec</span><span class="o">.</span><span class="n">Unitize</span><span class="p">()</span>
+
+    <span class="c1"># get the h_angle and v_angle from the viewport</span>
+    <span class="n">h_angle</span><span class="p">,</span> <span class="n">v_angle</span> <span class="o">=</span> <span class="n">viewport_vh_vv</span><span class="p">(</span><span class="n">viewport</span><span class="p">,</span> <span class="n">view_type</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;view_type&#39;</span><span class="p">:</span> <span class="n">view_type</span><span class="p">,</span>
+        <span class="s1">&#39;position&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">Z</span><span class="p">),</span>
+        <span class="s1">&#39;direction&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">direct</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">direct</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">direct</span><span class="o">.</span><span class="n">Z</span><span class="p">),</span>
+        <span class="s1">&#39;up_vector&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">up_vec</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">up_vec</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">up_vec</span><span class="o">.</span><span class="n">Z</span><span class="p">),</span>
+        <span class="s1">&#39;h_angle&#39;</span><span class="p">:</span> <span class="n">h_angle</span><span class="p">,</span>
+        <span class="s1">&#39;v_angle&#39;</span><span class="p">:</span> <span class="n">v_angle</span>
+    <span class="p">}</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_bounding_box_origin</span><span class="p">(</span><span class="n">geometry</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the origin of a bounding box around a list of geometry.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geometry: A list of geometry for which the bounding box origin will</span>
+<span class="sd">            be computed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get the first geometry</span>
+    <span class="n">first_geo</span> <span class="o">=</span> <span class="n">geometry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># if the geometry is a point or plane, just return the plane origin</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_geo</span><span class="p">,</span> <span class="n">rg</span><span class="o">.</span><span class="n">Point3d</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">first_geo</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_geo</span><span class="p">,</span> <span class="n">rg</span><span class="o">.</span><span class="n">Plane</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">first_geo</span><span class="o">.</span><span class="n">Origin</span>
+    <span class="c1"># assume that the geometry is a bunch of breps, meshes or text objects</span>
+    <span class="n">b_box</span> <span class="o">=</span> <span class="n">first_geo</span><span class="o">.</span><span class="n">GetBoundingBox</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_geo</span><span class="p">,</span> <span class="n">TextGoo</span><span class="p">)</span> \
+        <span class="k">else</span> <span class="n">first_geo</span><span class="o">.</span><span class="n">get_Boundingbox</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">geo</span> <span class="ow">in</span> <span class="n">geometry</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">TextGoo</span><span class="p">):</span>
+            <span class="n">b_box</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">BoundingBox</span><span class="o">.</span><span class="n">Union</span><span class="p">(</span><span class="n">b_box</span><span class="p">,</span> <span class="n">geo</span><span class="o">.</span><span class="n">get_Boundingbox</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">b_box</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">BoundingBox</span><span class="o">.</span><span class="n">Union</span><span class="p">(</span><span class="n">b_box</span><span class="p">,</span> <span class="n">geo</span><span class="o">.</span><span class="n">GetBoundingBox</span><span class="p">(</span><span class="kc">False</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">b_box</span><span class="o">.</span><span class="n">Corner</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2026, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.0.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

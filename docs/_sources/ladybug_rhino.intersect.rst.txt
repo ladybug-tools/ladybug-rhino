@@ -1,0 +1,7 @@
+ladybug\_rhino.intersect module
+===============================
+
+.. automodule:: ladybug_rhino.intersect
+   :members:
+   :undoc-members:
+   :show-inheritance:
