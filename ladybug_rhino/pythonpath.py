@@ -15,10 +15,11 @@ PACKAGES = (
     'ladybug_rhino', 'ladybug_geometry', 'ladybug_geometry_polyskel',
     'ladybug', 'ladybug_display', 'ladybug_radiance', 'ladybug_comfort',
     'honeybee', 'honeybee_standards', 'honeybee_display', 'honeybee_energy',
-    'honeybee_radiance', 'honeybee_radiance_folder',
+    'honeybee_doe2', 'honeybee_radiance', 'honeybee_radiance_folder',
     'honeybee_radiance_command', 'honeybee_radiance_postprocess',
-    'dragonfly', 'dragonfly_energy', 'dragonfly_radiance', 'dragonfly_uwg',
-    'fairyfly', 'fairyfly_therm', 'lbt_recipes', 'pollination_handlers'
+    'dragonfly', 'dragonfly_energy', 'dragonfly_doe2', 'dragonfly_radiance',
+    'dragonfly_uwg', 'dragonfly_display', 'fairyfly', 'fairyfly_therm',
+    'lbt_recipes', 'pollination_handlers'
 )
 # Rhino versions that the plugins are compatible with
 RHINO_VERSIONS = ('6.0', '7.0', '8.0')
