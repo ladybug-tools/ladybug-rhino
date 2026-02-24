@@ -1,0 +1,7 @@
+ladybug\_rhino.visset module
+============================
+
+.. automodule:: ladybug_rhino.visset
+   :members:
+   :undoc-members:
+   :show-inheritance:
