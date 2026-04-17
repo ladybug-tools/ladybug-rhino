@@ -814,8 +814,10 @@ class VisualizationSetConverter(object):
             (txt, black(), rg.Point2d(loc.x, loc.y), cent_txt, _height, _font)
             for txt, loc in zip(legend.segment_text, txt_pts)]
         t_pt = legend.title_location_2d(vw, vh)
-        legend_title = (legend.title, black(), rg.Point2d(t_pt.x, t_pt.y),
-                        False, _height, _font)
+        title_txt = legend.title
+        row_count = len(title_txt.split('\n'))
+        ypt = t_pt.y if row_count == 1 else t_pt.y - (row_count * _height * 2)
+        legend_title = (title_txt, black(), rg.Point2d(t_pt.x, ypt), False, _height, _font)
         draw_2d_text.insert(0, legend_title)
 
         return draw_sprite, draw_2d_text
