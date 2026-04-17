@@ -253,6 +253,7 @@ def sync_component(component, syncing_component):
         alt_fp = fp.replace('Mofidier', 'Modifier')
         alt_fp = fp.replace('Abolute', 'Absolute')
         alt_fp = alt_fp.replace('gbXML', 'gbXML OSM IDF')
+        alt_fp = alt_fp.replace('Write Modelica DES', 'Export District Energy System')
         if os.path.isfile(alt_fp):
             fp = alt_fp
         elif component.Category in FOLDER_MAP:  # see if category has a folder

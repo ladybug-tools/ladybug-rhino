@@ -14,7 +14,7 @@ except ImportError:
     raise ImportError("Failed to import Grasshopper.")
 
 from ..grasshopper import give_warning
-from .userobject import UO_FOLDER, FOLDER_MAP
+from .userobject import UO_FOLDER
 
 LBT_UO_FOLDERS = (
     'ladybug_grasshopper',
