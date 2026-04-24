@@ -405,7 +405,7 @@ class VisualizationSetConverter(object):
                 points = [from_point2d(pt) for pt in mesh.face_centroids] \
                     if mesh.is_color_by_face else \
                     [from_point2d(pt) for pt in mesh.vertices]
-            colors = [color_to_color(col) for col in mesh.colors]
+            colors = [argb_color_to_color(col) for col in mesh.colors]
             for col, pt in zip(colors, points):
                 self.draw_point.append((pt, rd.PointStyle.RoundSimple, 3, col))
 
@@ -418,7 +418,7 @@ class VisualizationSetConverter(object):
             display_mode: Text for the display mode in which to translate the mesh.
         """
         # translate the color
-        col = color_to_color(color)
+        col = argb_color_to_color(color)
 
         if isinstance(geo_obj, (Point3D, Point2D)):
             # translate analysis point
@@ -566,7 +566,7 @@ class VisualizationSetConverter(object):
             dis_obj: The Ladybug Display geometry object to be translated.
         """
         # first translate the color and get the geometry object
-        col = color_to_color(dis_obj.color)
+        col = argb_color_to_color(dis_obj.color)
         geo_obj = dis_obj.geometry
 
         if isinstance(geo_obj, (Point3D, Point2D)):

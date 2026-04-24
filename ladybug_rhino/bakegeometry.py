@@ -2,7 +2,7 @@
 from .fromgeometry import from_point2d, from_arc2d, from_polyline2d, from_mesh2d, \
     from_point3d, from_plane, from_arc3d, from_polyline3d, \
     from_mesh3d, from_face3d, from_polyface3d, from_sphere, from_cone, from_cylinder
-from .color import color_to_color, gray
+from .color import argb_color_to_color, gray
 
 try:
     from System.Drawing import Color
@@ -197,7 +197,7 @@ def bake_mesh3d_as_hatch(mesh, layer_name=None, attributes=None):
     # get a list of colors that align with the mesh faces
     if mesh.colors is not None:
         if mesh.is_color_by_face:
-            colors = [color_to_color(col) for col in mesh.colors]
+            colors = [argb_color_to_color(col) for col in mesh.colors]
         else:  # compute the average color across the vertices
             colors, v_cols = [], mesh.colors
             for face in mesh.faces:
