@@ -2,7 +2,7 @@
 from __future__ import division
 
 from .config import current_tolerance
-from .color import color_to_color, gray
+from .color import argb_color_to_color, gray
 
 try:
     import Rhino.Geometry as rg
@@ -290,7 +290,7 @@ def from_face3ds_to_colored_mesh(faces, color):
             joined_mesh.Append(from_mesh3d(face.triangulated_mesh3d))
         except Exception:
             pass  # failed to create a Rhino Mesh from the Face3D
-    joined_mesh.VertexColors.CreateMonotoneMesh(color_to_color(color))
+    joined_mesh.VertexColors.CreateMonotoneMesh(argb_color_to_color(color))
     return joined_mesh
 
 
@@ -305,7 +305,7 @@ def from_mesh3ds_to_colored_mesh(meshes, color):
             joined_mesh.Append(from_mesh3d(mesh))
         except Exception:
             pass  # failed to create a Rhino Mesh from the Mesh3d
-    joined_mesh.VertexColors.CreateMonotoneMesh(color_to_color(color))
+    joined_mesh.VertexColors.CreateMonotoneMesh(argb_color_to_color(color))
     return joined_mesh
 
 
@@ -353,7 +353,7 @@ def _translate_mesh(mesh, pt_function):
             rhino_mesh.VertexColors.CreateMonotoneMesh(gray())
             _f_num = 0
             for i, face in enumerate(mesh.faces):
-                col = color_to_color(mesh.colors[i])
+                col = argb_color_to_color(mesh.colors[i])
                 rhino_mesh.VertexColors[_f_num] = col
                 rhino_mesh.VertexColors[_f_num + 1] = col
                 rhino_mesh.VertexColors[_f_num + 2] = col
@@ -370,7 +370,7 @@ def _translate_mesh(mesh, pt_function):
         if mesh.colors is not None:
             rhino_mesh.VertexColors.CreateMonotoneMesh(gray())
             for i, col in enumerate(mesh.colors):
-                rhino_mesh.VertexColors[i] = color_to_color(col)
+                rhino_mesh.VertexColors[i] = argb_color_to_color(col)
     return rhino_mesh
 
 

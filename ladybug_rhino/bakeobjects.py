@@ -8,11 +8,11 @@ import json
 
 from ladybug_geometry.geometry3d import Mesh3D
 from ladybug.graphic import GraphicContainer
-from ladybug_display.geometry3d import  DisplayText3D
+from ladybug_display.geometry3d import DisplayText3D
 from ladybug_display.visualization import AnalysisGeometry
 
 from .config import units_system
-from .color import color_to_color
+from .color import argb_color_to_color
 from .bakegeometry import bake_point2d, bake_vector2d, bake_ray2d, \
     bake_linesegment2d, bake_arc2d, bake_polygon2d, bake_polyline2d, bake_mesh2d, \
     bake_point3d, bake_vector3d, bake_ray3d, bake_linesegment3d, bake_plane, \
@@ -189,7 +189,7 @@ def bake_analysis(analysis, layer_name=None, bake_3d_legend=False,
             for geo_obj, col in zip(analysis.geometry, colors):
                 attrib = _get_attributes(layer_index)
                 attrib.ColorSource = docobj.ObjectColorSource.ColorFromObject
-                attrib.ObjectColor = color_to_color(col)
+                attrib.ObjectColor = argb_color_to_color(col)
                 objs_to_group.append(bake_func(geo_obj, attributes=attrib))
         # group the objects, and add JSON of values to layer user data
         group_table = doc.Groups  # group table
