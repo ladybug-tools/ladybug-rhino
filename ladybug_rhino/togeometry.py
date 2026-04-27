@@ -386,10 +386,10 @@ def _extract_mesh_faces_colors(mesh, color_by_face):
         if color_by_face is True:
             for face in mesh.Faces:
                 col = mesh.VertexColors[face[0]]
-                colors.append(lbc.Color(col.R, col.G, col.B))
+                colors.append(lbc.Color(col.R, col.G, col.B, col.A))
         else:
             for col in mesh.VertexColors:
-                colors.append(lbc.Color(col.R, col.G, col.B))
+                colors.append(lbc.Color(col.R, col.G, col.B, col.A))
     return lb_faces, colors
 
 
