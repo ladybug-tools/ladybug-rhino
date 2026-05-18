@@ -135,18 +135,21 @@ def compass_objects(compass, z=0, custom_angles=None, projection=None, font='Ari
 
     # generate the labels and tick marks for the altitudes
     if projection is not None:
-        if projection.title() == 'Orthographic':
-            for circle in compass.orthographic_altitude_circles:
+        circle_attr = '{}_altitude_circles'.format(projection.lower())
+        try:
+            altitude_circles = getattr(compass, circle_attr)
+            for circle in altitude_circles:
                 result.append(from_arc2d(circle, z))
-            for txt, pt in zip(compass.ALTITUDES, compass.orthographic_altitude_points):
+        except Exception:
+            pass  # the circle attribute has not been implemented
+        points_attr = '{}_altitude_points'.format(projection.lower())
+        try:
+            altitude_points = getattr(compass, points_attr)
+            for txt, pt in zip(compass.ALTITUDES, altitude_points):
                 txt_pln = Plane(o=Point3D(pt.x, pt.y, z), x=xaxis)
                 result.append(text_objects(str(txt), txt_pln, min_txt, font, 1, 0))
-        elif projection.title() == 'Stereographic':
-            for circle in compass.stereographic_altitude_circles:
-                result.append(from_arc2d(circle, z))
-            for txt, pt in zip(compass.ALTITUDES, compass.stereographic_altitude_points):
-                txt_pln = Plane(o=Point3D(pt.x, pt.y, z), x=xaxis)
-                result.append(text_objects(str(txt), txt_pln, min_txt, font, 1, 0))
+        except Exception:
+            pass  # the points attribute has not been implemented
 
     return result
 
