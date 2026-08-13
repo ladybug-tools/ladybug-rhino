@@ -18,6 +18,14 @@ from ..pythonpath import iron_python_search_path, create_python_package_dir, \
 # find the location where the Grasshopper user objects are stored
 UO_DIRECTORY = lbr_folders.uo_folder
 GHA_DIRECTORY = lbr_folders.gha_folder
+LBT_UO_FOLDERS = (
+    'ladybug_grasshopper',
+    'honeybee_grasshopper_core',
+    'honeybee_grasshopper_radiance',
+    'honeybee_grasshopper_energy',
+    'dragonfly_grasshopper',
+    'fairyfly_grasshopper'
+)
 
 
 def get_gem_directory():
@@ -91,16 +99,16 @@ def update_libraries_pip(python_exe, package_name, version=None, target=None):
         target: An optional target directory into which the package will be installed.
         """
     # build up the command using the inputs
-    if version is not None:
-        package_name = '{}=={}'.format(package_name, version)
-    cmds = [python_exe, '-m', 'pip', 'install', package_name]
+    package_str = '{}=={}'.format(package_name, version) \
+        if version is not None else package_name
+    cmds = [python_exe, '-m', 'pip', 'install', package_str]
     if version is None:
         cmds.append('-U')
-    if target is not None:
+    if target is not None and os.name != 'nt':  # --target triggers Windows permissions
         cmds.extend(['--target', target, '--upgrade'])
 
     # execute the command and print any errors
-    print('Installing "{}" version via pip'.format(package_name))
+    print('Installing "{}" version via pip'.format(package_str))
     use_shell = True if os.name == 'nt' else False
     process = subprocess.Popen(
         cmds, shell=use_shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -109,6 +117,16 @@ def update_libraries_pip(python_exe, package_name, version=None, target=None):
     error_msg = 'Package "{}" may not have been updated correctly\n' \
         'or its usage in the plugin may have changed. See pip stderr below:\n' \
         '{}'.format(package_name, stderr)
+
+    # if target was specified, copy the files to that location
+    if target is not None and os.name == 'nt':
+        package_dirs = [package_name.replace('-', '_')] \
+            if package_name != 'lbt-grasshopper' else LBT_UO_FOLDERS
+        for package_dir in package_dirs:
+            py_folder = os.path.dirname(python_exe)
+            source_folder = os.path.join(py_folder, 'Lib', 'site-packages', package_dir)
+            dest_folder = os.path.join(target, package_dir)
+            copy_file_tree(source_folder, dest_folder)
     return error_msg
 
 
@@ -365,7 +383,8 @@ def change_installed_version(version_to_install=None):
     stderr = update_libraries_pip(py_exe, 'lbt-grasshopper', gh_ver, UO_DIRECTORY)
     lb_gh_ver = ver_dict['ladybug-grasshopper']
     lb_gh_info = 'ladybug_grasshopper-{}.dist-info'.format(lb_gh_ver)
-    if os.path.isdir(os.path.join(UO_DIRECTORY, lb_gh_info)):
+    if os.path.isdir(os.path.join(UO_DIRECTORY, lb_gh_info)) or \
+            os.path.isdir(os.path.join(py_lib, lb_gh_info)):
         print('Ladybug Tools Grasshopper components successfully installed!\n ')
         remove_dist_info_files(UO_DIRECTORY)  # remove the .dist-info files
         full_access_permission(UO_DIRECTORY)
@@ -389,27 +408,17 @@ def change_installed_version(version_to_install=None):
         gha_ver = ver_dict['ladybug-grasshopper-dotnet']
         stderr = update_libraries_pip(
             py_exe, 'ladybug-grasshopper-dotnet', gha_ver, GHA_DIRECTORY)
-        package_dir = os.path.join(
-            GHA_DIRECTORY, 'ladybug_grasshopper_dotnet-{}.dist-info'.format(gha_ver))
-        if os.path.isdir(package_dir):
+        package_dir = 'ladybug_grasshopper_dotnet-{}.dist-info'.format(gha_ver)
+        if os.path.isdir(os.path.join(GHA_DIRECTORY, package_dir)) or \
+                os.path.isdir(os.path.join(py_lib, package_dir)):
             print('Ladybug Tools .gha Grasshopper components successfully installed!\n ')
             remove_dist_info_files(GHA_DIRECTORY)  # remove the dist-info files
             full_access_permission(GHA_DIRECTORY)
         else:
             print(stderr)
 
-    # install the honeybee-openstudio ruby gem
-    gem_ver = ver_dict['honeybee-openstudio-gem']
-    print('Installing Honeybee-OpenStudio gem version {}.'.format(gem_ver))
-    gem_dir = get_gem_directory()
-    base_folder = download_repo_github('honeybee-openstudio-gem', gem_dir, gem_ver)
-    source_folder = os.path.join(base_folder, 'lib')
-    lib_folder = os.path.join(gem_dir, 'honeybee_openstudio_gem', 'lib')
-    print('Copying "honeybee_openstudio_gem" source code to {}\n '.format(lib_folder))
-    copy_file_tree(source_folder, lib_folder)
-    nukedir(base_folder, True)
-
     # install the lbt-measures ruby gem
+    gem_dir = get_gem_directory()
     mea_ver = ver_dict['lbt-measures']
     print('Installing Ladybug Tools Measures version {}.'.format(mea_ver))
     base_folder = download_repo_github('lbt-measures', gem_dir, mea_ver)
@@ -427,7 +436,8 @@ def change_installed_version(version_to_install=None):
     stderr = update_libraries_pip(
         py_exe, 'honeybee-energy-standards', hes_ver, stand_dir)
     hes_info = 'honeybee_energy_standards-{}.dist-info'.format(hes_ver)
-    if os.path.isdir(os.path.join(stand_dir, hes_info)):
+    if os.path.isdir(os.path.join(stand_dir, hes_info)) or \
+            os.path.isdir(os.path.join(py_lib, hes_info)):
         print('Honeybee energy standards successfully installed!\n ')
         remove_dist_info_files(stand_dir)  # remove the dist-info files
         full_access_permission(stand_dir)
