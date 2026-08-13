@@ -1,0 +1,7 @@
+ladybug\_rhino.planarize module
+===============================
+
+.. automodule:: ladybug_rhino.planarize
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+ladybug\_rhino.resourcepath module
+==================================
+
+.. automodule:: ladybug_rhino.resourcepath
+   :members:
+   :undoc-members:
+   :show-inheritance:

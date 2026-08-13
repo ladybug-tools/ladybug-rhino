@@ -1,0 +1,7 @@
+ladybug\_rhino.ghpath module
+============================
+
+.. automodule:: ladybug_rhino.ghpath
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+ladybug\_rhino.bakeobjects module
+=================================
+
+.. automodule:: ladybug_rhino.bakeobjects
+   :members:
+   :undoc-members:
+   :show-inheritance:
